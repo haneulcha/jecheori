@@ -11,6 +11,14 @@ export function escapeHtml(s: string): string {
     .replaceAll("'", '&#39;')
 }
 
+const SPRIG = `<svg class="sprig" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+  <path d="M20 110 C 45 85, 70 55, 98 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M46 82 C 38 68, 40 58, 52 50 C 56 62, 54 72, 46 82 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M64 60 C 74 46, 86 42, 98 46 C 92 58, 80 64, 64 60 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M34 96 C 26 88, 24 78, 30 70 C 38 76, 40 88, 34 96 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <circle cx="98" cy="18" r="4" stroke="currentColor" stroke-width="1.5"/>
+</svg>`
+
 export function weekLabel(date: Date): string {
   const ordinals = ['첫째', '둘째', '셋째', '넷째', '다섯째']
   const idx = Math.min(Math.ceil(date.getDate() / 7), ordinals.length) - 1
@@ -51,9 +59,11 @@ export interface AppView {
   seasonal: ProduceProfile[]
   date: Date
   staleDays: number
+  /** 현재 절기 이름 — 있으면 아이브로에 "소서 · 7월 둘째 주"로 표기 */
+  term?: string
 }
 
-export function renderApp({ picks, seasonal, date, staleDays }: AppView): string {
+export function renderApp({ picks, seasonal, date, staleDays, term }: AppView): string {
   const month = date.getMonth() + 1
   const stale =
     staleDays >= 3 ? `<p class="stale">가격은 ${staleDays}일 전 기준이에요</p>` : ''
@@ -64,9 +74,11 @@ export function renderApp({ picks, seasonal, date, staleDays }: AppView): string
   const seasonalList = seasonal
     .map((p) => `<li>${p.emoji} ${escapeHtml(p.name)}</li>`)
     .join('')
+  const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
   return `
 <header>
-  <p class="week">${escapeHtml(weekLabel(date))}</p>
+  ${SPRIG}
+  <p class="week">${escapeHtml(eyebrow)}</p>
   <h1>지금 장바구니에 담기 좋은 것들</h1>
   ${stale}
 </header>

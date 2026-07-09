@@ -86,4 +86,20 @@ describe('renderApp', () => {
     const html = renderApp({ picks: [], seasonal: [], date: new Date('2026-07-10'), staleDays: 0 })
     expect(html).toContain('이번 달 제철 정보가 아직 없어요')
   })
+
+  test('절기가 있으면 아이브로에 함께 표기된다', () => {
+    const html = renderApp({
+      picks: [],
+      seasonal: [],
+      date: new Date('2026-07-10'),
+      staleDays: 0,
+      term: '소서',
+    })
+    expect(html).toContain('소서 · 7월 둘째 주')
+  })
+
+  test('머리말에 라인아트 스케치가 들어간다', () => {
+    const html = renderApp({ picks: [], seasonal: [], date: new Date('2026-07-10'), staleDays: 0 })
+    expect(html).toContain('class="sprig"')
+  })
 })
