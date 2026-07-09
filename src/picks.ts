@@ -28,13 +28,13 @@ export function matchEntry(profile: ProduceProfile, entries: PriceEntry[]): Pric
   return pool.find((e) => e.rank === '상품') ?? pool[0]
 }
 
-export function priceView(entry: PriceEntry): PriceView {
-  const { price, priceMonthAgo, unit } = entry
+export function priceView(entry: PriceEntry): PriceView | null {
+  if (entry.price === null) return null
   const change =
-    price !== null && priceMonthAgo !== null
-      ? ((price - priceMonthAgo) / priceMonthAgo) * 100
+    entry.priceMonthAgo !== null
+      ? ((entry.price - entry.priceMonthAgo) / entry.priceMonthAgo) * 100
       : null
-  return { price: price as number, unit, changeVsMonthAgoPct: change }
+  return { price: entry.price, unit: entry.unit, changeVsMonthAgoPct: change }
 }
 
 export function whyNowLine(profile: ProduceProfile, month: number): string {

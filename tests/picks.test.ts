@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { matchEntry, selectPicks, whyNowLine } from '../src/picks'
+import { matchEntry, priceView, selectPicks, whyNowLine } from '../src/picks'
 import type { PriceEntry, PriceSnapshot, ProduceProfile } from '../src/types'
 
 function profile(over: Partial<ProduceProfile>): ProduceProfile {
@@ -67,6 +67,12 @@ describe('matchEntry', () => {
   })
 })
 
+describe('priceView', () => {
+  test('price가 null인 entry는 null을 반환한다', () => {
+    expect(priceView(entry({ price: null }))).toBeNull()
+  })
+})
+
 describe('selectPicks', () => {
   test('이번 달 제철 품목만 나온다', () => {
     const profiles = [
@@ -116,6 +122,20 @@ describe('selectPicks', () => {
     const picks = selectPicks(profiles, snap(entries), JULY)
     expect(picks.map((p) => p.profile.id)).toEqual(['priced', 'no-price'])
     expect(picks[1].price).toBeNull()
+  })
+
+  test('가격은 있지만 1개월 전 가격이 없으면 하락률 그룹 뒤, 가격 결측 앞', () => {
+    const profiles = [
+      profile({ id: 'no-price', kamis: { categoryCode: '200', itemName: '없음' } }),
+      profile({ id: 'no-change', kamis: { categoryCode: '200', itemName: 'B' } }),
+      profile({ id: 'has-change', kamis: { categoryCode: '200', itemName: 'A' } }),
+    ]
+    const entries = [
+      entry({ itemName: 'A', price: 1100, priceMonthAgo: 1000 }), // 상승이라도 그룹 0
+      entry({ itemName: 'B', price: 800, priceMonthAgo: null }),
+    ]
+    const picks = selectPicks(profiles, snap(entries), JULY)
+    expect(picks.map((p) => p.profile.id)).toEqual(['has-change', 'no-change', 'no-price'])
   })
 
   test('최대 limit개까지만', () => {
