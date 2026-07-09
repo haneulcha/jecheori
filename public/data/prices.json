@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "fetchedAt": "2026-07-09T22:00:00.000Z",
+  "entries": [
+    {
+      "itemCode": "413",
+      "itemName": "복숭아",
+      "kindName": "백도(10개)",
+      "rank": "상품",
+      "unit": "10개",
+      "price": 18200,
+      "priceMonthAgo": 24500,
+      "priceYearAgo": 19800
+    },
+    {
+      "itemCode": "221",
+      "itemName": "수박",
+      "kindName": "수박(1개)",
+      "rank": "상품",
+      "unit": "1개",
+      "price": 21400,
+      "priceMonthAgo": 23800,
+      "priceYearAgo": 22100
+    },
+    {
+      "itemCode": "222",
+      "itemName": "참외",
+      "kindName": "참외(10개)",
+      "rank": "상품",
+      "unit": "10개",
+      "price": 12600,
+      "priceMonthAgo": 16900,
+      "priceYearAgo": 13400
+    },
+    {
+      "itemCode": "223",
+      "itemName": "오이",
+      "kindName": "가시계통(10개)",
+      "rank": "상품",
+      "unit": "10개",
+      "price": 8540,
+      "priceMonthAgo": 10120,
+      "priceYearAgo": 9050
+    },
+    {
+      "itemCode": "225",
+      "itemName": "토마토",
+      "kindName": "토마토(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": 4800,
+      "priceMonthAgo": 5400,
+      "priceYearAgo": 5100
+    },
+    {
+      "itemCode": "224",
+      "itemName": "호박",
+      "kindName": "애호박(1개)",
+      "rank": "상품",
+      "unit": "1개",
+      "price": 1450,
+      "priceMonthAgo": 1980,
+      "priceYearAgo": 1600
+    },
+    {
+      "itemCode": "152",
+      "itemName": "감자",
+      "kindName": "수미(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": 380,
+      "priceMonthAgo": 420,
+      "priceYearAgo": 350
+    }
+  ]
+}
