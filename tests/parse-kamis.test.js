@@ -41,9 +41,47 @@ describe('parseCategoryResponse', () => {
     const spinach = entries.find((e) => e.itemName === '시금치')
     expect(spinach.price).toBeNull()
     expect(spinach.priceMonthAgo).toBeNull()
+    expect(spinach.priceYearAgo).toBeNull()
   })
 
   test('오류 응답이면 throw한다', () => {
     expect(() => parseCategoryResponse(load('kamis-error.json'))).toThrow(/KAMIS/)
+  })
+
+  test('error_code가 000이 아니면 throw한다', () => {
+    expect(() =>
+      parseCategoryResponse({ data: { error_code: '999', item: [] } }),
+    ).toThrow(/KAMIS error_code=999/)
+  })
+
+  test('data.item이 단일 객체여도 엔트리 1개로 변환한다', () => {
+    const entries = parseCategoryResponse({
+      data: {
+        error_code: '000',
+        item: {
+          item_name: '오이',
+          item_code: '223',
+          kind_name: '가시계통(10개)',
+          rank: '상품',
+          unit: '10개',
+          dpr1: '8,540',
+          dpr2: '8,420',
+          dpr3: '10,120',
+          dpr4: '9,050',
+        },
+      },
+    })
+    expect(entries).toEqual([
+      {
+        itemCode: '223',
+        itemName: '오이',
+        kindName: '가시계통(10개)',
+        rank: '상품',
+        unit: '10개',
+        price: 8540,
+        priceMonthAgo: 10120,
+        priceYearAgo: 9050,
+      },
+    ])
   })
 })
