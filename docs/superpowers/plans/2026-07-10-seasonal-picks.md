@@ -1630,7 +1630,7 @@ async function start() {
 start()
 ```
 
-`src/style.css` — 모바일 우선, 담백한 톤:
+`src/style.css` — 기능 확인용 임시 골격 (**Task 8b에서 `DESIGN.md` 토큰으로 전면 교체된다** — 이 단계에서는 색·폰트를 다듬지 말 것):
 
 ```css
 :root {
@@ -1714,6 +1714,374 @@ Expected: 전체 테스트 PASS. 브라우저(`http://localhost:5173/wat-to-buy/
 ```bash
 git add src/render.ts src/main.ts src/style.css tests/render.test.ts
 git commit -m "feat: 제철 픽 화면 렌더링"
+```
+
+---
+
+### Task 8b: 절기 시그니처와 계절 팔레트 (DESIGN.md 적용)
+
+**Files:**
+- Create: `src/season.ts`, `src/fonts/` (마루 부리 woff2 2종)
+- Modify: `src/render.ts` (절기 아이브로), `src/main.ts` (계절 클래스), `src/style.css` (전면 교체)
+- Test: `tests/season.test.ts`, `tests/render.test.ts` (테스트 추가)
+
+**Interfaces:**
+- Consumes: `DESIGN.md`의 토큰 전부, Task 8의 `renderApp`/`AppView`
+- Produces:
+  - `currentTerm(date: Date) => string` — 현재 절기 이름 (예: "소서")
+  - `seasonOf(month: number) => 'spring'|'summer'|'autumn'|'winter'`
+  - `AppView`에 `term?: string` 추가 — 있으면 아이브로가 `소서 · 7월 둘째 주`
+  - `body[data-season=…]`로 계절 팔레트 전환
+
+- [ ] **Step 1: 실패하는 테스트 작성**
+
+`tests/season.test.ts`:
+
+```ts
+import { describe, expect, test } from 'vitest'
+import { currentTerm, seasonOf } from '../src/season'
+
+describe('currentTerm', () => {
+  test('절기 당일부터 그 절기다', () => {
+    expect(currentTerm(new Date('2026-07-07T12:00:00'))).toBe('소서')
+  })
+  test('다음 절기 전날까지 유지된다', () => {
+    expect(currentTerm(new Date('2026-07-21T12:00:00'))).toBe('소서')
+  })
+  test('다음 절기로 넘어간다', () => {
+    expect(currentTerm(new Date('2026-07-22T12:00:00'))).toBe('대서')
+  })
+  test('연초 소한 전에는 전년 동지', () => {
+    expect(currentTerm(new Date('2026-01-02T12:00:00'))).toBe('동지')
+  })
+})
+
+describe('seasonOf', () => {
+  test('3~5월은 봄', () => expect(seasonOf(4)).toBe('spring'))
+  test('6~8월은 여름', () => expect(seasonOf(7)).toBe('summer'))
+  test('9~11월은 가을', () => expect(seasonOf(10)).toBe('autumn'))
+  test('12~2월은 겨울', () => {
+    expect(seasonOf(12)).toBe('winter')
+    expect(seasonOf(1)).toBe('winter')
+  })
+})
+```
+
+`tests/render.test.ts`의 `describe('renderApp', …)` 안에 추가:
+
+```ts
+  test('절기가 있으면 아이브로에 함께 표기된다', () => {
+    const html = renderApp({
+      picks: [],
+      seasonal: [],
+      date: new Date('2026-07-10'),
+      staleDays: 0,
+      term: '소서',
+    })
+    expect(html).toContain('소서 · 7월 둘째 주')
+  })
+```
+
+- [ ] **Step 2: 실패 확인**
+
+Run: `npm test -- tests/season.test.ts tests/render.test.ts`
+Expected: FAIL — `src/season.ts` 없음, `term` 프로퍼티 없음
+
+- [ ] **Step 3: season.ts 구현**
+
+`src/season.ts`:
+
+```ts
+export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
+
+interface Term {
+  name: string
+  month: number
+  day: number
+}
+
+/** 표기용 고정 날짜. 실제 절기는 해마다 ±1일 다르지만
+ *  이 앱에서 절기는 시계가 아니라 계절 인사말이다 (DESIGN.md). */
+const TERMS: Term[] = [
+  { name: '소한', month: 1, day: 5 },
+  { name: '대한', month: 1, day: 20 },
+  { name: '입춘', month: 2, day: 4 },
+  { name: '우수', month: 2, day: 19 },
+  { name: '경칩', month: 3, day: 5 },
+  { name: '춘분', month: 3, day: 20 },
+  { name: '청명', month: 4, day: 5 },
+  { name: '곡우', month: 4, day: 20 },
+  { name: '입하', month: 5, day: 5 },
+  { name: '소만', month: 5, day: 21 },
+  { name: '망종', month: 6, day: 6 },
+  { name: '하지', month: 6, day: 21 },
+  { name: '소서', month: 7, day: 7 },
+  { name: '대서', month: 7, day: 22 },
+  { name: '입추', month: 8, day: 7 },
+  { name: '처서', month: 8, day: 23 },
+  { name: '백로', month: 9, day: 7 },
+  { name: '추분', month: 9, day: 22 },
+  { name: '한로', month: 10, day: 8 },
+  { name: '상강', month: 10, day: 23 },
+  { name: '입동', month: 11, day: 7 },
+  { name: '소설', month: 11, day: 22 },
+  { name: '대설', month: 12, day: 7 },
+  { name: '동지', month: 12, day: 21 },
+]
+
+export function currentTerm(date: Date): string {
+  const m = date.getMonth() + 1
+  const d = date.getDate()
+  const passed = TERMS.filter((t) => t.month < m || (t.month === m && t.day <= d))
+  // 1월 초 소한 전이면 전년 마지막 절기(동지)
+  return passed.length > 0 ? passed[passed.length - 1].name : TERMS[TERMS.length - 1].name
+}
+
+export function seasonOf(month: number): Season {
+  if (month >= 3 && month <= 5) return 'spring'
+  if (month >= 6 && month <= 8) return 'summer'
+  if (month >= 9 && month <= 11) return 'autumn'
+  return 'winter'
+}
+```
+
+- [ ] **Step 4: render.ts에 절기 아이브로 추가**
+
+`src/render.ts`의 `AppView`와 `renderApp` 헤더 부분 수정:
+
+```ts
+export interface AppView {
+  picks: PickResult[]
+  seasonal: ProduceProfile[]
+  date: Date
+  staleDays: number
+  /** 현재 절기 이름 — 있으면 아이브로에 "소서 · 7월 둘째 주"로 표기 */
+  term?: string
+}
+```
+
+`renderApp` 안의 헤더 문자열에서 `<p class="week">…</p>` 줄을 다음으로 교체:
+
+```ts
+  const eyebrow = view.term ? `${view.term} · ${weekLabel(date)}` : weekLabel(date)
+```
+
+```html
+<p class="week">${escapeHtml(eyebrow)}</p>
+```
+
+(구조 분해에 `term`을 포함하도록 함수 시그니처도 맞춘다:
+`renderApp({ picks, seasonal, date, staleDays, term }: AppView)` — `view.term` 대신 `term` 사용.)
+
+- [ ] **Step 5: 통과 확인**
+
+Run: `npm test`
+Expected: 전체 PASS (기존 renderApp 테스트는 `term` 없이도 통과 — 옵셔널이므로)
+
+- [ ] **Step 6: 마루 부리 폰트 셀프호스트**
+
+https://hangeul.naver.com 에서 "마루 부리" 폰트 패키지를 내려받아
+`MaruBuri-Regular.woff2`, `MaruBuri-Bold.woff2` 두 파일을 `src/fonts/`에 복사한다.
+(다운로드가 어려우면 이 단계를 건너뛴다 — CSS의 `serif` 폴백으로 동작한다.
+그 경우 아래 CSS의 `@font-face` 블록 두 개만 빼고 진행.)
+
+- [ ] **Step 7: style.css 전면 교체 (DESIGN.md 토큰)**
+
+`src/style.css` 전체를 다음으로 교체:
+
+```css
+@font-face {
+  font-family: 'MaruBuri';
+  src: url('./fonts/MaruBuri-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'MaruBuri';
+  src: url('./fonts/MaruBuri-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --paper: #f5f7f2;
+  --card: #fdfdfb;
+  --ink: #262b28;
+  --muted: #6e7570;
+  --line: #e2e6e0;
+  --rise: #a65d57;
+  /* 계절 기본값 (여름) — main.ts가 body[data-season]으로 덮어쓴다 */
+  --accent: #2f6d4f;
+  --tint: #e4f0e8;
+}
+body[data-season='spring'] { --accent: #6c9a3f; --tint: #edf3e2; }
+body[data-season='summer'] { --accent: #2f6d4f; --tint: #e4f0e8; }
+body[data-season='autumn'] { --accent: #c4622d; --tint: #f7ebdd; }
+body[data-season='winter'] { --accent: #3e5c76; --tint: #e7edf3; }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app { max-width: 28rem; margin: 0 auto; padding: 1.5rem 1.1rem 3rem; }
+
+/* 헤더 — 시그니처 */
+.week {
+  font-family: 'MaruBuri', serif;
+  color: var(--accent);
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  margin: 0.4rem 0 0;
+}
+header h1 {
+  font-family: 'MaruBuri', serif;
+  font-weight: 700;
+  font-size: 1.45rem;
+  line-height: 1.4;
+  margin: 0.2rem 0 1.2rem;
+}
+.stale {
+  font-size: 0.8rem;
+  color: var(--rise);
+  border: 1px solid currentColor;
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  display: inline-block;
+}
+
+/* 카드 — 달력 낱장 */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  padding: 0.95rem 1.05rem;
+  margin-bottom: 0.7rem;
+}
+.card summary { cursor: pointer; list-style: none; }
+.card summary::-webkit-details-marker { display: none; }
+.card-title { font-size: 1.05rem; font-weight: 700; }
+.badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+  margin-left: 0.3rem;
+  vertical-align: 0.1rem;
+}
+.badge-peak { color: var(--card); background: var(--accent); border-color: var(--accent); }
+.why { display: block; margin: 0.35rem 0 0; font-size: 0.9rem; }
+.price {
+  display: block;
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.detail {
+  margin: 0.85rem 0 0.2rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.85rem;
+}
+.detail dt { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+.detail dd { margin: 0.15rem 0 0.7rem; font-size: 0.9rem; }
+
+/* 이번 달 제철 리스트 */
+.seasonal { margin-top: 2.2rem; }
+.seasonal h2 {
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+.seasonal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.seasonal li {
+  background: var(--tint);
+  border-radius: 999px;
+  padding: 0.25rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+footer { margin-top: 2.5rem; }
+footer p { color: var(--muted); font-size: 0.75rem; }
+.empty, .loading {
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+/* 접근성 */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: no-preference) {
+  .card { transition: border-color 0.15s ease; }
+  .card[open] { border-color: var(--accent); }
+}
+```
+
+- [ ] **Step 8: main.ts에 절기·계절 연결**
+
+`src/main.ts` 전체 교체:
+
+```ts
+import './style.css'
+import { loadProfiles, loadSnapshot, snapshotAgeDays } from './data'
+import { seasonalThisMonth, selectPicks } from './picks'
+import { renderApp } from './render'
+import { currentTerm, seasonOf } from './season'
+
+async function start() {
+  const app = document.querySelector('#app')!
+  const now = new Date()
+  document.body.dataset.season = seasonOf(now.getMonth() + 1)
+  try {
+    const [profiles, snapshot] = await Promise.all([loadProfiles(), loadSnapshot()])
+    app.innerHTML = renderApp({
+      picks: selectPicks(profiles, snapshot, now),
+      seasonal: seasonalThisMonth(profiles, now.getMonth() + 1),
+      date: now,
+      staleDays: snapshot ? snapshotAgeDays(snapshot, now) : 0,
+      term: currentTerm(now),
+    })
+  } catch {
+    app.innerHTML = '<p class="empty">정보를 불러오지 못했어요. 잠시 후 다시 열어주세요.</p>'
+  }
+}
+
+start()
+```
+
+- [ ] **Step 9: 전체 테스트 + 눈으로 확인**
+
+Run: `npm test && npm run dev`
+Expected: 전체 PASS. 브라우저에서:
+- 아이브로가 "소서 · 7월 ○째 주" (7월 기준), 액센트가 여름 녹음색
+- h1과 아이브로만 부리체, 나머지는 시스템 고딕
+- 개발자 도구에서 `document.body.dataset.season = 'winter'`로 바꾸면 청람색으로 전환
+- DESIGN.md의 "이 디자인이 기본값과 갈라서는 지점"과 대조해 어긋난 곳이 없는지 확인
+
+- [ ] **Step 10: Commit**
+
+```bash
+git add src tests
+git commit -m "feat: 절기 아이브로와 계절 팔레트 (DESIGN.md 적용)"
 ```
 
 ---
