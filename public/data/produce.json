@@ -155,5 +155,463 @@
     "howToPick": "뿌리 쪽이 붉고 잎이 도톰한 것. 겨울엔 키 작은 노지 시금치가 달아요.",
     "howToStore": "젖은 키친타월로 감싸 세워서 냉장. 데쳐서 냉동해도 좋아요.",
     "howToUse": "나물, 된장국, 살짝 데쳐 무침. 겨울 시금치는 생으로도 달아요."
+  },
+  {
+    "id": "pear",
+    "name": "배",
+    "emoji": "🍐",
+    "category": "fruit",
+    "kamis": { "categoryCode": "400", "itemName": "배" },
+    "seasonMonths": [9, 10, 11],
+    "peakMonths": [9, 10],
+    "whyNow": {
+      "default": "가을이 깊어지면 배가 달아지고 즙이 많아져요",
+      "10": "10월 신고배가 가장 아삭하고 즙이 많은 때예요"
+    },
+    "howToPick": "표면이 매끈하고 꼭지가 마르지 않은 것. 밑동을 눌렀을 때 단단한 것이 신선해요.",
+    "howToStore": "신문지에 하나씩 싸서 서늘한 곳이나 냉장 보관. 온도가 낮을수록 오래가요.",
+    "howToUse": "생과일로 먹거나 갈아서 즙으로, 육류 요리에 갈아 넣으면 고기가 부드러워져요."
+  },
+  {
+    "id": "grape",
+    "name": "포도",
+    "emoji": "🍇",
+    "category": "fruit",
+    "kamis": { "categoryCode": "400", "itemName": "포도", "kindName": "캠벨" },
+    "seasonMonths": [8, 9, 10],
+    "peakMonths": [9],
+    "whyNow": {
+      "default": "늦여름부터 캠벨포도가 짙은 보랏빛으로 익어가요",
+      "9": "9월 캠벨포도가 당도와 향이 가장 진한 때예요"
+    },
+    "howToPick": "알이 촘촘히 붙어 있고 표면에 하얀 분이 남아 있는 것. 만졌을 때 알이 단단한 것이 신선해요.",
+    "howToStore": "씻지 않은 채로 밀폐 용기에 담아 냉장. 먹기 직전에 씻어야 오래가요.",
+    "howToUse": "생과일로 먹거나 냉동해서 셔벗처럼, 즙을 내어 주스로도 좋아요."
+  },
+  {
+    "id": "shine-muscat",
+    "name": "샤인머스캣",
+    "emoji": "🍇",
+    "category": "fruit",
+    "kamis": { "categoryCode": "400", "itemName": "포도", "kindName": "샤인" },
+    "seasonMonths": [9, 10, 11],
+    "peakMonths": [9, 10],
+    "whyNow": {
+      "default": "청포도의 계절, 샤인머스캣이 씨 없이 아삭하게 나와요",
+      "10": "10월 샤인머스캣이 당도가 가장 높은 때예요"
+    },
+    "howToPick": "알이 노르스름한 연둣빛을 띠고 껍질에 탄력이 있는 것. 줄기가 마르지 않은 것이 싱싱해요.",
+    "howToStore": "키친타월로 감싸 밀폐 용기에 담아 냉장, 일주일 안에 먹는 게 좋아요.",
+    "howToUse": "껍질째 씻어서 그대로 먹거나, 샐러드나 치즈 플레이트에도 잘 어울려요."
+  },
+  {
+    "id": "mandarin",
+    "name": "감귤",
+    "emoji": "🍊",
+    "category": "fruit",
+    "kamis": { "categoryCode": "400", "itemName": "감귤" },
+    "seasonMonths": [11, 12, 1, 2],
+    "peakMonths": [12, 1],
+    "whyNow": {
+      "default": "겨울이 되면 제주 감귤이 새콤달콤하게 익어요",
+      "12": "12월 감귤이 당도와 산미의 균형이 가장 좋은 때예요"
+    },
+    "howToPick": "껍질이 얇고 윤기가 나며 들었을 때 묵직한 것. 꼭지가 작은 것이 단맛이 좋아요.",
+    "howToStore": "서늘하고 통풍이 잘되는 곳에 겹치지 않게 둬요. 냉장고에 오래 두면 껍질이 마르고 퍽퍽해져요.",
+    "howToUse": "생과일로 먹거나 껍질을 말려 차로 우려도 향이 좋아요."
+  },
+  {
+    "id": "sweet-persimmon",
+    "name": "단감",
+    "emoji": "🟠",
+    "category": "fruit",
+    "kamis": { "categoryCode": "400", "itemName": "단감" },
+    "seasonMonths": [10, 11, 12],
+    "peakMonths": [10, 11],
+    "whyNow": {
+      "default": "가을 끝자락, 단감이 아삭하고 달게 익어요",
+      "11": "11월 단감이 가장 단단하고 단맛이 오른 때예요"
+    },
+    "howToPick": "표면에 흠집이 없고 꼭지 주변까지 주황빛이 고른 것. 들었을 때 묵직한 것이 좋아요.",
+    "howToStore": "서늘한 곳에 신문지로 싸서 보관하고, 무르기 시작하면 냉장으로 옮겨요.",
+    "howToUse": "깎아서 그대로 먹거나 얇게 썰어 샐러드에, 홍시가 되면 그대로 떠먹어요."
+  },
+  {
+    "id": "kiwi",
+    "name": "참다래",
+    "emoji": "🥝",
+    "category": "fruit",
+    "kamis": { "categoryCode": "400", "itemName": "참다래" },
+    "seasonMonths": [10, 11, 12],
+    "peakMonths": [11],
+    "whyNow": {
+      "default": "가을부터 국산 참다래가 나와 신맛과 단맛이 조화로워요"
+    },
+    "howToPick": "살짝 눌렀을 때 탄력 있게 들어가는 것. 너무 단단하면 며칠 후숙이 필요해요.",
+    "howToStore": "덜 익었으면 사과와 함께 실온에 두면 빨리 익어요. 익은 후엔 냉장 보관해요.",
+    "howToUse": "반으로 갈라 숟가락으로 떠먹거나 고기 연육에, 샐러드에 곁들여도 좋아요."
+  },
+  {
+    "id": "strawberry",
+    "name": "딸기",
+    "emoji": "🍓",
+    "category": "fruit",
+    "kamis": { "categoryCode": "200", "itemName": "딸기" },
+    "seasonMonths": [12, 1, 2, 3, 4],
+    "peakMonths": [1, 2, 3],
+    "whyNow": {
+      "default": "겨울부터 봄까지가 하우스 딸기의 계절이에요",
+      "2": "2월 딸기가 가장 달고 향이 진한 때예요"
+    },
+    "howToPick": "꼭지가 초록색으로 싱싱하고 씨가 붉게 도드라진 것. 표면 전체가 고르게 붉은 것이 잘 익은 거예요.",
+    "howToStore": "씻지 않고 꼭지를 그대로 둔 채 냉장, 먹기 직전에 씻어요.",
+    "howToUse": "생과일로 먹거나 우유와 갈아 주스로, 잼이나 청으로 만들어도 좋아요."
+  },
+  {
+    "id": "melon",
+    "name": "멜론",
+    "emoji": "🍈",
+    "category": "fruit",
+    "kamis": { "categoryCode": "200", "itemName": "멜론" },
+    "seasonMonths": [6, 7, 8, 9],
+    "peakMonths": [7, 8],
+    "whyNow": {
+      "default": "한여름 멜론이 향과 당도가 가장 좋아요"
+    },
+    "howToPick": "그물무늬가 촘촘하고 꼭지 반대편을 눌렀을 때 살짝 들어가는 것. 향이 진하게 올라오면 잘 익은 거예요.",
+    "howToStore": "실온에서 후숙 후 냉장, 자른 후엔 랩을 씌워 2~3일 안에 먹어요.",
+    "howToUse": "생과일로 먹거나 얼려서 셔벗으로, 프로슈토와 곁들이면 궁합이 좋아요."
+  },
+  {
+    "id": "napa-cabbage",
+    "name": "배추",
+    "emoji": "🥬",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "배추" },
+    "seasonMonths": [4, 5, 11, 12],
+    "peakMonths": [11, 12],
+    "whyNow": {
+      "default": "가을배추가 속이 꽉 차고 달게 여무는 시기예요",
+      "11": "11월 배추가 김장에 가장 적합하게 여무는 때예요"
+    },
+    "howToPick": "겉잎이 진한 초록이고 속이 노랗게 찬 것. 들었을 때 묵직한 것이 속이 꽉 찬 거예요.",
+    "howToStore": "신문지에 싸서 서늘한 곳에 두고, 자른 단면은 랩으로 덮어 냉장 보관해요.",
+    "howToUse": "김치, 된장국, 겉절이. 속잎은 쌈으로 먹어도 달아요."
+  },
+  {
+    "id": "cabbage",
+    "name": "양배추",
+    "emoji": "🥬",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "양배추" },
+    "seasonMonths": [5, 6, 7],
+    "peakMonths": [6],
+    "whyNow": {
+      "default": "초여름 양배추가 잎이 얇고 아삭해요"
+    },
+    "howToPick": "겉잎이 신선하고 들었을 때 묵직하며 단단한 것.",
+    "howToStore": "겉잎을 한두 장 남긴 채 신문지에 싸서 냉장, 자른 단면은 랩으로 덮어요.",
+    "howToUse": "쌈채소, 샐러드, 볶음. 살짝 데치면 밥과 함께 쌈으로도 좋아요."
+  },
+  {
+    "id": "lettuce",
+    "name": "상추",
+    "emoji": "🥬",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "상추" },
+    "seasonMonths": [4, 5, 6, 9, 10],
+    "peakMonths": [5],
+    "whyNow": {
+      "default": "봄가을 상추가 잎이 부드럽고 쓴맛이 적어요"
+    },
+    "howToPick": "잎 끝이 마르지 않고 색이 선명한 것. 줄기 단면이 갈변하지 않은 것이 싱싱해요.",
+    "howToStore": "씻지 않고 젖은 키친타월로 감싸 냉장, 눕히지 말고 세워서 보관해요.",
+    "howToUse": "쌈채소로 그대로, 겉절이나 샐러드에도 어울려요."
+  },
+  {
+    "id": "eolgari-cabbage",
+    "name": "얼갈이배추",
+    "emoji": "🥬",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "얼갈이배추" },
+    "seasonMonths": [4, 5, 6],
+    "peakMonths": [5],
+    "whyNow": {
+      "default": "봄 얼갈이배추가 연하고 단맛이 올라와요"
+    },
+    "howToPick": "잎이 얇고 연하며 진한 초록색을 띠는 것. 억세 보이지 않는 것을 골라요.",
+    "howToStore": "신문지에 싸서 냉장, 잎이 얇아 무르기 쉬우니 며칠 안에 먹는 게 좋아요.",
+    "howToUse": "겉절이, 된장국, 살짝 데쳐 나물로 무쳐도 좋아요."
+  },
+  {
+    "id": "garlic-chives",
+    "name": "부추",
+    "emoji": "🌿",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "부추" },
+    "seasonMonths": [3, 4, 5],
+    "peakMonths": [4],
+    "whyNow": {
+      "default": "봄 부추가 향이 진하고 부드러워요"
+    },
+    "howToPick": "잎이 가늘고 진한 초록색이며 곧게 뻗은 것. 단면이 마르지 않은 것이 신선해요.",
+    "howToStore": "젖은 신문지로 감싸 세워서 냉장, 눕혀 두면 금방 무름이 진행돼요.",
+    "howToUse": "부침개, 겉절이, 오이무침에 곁들이거나 계란찜에 넣어도 향이 좋아요."
+  },
+  {
+    "id": "perilla-leaf",
+    "name": "깻잎",
+    "emoji": "🌿",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "깻잎" },
+    "seasonMonths": [6, 7, 8, 9],
+    "peakMonths": [7, 8],
+    "whyNow": {
+      "default": "여름 깻잎이 향이 가장 진해요"
+    },
+    "howToPick": "잎이 두껍고 색이 진하며 구멍이나 상처가 없는 것.",
+    "howToStore": "젖은 키친타월로 감싸 밀폐 용기에 세워서 냉장 보관해요.",
+    "howToUse": "쌈채소로, 장아찌로 담가 두면 오래 두고 먹을 수 있어요."
+  },
+  {
+    "id": "sweet-pumpkin",
+    "name": "단호박",
+    "emoji": "🎃",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "호박", "kindName": "단호박" },
+    "seasonMonths": [7, 8, 9],
+    "peakMonths": [8],
+    "whyNow": {
+      "default": "여름 단호박이 속이 노랗고 달게 여물어요"
+    },
+    "howToPick": "껍질이 짙은 초록색이고 표면에 흰 분이 도는 것. 들었을 때 묵직한 것이 속이 꽉 찬 거예요.",
+    "howToStore": "통째로는 서늘한 곳에 오래 보관 가능, 자른 후엔 씨를 긁어내고 랩으로 감싸 냉장해요.",
+    "howToUse": "찜, 죽, 수프. 씨는 볶아서 간식으로 먹어도 좋아요."
+  },
+  {
+    "id": "cherry-tomato",
+    "name": "방울토마토",
+    "emoji": "🍅",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "방울토마토" },
+    "seasonMonths": [5, 6, 7],
+    "peakMonths": [6],
+    "whyNow": {
+      "default": "초여름 방울토마토가 당도가 오르고 껍질이 얇아져요"
+    },
+    "howToPick": "꼭지가 싱싱하고 표면에 윤기가 도는 것. 흔들었을 때 무르지 않고 단단한 것이 좋아요.",
+    "howToStore": "씻지 않고 냉장, 먹기 전 실온에 잠깐 꺼내두면 단맛이 살아나요.",
+    "howToUse": "간식으로 그대로, 올리브오일과 소금에 볶아 파스타에 곁들여도 좋아요."
+  },
+  {
+    "id": "eggplant",
+    "name": "가지",
+    "emoji": "🍆",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "가지" },
+    "seasonMonths": [6, 7, 8, 9],
+    "peakMonths": [7, 8],
+    "whyNow": {
+      "default": "여름 가지가 씨가 적고 육질이 부드러워요"
+    },
+    "howToPick": "표면에 윤기가 나고 꼭지가 마르지 않은 것. 눌렀을 때 탄력 있게 돌아오는 것이 신선해요.",
+    "howToStore": "저온에 약하니 신문지로 싸서 서늘한 실온이나 채소칸에, 며칠 안에 먹는 게 좋아요.",
+    "howToUse": "나물, 구이, 볶음. 찜기에 쪄서 무치면 부드럽고 담백해요."
+  },
+  {
+    "id": "green-chili",
+    "name": "풋고추",
+    "emoji": "🌶️",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "풋고추" },
+    "seasonMonths": [6, 7, 8],
+    "peakMonths": [7, 8],
+    "whyNow": {
+      "default": "여름 풋고추가 아삭하고 매운맛이 은은해요"
+    },
+    "howToPick": "표면이 매끈하고 꼭지가 초록빛으로 싱싱한 것. 주름이 없는 것이 신선해요.",
+    "howToStore": "물기 없이 비닐에 담아 냉장, 오래 두면 무르니 일주일 안에 먹어요.",
+    "howToUse": "된장에 찍어 그대로, 멸치볶음이나 장아찌로도 만들어요."
+  },
+  {
+    "id": "paprika",
+    "name": "파프리카",
+    "emoji": "🫑",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "파프리카" },
+    "seasonMonths": [5, 6, 7, 8],
+    "peakMonths": [6, 7],
+    "whyNow": {
+      "default": "여름 파프리카가 색이 짙고 단맛이 올라요"
+    },
+    "howToPick": "표면에 윤기가 나고 꼭지가 초록으로 싱싱한 것. 들었을 때 묵직한 것이 과육이 두꺼워요.",
+    "howToStore": "물기를 닦아 비닐에 담아 냉장, 자른 단면은 랩으로 덮어요.",
+    "howToUse": "생으로 썰어 샐러드나 간식, 볶음이나 구이로 익히면 단맛이 더 진해져요."
+  },
+  {
+    "id": "radish",
+    "name": "무",
+    "emoji": "🫜",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "무" },
+    "seasonMonths": [10, 11, 12],
+    "peakMonths": [11],
+    "whyNow": {
+      "default": "가을 무가 수분이 많고 단맛이 올라요"
+    },
+    "howToPick": "표면이 매끈하고 무거우며 잔뿌리가 적은 것. 몸통이 곧고 흠집이 없는 것이 좋아요.",
+    "howToStore": "잎을 잘라내고 신문지로 싸서 서늘한 곳이나 냉장 보관해요.",
+    "howToUse": "국, 조림, 깍두기. 얇게 썰어 무생채로 무쳐도 좋아요."
+  },
+  {
+    "id": "young-radish",
+    "name": "열무",
+    "emoji": "🫜",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "열무" },
+    "seasonMonths": [5, 6, 7, 8],
+    "peakMonths": [6, 7],
+    "whyNow": {
+      "default": "초여름 열무가 잎과 뿌리가 함께 연해요"
+    },
+    "howToPick": "잎이 진한 초록이고 뿌리가 가늘고 곧은 것. 억센 줄기가 없는 것을 골라요.",
+    "howToStore": "신문지로 싸서 냉장, 잎이 무르기 쉬우니 며칠 안에 먹는 게 좋아요.",
+    "howToUse": "열무김치, 열무국수. 새콤하게 익혀 여름 별미로 먹어요."
+  },
+  {
+    "id": "carrot",
+    "name": "당근",
+    "emoji": "🥕",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "당근" },
+    "seasonMonths": [11, 12, 1],
+    "peakMonths": [12],
+    "whyNow": {
+      "default": "겨울 당근이 단맛이 올라 생으로 먹기 좋아요"
+    },
+    "howToPick": "표면이 매끈하고 색이 진한 주황색인 것. 잔뿌리가 적고 곧게 뻗은 것이 좋아요.",
+    "howToStore": "잎이 있다면 잘라내고 신문지로 싸서 냉장, 습기에 약하니 물기를 닦아두어요.",
+    "howToUse": "생으로 썰어 간식, 볶음이나 카레, 갈아서 주스로도 좋아요."
+  },
+  {
+    "id": "broccoli",
+    "name": "브로콜리",
+    "emoji": "🥦",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "브로콜리" },
+    "seasonMonths": [11, 12, 1, 2],
+    "peakMonths": [12, 1],
+    "whyNow": {
+      "default": "겨울 브로콜리가 송이가 단단하고 단맛이 올라요"
+    },
+    "howToPick": "송이가 촘촘하고 진한 초록색인 것. 노랗게 변색되지 않은 것이 신선해요.",
+    "howToStore": "물기 없이 비닐에 담아 냉장, 오래 두려면 살짝 데쳐 냉동해요.",
+    "howToUse": "데쳐서 초고추장에, 볶음이나 수프에 넣어도 잘 어울려요."
+  },
+  {
+    "id": "green-onion",
+    "name": "대파",
+    "emoji": "🌱",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "파", "kindName": "대파" },
+    "seasonMonths": [11, 12, 1],
+    "peakMonths": [12],
+    "whyNow": {
+      "default": "겨울 대파가 속이 꽉 차고 단맛이 진해져요"
+    },
+    "howToPick": "흰 부분이 길고 단단하며 잎이 곧게 선 것. 뿌리 쪽이 마르지 않은 것이 신선해요.",
+    "howToStore": "신문지에 싸서 세워서 냉장, 송송 썰어 냉동해두면 오래 두고 써요.",
+    "howToUse": "국물 요리의 기본, 파채로 무쳐 고기와 곁들이면 좋아요."
+  },
+  {
+    "id": "scallion",
+    "name": "쪽파",
+    "emoji": "🌱",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "파", "kindName": "쪽파" },
+    "seasonMonths": [9, 10, 11],
+    "peakMonths": [10],
+    "whyNow": {
+      "default": "가을 쪽파가 향이 진하고 잎이 부드러워요"
+    },
+    "howToPick": "잎이 가늘고 곧으며 흰 뿌리 부분이 통통한 것.",
+    "howToStore": "신문지로 싸서 세워서 냉장, 다듬어서 냉동해두면 오래 써요.",
+    "howToUse": "쪽파김치, 전, 국물 요리 고명으로. 향이 진해 양념장에도 잘 어울려요."
+  },
+  {
+    "id": "onion",
+    "name": "양파",
+    "emoji": "🧅",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "양파" },
+    "seasonMonths": [5, 6, 7],
+    "peakMonths": [6],
+    "whyNow": {
+      "default": "초여름 햇양파가 수분이 많고 매운맛이 순해요"
+    },
+    "howToPick": "껍질이 마르고 윤기가 나며 단단한 것. 싹이 나지 않은 것을 골라요.",
+    "howToStore": "망에 담아 통풍이 잘되는 서늘한 곳에, 껍질 벗긴 것은 랩에 싸서 냉장해요.",
+    "howToUse": "볶음, 국, 샐러드에 생으로. 햇양파는 매운맛이 적어 생으로 먹기 좋아요."
+  },
+  {
+    "id": "garlic",
+    "name": "마늘",
+    "emoji": "🧄",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "마늘" },
+    "seasonMonths": [6, 7],
+    "peakMonths": [6],
+    "whyNow": {
+      "default": "초여름 햇마늘이 수확돼 알이 통통해요"
+    },
+    "howToPick": "껍질이 하얗고 단단하며 쪽이 고르게 찬 것. 눌렀을 때 물렁하지 않은 것이 좋아요.",
+    "howToStore": "망에 담아 서늘하고 통풍이 잘되는 곳에, 다진 마늘은 소분해 냉동해요.",
+    "howToUse": "양념의 기본, 통마늘은 구워서 먹거나 장아찌로 담가도 좋아요."
+  },
+  {
+    "id": "ginger",
+    "name": "생강",
+    "emoji": "🫚",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "생강" },
+    "seasonMonths": [10, 11],
+    "peakMonths": [10],
+    "whyNow": {
+      "default": "가을 햇생강이 향이 진하고 매운맛이 산뜻해요"
+    },
+    "howToPick": "표면이 매끈하고 마디가 굵으며 상처가 없는 것. 눌렀을 때 단단한 것이 신선해요.",
+    "howToStore": "신문지에 싸서 서늘한 곳에 두고, 오래 두려면 편으로 썰어 냉동해요.",
+    "howToUse": "차로 우려 마시거나 양념에 다져서, 육류나 생선 요리의 비린내를 잡아줘요."
+  },
+  {
+    "id": "sweet-potato",
+    "name": "고구마",
+    "emoji": "🍠",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "100", "itemName": "고구마" },
+    "seasonMonths": [9, 10, 11],
+    "peakMonths": [10],
+    "whyNow": {
+      "default": "가을 고구마가 수확 직후라 단맛이 살아 있어요",
+      "10": "10월 고구마는 숙성이 시작돼 단맛이 더 진해지는 때예요"
+    },
+    "howToPick": "표면이 매끈하고 흠집이 없으며 양 끝이 마르지 않은 것.",
+    "howToStore": "신문지에 싸서 서늘하고 통풍이 잘되는 곳에 두고, 냉장 보관하면 맛이 떨어져요.",
+    "howToUse": "찌거나 구워서, 튀김이나 맛탕으로. 삶아서 샐러드에 넣어도 좋아요."
+  },
+  {
+    "id": "minari",
+    "name": "미나리",
+    "emoji": "🌿",
+    "category": "vegetable",
+    "kamis": { "categoryCode": "200", "itemName": "미나리" },
+    "seasonMonths": [3, 4, 5],
+    "peakMonths": [4],
+    "whyNow": {
+      "default": "봄 미나리가 향이 진하고 줄기가 아삭해요"
+    },
+    "howToPick": "줄기가 곧고 굵으며 잎이 진한 초록색인 것. 향이 진하게 올라오는 것이 신선해요.",
+    "howToStore": "젖은 신문지로 감싸 세워서 냉장, 물에 담가두면 향이 오래가요.",
+    "howToUse": "매운탕이나 찌개에 마지막에 넣어, 무침이나 전으로도 먹어요."
   }
 ]

@@ -7,8 +7,8 @@ const profiles: ProduceProfile[] = JSON.parse(
 )
 
 describe('produce.json 스키마', () => {
-  test('최소 10개 품목이 있다', () => {
-    expect(profiles.length).toBeGreaterThanOrEqual(10)
+  test('최소 40개 품목이 있다', () => {
+    expect(profiles.length).toBeGreaterThanOrEqual(40)
   })
 
   test.each(profiles.map((p) => [p.id, p] as const))('%s: 필수 필드가 유효하다', (_id, p) => {
