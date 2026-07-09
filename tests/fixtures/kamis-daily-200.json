@@ -1,0 +1,76 @@
+{
+  "condition": [
+    {
+      "p_product_cls_code": "01",
+      "p_item_category_code": "200",
+      "p_regday": "2026-07-10",
+      "p_convert_kg_yn": "N",
+      "p_returntype": "json"
+    }
+  ],
+  "data": {
+    "error_code": "000",
+    "item": [
+      {
+        "item_name": "오이",
+        "item_code": "223",
+        "kind_name": "가시계통(10개)",
+        "rank": "상품",
+        "unit": "10개",
+        "day1": "07/10",
+        "dpr1": "8,540",
+        "day2": "07/09",
+        "dpr2": "8,420",
+        "day3": "1개월전",
+        "dpr3": "10,120",
+        "day4": "1년전",
+        "dpr4": "9,050"
+      },
+      {
+        "item_name": "오이",
+        "item_code": "223",
+        "kind_name": "가시계통(10개)",
+        "rank": "중품",
+        "unit": "10개",
+        "day1": "07/10",
+        "dpr1": "7,200",
+        "day2": "07/09",
+        "dpr2": "7,100",
+        "day3": "1개월전",
+        "dpr3": "8,600",
+        "day4": "1년전",
+        "dpr4": "7,900"
+      },
+      {
+        "item_name": "배추",
+        "item_code": "211",
+        "kind_name": "배추(1포기)",
+        "rank": "상품",
+        "unit": "1포기",
+        "day1": "07/10",
+        "dpr1": "-",
+        "day2": "07/09",
+        "dpr2": "3,980",
+        "day3": "1개월전",
+        "dpr3": "4,500",
+        "day4": "1년전",
+        "dpr4": "3,200"
+      },
+      {
+        "item_name": "시금치",
+        "item_code": "213",
+        "kind_name": "시금치(100g)",
+        "rank": "상품",
+        "unit": "100g",
+        "day1": "07/10",
+        "dpr1": "-",
+        "day2": "07/09",
+        "dpr2": "-",
+        "day3": "1개월전",
+        "dpr3": "-",
+        "day4": "1년전",
+        "dpr4": "-"
+      }
+    ]
+  }
+}
