@@ -24,8 +24,8 @@ export function matchEntry(profile: ProduceProfile, entries: PriceEntry[]): Pric
   if (byName.length === 0) return null
   const kind = profile.kamis.kindName
   const byKind = kind ? byName.filter((e) => e.kindName.includes(kind)) : byName
-  const pool = byKind.length > 0 ? byKind : byName
-  return pool.find((e) => e.rank === '상품') ?? pool[0]
+  if (byKind.length === 0) return null
+  return byKind.find((e) => e.rank === '상품') ?? byKind[0]
 }
 
 export function priceView(entry: PriceEntry): PriceView | null {

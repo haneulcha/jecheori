@@ -60,6 +60,12 @@ describe('matchEntry', () => {
     expect(matchEntry(p, entries)?.kindName).toContain('샤인')
   })
 
+  test('선호 품종이 지정됐는데 그 품종이 없으면 다른 품종으로 폴백하지 않는다', () => {
+    const entries = [entry({ itemName: '호박', kindName: '애호박(1개)' })]
+    const p = profile({ kamis: { categoryCode: '200', itemName: '호박', kindName: '단호박' } })
+    expect(matchEntry(p, entries)).toBeNull()
+  })
+
   test('일치하는 이름이 없거나 가격이 전부 null이면 null', () => {
     const p = profile({ kamis: { categoryCode: '200', itemName: '멜론' } })
     expect(matchEntry(p, [entry({ itemName: '오이' })])).toBeNull()
