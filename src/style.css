@@ -1,1 +1,65 @@
-body { font-family: system-ui, sans-serif; }
+:root {
+  --bg: #faf7f2;
+  --card: #ffffff;
+  --ink: #2b2722;
+  --muted: #8a8177;
+  --accent: #4a7c59;
+  --drop: #2e7d4f;
+  --rise: #b45f3c;
+  --line: #eee7dc;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app { max-width: 28rem; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+
+header .week { color: var(--muted); font-size: 0.85rem; margin: 0.5rem 0 0; }
+header h1 { font-size: 1.35rem; margin: 0.15rem 0 1rem; font-weight: 700; }
+.stale {
+  font-size: 0.8rem; color: var(--rise);
+  background: #fdf3ec; border-radius: 0.5rem; padding: 0.4rem 0.7rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.7rem;
+}
+.card summary { cursor: pointer; list-style: none; }
+.card summary::-webkit-details-marker { display: none; }
+.card-title { font-size: 1.05rem; font-weight: 700; }
+.badge {
+  font-size: 0.7rem; font-weight: 600; color: var(--accent);
+  border: 1px solid currentColor; border-radius: 999px;
+  padding: 0.05rem 0.5rem; margin-left: 0.3rem; vertical-align: 0.1rem;
+}
+.badge-peak { color: #fff; background: var(--accent); border-color: var(--accent); }
+.why { display: block; margin: 0.35rem 0 0; font-size: 0.9rem; }
+.price { display: block; margin: 0.25rem 0 0; font-size: 0.85rem; color: var(--drop); font-weight: 600; }
+
+.detail { margin: 0.8rem 0 0.2rem; border-top: 1px solid var(--line); padding-top: 0.8rem; }
+.detail dt { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+.detail dd { margin: 0.15rem 0 0.7rem; font-size: 0.9rem; }
+
+.seasonal { margin-top: 2rem; }
+.seasonal h2 { font-size: 1rem; color: var(--muted); }
+.seasonal ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0 0; }
+.seasonal li {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 999px; padding: 0.25rem 0.8rem; font-size: 0.85rem;
+}
+
+footer { margin-top: 2.5rem; }
+footer p, .empty, .loading { color: var(--muted); font-size: 0.75rem; }
+.empty, .loading { font-size: 0.95rem; text-align: center; margin-top: 3rem; }
