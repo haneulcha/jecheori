@@ -160,7 +160,7 @@ git commit -m "feat: 개당값 계산 함수"
 - Consumes: `PriceView`(Task 1), `perUnitPrice`(Task 2)
 - Produces: `renderPriceBlock(view: PriceView): string` — 우측 정렬 블록. 취소선 지난값 + 화살표 칩(등락%) + 큰 볼드 가격 + 개당값. 하락은 `.fall`, 상승은 `.rise` 클래스.
 
-- [ ] **Step 1: Write the failing test** — `tests/render.test.ts`. 기존 `describe('formatPrice', ...)` 블록 전체를 아래로 교체:
+- [ ] **Step 1: Write the failing test** — `tests/render.test.ts`에 새 describe를 **추가**한다 (기존 `formatPrice` describe·import는 그대로 둔다 — `formatPrice` 제거와 `renderCard` 교체는 Task 7 소관). [실행완료: 추가 방식으로 구현됨]
 
 ```ts
 import { renderPriceBlock } from '../src/render'
@@ -198,7 +198,7 @@ describe('renderPriceBlock', () => {
 Run: `npx vitest run tests/render.test.ts -t "renderPriceBlock"`
 Expected: FAIL — `renderPriceBlock` is not a function.
 
-- [ ] **Step 3: Write minimal implementation** — `src/render.ts`. `formatPrice`와 그 import 참조를 제거하고 추가:
+- [ ] **Step 3: Write minimal implementation** — `src/render.ts`에 다음을 **추가**한다 (`formatPrice`·`renderCard`는 이 태스크에서 건드리지 않는다. 둘의 정리는 Task 7):
 
 ```ts
 const ARROW_DOWN = '<svg class="arrow" width="11" height="12" viewBox="0 0 11 12" aria-hidden="true"><path d="M5.5 1 V10 M2 6.5 L5.5 10 L9 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
@@ -226,10 +226,10 @@ export function renderPriceBlock(view: PriceView): string {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes** — 단, `renderApp`/`renderCard`가 아직 `formatPrice`를 참조하므로 컴파일 에러가 날 수 있다. 이 태스크에서는 `renderCard` 안의 `formatPrice(price)` 호출을 임시로 `renderPriceBlock(price)`로 바꿔 컴파일만 통과시킨다(전면 조립은 Task 7).
+- [ ] **Step 4: Run test to verify it passes**
 
-Run: `npx vitest run tests/render.test.ts -t "renderPriceBlock"`
-Expected: PASS.
+Run: `npx vitest run tests/render.test.ts`
+Expected: PASS — renderPriceBlock 신규 테스트 + 기존 formatPrice·renderApp 테스트가 전부 그대로 green (formatPrice·renderCard 미변경이므로 회귀 없음).
 
 - [ ] **Step 5: CSS + DESIGN 토큰 개정** — `src/style.css` `:root`에서 `--rise` 값 교체 + 토큰 추가:
 
@@ -550,7 +550,12 @@ git commit -m "feat: 장보기 노트 렌더러 (먹지 괘선·키 정렬)"
   })
 ```
 
-기존의 `expect(html).toContain('제철 한창')`, `'class="sprig"'`(유지), `'소서 · 7월 둘째 주'`, `staleDays` 테스트는 그대로 둔다. `'제철 한창'` 배지 단언은 삭제.
+기존의 `'class="sprig"'`(유지), `'소서 · 7월 둘째 주'`, `staleDays` 테스트는 그대로 둔다. `'제철 한창'` 배지 단언은 삭제.
+
+또한 이 태스크에서 `tests/render.test.ts`를 정리한다:
+- 파일 상단 import에서 `formatPrice` 제거.
+- `describe('formatPrice', ...)` 블록 전체 삭제 (Task 3에서 추가한 `describe('renderPriceBlock', ...)`가 대체).
+- renderApp describe의 `picks` 픽스처 `price` 객체에 `priceMonthAgo`·`priceYearAgo`를 추가한다(PriceView 필수 필드 — Task 1). 예: `price: { price: 18200, unit: '10개', changeVsMonthAgoPct: -25.7, priceMonthAgo: 24500, priceYearAgo: 19800 }`.
 
 - [ ] **Step 2: Run test to verify it fails**
 
@@ -560,6 +565,7 @@ Expected: FAIL — `data-cat` 없음 / `제철 한창` 잔존 등.
 - [ ] **Step 3: Write minimal implementation** — `src/render.ts` `renderCard` 교체:
 
 ```ts
+// 이 태스크에서 `src/render.ts`의 `formatPrice` 함수를 삭제한다 (renderPriceBlock이 대체).
 function renderCard(result: PickResult, month: number): string {
   const { profile, inPeak, price } = result
   const priceBlock = price ? renderPriceBlock(price) : ''
