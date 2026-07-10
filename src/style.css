@@ -150,6 +150,10 @@ header h1 {
   font-size: 0.85rem;
 }
 
+.nodrop { color: var(--muted); font-size: 0.88rem; margin: 0 0 1rem; }
+.coming { margin-top: 1rem; color: var(--muted); font-size: 0.85rem; }
+.coming span { color: var(--ink); font-weight: 600; }
+
 footer { margin-top: 2.5rem; }
 footer p { color: var(--muted); font-size: 0.75rem; }
 .empty, .loading {

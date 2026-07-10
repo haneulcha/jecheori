@@ -100,6 +100,17 @@ describe('renderApp', () => {
     const html = renderApp({ picks: [], seasonal: [], date: new Date('2026-07-10'), staleDays: 0 })
     expect(html).toContain('class="sprig"')
   })
+
+  test('픽은 있으나 하락이 없으면 담백한 안내', () => {
+    const flat = [{ profile, inPeak: true, price: { price: 5000, unit: '1kg', changeVsMonthAgoPct: 2, priceMonthAgo: 4900, priceYearAgo: 5000 } }]
+    const html = renderApp({ picks: flat, seasonal: [profile], date: new Date('2026-07-10'), staleDays: 0 })
+    expect(html).toContain('크게 내려온 게 없어요')
+  })
+  test('곧 제철 예고', () => {
+    const html = renderApp({ picks: [], seasonal: [], date: new Date('2026-07-10'), staleDays: 0, coming: [{ ...profile, name: '포도', emoji: '🍇' }] })
+    expect(html).toContain('곧 제철')
+    expect(html).toContain('포도')
+  })
 })
 
 describe('renderPriceBlock', () => {

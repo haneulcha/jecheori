@@ -49,6 +49,17 @@ export function whyNowLine(profile: ProduceProfile, month: number): string {
   return profile.whyNow[String(month)] ?? profile.whyNow['default'] ?? ''
 }
 
+/** 다음 달에 새로 철 드는 품목 (이번 달엔 아직 아닌 것만) */
+export function comingSoon(profiles: ProduceProfile[], month: number): ProduceProfile[] {
+  const next = month === 12 ? 1 : month + 1
+  return profiles.filter((p) => p.seasonMonths.includes(next) && !p.seasonMonths.includes(month))
+}
+
+/** 하락 픽이 하나라도 있는지 */
+export function hasDrops(picks: PickResult[]): boolean {
+  return picks.some((p) => p.price != null && p.price.changeVsMonthAgoPct != null && p.price.changeVsMonthAgoPct < 0)
+}
+
 /** 정렬: 절정 그룹 먼저 → 그룹 안에서 하락률 큰 순 → 가격 결측은 그룹 맨 뒤 */
 export function selectPicks(
   profiles: ProduceProfile[],

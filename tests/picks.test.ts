@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { matchEntry, priceView, selectPicks, whyNowLine } from '../src/picks'
+import { comingSoon, hasDrops, matchEntry, priceView, selectPicks, whyNowLine } from '../src/picks'
 import type { PriceEntry, PriceSnapshot, ProduceProfile } from '../src/types'
 
 function profile(over: Partial<ProduceProfile>): ProduceProfile {
@@ -191,4 +191,22 @@ describe('whyNowLine', () => {
     expect(whyNowLine(p, 7)).toBe('칠월 문구')
     expect(whyNowLine(p, 8)).toBe('기본')
   })
+})
+
+describe('comingSoon', () => {
+  test('다음 달에 새로 드는 품목만', () => {
+    const p1 = profile({ id: 'a', seasonMonths: [7, 8] })   // 7월에도 제철 → 제외
+    const p2 = profile({ id: 'b', seasonMonths: [8, 9] })   // 8월 신규 → 포함
+    expect(comingSoon([p1, p2], 7).map((p) => p.id)).toEqual(['b'])
+  })
+  test('12월의 다음은 1월', () => {
+    const p = profile({ id: 'c', seasonMonths: [1] })
+    expect(comingSoon([p], 12).map((p) => p.id)).toEqual(['c'])
+  })
+})
+
+describe('hasDrops', () => {
+  const mk = (pct: number | null) => ({ profile: profile({}), inPeak: false, price: { price: 1, unit: '1kg', changeVsMonthAgoPct: pct, priceMonthAgo: 1, priceYearAgo: 1 } })
+  test('하락이 있으면 true', () => expect(hasDrops([mk(-5)])).toBe(true))
+  test('전부 상승/무변동이면 false', () => expect(hasDrops([mk(3), mk(null)])).toBe(false))
 })

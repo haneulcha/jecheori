@@ -1,5 +1,5 @@
 import type { PickResult, PriceView } from './picks'
-import { whyNowLine } from './picks'
+import { hasDrops, whyNowLine } from './picks'
 import type { ProduceProfile } from './types'
 
 export function escapeHtml(s: string): string {
@@ -134,22 +134,30 @@ export interface AppView {
   staleDays: number
   /** 현재 절기 이름 — 있으면 아이브로에 "소서 · 7월 둘째 주"로 표기 */
   term?: string
+  /** 다음 달에 새로 철 드는 품목 — 있으면 하단에 "곧 제철" 한 줄 예고 */
+  coming?: ProduceProfile[]
 }
 
-export function renderApp({ picks, seasonal, date, staleDays, term }: AppView): string {
+export function renderApp({ picks, seasonal, date, staleDays, term, coming = [] }: AppView): string {
   const month = date.getMonth() + 1
   const stale =
     staleDays >= 3 ? `<p class="stale">가격은 ${staleDays}일 전 기준이에요</p>` : ''
+  const noDrop = picks.length > 0 && !hasDrops(picks)
+    ? '<p class="nodrop">이번 주는 크게 내려온 게 없어요. 제철은 그대로 곁에 있어요.</p>'
+    : ''
   const filterAndList =
     picks.length > 0
       ? `<input type="radio" name="cat-filter" id="f-all" checked><input type="radio" name="cat-filter" id="f-fruit"><input type="radio" name="cat-filter" id="f-veg">
 <div class="filter"><label for="f-all">전체</label><label for="f-fruit">과일</label><label for="f-veg">채소</label></div>
-<div class="list">${picks.map((p) => renderCard(p, month)).join('\n')}</div>`
+${noDrop}<div class="list">${picks.map((p) => renderCard(p, month)).join('\n')}</div>`
       : '<p class="empty">이번 달 제철 정보가 아직 없어요</p>'
   const seasonalList = seasonal
     .map((p) => `<li>${p.emoji} ${escapeHtml(p.name)}</li>`)
     .join('')
   const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
+  const comingLine = coming.length > 0
+    ? `<p class="coming"><span>곧 제철</span> · ${coming.map((p) => `${p.emoji} ${escapeHtml(p.name)}`).join(' · ')}</p>`
+    : ''
   return `
 <header>
   ${SPRIG}
@@ -163,6 +171,7 @@ export function renderApp({ picks, seasonal, date, staleDays, term }: AppView): 
     <h2>${month}월의 제철</h2>
     <ul>${seasonalList}</ul>
   </section>
+  ${comingLine}
 </main>
 <footer>
   <p>가격: KAMIS(한국농수산식품유통공사) 일별 소매가격 · 전국 평균</p>
