@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { comingSoon, hasDrops, matchEntry, priceView, selectPicks, whyNowLine } from '../src/picks'
+import { comingSoon, hasDrops, matchEntry, priceView, selectPicks } from '../src/picks'
 import type { PriceEntry, PriceSnapshot, ProduceProfile } from '../src/types'
 
 function profile(over: Partial<ProduceProfile>): ProduceProfile {
@@ -182,14 +182,6 @@ describe('selectPicks', () => {
     const entries = [entry({ itemName: 'A', price: 880, priceMonthAgo: 1000 })]
     const picks = selectPicks(profiles, snap(entries), JULY)
     expect(picks[0].price?.changeVsMonthAgoPct).toBeCloseTo(-12)
-  })
-})
-
-describe('whyNowLine', () => {
-  test('해당 월 문구가 있으면 그걸, 없으면 default', () => {
-    const p = profile({ whyNow: { default: '기본', '7': '칠월 문구' } })
-    expect(whyNowLine(p, 7)).toBe('칠월 문구')
-    expect(whyNowLine(p, 8)).toBe('기본')
   })
 })
 

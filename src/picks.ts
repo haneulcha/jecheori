@@ -45,10 +45,6 @@ export function priceView(entry: PriceEntry): PriceView | null {
   }
 }
 
-export function whyNowLine(profile: ProduceProfile, month: number): string {
-  return profile.whyNow[String(month)] ?? profile.whyNow['default'] ?? ''
-}
-
 /** 다음 달에 새로 철 드는 품목 (이번 달엔 아직 아닌 것만) */
 export function comingSoon(profiles: ProduceProfile[], month: number): ProduceProfile[] {
   const next = month === 12 ? 1 : month + 1

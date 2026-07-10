@@ -1,5 +1,7 @@
-import type { PickResult, PriceView } from './picks'
-import { hasDrops, whyNowLine } from './picks'
+import type { PickResult } from './picks'
+import { hasDrops } from './picks'
+import type { CardView, NoteView, PriceCardView, SparkView } from './card'
+import { toCardView } from './card'
 import type { ProduceProfile } from './types'
 
 export function escapeHtml(s: string): string {
@@ -9,15 +11,6 @@ export function escapeHtml(s: string): string {
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;')
-}
-
-/** "N개"(N>1) 단위면 개당값을 계산. 단수·무게 단위는 null. */
-export function perUnitPrice(price: number, unit: string): { each: number } | null {
-  const m = /^(\d+)\s*개$/.exec(unit.trim())
-  if (!m) return null
-  const count = Number(m[1])
-  if (count <= 1) return null
-  return { each: Math.round(price / count) }
 }
 
 const SPRIG = `<svg class="sprig" viewBox="0 0 120 120" fill="none" aria-hidden="true">
@@ -39,30 +32,15 @@ const ARROW_UP = '<svg class="arrow" width="11" height="12" viewBox="0 0 11 12" 
 
 const won = (n: number) => `${n.toLocaleString('ko-KR')}원`
 
-const SPARK_X = [45, 150, 255]
-
-export function sparklineGeometry(v: { yearAgo: number; monthAgo: number; now: number }): { x: number; y: number }[] {
-  const vals = [v.yearAgo, v.monthAgo, v.now]
-  const min = Math.min(...vals)
-  const max = Math.max(...vals)
-  const span = max - min
-  return vals.map((val, i) => ({
-    x: SPARK_X[i],
-    y: span === 0 ? 34 : 44 - ((val - min) / span) * 20,
-  }))
-}
-
-export function renderSparkline(view: PriceView): string {
-  const { price, priceMonthAgo, priceYearAgo } = view
-  if (priceMonthAgo === null || priceYearAgo === null) return ''
-  const [yr, mo, now] = sparklineGeometry({ yearAgo: priceYearAgo, monthAgo: priceMonthAgo, now: price })
+export function renderSparkline(s: SparkView): string {
+  const [yr, mo, now] = s.points
   const n = (x: number) => x.toLocaleString('ko-KR')
-  const label = `가격 추이: 작년 이맘때 ${n(priceYearAgo)} · 한 달 전 ${n(priceMonthAgo)} · 지금 ${n(price)}`
+  const label = `가격 추이: 작년 이맘때 ${n(s.yearAgo)} · 한 달 전 ${n(s.monthAgo)} · 지금 ${n(s.now)}`
   return `<div class="spark num"><svg viewBox="0 0 300 72" role="img" aria-label="${label}">
     <polyline class="trend" points="${yr.x},${yr.y.toFixed(1)} ${mo.x},${mo.y.toFixed(1)} ${now.x},${now.y.toFixed(1)}"/>
-    <text class="val" x="${yr.x}" y="${(yr.y - 8).toFixed(1)}" text-anchor="middle">${n(priceYearAgo)}</text>
-    <text class="val" x="${mo.x}" y="${(mo.y - 8).toFixed(1)}" text-anchor="middle">${n(priceMonthAgo)}</text>
-    <text class="val now" x="${now.x}" y="${(now.y - 8).toFixed(1)}" text-anchor="middle">${n(price)}</text>
+    <text class="val" x="${yr.x}" y="${(yr.y - 8).toFixed(1)}" text-anchor="middle">${n(s.yearAgo)}</text>
+    <text class="val" x="${mo.x}" y="${(mo.y - 8).toFixed(1)}" text-anchor="middle">${n(s.monthAgo)}</text>
+    <text class="val now" x="${now.x}" y="${(now.y - 8).toFixed(1)}" text-anchor="middle">${n(s.now)}</text>
     <circle class="pt" cx="${yr.x}" cy="${yr.y.toFixed(1)}" r="1.9"/>
     <circle class="pt" cx="${mo.x}" cy="${mo.y.toFixed(1)}" r="1.9"/>
     <circle class="pt now" cx="${now.x}" cy="${now.y.toFixed(1)}" r="2.3"/>
@@ -78,51 +56,46 @@ export function renderPeakDot(inPeak: boolean): string {
   return '<button class="peak-dot" type="button" aria-label="지금이 제철 절정"><b></b><span class="peak-tip">지금이 맛의 절정이에요</span></button>'
 }
 
-export function renderNote(profile: ProduceProfile): string {
+export function renderNote(note: NoteView): string {
   const row = (label: string, text: string) =>
     `<div class="nrow"><span class="lbl">${label}</span><span>${escapeHtml(text)}</span></div>`
-  return `<div class="note">${row('고르는 법', profile.howToPick)}${row('보관', profile.howToStore)}${row('쓰임', profile.howToUse)}</div>`
+  return `<div class="note">${row('고르는 법', note.pick)}${row('보관', note.store)}${row('쓰임', note.use)}</div>`
 }
 
-export function renderPriceBlock(view: PriceView): string {
-  const { price, unit, priceMonthAgo, changeVsMonthAgoPct: pct } = view
-  const per = perUnitPrice(price, unit)
-  const perLine = per ? `<span class="per num">개당 ${won(per.each)}</span>` : ''
-  const was = priceMonthAgo !== null ? `<span class="was num">${won(priceMonthAgo)}</span>` : ''
-
-  let dir = 'fall'
+export function renderPriceBlock(p: PriceCardView): string {
+  const perLine = p.perUnit !== null ? `<span class="per num">개당 ${won(p.perUnit)}</span>` : ''
+  const was = p.wasMonthAgo !== null ? `<span class="was num">${won(p.wasMonthAgo)}</span>` : ''
+  const dir = p.change?.kind === 'rise' ? 'rise' : 'fall'
   let chip = ''
-  if (pct !== null && Math.abs(pct) >= 1) {
-    dir = pct < 0 ? 'fall' : 'rise'
-    const arrow = pct < 0 ? ARROW_DOWN : ARROW_UP
-    chip = `<span class="chip">${arrow}${Math.round(Math.abs(pct))}%</span>`
+  if (p.change && (p.change.kind === 'fall' || p.change.kind === 'rise')) {
+    const arrow = p.change.kind === 'fall' ? ARROW_DOWN : ARROW_UP
+    chip = `<span class="chip">${arrow}${p.change.pct}%</span>`
   }
-  const big = `<span class="big num">${price.toLocaleString('ko-KR')}<span class="wonu">원</span></span>`
-  const nearby = pct !== null && Math.abs(pct) < 1 ? '<span class="near">한 달 전과 비슷해요</span>' : ''
+  const big = `<span class="big num">${p.now.toLocaleString('ko-KR')}<span class="wonu">원</span></span>`
+  const nearby = p.change?.kind === 'similar' ? '<span class="near">한 달 전과 비슷해요</span>' : ''
 
   return `<div class="price ${dir}">${was}<span class="nowline">${chip}${big}</span>${perLine}${nearby}</div>`
 }
 
-function renderCard(result: PickResult, month: number): string {
-  const { profile, inPeak, price } = result
-  const priceBlock = price ? renderPriceBlock(price) : ''
-  const spark = price ? renderSparkline(price) : ''
+function renderCard(card: CardView): string {
+  const priceBlock = card.price ? renderPriceBlock(card.price) : ''
+  const spark = card.price?.spark ? renderSparkline(card.price.spark) : ''
   return `
-<details class="card" data-cat="${profile.category}">
+<details class="card" data-cat="${card.category}">
   <summary>
     <span class="id">
-      <span class="emoji">${profile.emoji}</span>
+      <span class="emoji">${card.emoji}</span>
       <span>
-        <span class="card-title">${escapeHtml(profile.name)}${renderPeakDot(inPeak)}</span>
-        <span class="kind">${escapeHtml(profile.kamis.kindName ?? '')}</span>
+        <span class="card-title">${escapeHtml(card.name)}${renderPeakDot(card.inPeak)}</span>
+        <span class="kind">${escapeHtml(card.kind)}</span>
       </span>
     </span>
     ${priceBlock}
   </summary>
   <div class="open">
-    <p class="why">${escapeHtml(whyNowLine(profile, month))}</p>
+    <p class="why">${escapeHtml(card.whyNow)}</p>
     ${spark}
-    ${renderNote(profile)}
+    ${renderNote(card.note)}
   </div>
 </details>`
 }
@@ -145,11 +118,12 @@ export function renderApp({ picks, seasonal, date, staleDays, term, coming = [] 
   const noDrop = picks.length > 0 && !hasDrops(picks)
     ? '<p class="nodrop">이번 주는 크게 내려온 게 없어요. 제철은 그대로 곁에 있어요.</p>'
     : ''
+  const cards = picks.map((p) => renderCard(toCardView(p, month))).join('\n')
   const filterAndList =
     picks.length > 0
       ? `<input type="radio" name="cat-filter" id="f-all" checked><input type="radio" name="cat-filter" id="f-fruit"><input type="radio" name="cat-filter" id="f-veg">
 <div class="filter"><label for="f-all">전체</label><label for="f-fruit">과일</label><label for="f-veg">채소</label></div>
-${noDrop}<div class="list">${picks.map((p) => renderCard(p, month)).join('\n')}</div>`
+${noDrop}<div class="list">${cards}</div>`
       : '<p class="empty">이번 달 제철 정보가 아직 없어요</p>'
   const seasonalList = seasonal
     .map((p) => `<li>${p.emoji} ${escapeHtml(p.name)}</li>`)
