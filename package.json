@@ -1,0 +1,19 @@
+{
+  "name": "jecheori",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "fetch:prices": "node scripts/fetch-prices.mjs",
+    "report:coverage": "node scripts/report-coverage.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vite": "^6.0.0",
+    "vitest": "^3.0.0"
+  }
+}

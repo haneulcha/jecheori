@@ -1,0 +1,173 @@
+@font-face {
+  font-family: 'MaruBuri';
+  src: url('./fonts/MaruBuri-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'MaruBuri';
+  src: url('./fonts/MaruBuri-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* DESIGN.md "절기 스케치북" 토큰 — 텍스트는 오직 쪽빛(--ink)이 소유한다.
+   계절 웜 컬러는 글자를 싣지 않고 배경(배지·블롭·칩)으로만 쓴다. */
+:root {
+  --paper: #fbf9f6;
+  --card: #ffffff;
+  --ink: #2b4586;
+  --muted: #7b84a3;
+  --line: #e7e2d6;
+  --rise: #8c6a5d;
+  /* 계절 기본값 (여름) — main.ts가 body[data-season]으로 덮어쓴다 */
+  --accent: #ffc400;
+  --tint: #fff4ce;
+}
+body[data-season='spring'] { --accent: #a2d3a6; --tint: #eaf4e9; }
+body[data-season='summer'] { --accent: #ffc400; --tint: #fff4ce; }
+body[data-season='autumn'] { --accent: #ed7328; --tint: #fbe7d6; }
+body[data-season='winter'] { --accent: #bc6e79; --tint: #f6e7ea; }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app { max-width: 28rem; margin: 0 auto; padding: 1.5rem 1.1rem 3rem; }
+
+/* 헤더 — 시그니처: 쪽빛 스케치 + 계절 틴트 블롭 */
+header { position: relative; }
+header::before {
+  content: '';
+  position: absolute;
+  top: -0.6rem;
+  right: -0.4rem;
+  width: 9rem;
+  height: 7rem;
+  background: var(--tint);
+  border-radius: 48% 52% 61% 39% / 55% 44% 56% 45%;
+  z-index: -1;
+}
+.sprig {
+  position: absolute;
+  top: 0;
+  right: 0.2rem;
+  width: 6.5rem;
+  height: auto;
+  color: var(--ink);
+  opacity: 0.35;
+}
+.week {
+  font-family: 'MaruBuri', serif;
+  color: var(--ink);
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  margin: 0.4rem 0 0;
+}
+header h1 {
+  font-family: 'MaruBuri', serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.45;
+  margin: 0.2rem 0 1.3rem;
+}
+.stale {
+  font-size: 0.8rem;
+  color: var(--rise);
+  border: 1px solid currentColor;
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  display: inline-block;
+}
+
+/* 카드 — 달력 낱장 */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  padding: 0.95rem 1.05rem;
+  margin-bottom: 0.7rem;
+}
+.card summary { cursor: pointer; list-style: none; }
+.card summary::-webkit-details-marker { display: none; }
+.card-title { font-size: 1.05rem; font-weight: 700; }
+.badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+  margin-left: 0.3rem;
+  vertical-align: 0.1rem;
+}
+/* 웜 컬러는 배경으로만 — 글자는 쪽빛 유지 (명도 대비 규율) */
+.badge-peak { background: var(--tint); border-color: var(--accent); }
+.why { display: block; margin: 0.35rem 0 0; font-size: 0.9rem; }
+.price {
+  display: block;
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.detail {
+  margin: 0.85rem 0 0.2rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.85rem;
+}
+.detail dt {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.08em; /* Pa'lais의 넓은 자간을 한글 소형 라벨로 번안 */
+}
+.detail dd { margin: 0.15rem 0 0.7rem; font-size: 0.9rem; }
+
+/* 이번 달 제철 리스트 */
+.seasonal { margin-top: 2.2rem; }
+.seasonal h2 {
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+.seasonal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.seasonal li {
+  background: var(--tint);
+  border-radius: 999px;
+  padding: 0.25rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+footer { margin-top: 2.5rem; }
+footer p { color: var(--muted); font-size: 0.75rem; }
+.empty, .loading {
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+/* 접근성 */
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+@media (prefers-reduced-motion: no-preference) {
+  .card { transition: border-color 0.15s ease; }
+  .card[open] { border-color: var(--accent); }
+}
