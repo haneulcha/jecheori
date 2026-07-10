@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { escapeHtml, formatPrice, perUnitPrice, renderApp, weekLabel, renderPeakDot, sparklineGeometry, renderSparkline, renderNote } from '../src/render'
+import { escapeHtml, perUnitPrice, renderApp, weekLabel, renderPeakDot, sparklineGeometry, renderSparkline, renderNote } from '../src/render'
 import { renderPriceBlock } from '../src/render'
 import type { PickResult } from '../src/picks'
 import type { ProduceProfile } from '../src/types'
@@ -24,25 +24,6 @@ describe('weekLabel', () => {
   test('31일은 다섯째 주', () => expect(weekLabel(new Date('2026-07-31'))).toBe('7월 다섯째 주'))
 })
 
-describe('formatPrice', () => {
-  test('하락', () =>
-    expect(
-      formatPrice({ price: 18200, unit: '10개', changeVsMonthAgoPct: -25.7 }),
-    ).toBe('18,200원/10개 · 한 달 전보다 26% ↓'))
-  test('상승', () =>
-    expect(formatPrice({ price: 5000, unit: '1kg', changeVsMonthAgoPct: 12.2 })).toBe(
-      '5,000원/1kg · 한 달 전보다 12% ↑',
-    ))
-  test('±1% 미만은 비슷해요', () =>
-    expect(formatPrice({ price: 5000, unit: '1kg', changeVsMonthAgoPct: 0.4 })).toBe(
-      '5,000원/1kg · 한 달 전과 비슷해요',
-    ))
-  test('비교 불가면 가격만', () =>
-    expect(formatPrice({ price: 5000, unit: '1kg', changeVsMonthAgoPct: null })).toBe(
-      '5,000원/1kg',
-    ))
-})
-
 describe('escapeHtml', () => {
   test('특수문자를 이스케이프한다', () => {
     expect(escapeHtml('<b>&"\'</b>')).toBe('&lt;b&gt;&amp;&quot;&#39;&lt;/b&gt;')
@@ -61,28 +42,25 @@ describe('renderApp', () => {
     {
       profile,
       inPeak: true,
-      price: { price: 18200, unit: '10개', changeVsMonthAgoPct: -25.7 },
+      price: { price: 18200, unit: '10개', changeVsMonthAgoPct: -25.7, priceMonthAgo: 24500, priceYearAgo: 19800 },
     },
   ]
 
-  test('픽 카드에 이름·문구·가격이 들어간다', () => {
+  test('픽 카드: 이름·가격블록·data-cat·절정 dot', () => {
     const html = renderApp({ picks, seasonal: [profile], date: new Date('2026-07-10'), staleDays: 0 })
     expect(html).toContain('복숭아')
-    expect(html).toContain('여름이 절정이에요')
-    expect(html).toContain('18,200원')
-    expect(html).toContain('제철 한창') // 절정 배지
-    expect(html).toContain('7월 둘째 주')
+    expect(html).toContain('data-cat="fruit"')
+    expect(html).toContain('class="price fall')  // 가격 블록
+    expect(html).toContain('18,200')
+    expect(html).toContain('peak-dot')            // 절정
+    expect(html).toContain('여름이 절정이에요')     // whyNow (펼침)
   })
 
-  test('가격이 없으면 가격 줄 없이 렌더링된다', () => {
-    const html = renderApp({
-      picks: [{ profile, inPeak: false, price: null }],
-      seasonal: [profile],
-      date: new Date('2026-07-10'),
-      staleDays: 0,
-    })
+  test('가격이 없으면 가격 블록 없이', () => {
+    const html = renderApp({ picks: [{ profile, inPeak: false, price: null }], seasonal: [profile], date: new Date('2026-07-10'), staleDays: 0 })
     expect(html).toContain('복숭아')
-    expect(html).not.toContain('원/')
+    expect(html).not.toContain('class="price')
+    expect(html).not.toContain('peak-dot')
   })
 
   test('스냅샷이 3일 이상 오래되면 배지를 보여준다', () => {

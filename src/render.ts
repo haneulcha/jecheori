@@ -34,15 +34,6 @@ export function weekLabel(date: Date): string {
   return `${date.getMonth() + 1}월 ${ordinals[idx]} 주`
 }
 
-export function formatPrice(view: PriceView): string {
-  const won = `${view.price.toLocaleString('ko-KR')}원/${view.unit}`
-  const pct = view.changeVsMonthAgoPct
-  if (pct === null) return won
-  const rounded = Math.round(Math.abs(pct))
-  if (Math.abs(pct) < 1) return `${won} · 한 달 전과 비슷해요`
-  return pct < 0 ? `${won} · 한 달 전보다 ${rounded}% ↓` : `${won} · 한 달 전보다 ${rounded}% ↑`
-}
-
 const ARROW_DOWN = '<svg class="arrow" width="11" height="12" viewBox="0 0 11 12" aria-hidden="true"><path d="M5.5 1 V10 M2 6.5 L5.5 10 L9 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 const ARROW_UP = '<svg class="arrow" width="11" height="12" viewBox="0 0 11 12" aria-hidden="true"><path d="M5.5 11 V2 M2 5.5 L5.5 2 L9 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 
@@ -114,21 +105,25 @@ export function renderPriceBlock(view: PriceView): string {
 
 function renderCard(result: PickResult, month: number): string {
   const { profile, inPeak, price } = result
-  const badge = inPeak ? '<span class="badge badge-peak">제철 한창</span>' : '<span class="badge">제철</span>'
-  // summary 안에는 블록 요소(<p>)가 유효하지 않아 span + display:block 사용
-  const priceLine = price ? `<span class="price">${escapeHtml(formatPrice(price))}</span>` : ''
+  const priceBlock = price ? renderPriceBlock(price) : ''
+  const spark = price ? renderSparkline(price) : ''
   return `
-<details class="card">
+<details class="card" data-cat="${profile.category}">
   <summary>
-    <span class="card-title">${profile.emoji} ${escapeHtml(profile.name)} ${badge}</span>
-    <span class="why">${escapeHtml(whyNowLine(profile, month))}</span>
-    ${priceLine}
+    <span class="id">
+      <span class="emoji">${profile.emoji}</span>
+      <span>
+        <span class="card-title">${escapeHtml(profile.name)}${renderPeakDot(inPeak)}</span>
+        <span class="kind">${escapeHtml(profile.kamis.kindName ?? '')}</span>
+      </span>
+    </span>
+    ${priceBlock}
   </summary>
-  <dl class="detail">
-    <dt>고르는 법</dt><dd>${escapeHtml(profile.howToPick)}</dd>
-    <dt>보관법</dt><dd>${escapeHtml(profile.howToStore)}</dd>
-    <dt>이렇게 먹어요</dt><dd>${escapeHtml(profile.howToUse)}</dd>
-  </dl>
+  <div class="open">
+    <p class="why">${escapeHtml(whyNowLine(profile, month))}</p>
+    ${spark}
+    ${renderNote(profile)}
+  </div>
 </details>`
 }
 

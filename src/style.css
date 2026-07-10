@@ -98,22 +98,14 @@ header h1 {
   padding: 0.95rem 1.05rem;
   margin-bottom: 0.7rem;
 }
-.card summary { cursor: pointer; list-style: none; }
+.card summary { cursor: pointer; list-style: none; display: flex; align-items: flex-start; justify-content: space-between; gap: 0.9rem; }
 .card summary::-webkit-details-marker { display: none; }
-.card-title { font-size: 1.05rem; font-weight: 700; }
-.badge {
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: var(--ink);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 0.05rem 0.5rem;
-  margin-left: 0.3rem;
-  vertical-align: 0.1rem;
-}
-/* 웜 컬러는 배경으로만 — 글자는 쪽빛 유지 (명도 대비 규율) */
-.badge-peak { background: var(--tint); border-color: var(--accent); }
-.why { display: block; margin: 0.35rem 0 0; font-size: 0.9rem; }
+.card .id { display: flex; align-items: center; gap: 0.6rem; }
+.card .emoji { font-size: 1.7rem; line-height: 1; }
+.card-title { font-size: 1.05rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.45rem; }
+.card .kind { display: block; color: var(--muted); font-size: 0.78rem; margin-top: 0.1rem; }
+.open { border-top: 1px solid var(--line); margin-top: 0.85rem; padding-top: 0.85rem; }
+.open .why { color: var(--ink); font-size: 0.9rem; margin: 0 0 0.9rem; }
 .price { display: flex; flex-direction: column; align-items: flex-end; }
 .num { font-variant-numeric: tabular-nums; }
 .price .was { color: var(--muted); font-size: 0.85rem; text-decoration: line-through; margin-bottom: 0.18rem; }
@@ -128,19 +120,6 @@ header h1 {
 .price.fall .chip { background: var(--tint); color: var(--ink); }
 .price.rise .big { color: var(--rise); }
 .price.rise .chip { background: var(--rise-lo); color: var(--rise); }
-
-.detail {
-  margin: 0.85rem 0 0.2rem;
-  border-top: 1px solid var(--line);
-  padding-top: 0.85rem;
-}
-.detail dt {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--muted);
-  letter-spacing: 0.08em; /* Pa'lais의 넓은 자간을 한글 소형 라벨로 번안 */
-}
-.detail dd { margin: 0.15rem 0 0.7rem; font-size: 0.9rem; }
 
 .note { position: relative; padding-left: 1.1rem; }
 .note::before { content: ''; position: absolute; left: 0.3rem; top: 0.1rem; bottom: 0.1rem; width: 1px; background: var(--margin); }
