@@ -5,6 +5,8 @@ export interface PriceView {
   unit: string
   /** 1개월 전 대비 % (음수 = 하락). 1개월 전 가격이 없으면 null */
   changeVsMonthAgoPct: number | null
+  priceMonthAgo: number | null
+  priceYearAgo: number | null
 }
 
 export interface PickResult {
@@ -34,7 +36,13 @@ export function priceView(entry: PriceEntry): PriceView | null {
     entry.priceMonthAgo !== null
       ? ((entry.price - entry.priceMonthAgo) / entry.priceMonthAgo) * 100
       : null
-  return { price: entry.price, unit: entry.unit, changeVsMonthAgoPct: change }
+  return {
+    price: entry.price,
+    unit: entry.unit,
+    changeVsMonthAgoPct: change,
+    priceMonthAgo: entry.priceMonthAgo,
+    priceYearAgo: entry.priceYearAgo,
+  }
 }
 
 export function whyNowLine(profile: ProduceProfile, month: number): string {

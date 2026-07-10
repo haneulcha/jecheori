@@ -79,6 +79,25 @@ describe('priceView', () => {
   })
 })
 
+describe('priceView 절댓값 통과', () => {
+  test('지난값·작년값을 그대로 싣는다', () => {
+    const v = priceView(entry({ price: 12600, priceMonthAgo: 16900, priceYearAgo: 13400 }))
+    expect(v).toEqual({
+      price: 12600,
+      unit: '1kg',
+      changeVsMonthAgoPct: expect.closeTo(-25.44, 1),
+      priceMonthAgo: 16900,
+      priceYearAgo: 13400,
+    })
+  })
+  test('결측은 null로 통과', () => {
+    const v = priceView(entry({ price: 1000, priceMonthAgo: null, priceYearAgo: null }))
+    expect(v?.priceMonthAgo).toBeNull()
+    expect(v?.priceYearAgo).toBeNull()
+    expect(v?.changeVsMonthAgoPct).toBeNull()
+  })
+})
+
 describe('selectPicks', () => {
   test('이번 달 제철 품목만 나온다', () => {
     const profiles = [
