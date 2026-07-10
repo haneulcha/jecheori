@@ -140,9 +140,11 @@ export function renderApp({ picks, seasonal, date, staleDays, term }: AppView): 
   const month = date.getMonth() + 1
   const stale =
     staleDays >= 3 ? `<p class="stale">가격은 ${staleDays}일 전 기준이에요</p>` : ''
-  const cards =
+  const filterAndList =
     picks.length > 0
-      ? picks.map((p) => renderCard(p, month)).join('\n')
+      ? `<input type="radio" name="cat-filter" id="f-all" checked><input type="radio" name="cat-filter" id="f-fruit"><input type="radio" name="cat-filter" id="f-veg">
+<div class="filter"><label for="f-all">전체</label><label for="f-fruit">과일</label><label for="f-veg">채소</label></div>
+<div class="list">${picks.map((p) => renderCard(p, month)).join('\n')}</div>`
       : '<p class="empty">이번 달 제철 정보가 아직 없어요</p>'
   const seasonalList = seasonal
     .map((p) => `<li>${p.emoji} ${escapeHtml(p.name)}</li>`)
@@ -156,7 +158,7 @@ export function renderApp({ picks, seasonal, date, staleDays, term }: AppView): 
   ${stale}
 </header>
 <main>
-  <section class="picks">${cards}</section>
+  <section class="picks">${filterAndList}</section>
   <section class="seasonal">
     <h2>${month}월의 제철</h2>
     <ul>${seasonalList}</ul>

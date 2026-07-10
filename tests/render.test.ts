@@ -73,6 +73,18 @@ describe('renderApp', () => {
     expect(html).toContain('이번 달 제철 정보가 아직 없어요')
   })
 
+  test('픽이 있으면 과일/채소 필터 토글', () => {
+    const html = renderApp({ picks, seasonal: [profile], date: new Date('2026-07-10'), staleDays: 0 })
+    expect(html).toContain('id="f-all"')
+    expect(html).toContain('id="f-fruit"')
+    expect(html).toContain('id="f-veg"')
+    expect(html).toContain('class="list"')
+  })
+  test('픽이 없으면 필터 없음', () => {
+    const html = renderApp({ picks: [], seasonal: [], date: new Date('2026-07-10'), staleDays: 0 })
+    expect(html).not.toContain('id="f-fruit"')
+  })
+
   test('절기가 있으면 아이브로에 함께 표기된다', () => {
     const html = renderApp({
       picks: [],

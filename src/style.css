@@ -176,6 +176,16 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 .spark .val, .spark .lab { fill: var(--muted); font-size: 9px; }
 .spark .val.now, .spark .lab.now { fill: var(--ink); font-weight: 700; }
 
+/* 과일/채소 필터 (CSS-only) */
+.picks input[name='cat-filter'] { position: absolute; opacity: 0; pointer-events: none; }
+.filter { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+.filter label { font-size: 0.85rem; padding: 0.32rem 0.8rem; border-radius: 1rem; cursor: pointer; border: 1px solid var(--line); color: var(--muted); user-select: none; }
+#f-all:checked ~ .filter label[for='f-all'],
+#f-fruit:checked ~ .filter label[for='f-fruit'],
+#f-veg:checked ~ .filter label[for='f-veg'] { background: var(--tint); color: var(--ink); border-color: var(--tint); font-weight: 600; }
+#f-fruit:checked ~ .list .card[data-cat='vegetable'],
+#f-veg:checked ~ .list .card[data-cat='fruit'] { display: none; }
+
 /* 접근성 */
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 @media (prefers-reduced-motion: no-preference) {
