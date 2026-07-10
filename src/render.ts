@@ -1,8 +1,4 @@
-import type { PickResult } from './picks'
-import { hasDrops } from './picks'
 import type { CardView, NoteView, PriceCardView, SparkView } from './card'
-import { toCardView } from './card'
-import type { ProduceProfile } from './types'
 
 export function escapeHtml(s: string): string {
   return s
@@ -100,37 +96,43 @@ function renderCard(card: CardView): string {
 </details>`
 }
 
+/** 이모지+이름 칩 하나 (제철 리스트·곧 제철 예고용) */
+export interface Chip {
+  emoji: string
+  name: string
+}
+
 export interface AppView {
-  picks: PickResult[]
-  seasonal: ProduceProfile[]
+  cards: CardView[]
+  /** 픽은 있으나 하락이 없을 때 담백한 안내를 보인다 */
+  noDrop: boolean
+  seasonal: Chip[]
+  coming: Chip[]
   date: Date
   staleDays: number
   /** 현재 절기 이름 — 있으면 아이브로에 "소서 · 7월 둘째 주"로 표기 */
   term?: string
-  /** 다음 달에 새로 철 드는 품목 — 있으면 하단에 "곧 제철" 한 줄 예고 */
-  coming?: ProduceProfile[]
 }
 
-export function renderApp({ picks, seasonal, date, staleDays, term, coming = [] }: AppView): string {
+export function renderApp({ cards, noDrop, seasonal, coming, date, staleDays, term }: AppView): string {
   const month = date.getMonth() + 1
   const stale =
     staleDays >= 3 ? `<p class="stale">가격은 ${staleDays}일 전 기준이에요</p>` : ''
-  const noDrop = picks.length > 0 && !hasDrops(picks)
+  const noDropLine = noDrop
     ? '<p class="nodrop">이번 주는 크게 내려온 게 없어요. 제철은 그대로 곁에 있어요.</p>'
     : ''
-  const cards = picks.map((p) => renderCard(toCardView(p, month))).join('\n')
   const filterAndList =
-    picks.length > 0
+    cards.length > 0
       ? `<input type="radio" name="cat-filter" id="f-all" checked><input type="radio" name="cat-filter" id="f-fruit"><input type="radio" name="cat-filter" id="f-veg">
 <div class="filter"><label for="f-all">전체</label><label for="f-fruit">과일</label><label for="f-veg">채소</label></div>
-${noDrop}<div class="list">${cards}</div>`
+${noDropLine}<div class="list">${cards.map(renderCard).join('\n')}</div>`
       : '<p class="empty">이번 달 제철 정보가 아직 없어요</p>'
   const seasonalList = seasonal
-    .map((p) => `<li>${p.emoji} ${escapeHtml(p.name)}</li>`)
+    .map((c) => `<li>${c.emoji} ${escapeHtml(c.name)}</li>`)
     .join('')
   const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
   const comingLine = coming.length > 0
-    ? `<p class="coming"><span>곧 제철</span> · ${coming.map((p) => `${p.emoji} ${escapeHtml(p.name)}`).join(' · ')}</p>`
+    ? `<p class="coming"><span>곧 제철</span> · ${coming.map((c) => `${c.emoji} ${escapeHtml(c.name)}`).join(' · ')}</p>`
     : ''
   return `
 <header>

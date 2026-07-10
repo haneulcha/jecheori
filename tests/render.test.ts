@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { escapeHtml, renderApp, weekLabel, renderPeakDot, renderSparkline, renderNote, renderPriceBlock } from '../src/render'
-import { sparklineGeometry } from '../src/card'
+import { sparklineGeometry, toCardView } from '../src/card'
 import type { PickResult } from '../src/picks'
 import type { ProduceProfile } from '../src/types'
 
@@ -31,16 +31,23 @@ describe('escapeHtml', () => {
 })
 
 describe('renderApp', () => {
-  const picks: PickResult[] = [
-    {
-      profile,
-      inPeak: true,
-      price: { price: 18200, unit: '10개', changeVsMonthAgoPct: -25.7, priceMonthAgo: 24500, priceYearAgo: 19800 },
-    },
-  ]
+  const pick: PickResult = {
+    profile,
+    inPeak: true,
+    price: { price: 18200, unit: '10개', changeVsMonthAgoPct: -25.7, priceMonthAgo: 24500, priceYearAgo: 19800 },
+  }
+  const card = toCardView(pick, 7)
+  const base = {
+    cards: [card],
+    noDrop: false,
+    seasonal: [{ emoji: '🍑', name: '복숭아' }],
+    coming: [],
+    date: new Date('2026-07-10'),
+    staleDays: 0,
+  }
 
   test('픽 카드: 이름·가격블록·data-cat·절정 dot', () => {
-    const html = renderApp({ picks, seasonal: [profile], date: new Date('2026-07-10'), staleDays: 0 })
+    const html = renderApp(base)
     expect(html).toContain('복숭아')
     expect(html).toContain('data-cat="fruit"')
     expect(html).toContain('class="price fall')  // 가격 블록
@@ -50,57 +57,50 @@ describe('renderApp', () => {
   })
 
   test('가격이 없으면 가격 블록 없이', () => {
-    const html = renderApp({ picks: [{ profile, inPeak: false, price: null }], seasonal: [profile], date: new Date('2026-07-10'), staleDays: 0 })
+    const html = renderApp({ ...base, cards: [toCardView({ profile, inPeak: false, price: null }, 7)] })
     expect(html).toContain('복숭아')
     expect(html).not.toContain('class="price')
     expect(html).not.toContain('peak-dot')
   })
 
   test('스냅샷이 3일 이상 오래되면 배지를 보여준다', () => {
-    const html = renderApp({ picks, seasonal: [], date: new Date('2026-07-10'), staleDays: 4 })
+    const html = renderApp({ ...base, staleDays: 4 })
     expect(html).toContain('가격은 4일 전 기준')
   })
 
-  test('픽이 없으면 안내 문구', () => {
-    const html = renderApp({ picks: [], seasonal: [], date: new Date('2026-07-10'), staleDays: 0 })
+  test('카드가 없으면 안내 문구', () => {
+    const html = renderApp({ ...base, cards: [] })
     expect(html).toContain('이번 달 제철 정보가 아직 없어요')
   })
 
-  test('픽이 있으면 과일/채소 필터 토글', () => {
-    const html = renderApp({ picks, seasonal: [profile], date: new Date('2026-07-10'), staleDays: 0 })
+  test('카드가 있으면 과일/채소 필터 토글', () => {
+    const html = renderApp(base)
     expect(html).toContain('id="f-all"')
     expect(html).toContain('id="f-fruit"')
     expect(html).toContain('id="f-veg"')
     expect(html).toContain('class="list"')
   })
-  test('픽이 없으면 필터 없음', () => {
-    const html = renderApp({ picks: [], seasonal: [], date: new Date('2026-07-10'), staleDays: 0 })
+  test('카드가 없으면 필터 없음', () => {
+    const html = renderApp({ ...base, cards: [] })
     expect(html).not.toContain('id="f-fruit"')
   })
 
   test('절기가 있으면 아이브로에 함께 표기된다', () => {
-    const html = renderApp({
-      picks: [],
-      seasonal: [],
-      date: new Date('2026-07-10'),
-      staleDays: 0,
-      term: '소서',
-    })
+    const html = renderApp({ ...base, cards: [], seasonal: [], term: '소서' })
     expect(html).toContain('소서 · 7월 둘째 주')
   })
 
   test('머리말에 라인아트 스케치가 들어간다', () => {
-    const html = renderApp({ picks: [], seasonal: [], date: new Date('2026-07-10'), staleDays: 0 })
+    const html = renderApp(base)
     expect(html).toContain('class="sprig"')
   })
 
-  test('픽은 있으나 하락이 없으면 담백한 안내', () => {
-    const flat = [{ profile, inPeak: true, price: { price: 5000, unit: '1kg', changeVsMonthAgoPct: 2, priceMonthAgo: 4900, priceYearAgo: 5000 } }]
-    const html = renderApp({ picks: flat, seasonal: [profile], date: new Date('2026-07-10'), staleDays: 0 })
+  test('noDrop이면 담백한 안내', () => {
+    const html = renderApp({ ...base, noDrop: true })
     expect(html).toContain('크게 내려온 게 없어요')
   })
   test('곧 제철 예고', () => {
-    const html = renderApp({ picks: [], seasonal: [], date: new Date('2026-07-10'), staleDays: 0, coming: [{ ...profile, name: '포도', emoji: '🍇' }] })
+    const html = renderApp({ ...base, cards: [], coming: [{ emoji: '🍇', name: '포도' }] })
     expect(html).toContain('곧 제철')
     expect(html).toContain('포도')
   })
