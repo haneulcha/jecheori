@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { escapeHtml, formatPrice, renderApp, weekLabel } from '../src/render'
+import { escapeHtml, formatPrice, perUnitPrice, renderApp, weekLabel } from '../src/render'
 import type { PickResult } from '../src/picks'
 import type { ProduceProfile } from '../src/types'
 
@@ -46,6 +46,13 @@ describe('escapeHtml', () => {
   test('특수문자를 이스케이프한다', () => {
     expect(escapeHtml('<b>&"\'</b>')).toBe('&lt;b&gt;&amp;&quot;&#39;&lt;/b&gt;')
   })
+})
+
+describe('perUnitPrice', () => {
+  test('10개면 개당값', () => expect(perUnitPrice(18200, '10개')).toEqual({ each: 1820 }))
+  test('반올림', () => expect(perUnitPrice(12600, '10개')).toEqual({ each: 1260 }))
+  test('1개(단수)는 null', () => expect(perUnitPrice(21400, '1개')).toBeNull())
+  test('무게 단위는 null', () => expect(perUnitPrice(8000, '1kg')).toBeNull())
 })
 
 describe('renderApp', () => {

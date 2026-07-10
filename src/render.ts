@@ -11,6 +11,15 @@ export function escapeHtml(s: string): string {
     .replaceAll("'", '&#39;')
 }
 
+/** "N개"(N>1) 단위면 개당값을 계산. 단수·무게 단위는 null. */
+export function perUnitPrice(price: number, unit: string): { each: number } | null {
+  const m = /^(\d+)\s*개$/.exec(unit.trim())
+  if (!m) return null
+  const count = Number(m[1])
+  if (count <= 1) return null
+  return { each: Math.round(price / count) }
+}
+
 const SPRIG = `<svg class="sprig" viewBox="0 0 120 120" fill="none" aria-hidden="true">
   <path d="M20 110 C 45 85, 70 55, 98 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
   <path d="M46 82 C 38 68, 40 58, 52 50 C 56 62, 54 72, 46 82 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
