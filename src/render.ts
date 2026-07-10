@@ -48,6 +48,11 @@ const ARROW_UP = '<svg class="arrow" width="11" height="12" viewBox="0 0 11 12" 
 
 const won = (n: number) => `${n.toLocaleString('ko-KR')}원`
 
+export function renderPeakDot(inPeak: boolean): string {
+  if (!inPeak) return ''
+  return '<button class="peak-dot" type="button" aria-label="지금이 제철 절정"><b></b><span class="peak-tip">지금이 맛의 절정이에요</span></button>'
+}
+
 export function renderPriceBlock(view: PriceView): string {
   const { price, unit, priceMonthAgo, changeVsMonthAgoPct: pct } = view
   const per = perUnitPrice(price, unit)

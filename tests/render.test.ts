@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { escapeHtml, formatPrice, perUnitPrice, renderApp, weekLabel } from '../src/render'
+import { escapeHtml, formatPrice, perUnitPrice, renderApp, weekLabel, renderPeakDot } from '../src/render'
 import { renderPriceBlock } from '../src/render'
 import type { PickResult } from '../src/picks'
 import type { ProduceProfile } from '../src/types'
@@ -137,4 +137,13 @@ describe('renderPriceBlock', () => {
     expect(html).not.toContain('was')
     expect(html).toContain('5,000')
   })
+})
+
+describe('renderPeakDot', () => {
+  test('절정이면 dot + 툴팁', () => {
+    const html = renderPeakDot(true)
+    expect(html).toContain('class="peak-dot"')
+    expect(html).toContain('맛의 절정')
+  })
+  test('절정 아니면 빈 문자열', () => expect(renderPeakDot(false)).toBe(''))
 })
