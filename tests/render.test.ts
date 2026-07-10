@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { escapeHtml, formatPrice, perUnitPrice, renderApp, weekLabel, renderPeakDot, sparklineGeometry, renderSparkline } from '../src/render'
+import { escapeHtml, formatPrice, perUnitPrice, renderApp, weekLabel, renderPeakDot, sparklineGeometry, renderSparkline, renderNote } from '../src/render'
 import { renderPriceBlock } from '../src/render'
 import type { PickResult } from '../src/picks'
 import type { ProduceProfile } from '../src/types'
@@ -172,5 +172,22 @@ describe('renderSparkline', () => {
   })
   test('결측이면 빈 문자열', () => {
     expect(renderSparkline({ price: 12600, unit: '10개', changeVsMonthAgoPct: null, priceMonthAgo: null, priceYearAgo: 13400 })).toBe('')
+  })
+})
+
+describe('renderNote', () => {
+  test('세 키와 내용을 담는다', () => {
+    const html = renderNote(profile)
+    expect(html).toContain('class="note"')
+    expect(html).toContain('고르는 법')
+    expect(html).toContain('보관')
+    expect(html).toContain('쓰임')
+    expect(html).toContain('향이 진한 것')   // howToPick
+    expect(html).toContain('실온 후숙')      // howToStore
+    expect(html).toContain('그냥 먹기')      // howToUse
+  })
+  test('내용을 이스케이프한다', () => {
+    const html = renderNote({ ...profile, howToPick: '<b>x</b>' })
+    expect(html).toContain('&lt;b&gt;')
   })
 })

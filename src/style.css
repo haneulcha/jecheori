@@ -20,6 +20,7 @@
   --muted: #7b84a3;
   --line: #e7e2d6;
   --axis: #cbc2b0;
+  --margin: #e3c4b8;
   --rise: #c0392b;      /* 상승 마커 (구 밤색 #8c6a5d에서 개정: 칩 내부 채도 대비) */
   --rise-lo: #efeae3;   /* 상승 칩 저채도 배경 */
   /* 계절 기본값 (여름) — main.ts가 body[data-season]으로 덮어쓴다 */
@@ -140,6 +141,12 @@ header h1 {
   letter-spacing: 0.08em; /* Pa'lais의 넓은 자간을 한글 소형 라벨로 번안 */
 }
 .detail dd { margin: 0.15rem 0 0.7rem; font-size: 0.9rem; }
+
+.note { position: relative; padding-left: 1.1rem; }
+.note::before { content: ''; position: absolute; left: 0.3rem; top: 0.1rem; bottom: 0.1rem; width: 1px; background: var(--margin); }
+.nrow { display: grid; grid-template-columns: 4rem 1fr; gap: 0.55rem; align-items: baseline; border-bottom: 1px dotted var(--line); padding: 0.42rem 0; font-size: 0.82rem; color: #5a5140; line-height: 1.5; }
+.nrow:last-child { border-bottom: none; }
+.nrow .lbl { color: var(--ink); font-weight: 700; letter-spacing: 0.02em; }
 
 /* 이번 달 제철 리스트 */
 .seasonal { margin-top: 2.2rem; }

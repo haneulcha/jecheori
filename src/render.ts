@@ -87,6 +87,12 @@ export function renderPeakDot(inPeak: boolean): string {
   return '<button class="peak-dot" type="button" aria-label="지금이 제철 절정"><b></b><span class="peak-tip">지금이 맛의 절정이에요</span></button>'
 }
 
+export function renderNote(profile: ProduceProfile): string {
+  const row = (label: string, text: string) =>
+    `<div class="nrow"><span class="lbl">${label}</span><span>${escapeHtml(text)}</span></div>`
+  return `<div class="note">${row('고르는 법', profile.howToPick)}${row('보관', profile.howToStore)}${row('쓰임', profile.howToUse)}</div>`
+}
+
 export function renderPriceBlock(view: PriceView): string {
   const { price, unit, priceMonthAgo, changeVsMonthAgoPct: pct } = view
   const per = perUnitPrice(price, unit)
