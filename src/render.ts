@@ -43,6 +43,30 @@ export function formatPrice(view: PriceView): string {
   return pct < 0 ? `${won} · 한 달 전보다 ${rounded}% ↓` : `${won} · 한 달 전보다 ${rounded}% ↑`
 }
 
+const ARROW_DOWN = '<svg class="arrow" width="11" height="12" viewBox="0 0 11 12" aria-hidden="true"><path d="M5.5 1 V10 M2 6.5 L5.5 10 L9 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+const ARROW_UP = '<svg class="arrow" width="11" height="12" viewBox="0 0 11 12" aria-hidden="true"><path d="M5.5 11 V2 M2 5.5 L5.5 2 L9 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+
+const won = (n: number) => `${n.toLocaleString('ko-KR')}원`
+
+export function renderPriceBlock(view: PriceView): string {
+  const { price, unit, priceMonthAgo, changeVsMonthAgoPct: pct } = view
+  const per = perUnitPrice(price, unit)
+  const perLine = per ? `<span class="per num">개당 ${won(per.each)}</span>` : ''
+  const was = priceMonthAgo !== null ? `<span class="was num">${won(priceMonthAgo)}</span>` : ''
+
+  let dir = 'fall'
+  let chip = ''
+  if (pct !== null && Math.abs(pct) >= 1) {
+    dir = pct < 0 ? 'fall' : 'rise'
+    const arrow = pct < 0 ? ARROW_DOWN : ARROW_UP
+    chip = `<span class="chip">${arrow}${Math.round(Math.abs(pct))}%</span>`
+  }
+  const big = `<span class="big num">${price.toLocaleString('ko-KR')}<span class="wonu">원</span></span>`
+  const nearby = pct !== null && Math.abs(pct) < 1 ? '<span class="near">한 달 전과 비슷해요</span>' : ''
+
+  return `<div class="price ${dir}">${was}<span class="nowline">${chip}${big}</span>${perLine}${nearby}</div>`
+}
+
 function renderCard(result: PickResult, month: number): string {
   const { profile, inPeak, price } = result
   const badge = inPeak ? '<span class="badge badge-peak">제철 한창</span>' : '<span class="badge">제철</span>'

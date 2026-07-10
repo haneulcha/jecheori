@@ -19,7 +19,8 @@
   --ink: #2b4586;
   --muted: #7b84a3;
   --line: #e7e2d6;
-  --rise: #8c6a5d;
+  --rise: #c0392b;      /* 상승 마커 (구 밤색 #8c6a5d에서 개정: 칩 내부 채도 대비) */
+  --rise-lo: #efeae3;   /* 상승 칩 저채도 배경 */
   /* 계절 기본값 (여름) — main.ts가 body[data-season]으로 덮어쓴다 */
   --accent: #ffc400;
   --tint: #fff4ce;
@@ -111,14 +112,20 @@ header h1 {
 /* 웜 컬러는 배경으로만 — 글자는 쪽빛 유지 (명도 대비 규율) */
 .badge-peak { background: var(--tint); border-color: var(--accent); }
 .why { display: block; margin: 0.35rem 0 0; font-size: 0.9rem; }
-.price {
-  display: block;
-  margin: 0.25rem 0 0;
-  font-size: 0.85rem;
-  color: var(--ink);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
+.price { display: flex; flex-direction: column; align-items: flex-end; }
+.num { font-variant-numeric: tabular-nums; }
+.price .was { color: var(--muted); font-size: 0.85rem; text-decoration: line-through; margin-bottom: 0.18rem; }
+.price .nowline { display: flex; align-items: center; gap: 0.4rem; }
+.price .big { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+.price .wonu { font-size: 0.95rem; font-weight: 600; }
+.price .per { color: var(--muted); font-size: 0.74rem; margin-top: 0.32rem; }
+.price .near { color: var(--muted); font-size: 0.78rem; margin-top: 0.2rem; }
+.price .chip { display: inline-flex; align-items: center; gap: 0.2rem; font-size: 0.8rem; font-weight: 700; padding: 0.18rem 0.48rem; border-radius: 1rem; }
+.price .arrow { display: block; }
+.price.fall .big { color: var(--ink); }
+.price.fall .chip { background: var(--tint); color: var(--ink); }
+.price.rise .big { color: var(--rise); }
+.price.rise .chip { background: var(--rise-lo); color: var(--rise); }
 
 .detail {
   margin: 0.85rem 0 0.2rem;

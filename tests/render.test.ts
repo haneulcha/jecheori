@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { escapeHtml, formatPrice, perUnitPrice, renderApp, weekLabel } from '../src/render'
+import { renderPriceBlock } from '../src/render'
 import type { PickResult } from '../src/picks'
 import type { ProduceProfile } from '../src/types'
 
@@ -108,5 +109,32 @@ describe('renderApp', () => {
   test('머리말에 라인아트 스케치가 들어간다', () => {
     const html = renderApp({ picks: [], seasonal: [], date: new Date('2026-07-10'), staleDays: 0 })
     expect(html).toContain('class="sprig"')
+  })
+})
+
+describe('renderPriceBlock', () => {
+  const base = { unit: '10개', priceYearAgo: 13400 }
+  test('하락: 취소선 지난값 + 칩 % + 큰 가격 + 개당값', () => {
+    const html = renderPriceBlock({ ...base, price: 12600, priceMonthAgo: 16900, changeVsMonthAgoPct: -25.4 })
+    expect(html).toContain('class="price fall"')
+    expect(html).toContain('16,900원') // 취소선 지난값
+    expect(html).toContain('12,600')   // 큰 가격
+    expect(html).toContain('25%')      // 등락
+    expect(html).toContain('개당 1,260원')
+  })
+  test('상승: rise 클래스', () => {
+    const html = renderPriceBlock({ price: 5000, unit: '1kg', priceMonthAgo: 4400, priceYearAgo: 4000, changeVsMonthAgoPct: 13.6 })
+    expect(html).toContain('class="price rise"')
+    expect(html).not.toContain('개당') // 무게 단위
+  })
+  test('변동 미미(<1%)는 칩 없이 비슷 문구', () => {
+    const html = renderPriceBlock({ price: 5000, unit: '1kg', priceMonthAgo: 5010, priceYearAgo: 5000, changeVsMonthAgoPct: 0.2 })
+    expect(html).toContain('비슷')
+    expect(html).not.toContain('chip')
+  })
+  test('지난값 없으면 취소선 생략', () => {
+    const html = renderPriceBlock({ price: 5000, unit: '1kg', priceMonthAgo: null, priceYearAgo: null, changeVsMonthAgoPct: null })
+    expect(html).not.toContain('was')
+    expect(html).toContain('5,000')
   })
 })
