@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { escapeHtml, formatPrice, perUnitPrice, renderApp, weekLabel, renderPeakDot } from '../src/render'
+import { escapeHtml, formatPrice, perUnitPrice, renderApp, weekLabel, renderPeakDot, sparklineGeometry, renderSparkline } from '../src/render'
 import { renderPriceBlock } from '../src/render'
 import type { PickResult } from '../src/picks'
 import type { ProduceProfile } from '../src/types'
@@ -146,4 +146,31 @@ describe('renderPeakDot', () => {
     expect(html).toContain('맛의 절정')
   })
   test('절정 아니면 빈 문자열', () => expect(renderPeakDot(false)).toBe(''))
+})
+
+describe('sparklineGeometry', () => {
+  test('최댓값은 위(y=24), 최솟값은 아래(y=44)', () => {
+    const pts = sparklineGeometry({ yearAgo: 13400, monthAgo: 16900, now: 12600 })
+    expect(pts.map((p) => p.x)).toEqual([45, 150, 255])
+    expect(pts[1].y).toBeCloseTo(24, 1)  // 한달전 = 최대
+    expect(pts[2].y).toBeCloseTo(44, 1)  // 지금 = 최소
+    expect(pts[0].y).toBeGreaterThan(pts[1].y) // 작년은 중간
+  })
+  test('모두 같으면 중앙', () => {
+    const pts = sparklineGeometry({ yearAgo: 100, monthAgo: 100, now: 100 })
+    expect(pts.every((p) => p.y === 34)).toBe(true)
+  })
+})
+
+describe('renderSparkline', () => {
+  test('세 값 있으면 SVG + 라벨', () => {
+    const html = renderSparkline({ price: 12600, unit: '10개', changeVsMonthAgoPct: -25, priceMonthAgo: 16900, priceYearAgo: 13400 })
+    expect(html).toContain('<svg')
+    expect(html).toContain('작년 이맘때')
+    expect(html).toContain('지금')
+    expect(html).toContain('12,600')
+  })
+  test('결측이면 빈 문자열', () => {
+    expect(renderSparkline({ price: 12600, unit: '10개', changeVsMonthAgoPct: null, priceMonthAgo: null, priceYearAgo: 13400 })).toBe('')
+  })
 })

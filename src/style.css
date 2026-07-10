@@ -19,6 +19,7 @@
   --ink: #2b4586;
   --muted: #7b84a3;
   --line: #e7e2d6;
+  --axis: #cbc2b0;
   --rise: #c0392b;      /* 상승 마커 (구 밤색 #8c6a5d에서 개정: 칩 내부 채도 대비) */
   --rise-lo: #efeae3;   /* 상승 칩 저채도 배경 */
   /* 계절 기본값 (여름) — main.ts가 body[data-season]으로 덮어쓴다 */
@@ -178,6 +179,16 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 .peak-tip { position: absolute; left: 50%; top: 150%; transform: translateX(-50%); background: var(--ink); color: #fff; font-size: 0.72rem; white-space: nowrap; padding: 0.3rem 0.55rem; border-radius: 0.4rem; opacity: 0; pointer-events: none; transition: opacity 0.12s; z-index: 5; }
 .peak-dot:hover .peak-tip, .peak-dot:focus .peak-tip { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .peak-tip { transition: none; } }
+
+/* 스파크라인 */
+.spark { margin: 0 0 1.6rem; }
+.spark svg { display: block; width: 100%; height: auto; }
+.spark .trend { fill: none; stroke: var(--muted); stroke-width: 1.1; stroke-linejoin: round; opacity: 0.65; }
+.spark .axis { stroke: var(--axis); stroke-width: 0.3; }
+.spark .pt { fill: var(--card); stroke: var(--muted); stroke-width: 0.8; }
+.spark .pt.now { fill: var(--ink); stroke: var(--ink); }
+.spark .val, .spark .lab { fill: var(--muted); font-size: 9px; }
+.spark .val.now, .spark .lab.now { fill: var(--ink); font-weight: 700; }
 
 /* 접근성 */
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }

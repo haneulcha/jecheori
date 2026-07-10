@@ -48,6 +48,40 @@ const ARROW_UP = '<svg class="arrow" width="11" height="12" viewBox="0 0 11 12" 
 
 const won = (n: number) => `${n.toLocaleString('ko-KR')}원`
 
+const SPARK_X = [45, 150, 255]
+
+export function sparklineGeometry(v: { yearAgo: number; monthAgo: number; now: number }): { x: number; y: number }[] {
+  const vals = [v.yearAgo, v.monthAgo, v.now]
+  const min = Math.min(...vals)
+  const max = Math.max(...vals)
+  const span = max - min
+  return vals.map((val, i) => ({
+    x: SPARK_X[i],
+    y: span === 0 ? 34 : 44 - ((val - min) / span) * 20,
+  }))
+}
+
+export function renderSparkline(view: PriceView): string {
+  const { price, priceMonthAgo, priceYearAgo } = view
+  if (priceMonthAgo === null || priceYearAgo === null) return ''
+  const [yr, mo, now] = sparklineGeometry({ yearAgo: priceYearAgo, monthAgo: priceMonthAgo, now: price })
+  const n = (x: number) => x.toLocaleString('ko-KR')
+  const label = `가격 추이: 작년 이맘때 ${n(priceYearAgo)} · 한 달 전 ${n(priceMonthAgo)} · 지금 ${n(price)}`
+  return `<div class="spark num"><svg viewBox="0 0 300 72" role="img" aria-label="${label}">
+    <polyline class="trend" points="${yr.x},${yr.y.toFixed(1)} ${mo.x},${mo.y.toFixed(1)} ${now.x},${now.y.toFixed(1)}"/>
+    <text class="val" x="${yr.x}" y="${(yr.y - 8).toFixed(1)}" text-anchor="middle">${n(priceYearAgo)}</text>
+    <text class="val" x="${mo.x}" y="${(mo.y - 8).toFixed(1)}" text-anchor="middle">${n(priceMonthAgo)}</text>
+    <text class="val now" x="${now.x}" y="${(now.y - 8).toFixed(1)}" text-anchor="middle">${n(price)}</text>
+    <circle class="pt" cx="${yr.x}" cy="${yr.y.toFixed(1)}" r="1.9"/>
+    <circle class="pt" cx="${mo.x}" cy="${mo.y.toFixed(1)}" r="1.9"/>
+    <circle class="pt now" cx="${now.x}" cy="${now.y.toFixed(1)}" r="2.3"/>
+    <line class="axis" x1="8" y1="54" x2="292" y2="54"/>
+    <text class="lab" x="45" y="69" text-anchor="middle">작년 이맘때</text>
+    <text class="lab" x="150" y="69" text-anchor="middle">한 달 전</text>
+    <text class="lab now" x="255" y="69" text-anchor="middle">지금</text>
+  </svg></div>`
+}
+
 export function renderPeakDot(inPeak: boolean): string {
   if (!inPeak) return ''
   return '<button class="peak-dot" type="button" aria-label="지금이 제철 절정"><b></b><span class="peak-tip">지금이 맛의 절정이에요</span></button>'
