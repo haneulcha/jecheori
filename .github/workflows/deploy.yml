@@ -28,9 +28,12 @@ jobs:
       - run: npm ci
       - run: npm test
       # TanStack Start 프리렌더 → 정적 산출물은 dist/client.
-      # 주의: GitHub Pages 프로젝트 사이트(하위경로 /jecheori/)는 프리렌더 base
-      # 설정이 미검증. 루트 서빙(Cloudflare Pages 등)이 안전.
+      # GitHub Pages 프로젝트 사이트(하위경로 /jecheori/)용 base. 검증됨:
+      # vite base + router basepath로 자산 URL·라우팅이 /jecheori/로 다시 쓰인다.
+      # 루트 서빙(Cloudflare Pages)이면 이 env를 지운다.
       - run: npm run build
+        env:
+          BASE_PATH: /jecheori/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

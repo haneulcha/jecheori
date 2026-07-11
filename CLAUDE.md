@@ -47,5 +47,8 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
 ## 배포
 
 `npm run build` → `dist/client/` 정적 산출물을 정적 호스트에 서빙 (`deploy.yml`).
-⚠️ 하위경로(GitHub Pages 프로젝트 사이트 `/jecheori/`) 배포는 프리렌더 base 설정 미검증 —
-루트 서빙(Cloudflare Pages)이 기본. 하위경로가 필요하면 base 구성을 먼저 확인한다.
+
+- **루트 서빙**(Cloudflare Pages 등): 기본값 `base: '/'`. 추가 설정 없음.
+- **하위경로**(GitHub Pages 프로젝트 사이트 `/jecheori/`): `BASE_PATH=/jecheori/`로 빌드.
+  `vite.config.ts`의 `base`와 `router.tsx`의 `basepath: import.meta.env.BASE_URL`이
+  자산 URL·라우팅을 하위경로로 다시 쓴다. **브라우저 실측 검증됨**(자산 200·렌더·하이드레이션).
