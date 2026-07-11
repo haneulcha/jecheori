@@ -3,7 +3,7 @@ import { comingSoon, hasDrops, seasonalThisMonth, selectPicks } from './picks'
 import { toCardView } from './card'
 import { currentTerm } from './season'
 import { snapshotAgeDays } from './data'
-import type { AppView } from './render'
+import type { AppView } from './view-types'
 
 const label = (p: ProduceProfile) => ({ emoji: p.emoji, name: p.name })
 

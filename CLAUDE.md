@@ -3,28 +3,49 @@
 이번 달 제철인 과일·채소 중 가격이 내려온 것들을 알려주는 작은 모바일 웹앱.
 이커머스가 아니라, 장보기 갈 때 옆에 두는 계절 달력에 가깝다.
 
+## 스택
+
+TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 CI 커밋 JSON을
+읽어 `buildAppView`로 조립하고 **정적 프리렌더**한다(정적 호스트 서빙). 서버·계정·개인화는
+다음 사이클(현재 없음). node ≥ 22 필요.
+
 ## 문서
 
-- 스펙: `docs/superpowers/specs/2026-07-09-seasonal-picks-design.md`
-- 구현 계획: `docs/superpowers/plans/2026-07-10-seasonal-picks.md`
+- 마이그레이션: `docs/superpowers/specs/2026-07-11-tanstack-start-migration-design.md`,
+  `docs/superpowers/plans/2026-07-11-tanstack-start-migration.md`
+- 카드·가격 설계: `docs/superpowers/specs/2026-07-10-card-info-and-price-display-design.md`
+- 도메인·아키텍처 용어: `CONTEXT.md`
 - 비주얼 디자인: `DESIGN.md` (팔레트·타이포·컨셉 — UI 작업 전 필독)
 
 ## 명령어
 
-- `npm run dev` — 개발 서버 (http://localhost:5173/)
-- `npm test` — Vitest 전체 실행
-- `npm run build` — 정적 빌드 (dist/)
+- `npm run dev` — 개발 서버
+- `npm run generate-routes` — 라우트 트리 생성 (`src/routeTree.gen.ts`, 빌드시 자동)
+- `npm test` — Vitest 전체 (순수 로직 + 컴포넌트 RTL)
+- `npm run build` — 프리렌더 정적 빌드 (`dist/client/`)
 - `npm run fetch:prices` — KAMIS 가격 수집 (env: `KAMIS_CERT_KEY`, `KAMIS_CERT_ID`)
 - `npm run report:coverage` — 제철 프로필 ↔ 가격 스냅샷 매칭 리포트
 
+## 아키텍처 경계 (변경 시 여기만 바뀌게)
+
+- **`src/picks.ts`** — 선정·매칭·정렬 (순수, "무엇을 고르나")
+- **`src/card.ts`** — 픽 → `CardView` 파생 (개당값·스파크 좌표·등락 판별 유니온; "어떻게 표시하나")
+- **`src/app.ts`** — `buildAppView`: 원시데이터+시계 → `AppView` 조립 (순수)
+- **`src/components/`** — `AppView`/`CardView` → JSX. 표시만, 비즈니스 로직 없음
+- **`src/routes/`** — 라우트·로더 (JSON 로드 + 프리렌더). 자세한 심(seam)은 `CONTEXT.md`.
+
 ## 규칙
 
-- 런타임 의존성 0개. devDependencies는 vite/vitest/typescript만.
 - 사용자 문구는 한국어, 담백한 톤. 이커머스 화법 금지 ("사세요" ✕, "담기 좋아요" ○).
-- 광고·로그인·추적·런타임 외부 요청 없음. KAMIS 호출은 CI에서만.
+- 공개 페이지는 경량·무추적·런타임 외부요청 없음. 가격은 CI 커밋 JSON, KAMIS 호출은 CI에서만.
+  (로그인·개인화는 다음 사이클 도입 예정 — 그때 이 규칙 재개정.)
 - KAMIS 키는 코드·저장소에 절대 넣지 않는다 (CI 시크릿 `KAMIS_CERT_KEY`/`KAMIS_CERT_ID`).
-- 열린 설계: 선정 로직은 순수 함수(`src/picks.ts`), 데이터 접근은 `src/data.ts`로만.
-  UI가 JSON 경로를 직접 알면 안 된다.
 - KAMIS 매칭은 품목 코드가 아니라 `item_name` 문자열로 한다 (스펙 참고).
-- Vite `base`는 환경변수: 기본 `/`(Cloudflare 등 루트), GitHub Pages는
-  `deploy.yml`에서 `BASE_PATH=/jecheori/`. 저장소 이름과 일치해야 한다.
+- 순수 로직은 `picks/card/app`에, 표시는 `components`에. 컴포넌트는 사용자 텍스트를 직접
+  이스케이프하지 않는다 (React 자동 이스케이프).
+
+## 배포
+
+`npm run build` → `dist/client/` 정적 산출물을 정적 호스트에 서빙 (`deploy.yml`).
+⚠️ 하위경로(GitHub Pages 프로젝트 사이트 `/jecheori/`) 배포는 프리렌더 base 설정 미검증 —
+루트 서빙(Cloudflare Pages)이 기본. 하위경로가 필요하면 base 구성을 먼저 확인한다.
