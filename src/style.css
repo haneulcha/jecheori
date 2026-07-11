@@ -110,6 +110,9 @@ header h1 {
   border-radius: 0.2rem;             /* 종이처럼 crisp (기존 0.9rem) */
   padding: 0.95rem 1.05rem;
   box-shadow: var(--lift);           /* 아주 옅은 부양 */
+  /* 기울기 회전 기준점을 상단으로 — 펼칠 때 상단이 고정되고 아래만 늘어난다
+     (center면 카드가 길어질 때 윗부분이 옆으로 밀린다) */
+  transform-origin: top center;
 }
 /* 마스킹테이프 한 조각 — 냉장고에 붙인 시그니처. 반투명 계절색(배경 도형이라 규율 OK).
    그라데이션 아님(단일 반투명 평면). pseudo-element라 접근성 트리에서 자동 제외. */
@@ -134,7 +137,16 @@ header h1 {
 .card .emoji { font-size: 1.7rem; line-height: 1; }
 .card-title { font-size: 1.05rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.45rem; }
 .card .kind { display: block; color: var(--muted); font-size: 0.78rem; margin-top: 0.1rem; }
-.open { border-top: 1px solid var(--line); margin-top: 0.85rem; padding-top: 0.85rem; }
+/* 펼침 영역 — 점선 디바이더로 표지와 나누고, 섹션(스파크·영양·노트) 사이는
+   넉넉한 간격으로 빽빽하지 않게 */
+.open {
+  border-top: 1px dashed var(--line);
+  margin-top: 1.05rem;
+  padding-top: 1.05rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
 /* 제철이의 한마디 — 종이에 연필로 적어준 듯한 손글씨. 펼치기 전에도 늘 보이는,
    카드 표지 하단의 한 줄. 쪽빛의 뮤트(--muted)로 연필 흑연처럼, 살짝 기울여. */
 .card .why {
@@ -239,18 +251,24 @@ footer p { color: var(--muted); font-size: 0.75rem; }
   .card[open] { border-color: var(--accent); }
 }
 
-/* 영양 정보 한 줄 */
-.nutrition {
-  margin: 0.4rem 0 0;
-  font-size: 0.8rem;
-  color: var(--ink);
-}
-.nutrition .serving {
-  font-weight: 600;
-}
-.nutrition .src {
-  display: block;
-  margin-top: 0.15rem;
+/* 영양 스탯 — 열량·당류·식이섬유를 라벨-값으로. 가격 블록처럼 정보 그래픽.
+   출처는 페이지 하단에 한 번만 표기(카드마다 반복하지 않음). */
+/* 영양 블록은 스탯 너비로 줄여(align-self: center) 카드 중앙에 두고,
+   "100g 기준"은 그 블록 안에서 우측 정렬 → 스탯 너비 아래 오른쪽에 붙는다 */
+.nutrition { color: var(--ink); align-self: center; }
+.nutrition .stats { display: flex; flex-wrap: wrap; gap: 1.4rem; justify-content: center; }
+.nutrition .cell { display: flex; flex-direction: column; align-items: center; }
+.nutrition .lab {
   font-size: 0.68rem;
-  opacity: 0.55;
+  letter-spacing: 0.06em;
+  color: var(--muted);
 }
+.nutrition .val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  margin-top: 0.1rem;
+}
+.nutrition .val .u { font-size: 0.72rem; font-weight: 600; margin-left: 0.06rem; }
+.nutrition .serv { font-size: 0.68rem; color: var(--muted); text-align: right; margin-top: 0.3rem; }

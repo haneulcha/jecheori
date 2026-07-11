@@ -5,16 +5,29 @@ function fmt(n: number): string {
   return Number.isInteger(n) ? String(n) : n.toFixed(1)
 }
 
+/** 카드 펼침 영역의 영양 스탯 — 열량·당류·식이섬유를 라벨-값으로.
+ *  결측 항목은 셀을 만들지 않고, 셋 다 없으면 아무것도 그리지 않는다.
+ *  출처는 카드마다 반복하지 않고 페이지 하단에 한 번 표기한다. */
 export function NutritionLine({ nutrition }: { nutrition: NutritionView }) {
-  const parts: string[] = []
-  if (nutrition.kcal !== null) parts.push(`${fmt(nutrition.kcal)}kcal`)
-  if (nutrition.sugar !== null) parts.push(`당 ${fmt(nutrition.sugar)}g`)
-  if (parts.length === 0) return null
+  const cells: { label: string; num: string; unit: string }[] = []
+  if (nutrition.kcal !== null) cells.push({ label: '열량', num: fmt(nutrition.kcal), unit: 'kcal' })
+  if (nutrition.sugar !== null) cells.push({ label: '당류', num: fmt(nutrition.sugar), unit: 'g' })
+  if (nutrition.fiber !== null) cells.push({ label: '식이섬유', num: fmt(nutrition.fiber), unit: 'g' })
+  if (cells.length === 0) return null
   return (
-    <p className="nutrition">
-      <span className="serving">{nutrition.serving}당</span> {parts.join(' · ')}
-      {' '}
-      <span className="src">출처: 식품의약품안전처</span>
-    </p>
+    <div className="nutrition">
+      <div className="stats">
+        {cells.map((c) => (
+          <span className="cell" key={c.label}>
+            <span className="lab">{c.label}</span>
+            <span className="val">
+              {c.num}
+              <span className="u">{c.unit}</span>
+            </span>
+          </span>
+        ))}
+      </div>
+      <p className="serv">{nutrition.serving} 기준</p>
+    </div>
   )
 }

@@ -32,7 +32,7 @@ function usePeakDotTooltip() {
 }
 
 export function App({ view }: { view: AppView }) {
-  const { cards, noDrop, seasonal, coming, date, staleDays, term } = view
+  const { cards, noDrop, hasNutrition, seasonal, coming, date, staleDays, term } = view
   usePeakDotTooltip()
   const month = date.getMonth() + 1
   const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
@@ -85,6 +85,7 @@ export function App({ view }: { view: AppView }) {
       </main>
       <footer>
         <p>가격: KAMIS(한국농수산식품유통공사) 일별 소매가격 · 전국 평균</p>
+        {hasNutrition && <p>영양: 식품의약품안전처 국가표준식품성분 · 100g 기준</p>}
       </footer>
     </>
   )

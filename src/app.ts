@@ -17,9 +17,11 @@ export function buildAppView(
 ): AppView {
   const month = now.getMonth() + 1
   const picks = selectPicks(profiles, snapshot, now)
+  const cards = picks.map((p) => toCardView(p, month, nutritionView(matchNutrition(p.profile, nutrition))))
   return {
-    cards: picks.map((p) => toCardView(p, month, nutritionView(matchNutrition(p.profile, nutrition)))),
+    cards,
     noDrop: picks.length > 0 && !hasDrops(picks),
+    hasNutrition: cards.some((c) => c.nutrition !== null),
     seasonal: seasonalThisMonth(profiles, month).map(label),
     coming: comingSoon(profiles, month).map(label),
     date: now,

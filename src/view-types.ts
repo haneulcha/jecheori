@@ -10,6 +10,8 @@ export interface AppView {
   cards: CardView[]
   /** 픽은 있으나 하락이 없을 때 담백한 안내를 보인다 */
   noDrop: boolean
+  /** 카드 중 하나라도 영양 정보가 있으면 페이지 하단에 출처를 한 번 표기한다 */
+  hasNutrition: boolean
   seasonal: Chip[]
   coming: Chip[]
   date: Date

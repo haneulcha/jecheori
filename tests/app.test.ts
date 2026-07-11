@@ -69,6 +69,7 @@ describe('buildAppView', () => {
     }
     const view = buildAppView(profiles, null, nutrition, new Date('2026-07-11T00:00:00Z'))
     expect(view.cards[0].nutrition).toEqual({ serving: '100g', kcal: 53, sugar: 11.13, fiber: 1.7 })
+    expect(view.hasNutrition).toBe(true)
   })
 
   test('nutrition 스냅샷 null이면 카드 nutrition은 null', () => {
@@ -77,5 +78,6 @@ describe('buildAppView', () => {
     ] as any
     const view = buildAppView(profiles, null, null, new Date('2026-07-11T00:00:00Z'))
     expect(view.cards[0].nutrition).toBeNull()
+    expect(view.hasNutrition).toBe(false)
   })
 })
