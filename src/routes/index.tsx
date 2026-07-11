@@ -2,9 +2,10 @@ import { createFileRoute } from '@tanstack/react-router'
 import produce from '../../public/data/produce.json'
 import prices from '../../public/data/prices.json'
 import nutrition from '../../public/data/nutrition.json'
+import recipes from '../../public/data/recipes.json'
 import { buildAppView } from '../app'
 import { App } from '../components/App'
-import type { NutritionSnapshot, PriceSnapshot, ProduceProfile } from '../types'
+import type { NutritionSnapshot, PriceSnapshot, ProduceProfile, RecipeSnapshot } from '../types'
 
 export const Route = createFileRoute('/')({
   loader: async () =>
@@ -12,6 +13,7 @@ export const Route = createFileRoute('/')({
       produce as unknown as ProduceProfile[],
       prices as unknown as PriceSnapshot,
       nutrition as unknown as NutritionSnapshot,
+      recipes as unknown as RecipeSnapshot,
       new Date(),
     ),
   component: Home,
