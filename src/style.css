@@ -31,9 +31,11 @@
   --margin: #e3c4b8;
   --rise: #c0392b;      /* 상승 마커 (구 밤색 #8c6a5d에서 개정: 칩 내부 채도 대비) */
   --rise-lo: #efeae3;   /* 상승 칩 저채도 배경 */
+  --tint: #fff4ce;
+  /* 메모 고정 한정 옅은 부양(그림자 1단계). DESIGN.md 규율 예외 — 카드에만 쓴다. */
+  --lift: 0 2px 6px rgba(43, 69, 134, 0.06);
   /* 계절 기본값 (여름) — main.ts가 body[data-season]으로 덮어쓴다 */
   --accent: #ffc400;
-  --tint: #fff4ce;
 }
 body[data-season='spring'] { --accent: #a2d3a6; --tint: #eaf4e9; }
 body[data-season='summer'] { --accent: #ffc400; --tint: #fff4ce; }
@@ -98,13 +100,16 @@ header h1 {
   display: inline-block;
 }
 
+.list { display: flex; flex-direction: column; gap: 1.4rem; }
+
 /* 카드 — 달력 낱장 */
 .card {
+  position: relative;                /* Task 2 테이프(::before)의 기준 */
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 0.9rem;
+  border-radius: 0.2rem;             /* 종이처럼 crisp (기존 0.9rem) */
   padding: 0.95rem 1.05rem;
-  margin-bottom: 0.7rem;
+  box-shadow: var(--lift);           /* 아주 옅은 부양 */
 }
 .card summary { cursor: pointer; list-style: none; }
 .card summary::-webkit-details-marker { display: none; }
