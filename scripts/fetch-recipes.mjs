@@ -16,7 +16,11 @@ export async function buildRecipeSnapshot({ key, profiles, fetchFn = fetch }) {
     for (const name of p.recipeRef.names) {
       if (seen.has(name)) continue
       seen.add(name)
-      const url = `${BASE}/${key}/COOKRCP01/json/1/50/RCP_NM=${encodeURIComponent(name)}`
+      // 경로 기반 RCP_NM 필터는 공백에서 깨진다(공백 포함 이름은 total 0). 첫 토큰으로
+      // 조회해 후보를 받고, parseRecipeEntry가 전체 이름을 정확일치로 고른다.
+      // 페이지는 첫 토큰 결과를 덮을 만큼 넉넉히(1/100).
+      const queryTerm = name.split(/\s+/)[0]
+      const url = `${BASE}/${key}/COOKRCP01/json/1/100/RCP_NM=${encodeURIComponent(queryTerm)}`
       const res = await fetchFn(url)
       if (!res.ok) throw new Error(`COOKRCP01 HTTP ${res.status} (${name})`)
       const entry = parseRecipeEntry(await res.json(), name)
