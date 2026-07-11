@@ -1,0 +1,20 @@
+{
+  "header": { "resultCode": "00", "resultMsg": "NORMAL SERVICE." },
+  "body": {
+    "totalCount": 8,
+    "items": [
+      {
+        "FOOD_NM_KR": "사과잼",
+        "SERVING_SIZE": "100g",
+        "AMT_NUM1": "250.00", "AMT_NUM3": "0.30", "AMT_NUM4": "0.10",
+        "AMT_NUM6": "65.00", "AMT_NUM7": "60.00", "AMT_NUM8": "1.00"
+      },
+      {
+        "FOOD_NM_KR": "사과_부사_생것",
+        "SERVING_SIZE": "100g",
+        "AMT_NUM1": "53.00", "AMT_NUM3": "0.20", "AMT_NUM4": "0.07",
+        "AMT_NUM6": "14.28", "AMT_NUM7": "11.13", "AMT_NUM8": "1.70"
+      }
+    ]
+  }
+}
