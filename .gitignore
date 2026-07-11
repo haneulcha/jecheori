@@ -6,3 +6,6 @@ src/routeTree.gen.ts
 *.tmp
 .DS_Store
 .superpowers/
+.env
+.env.*
+!.env.example

@@ -43,7 +43,9 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
   (로그인·개인화는 다음 사이클 도입 예정 — 그때 이 규칙 재개정.)
 - KAMIS 키는 코드·저장소에 절대 넣지 않는다 (CI 시크릿 `KAMIS_CERT_KEY`/`KAMIS_CERT_ID`).
 - 식약처 키도 코드·저장소에 절대 넣지 않는다 (CI 시크릿 `DATA_GO_KR_KEY`).
-- 식품안전나라(레시피) 키도 코드·저장소에 절대 넣지 않는다 (CI 시크릿 `FOODSAFETY_API_KEY`).
+- 식품안전나라(레시피) 키도 코드·저장소에 절대 넣지 않는다 (env `FOODSAFETY_API_KEY`).
+  레시피·영양은 **씨앗형**(거의 안 변함) — 상시 CI 없이 확장 시 로컬에서 1회 수집해 커밋.
+  가격만 매일 변해 CI cron 상주(`update-prices.yml`).
 - KAMIS 매칭은 품목 코드가 아니라 `item_name` 문자열로 한다 (스펙 참고).
 - 식약처 영양 매칭도 품목 코드가 아니라 `foodName` 문자열로 한다 (`produce.json`의 `foodDb`).
 - 레시피 매칭은 품목 코드가 아니라 `RCP_NM` 문자열로 한다 (`produce.json`의 `recipeRef.names`).
