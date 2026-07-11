@@ -19,6 +19,8 @@ export interface ProduceProfile {
   kamis: KamisRef
   /** 영양 grounding 참조 (선택). 없으면 카드에 영양 줄 없음. */
   foodDb?: FoodDbRef
+  /** 레시피 grounding 참조 (선택). 없으면 카드에 레시피 진입점 없음. */
+  recipeRef?: RecipeRef
   /** 제철 월 (1~12) */
   seasonMonths: number[]
   /** 절정 월 — seasonMonths의 부분집합 */
@@ -77,4 +79,26 @@ export interface NutritionSnapshot {
   schemaVersion: number
   fetchedAt: string
   entries: NutritionEntry[]
+}
+
+/** 식약처 조리식품 레시피 DB(COOKRCP01)에서 요리를 집기 위한 수기 참조.
+ *  실제 RCP_NM과 정확일치하는 이름만 넣는다 (KamisRef·FoodDbRef와 같은 패턴). */
+export interface RecipeRef {
+  names: string[]
+}
+
+export interface RecipeEntry {
+  /** RCP_NM */
+  name: string
+  /** RCP_PARTS_DTLS 원문 한 줄 */
+  ingredients: string
+  /** MANUAL01~20 중 비어있지 않은 조리단계 (번호 접두 제거) */
+  steps: string[]
+}
+
+export interface RecipeSnapshot {
+  schemaVersion: number
+  /** ISO 8601 */
+  fetchedAt: string
+  entries: RecipeEntry[]
 }
