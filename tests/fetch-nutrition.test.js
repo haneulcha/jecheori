@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs'
-import { describe, expect, test } from 'vitest'
+import { expect, test } from 'vitest'
 import { buildNutritionSnapshot } from '../scripts/fetch-nutrition.mjs'
 
 const apple = JSON.parse(

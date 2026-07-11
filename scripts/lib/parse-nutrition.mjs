@@ -10,11 +10,13 @@ export function parseNum(s) {
 /** FoodNtrCpntDbInfo02 응답에서 FOOD_NM_KR === foodName 원물 하나를 NutritionEntry로.
  *  없으면 null, 오류 응답(body.items 없음)이면 throw. */
 export function parseNutritionEntry(json, foodName) {
-  const items = json?.body?.items
-  if (!Array.isArray(items)) {
+  const rawItems = json?.body?.items
+  if (rawItems === undefined || rawItems === null) {
     const msg = json?.header?.resultMsg ?? 'unknown'
     throw new Error(`FoodNtr 응답 이상: ${msg}`)
   }
+  // 조회 결과가 1건이면 REST 응답이 items를 배열이 아닌 단일 객체로 준다.
+  const items = Array.isArray(rawItems) ? rawItems : [rawItems]
   const it = items.find((x) => x.FOOD_NM_KR === foodName)
   if (!it) return null
   return {

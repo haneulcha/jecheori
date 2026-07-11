@@ -13,6 +13,7 @@ export function NutritionLine({ nutrition }: { nutrition: NutritionView }) {
   return (
     <p className="nutrition">
       <span className="serving">{nutrition.serving}당</span> {parts.join(' · ')}
+      {' '}
       <span className="src">출처: 식품의약품안전처</span>
     </p>
   )

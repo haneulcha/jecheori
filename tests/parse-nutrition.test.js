@@ -33,4 +33,26 @@ describe('parseNutritionEntry', () => {
   test('오류 응답이면 throw', () => {
     expect(() => parseNutritionEntry({ header: { resultMsg: 'LIMIT' } }, 'x')).toThrow(/FoodNtr/)
   })
+  test('단일일치 시 body.items가 배열이 아닌 객체로 와도 처리한다', () => {
+    const single = {
+      body: {
+        items: {
+          FOOD_NM_KR: '복숭아_백도_생것',
+          SERVING_SIZE: '100g',
+          AMT_NUM1: '34.00',
+          AMT_NUM7: '8.90',
+        },
+      },
+    }
+    expect(parseNutritionEntry(single, '복숭아_백도_생것')).toEqual({
+      foodName: '복숭아_백도_생것',
+      serving: '100g',
+      kcal: 34,
+      carbs: null,
+      protein: null,
+      fat: null,
+      sugar: 8.9,
+      fiber: null,
+    })
+  })
 })
