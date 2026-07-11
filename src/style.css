@@ -11,10 +11,10 @@
   font-display: swap;
 }
 /* 손글씨 — 카드 하단 "제철이의 한마디"에만. produce.json 사용 글자로 서브셋
-   (scripts/subset-handwriting-font.sh). 나눔손글씨 펜, OFL. */
+   (scripts/subset-handwriting-font.sh). 학교안심 받아쓰기 L, OFL. */
 @font-face {
-  font-family: 'NanumPen';
-  src: url('./fonts/NanumPenScript-Regular.woff2') format('woff2');
+  font-family: 'Hakgyoansim';
+  src: url('./fonts/HakgyoansimBadasseugi-L.woff2') format('woff2');
   font-weight: 400;
   font-display: swap;
 }
@@ -117,14 +117,15 @@ header h1 {
 /* 제철이의 한마디 — 종이에 연필로 적어준 듯한 손글씨. 펼치기 전에도 늘 보이는,
    카드 표지 하단의 한 줄. 쪽빛의 뮤트(--muted)로 연필 흑연처럼, 살짝 기울여. */
 .card .why {
-  font-family: 'NanumPen', 'MaruBuri', serif;
+  font-family: 'Hakgyoansim', 'MaruBuri', serif;
   color: var(--muted);
-  font-size: 1.15rem;
+  font-size: 0.98rem;
   line-height: 1.3;
-  margin: 0.6rem 0 0;
-  padding-left: 2.3rem; /* 이모지(1.7rem)+gap(0.6rem) 만큼 들여 제목 아래로 */
+  margin: 0.95rem 0 0;
   transform: rotate(-0.5deg);
   transform-origin: left center;
+  /* body의 antialiased가 L 웨이트를 너무 가늘게 만든다 — 여기선 꺼서 살짝 두툼하게 */
+  -webkit-font-smoothing: auto;
 }
 .price { display: flex; flex-direction: column; align-items: flex-end; }
 .num { font-variant-numeric: tabular-nums; }

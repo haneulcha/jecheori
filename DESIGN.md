@@ -61,7 +61,7 @@
 | 역할 | 폰트 | 사용처 |
 |---|---|---|
 | 디스플레이 | **마루 부리** (self-host woff2, OFL) | h1, 절기 아이브로만 |
-| 손글씨 | **나눔손글씨 펜** (self-host woff2, OFL) | 카드 표지 하단 "제철이의 한마디"(`.why`) 한 줄만 |
+| 손글씨 | **학교안심 받아쓰기 L** (self-host woff2, OFL) | 카드 표지 하단 "제철이의 한마디"(`.why`) 한 줄만 |
 | 본문 | 시스템 한글 스택: `'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif` | 나머지 전부 |
 | 라벨 | 본문 스택 + `letter-spacing: 0.08em` | "고르는 법" 같은 소제목 — Pa'lais의 넓은 자간을 한글 소형 라벨로 번안 |
 | 숫자 | 본문 스택 + `font-variant-numeric: tabular-nums` | 가격 |
@@ -69,8 +69,8 @@
 폰트 파일은 `src/fonts/`, CSS 상대 경로 참조 (Vite가 base 처리). CDN 금지.
 마루 부리를 못 구하면 `serif` 폴백으로 동작해야 한다.
 
-**손글씨 서브셋:** 나눔손글씨 펜은 전체 한글이 무거워(woff2 ~574KB), `produce.json`에
-실제 쓰인 글자만 골라 서브셋한다(~54KB). 가격이 CI JSON에서 오듯 이 폰트도 콘텐츠를
+**손글씨 서브셋:** 학교안심 받아쓰기 L은 전체 한글이 무거워, `produce.json`에
+실제 쓰인 글자만 골라 서브셋한다(~24KB). 가격이 CI JSON에서 오듯 이 폰트도 콘텐츠를
 진실의 원천으로 삼는다. `whyNow`·품목명 문구를 고쳐 새 음절이 들어오면
 `bash scripts/subset-handwriting-font.sh`로 재생성한다(안 하면 그 글자만 시스템
 폰트로 폴백돼 손글씨 사이에 튄다). 못 구하면 `serif` 폴백.

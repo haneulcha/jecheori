@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
-# 손글씨 폰트(나눔손글씨 펜, OFL) 서브셋 재생성.
+# 손글씨 폰트(학교안심 받아쓰기 L, OFL) 서브셋 재생성.
 #
-# 카드 하단 "제철이의 한마디"(whyNow)는 손글씨체로 적힌다. 전체 한글(11,172자,
-# woff2 ~574KB)을 싣는 대신 public/data/produce.json 에 실제로 쓰인 글자만 골라
-# 서브셋한다(현재 ~54KB). 가격이 CI JSON에서 오듯, 이 폰트도 콘텐츠(produce.json)를
-# 진실의 원천으로 삼아 파생된다.
+# 카드 하단 "제철이의 한마디"(whyNow)는 손글씨체로 적힌다. 전체 한글(woff2 수백 KB)을
+# 싣는 대신 public/data/produce.json 에 실제로 쓰인 글자만 골라 서브셋한다(현재 ~24KB).
+# 가격이 CI JSON에서 오듯, 이 폰트도 콘텐츠(produce.json)를 진실의 원천으로 삼아 파생된다.
 #
 # whyNow·name·kind 문구를 고쳐 새 음절이 들어오면 이 스크립트를 다시 돌린다.
 # (안 돌리면 그 글자만 시스템 폰트로 폴백돼 손글씨 사이에 튄다.)
@@ -15,9 +14,9 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-SRC_TTF="$(mktemp -d)/NanumPenScript-Regular.ttf"
-OUT="src/fonts/NanumPenScript-Regular.woff2"
-TTF_URL="https://github.com/google/fonts/raw/main/ofl/nanumpenscript/NanumPenScript-Regular.ttf"
+SRC_TTF="$(mktemp -d)/HakgyoansimBadasseugi-L.ttf"
+OUT="src/fonts/HakgyoansimBadasseugi-L.woff2"
+TTF_URL="https://github.com/fonts-archive/HakgyoansimBadasseugi/raw/main/HakgyoansimBadasseugi-L.ttf"
 
 echo "· 원본 TTF 내려받기 (OFL)…"
 curl -sL "$TTF_URL" -o "$SRC_TTF"
