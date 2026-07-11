@@ -4,6 +4,9 @@ import type { NutritionEntry, NutritionSnapshot, ProduceProfile } from './types'
 export interface NutritionView {
   serving: string
   kcal: number | null
+  carbs: number | null
+  protein: number | null
+  fat: number | null
   sugar: number | null
   fiber: number | null
 }
@@ -18,8 +21,9 @@ export function matchNutrition(
   return snapshot.entries.find((e) => e.foodName === foodName) ?? null
 }
 
-/** 엔트리 → 표시 뷰 (순수 파생). */
+/** 엔트리 → 표시 뷰 (순수 파생). foodName만 떼고 표시 수치를 넘긴다. */
 export function nutritionView(entry: NutritionEntry | null): NutritionView | null {
   if (!entry) return null
-  return { serving: entry.serving, kcal: entry.kcal, sugar: entry.sugar, fiber: entry.fiber }
+  const { serving, kcal, carbs, protein, fat, sugar, fiber } = entry
+  return { serving, kcal, carbs, protein, fat, sugar, fiber }
 }

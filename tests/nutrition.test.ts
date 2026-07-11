@@ -21,9 +21,17 @@ describe('matchNutrition', () => {
 })
 
 describe('nutritionView', () => {
-  test('표시값(serving·kcal·sugar·fiber)만 추린다', () => {
+  test('foodName만 떼고 표시 수치를 넘긴다', () => {
     const entry = snapshot.entries[0]
-    expect(nutritionView(entry)).toEqual({ serving: '100g', kcal: 53, sugar: 11.13, fiber: 1.7 })
+    expect(nutritionView(entry)).toEqual({
+      serving: '100g',
+      kcal: 53,
+      carbs: 14.28,
+      protein: 0.2,
+      fat: 0.07,
+      sugar: 11.13,
+      fiber: 1.7,
+    })
   })
   test('null이면 null', () => expect(nutritionView(null)).toBeNull())
 })

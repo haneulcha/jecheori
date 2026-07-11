@@ -125,7 +125,7 @@ describe('toCardView', () => {
       price: null,
     } as any
     const nv = nutritionView({ foodName: '사과_부사_생것', serving: '100g', kcal: 53, carbs: 14.28, protein: 0.2, fat: 0.07, sugar: 11.13, fiber: 1.7 })
-    expect(toCardView(pick, 7, nv).nutrition).toEqual({ serving: '100g', kcal: 53, sugar: 11.13, fiber: 1.7 })
+    expect(toCardView(pick, 7, nv).nutrition).toEqual({ serving: '100g', kcal: 53, carbs: 14.28, protein: 0.2, fat: 0.07, sugar: 11.13, fiber: 1.7 })
   })
 
   test('nutrition 인자 없으면 null', () => {

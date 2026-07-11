@@ -68,7 +68,7 @@ describe('buildAppView', () => {
       entries: [{ foodName: '사과_부사_생것', serving: '100g', kcal: 53, carbs: 14.28, protein: 0.2, fat: 0.07, sugar: 11.13, fiber: 1.7 }],
     }
     const view = buildAppView(profiles, null, nutrition, new Date('2026-07-11T00:00:00Z'))
-    expect(view.cards[0].nutrition).toEqual({ serving: '100g', kcal: 53, sugar: 11.13, fiber: 1.7 })
+    expect(view.cards[0].nutrition).toEqual({ serving: '100g', kcal: 53, carbs: 14.28, protein: 0.2, fat: 0.07, sugar: 11.13, fiber: 1.7 })
     expect(view.hasNutrition).toBe(true)
   })
 
