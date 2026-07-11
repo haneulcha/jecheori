@@ -96,7 +96,8 @@ COOKRCP01 한 행 → `RecipeEntry`. `parse-nutrition.mjs`와 같은 위치·방
 
 - `buildRecipeSnapshot({ key, profiles, fetchFn = fetch })` — `recipeRef` 있는 프로필의
   각 `name`을 조회해 엔트리 누적. 중복 name은 한 번만. `writeSnapshot` 재사용.
-- 엔드포인트: `http://openapi.foodsafetykorea.go.kr/api/{key}/COOKRCP01/json/1/50/RCP_NM={name}`
+- 엔드포인트: `https://openapi.foodsafetykorea.go.kr/api/{key}/COOKRCP01/json/1/50/RCP_NM={name}`
+  (키가 경로에 실리므로 반드시 https — 평문 전송 금지)
   (키가 **경로**에 들어간다 — serviceKey 쿼리 아님).
 - main 가드: `FOODSAFETY_API_KEY` env 확인, `produce.json` 로드, 실패 시 기존
   `recipes.json` **불변**(원자적), 엔트리 0이면 에러.

@@ -262,7 +262,8 @@ import { fileURLToPath } from 'node:url'
 import { parseRecipeEntry } from './lib/parse-recipe.mjs'
 import { writeSnapshot } from './fetch-prices.mjs'
 
-const BASE = 'http://openapi.foodsafetykorea.go.kr/api'
+// https — 키가 URL 경로에 실려 나가므로 평문(http) 전송 금지 (보안).
+const BASE = 'https://openapi.foodsafetykorea.go.kr/api'
 
 /** recipeRef 있는 프로필의 각 RCP_NM을 조회해 RecipeSnapshot 생성. fetchFn 주입으로 테스트. */
 export async function buildRecipeSnapshot({ key, profiles, fetchFn = fetch }) {
