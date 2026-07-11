@@ -12,6 +12,8 @@ export interface AppView {
   noDrop: boolean
   /** 카드 중 하나라도 영양 정보가 있으면 페이지 하단에 출처를 한 번 표기한다 */
   hasNutrition: boolean
+  /** 카드 중 하나라도 레시피가 있으면 페이지 하단에 출처를 한 번 표기한다 */
+  hasRecipes: boolean
   seasonal: Chip[]
   coming: Chip[]
   date: Date
