@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { perUnitPrice, sparklineGeometry, whyNowLine, toCardView } from '../src/card'
 import type { PickResult, PriceView } from '../src/picks'
 import type { ProduceProfile } from '../src/types'
+import { nutritionView } from '../src/nutrition'
 
 const profile: ProduceProfile = {
   id: 'peach',
@@ -115,5 +116,24 @@ describe('toCardView', () => {
 
   test('가격 없으면 price null', () => {
     expect(toCardView(pick({ price: null }), 7).price).toBeNull()
+  })
+
+  test('nutrition 인자를 CardView에 얹는다', () => {
+    const pick = {
+      profile: { emoji: '🍎', name: '사과', category: 'fruit', kamis: { itemName: '사과' }, whyNow: {}, howToPick: '', howToStore: '', howToUse: '', seasonMonths: [7], peakMonths: [] },
+      inPeak: false,
+      price: null,
+    } as any
+    const nv = nutritionView({ foodName: '사과_부사_생것', serving: '100g', kcal: 53, carbs: 14.28, protein: 0.2, fat: 0.07, sugar: 11.13, fiber: 1.7 })
+    expect(toCardView(pick, 7, nv).nutrition).toEqual({ serving: '100g', kcal: 53, sugar: 11.13, fiber: 1.7 })
+  })
+
+  test('nutrition 인자 없으면 null', () => {
+    const pick = {
+      profile: { emoji: '🥔', name: '감자', category: 'vegetable', kamis: { itemName: '감자' }, whyNow: {}, howToPick: '', howToStore: '', howToUse: '', seasonMonths: [7], peakMonths: [] },
+      inPeak: false,
+      price: null,
+    } as any
+    expect(toCardView(pick, 7).nutrition).toBeNull()
   })
 })
