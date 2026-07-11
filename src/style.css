@@ -111,6 +111,22 @@ header h1 {
   padding: 0.95rem 1.05rem;
   box-shadow: var(--lift);           /* 아주 옅은 부양 */
 }
+/* 마스킹테이프 한 조각 — 냉장고에 붙인 시그니처. 반투명 계절색(배경 도형이라 규율 OK).
+   그라데이션 아님(단일 반투명 평면). pseudo-element라 접근성 트리에서 자동 제외. */
+.card::before {
+  content: '';
+  position: absolute;
+  top: -0.62rem;
+  left: 50%;
+  width: 4.6rem;
+  height: 1.3rem;
+  transform: translateX(-50%) rotate(-2deg);
+  background: color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: 1px;
+}
+/* 손으로 붙인 듯 아주 살짝, 홀짝 교대로. 정적 transform이라 모션 아님(reduced-motion 무관). */
+.card:nth-child(odd) { transform: rotate(0.4deg); }
+.card:nth-child(even) { transform: rotate(-0.4deg); }
 .card summary { cursor: pointer; list-style: none; }
 .card summary::-webkit-details-marker { display: none; }
 .card .summary-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.9rem; }
