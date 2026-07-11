@@ -17,6 +17,8 @@ export interface ProduceProfile {
   emoji: string
   category: Category
   kamis: KamisRef
+  /** 영양 grounding 참조 (선택). 없으면 카드에 영양 줄 없음. */
+  foodDb?: FoodDbRef
   /** 제철 월 (1~12) */
   seasonMonths: number[]
   /** 절정 월 — seasonMonths의 부분집합 */
@@ -45,4 +47,34 @@ export interface PriceSnapshot {
   /** ISO 8601 */
   fetchedAt: string
   entries: PriceEntry[]
+}
+
+/** 식약처 영양DB에서 원물 하나를 집기 위한 수기 참조 (KamisRef와 같은 패턴).
+ *  FOOD_CAT1_NM 필터 + 대표 엔트리명(FOOD_NM_KR 정확일치)으로 매칭. */
+export interface FoodDbRef {
+  /** FOOD_CAT1_NM 필터값: '과일류' | '채소류' */
+  category1: string
+  /** 대표 원물 엔트리명 (예: "사과_부사_생것") */
+  foodName: string
+}
+
+export interface NutritionEntry {
+  foodName: string
+  /** 1회 제공량 표기 (예: "100g") */
+  serving: string
+  /** 에너지 kcal */
+  kcal: number | null
+  carbs: number | null
+  protein: number | null
+  fat: number | null
+  /** 당류 g */
+  sugar: number | null
+  /** 식이섬유 g */
+  fiber: number | null
+}
+
+export interface NutritionSnapshot {
+  schemaVersion: number
+  fetchedAt: string
+  entries: NutritionEntry[]
 }
