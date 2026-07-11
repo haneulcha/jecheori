@@ -3,6 +3,7 @@ import { perUnitPrice, sparklineGeometry, whyNowLine, toCardView } from '../src/
 import type { PickResult, PriceView } from '../src/picks'
 import type { ProduceProfile } from '../src/types'
 import { nutritionView } from '../src/nutrition'
+import { recipeView } from '../src/recipe'
 
 const profile: ProduceProfile = {
   id: 'peach',
@@ -135,5 +136,26 @@ describe('toCardView', () => {
       price: null,
     } as any
     expect(toCardView(pick, 7).nutrition).toBeNull()
+  })
+
+  test('recipes 인자를 CardView에 얹는다', () => {
+    const pick = {
+      profile: { emoji: '🍅', name: '토마토', category: 'vegetable', kamis: { itemName: '토마토' }, whyNow: {}, howToPick: '', howToStore: '', howToUse: '' },
+      inPeak: false,
+      price: null,
+    } as any
+    const rv = recipeView([{ name: '토마토달걀볶음', ingredients: '토마토, 달걀', steps: ['썬다'] }])
+    expect(toCardView(pick, 7, null, rv).recipes).toEqual([
+      { name: '토마토달걀볶음', ingredients: '토마토, 달걀', steps: ['썬다'] },
+    ])
+  })
+
+  test('recipes 인자 없으면 null', () => {
+    const pick = {
+      profile: { emoji: '🥔', name: '감자', category: 'vegetable', kamis: { itemName: '감자' }, whyNow: {}, howToPick: '', howToStore: '', howToUse: '' },
+      inPeak: false,
+      price: null,
+    } as any
+    expect(toCardView(pick, 7).recipes).toBeNull()
   })
 })

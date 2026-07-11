@@ -1,6 +1,7 @@
 import type { PickResult, PriceView } from './picks'
 import type { Category, ProduceProfile } from './types'
 import type { NutritionView } from './nutrition'
+import type { RecipeView } from './recipe'
 
 // 픽(PickResult)의 표시 투영. 카드 렌더에 필요한 모든 값을 계산해 담는다.
 // 파생 규칙(개당값·반올림·"비슷" 임계·스파크 좌표)은 전부 여기서 끝난다.
@@ -43,6 +44,7 @@ export interface CardView {
   note: NoteView
   price: PriceCardView | null
   nutrition: NutritionView | null
+  recipes: RecipeView | null
 }
 
 /** "N개"(N>1) 단위면 개당값을 계산. 단수·무게 단위는 null. */
@@ -101,8 +103,13 @@ function toPriceCardView(v: PriceView): PriceCardView {
   }
 }
 
-/** 픽 → 카드 뷰. 순수 함수. nutrition은 표시 grounding(선정엔 영향 없음). */
-export function toCardView(pick: PickResult, month: number, nutrition: NutritionView | null = null): CardView {
+/** 픽 → 카드 뷰. 순수 함수. nutrition·recipes는 표시 grounding(선정엔 영향 없음). */
+export function toCardView(
+  pick: PickResult,
+  month: number,
+  nutrition: NutritionView | null = null,
+  recipes: RecipeView | null = null,
+): CardView {
   const { profile, inPeak, price } = pick
   return {
     emoji: profile.emoji,
@@ -114,5 +121,6 @@ export function toCardView(pick: PickResult, month: number, nutrition: Nutrition
     note: { pick: profile.howToPick, store: profile.howToStore, use: profile.howToUse },
     price: price ? toPriceCardView(price) : null,
     nutrition,
+    recipes,
   }
 }
