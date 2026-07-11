@@ -18,7 +18,7 @@ const pick: PickResult = {
   price: { price: 18200, unit: '10개', changeVsMonthAgoPct: -25.7, priceMonthAgo: 24500, priceYearAgo: 19800 },
 }
 const base: AppView = {
-  cards: [toCardView(pick, 7)], noDrop: false,
+  cards: [toCardView(pick, 7)], noDrop: false, hasNutrition: false,
   seasonal: [{ emoji: '🍑', name: '복숭아' }], coming: [],
   date: new Date('2026-07-10'), staleDays: 0,
 }

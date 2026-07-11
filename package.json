@@ -13,6 +13,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "fetch:prices": "node scripts/fetch-prices.mjs",
+    "fetch:nutrition": "node scripts/fetch-nutrition.mjs",
     "report:coverage": "node scripts/report-coverage.mjs"
   },
   "dependencies": {

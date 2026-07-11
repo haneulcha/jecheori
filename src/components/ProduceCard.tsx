@@ -1,6 +1,7 @@
 import type { CardView } from '../card'
 import { PriceBlock } from './PriceBlock'
 import { Sparkline } from './Sparkline'
+import { NutritionLine } from './NutritionLine'
 import { Note } from './Note'
 import { PeakDot } from './PeakDot'
 
@@ -25,6 +26,7 @@ export function ProduceCard({ card }: { card: CardView }) {
       </summary>
       <div className="open">
         {card.price?.spark && <Sparkline spark={card.price.spark} />}
+        {card.nutrition && <NutritionLine nutrition={card.nutrition} />}
         <Note note={card.note} />
       </div>
     </details>
