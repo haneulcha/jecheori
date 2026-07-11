@@ -18,7 +18,7 @@ const pick: PickResult = {
   price: { price: 18200, unit: '10개', changeVsMonthAgoPct: -25.7, priceMonthAgo: 24500, priceYearAgo: 19800 },
 }
 const base: AppView = {
-  cards: [toCardView(pick, 7)], noDrop: false, hasNutrition: false,
+  cards: [toCardView(pick, 7)], noDrop: false, hasNutrition: false, hasRecipes: false,
   seasonal: [{ emoji: '🍑', name: '복숭아' }], coming: [],
   date: new Date('2026-07-10'), staleDays: 0,
 }
@@ -51,5 +51,13 @@ describe('App', () => {
   test('절기가 있으면 아이브로에 함께', () => {
     const { container } = render(<App view={{ ...base, cards: [], seasonal: [], term: '소서' }} />)
     expect(container.textContent).toContain('소서 · 7월 둘째 주')
+  })
+  test('hasRecipes면 레시피 출처를 페이지 하단에 한 번 보인다', () => {
+    const { container } = render(<App view={{ ...base, hasRecipes: true }} />)
+    expect(container.textContent).toContain('식품의약품안전처 조리식품 레시피 DB')
+  })
+  test('hasRecipes false면 레시피 출처가 없다', () => {
+    const { container } = render(<App view={base} />)
+    expect(container.textContent).not.toContain('조리식품 레시피 DB')
   })
 })
