@@ -5,6 +5,7 @@
     "emoji": "🍑",
     "category": "fruit",
     "kamis": { "categoryCode": "400", "itemName": "복숭아" },
+    "foodDb": { "category1": "과일류", "foodName": "복숭아_백도_생것" },
     "seasonMonths": [6, 7, 8, 9],
     "peakMonths": [7, 8],
     "whyNow": {
@@ -54,6 +55,7 @@
     "emoji": "🍅",
     "category": "vegetable",
     "kamis": { "categoryCode": "200", "itemName": "토마토" },
+    "foodDb": { "category1": "채소류", "foodName": "토마토_생것" },
     "seasonMonths": [5, 6, 7, 8],
     "peakMonths": [6, 7],
     "whyNow": {
@@ -129,6 +131,7 @@
     "emoji": "🍎",
     "category": "fruit",
     "kamis": { "categoryCode": "400", "itemName": "사과" },
+    "foodDb": { "category1": "과일류", "foodName": "사과_부사_생것" },
     "seasonMonths": [9, 10, 11],
     "peakMonths": [10],
     "whyNow": {
