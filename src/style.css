@@ -272,3 +272,52 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 }
 .nutrition .val .u { font-size: 0.72rem; font-weight: 600; margin-left: 0.06rem; }
 .nutrition .serv { font-size: 0.68rem; color: var(--muted); text-align: right; margin-top: 0.3rem; }
+
+/* 레시피 바텀시트 — 하단에서 슬라이드업, 텍스트만 */
+.recipe-open {
+  align-self: center;
+  margin-top: 0.2rem;
+  background: none;
+  border: 1px dashed var(--line);
+  border-radius: 0.4rem;
+  padding: 0.34rem 0.8rem;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 69, 134, 0.28);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 50;
+}
+.sheet {
+  position: relative;
+  width: 100%;
+  max-width: 32rem;
+  max-height: 82vh;
+  overflow-y: auto;
+  background: var(--card);
+  border-radius: 1rem 1rem 0 0;
+  padding: 1.4rem 1.3rem 2rem;
+  box-shadow: 0 -4px 20px rgba(43, 69, 134, 0.14);
+}
+.sheet-close {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.9rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.sheet .recipe + .recipe { border-top: 1px dashed var(--line); margin-top: 1.2rem; padding-top: 1.2rem; }
+.sheet .recipe h3 { color: var(--ink); font-size: 1rem; margin: 0 0 0.5rem; }
+.sheet .recipe .ing { color: var(--muted); font-size: 0.85rem; margin: 0 0 0.7rem; }
+.sheet .steps { margin: 0; padding-left: 1.3rem; color: #5a5140; font-size: 0.9rem; line-height: 1.7; }
+.sheet .steps li { margin-bottom: 0.3rem; }
