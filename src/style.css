@@ -238,3 +238,19 @@ footer p { color: var(--muted); font-size: 0.75rem; }
   .card { transition: border-color 0.15s ease; }
   .card[open] { border-color: var(--accent); }
 }
+
+/* 영양 정보 한 줄 */
+.nutrition {
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+  color: var(--ink);
+}
+.nutrition .serving {
+  font-weight: 600;
+}
+.nutrition .src {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.68rem;
+  opacity: 0.55;
+}
