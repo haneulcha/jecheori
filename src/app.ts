@@ -1,8 +1,9 @@
-import type { PriceSnapshot, ProduceProfile } from './types'
+import type { NutritionSnapshot, PriceSnapshot, ProduceProfile } from './types'
 import { comingSoon, hasDrops, seasonalThisMonth, selectPicks } from './picks'
 import { toCardView } from './card'
 import { currentTerm } from './season'
 import { snapshotAgeDays } from './data'
+import { matchNutrition, nutritionView } from './nutrition'
 import type { AppView } from './view-types'
 
 const label = (p: ProduceProfile) => ({ emoji: p.emoji, name: p.name })
@@ -11,12 +12,13 @@ const label = (p: ProduceProfile) => ({ emoji: p.emoji, name: p.name })
 export function buildAppView(
   profiles: ProduceProfile[],
   snapshot: PriceSnapshot | null,
+  nutrition: NutritionSnapshot | null,
   now: Date,
 ): AppView {
   const month = now.getMonth() + 1
   const picks = selectPicks(profiles, snapshot, now)
   return {
-    cards: picks.map((p) => toCardView(p, month)),
+    cards: picks.map((p) => toCardView(p, month, nutritionView(matchNutrition(p.profile, nutrition)))),
     noDrop: picks.length > 0 && !hasDrops(picks),
     seasonal: seasonalThisMonth(profiles, month).map(label),
     coming: comingSoon(profiles, month).map(label),
