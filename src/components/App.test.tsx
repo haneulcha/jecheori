@@ -30,6 +30,8 @@ describe('App', () => {
     expect(html).toContain('data-cat="fruit"')
     expect(container.querySelector('#f-fruit')).not.toBeNull()
     expect(container.textContent).toContain('여름이 절정이에요')
+    // 한마디는 펼치기 전에도 보이도록 summary 안에 산다 (손글씨 메모)
+    expect(container.querySelector('summary .why')?.textContent).toBe('여름이 절정이에요')
     expect(html).toContain('18,200')
     expect(container.querySelector('.peak-dot')).not.toBeNull()
     expect(container.querySelector('.sprig')).not.toBeNull()
