@@ -377,7 +377,8 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 .nav-index { position: fixed; top: -8px; right: 1rem; z-index: 20; } /* 위로 오버슈트 — 당겨도 틈 없음 */
 .nav-cord {
   display: block; background: none; border: 0; padding: 0; cursor: pointer;
-  color: var(--ink); transition: transform 160ms ease; position: relative;
+  color: var(--ink); transition: transform 160ms ease;
+  position: relative; z-index: 22;   /* 차양(21)·백드롭(20) 앞에 — 열려도 줄로 다시 당겨 닫는다 */
 }
 .nav-cord svg { display: block; width: 12px; height: 72px; }
 .nav-cord::after {
