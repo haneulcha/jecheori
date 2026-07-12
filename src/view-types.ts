@@ -1,7 +1,7 @@
 import type { CardView } from './card'
 import type { Season } from './season'
 
-/** 이모지+이름 칩 하나 (제철 리스트·곧 제철 예고용) */
+/** 이모지+이름 칩 하나 (이번 달 제철 리스트용) */
 export interface Chip {
   emoji: string
   name: string
