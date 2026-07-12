@@ -53,14 +53,24 @@ export function RecipeMemo({
   }
 
   // Esc 닫기. beginClose는 stable 참조만 쓰므로 첫 렌더 캡처로 안전.
+  // 포커스가 이 메모(또는 그 하위) 안에 있을 때만 반응 — 다른 카드의 열린 메모까지
+  // 같이 닫히는 것을 막는다.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') beginClose()
+      if (e.key === 'Escape' && rootRef.current?.contains(document.activeElement)) beginClose()
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // 끝(처음/마지막)에 닿아 방금 누른 ‹/› 버튼이 비활성화되면 포커스가 body로 빠지므로
+  // 메모 루트로 회수한다.
+  const goStep = (delta: number) => {
+    const target = index + delta
+    onStep(delta)
+    if (target <= 0 || target >= recipes.length - 1) rootRef.current?.focus()
+  }
 
   const r = recipes[index]
   return (
@@ -76,7 +86,7 @@ export function RecipeMemo({
       <button
         type="button"
         className="nav nav-prev"
-        onClick={() => onStep(-1)}
+        onClick={() => goStep(-1)}
         disabled={index === 0}
         aria-label="이전 레시피"
       >
@@ -85,7 +95,7 @@ export function RecipeMemo({
       <button
         type="button"
         className="nav nav-next"
-        onClick={() => onStep(1)}
+        onClick={() => goStep(1)}
         disabled={index === recipes.length - 1}
         aria-label="다음 레시피"
       >

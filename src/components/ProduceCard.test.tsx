@@ -77,4 +77,24 @@ describe('ProduceCard 레시피', () => {
     fireEvent(details, new Event('toggle'))
     expect(container.querySelector('.memo')).toBeNull()
   })
+
+  test('끝 레시피로 넘기면 포커스가 메모에 남는다(비활성 버튼 포커스 유실 방지)', () => {
+    const { container } = render(<ProduceCard card={withRecipes} />)
+    fireEvent.click(container.querySelectorAll('.chip-btn')[0]) // index 0
+    fireEvent.click(container.querySelector('.nav-next')!) // → 마지막(1), next 비활성
+    expect(document.activeElement).toBe(container.querySelector('.memo'))
+  })
+
+  test('카드를 접었다 다시 열면 메모가 열려 있지 않다(상태 초기화)', () => {
+    const { container } = render(<ProduceCard card={withRecipes} />)
+    const details = container.querySelector('details')!
+    fireEvent.click(container.querySelectorAll('.chip-btn')[0])
+    expect(container.querySelector('.memo')).not.toBeNull()
+    details.open = false
+    fireEvent(details, new Event('toggle'))
+    expect(container.querySelector('.memo')).toBeNull()
+    details.open = true
+    fireEvent(details, new Event('toggle'))
+    expect(container.querySelector('.memo')).toBeNull() // 재열림 시 닫힌 상태
+  })
 })

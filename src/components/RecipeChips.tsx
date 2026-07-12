@@ -20,7 +20,7 @@ export function RecipeChips({
           type="button"
           className="chip-btn"
           aria-pressed={current === i}
-          aria-controls={memoId}
+          aria-controls={current === i ? memoId : undefined}
           onClick={() => onSelect(i)}
         >
           {r.name}

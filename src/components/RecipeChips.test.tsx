@@ -39,10 +39,20 @@ describe('RecipeChips', () => {
     expect(onSelect).toHaveBeenLastCalledWith(2)
   })
 
-  test('칩은 메모를 aria-controls로 가리킨다', () => {
+  test('활성 칩만 메모를 aria-controls로 가리킨다 (메모는 열려 있을 때만 존재)', () => {
+    const { container } = render(
+      <RecipeChips recipes={recipes} current={1} onSelect={() => {}} memoId="memo-x" />,
+    )
+    const chips = container.querySelectorAll('.chip-btn')
+    expect(chips[0].getAttribute('aria-controls')).toBeNull()
+    expect(chips[1].getAttribute('aria-controls')).toBe('memo-x')
+    expect(chips[2].getAttribute('aria-controls')).toBeNull()
+  })
+
+  test('열린 메모가 없으면 아무 칩도 aria-controls를 갖지 않는다', () => {
     const { container } = render(
       <RecipeChips recipes={recipes} current={null} onSelect={() => {}} memoId="memo-x" />,
     )
-    expect(container.querySelector('.chip-btn')!.getAttribute('aria-controls')).toBe('memo-x')
+    expect(container.querySelector('.chip-btn')!.getAttribute('aria-controls')).toBeNull()
   })
 })

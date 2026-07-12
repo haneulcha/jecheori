@@ -14,6 +14,7 @@ export function ProduceCard({ card }: { card: CardView }) {
   const memoId = useId()
   const recipes = card.recipes
 
+  // 칩 재탭·카드 접힘은 즉시 닫힘(애니메이션 없음) — 압정/Esc만 대칭 닫힘 전환을 탄다.
   const select = (i: number) => setCurrent((c) => (c === i ? null : i))
   const step = (delta: number) =>
     setCurrent((c) =>

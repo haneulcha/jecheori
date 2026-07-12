@@ -127,4 +127,13 @@ describe('RecipeMemo', () => {
     await new Promise((r) => setTimeout(r, 250)) // 고아 타이머가 있었다면 이 창에서 또 불렸을 것
     expect(onClose).toHaveBeenCalledTimes(1)
   })
+
+  test('메모에 포커스가 없으면 Esc로 닫히지 않는다(다른 메모까지 닫힘 방지)', async () => {
+    const onClose = vi.fn()
+    render(<RecipeMemo recipes={recipes} index={0} onClose={onClose} onStep={noop} />)
+    ;(document.activeElement as HTMLElement | null)?.blur() // 포커스를 메모 밖(body)으로
+    fireEvent.keyDown(document, { key: 'Escape' })
+    await new Promise((r) => setTimeout(r, 220))
+    expect(onClose).not.toHaveBeenCalled()
+  })
 })
