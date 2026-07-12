@@ -377,22 +377,27 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 .nav-index { position: fixed; top: -8px; right: 1rem; z-index: 20; } /* 위로 오버슈트 — 당겨도 틈 없음 */
 .nav-cord {
   display: block; background: none; border: 0; padding: 0; cursor: pointer;
-  color: var(--ink); transition: transform 160ms ease;
+  color: var(--ink); transition: transform 160ms ease; position: relative;
 }
 .nav-cord svg { display: block; width: 12px; height: 72px; }
+.nav-cord::after {
+  content: ''; position: absolute; inset: 0 -16px;
+}
 .nav-cord:hover, .nav-cord:focus-visible { transform: translateY(4px); } /* 당김 (오버슈트 8 > 4라 위쪽 틈 없음) */
 .nav-backdrop { position: fixed; inset: 0; z-index: 20; background: transparent; border: 0; padding: 0; cursor: default; }
 .nav-panel {
-  position: fixed; top: 2.6rem; right: 0.8rem; z-index: 21;
+  position: fixed; top: 0; right: 0.8rem; z-index: 21;
   width: 11rem;
   background: var(--card); border: 1px solid var(--line);
+  border-top: 0;                          /* 천장에 붙음 — 위 테두리 없음 */
   border-radius: 0 0 0.3rem 0.3rem;      /* 위에서 늘어지는 차양 */
   box-shadow: var(--lift);
   display: grid; grid-template-rows: 0fr;
   transition: grid-template-rows 300ms cubic-bezier(0.2, 0.75, 0.2, 1);
 }
 .nav-index[data-open] .nav-panel { grid-template-rows: 1fr; }
-.nav-panel-inner { overflow: hidden; padding: 0.85rem 0.95rem; }
+.nav-panel-clip { overflow: hidden; }                    /* 접힘 전용 — 패딩 없음이라 0으로 완전 접힘 */
+.nav-panel-inner { padding: 0.85rem 0.95rem; }
 .nav-panel-title { font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.6rem; }
 .nav-panel a {
   display: block; padding: 0.75rem 0; color: var(--ink); text-decoration: none;
