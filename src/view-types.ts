@@ -1,4 +1,5 @@
 import type { CardView } from './card'
+import type { Season } from './season'
 
 /** 이모지+이름 칩 하나 (제철 리스트·곧 제철 예고용) */
 export interface Chip {
@@ -25,10 +26,14 @@ export interface ComingItem {
   emoji: string
   name: string
   peak: boolean
+  /** 배정된(미래) 월 기준 한마디 */
+  whyNow: string
 }
 
 export interface ComingMonth {
   month: number
+  /** 그 달의 계절 — 카드 마스킹테이프 색 */
+  season: Season
   items: ComingItem[]
 }
 

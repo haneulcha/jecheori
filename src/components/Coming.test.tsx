@@ -6,8 +6,8 @@ import type { ComingView } from '../view-types'
 
 const base: ComingView = {
   months: [
-    { month: 8, items: [{ emoji: '🍑', name: '복숭아', peak: false }] },
-    { month: 9, items: [{ emoji: '🌰', name: '밤', peak: true }] },
+    { month: 8, season: 'summer', items: [{ emoji: '🍑', name: '복숭아', peak: false, whyNow: '' }] },
+    { month: 9, season: 'autumn', items: [{ emoji: '🌰', name: '밤', peak: true, whyNow: '' }] },
   ],
   date: new Date('2026-07-15T00:00:00'),
   term: '소서',

@@ -1,7 +1,7 @@
 import type { NutritionSnapshot, PriceSnapshot, ProduceProfile, RecipeSnapshot } from './types'
 import { comingMonths, hasDrops, seasonalThisMonth, selectPicks } from './picks'
-import { toCardView } from './card'
-import { currentTerm } from './season'
+import { toCardView, whyNowLine } from './card'
+import { currentTerm, seasonOf } from './season'
 import { snapshotAgeDays } from './data'
 import { matchNutrition, nutritionView } from './nutrition'
 import { matchRecipes, recipeView } from './recipe'
@@ -44,7 +44,13 @@ export function buildComingView(profiles: ProduceProfile[], now: Date): ComingVi
   const month = now.getMonth() + 1
   const months = comingMonths(profiles, month).map((g) => ({
     month: g.month,
-    items: g.items.map((it) => ({ emoji: it.profile.emoji, name: it.profile.name, peak: it.peak })),
+    season: seasonOf(g.month),
+    items: g.items.map((it) => ({
+      emoji: it.profile.emoji,
+      name: it.profile.name,
+      peak: it.peak,
+      whyNow: whyNowLine(it.profile, g.month),
+    })),
   }))
   return { months, date: now, term: currentTerm(now) }
 }
