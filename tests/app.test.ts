@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { buildAppView } from '../src/app'
+import { buildAppView, buildComingView } from '../src/app'
 import type { NutritionSnapshot, PriceEntry, PriceSnapshot, ProduceProfile, RecipeSnapshot } from '../src/types'
 
 const peach: ProduceProfile = {
@@ -100,5 +100,31 @@ describe('buildAppView', () => {
     const view = buildAppView(profiles, null, null, null, new Date('2026-07-11T00:00:00Z'))
     expect(view.cards[0].recipes).toBeNull()
     expect(view.hasRecipes).toBe(false)
+  })
+})
+
+describe('buildComingView', () => {
+  test('달별 품목을 이모지+이름+절정으로 투영하고 절기를 곁들인다', () => {
+    const grapeAugPeak: ProduceProfile = {
+      id: 'grape', name: '포도', emoji: '🍇', category: 'fruit',
+      kamis: { categoryCode: '400', itemName: '포도' },
+      seasonMonths: [8, 9], peakMonths: [8],
+      whyNow: { default: '' }, howToPick: '', howToStore: '', howToUse: '',
+    }
+    const view = buildComingView([grapeAugPeak], new Date('2026-07-15T00:00:00'))
+    expect(view.months).toHaveLength(1)
+    expect(view.months[0].month).toBe(8)
+    expect(view.months[0].items[0]).toEqual({ emoji: '🍇', name: '포도', peak: true })
+    expect(view.term).toBe('소서') // 7/15 → 소서
+  })
+
+  test('다가오는 품목이 없으면 months는 빈 배열', () => {
+    const peachCurrentOnly: ProduceProfile = {
+      id: 'peach', name: '복숭아', emoji: '🍑', category: 'fruit',
+      kamis: { categoryCode: '400', itemName: '복숭아' },
+      seasonMonths: [7], peakMonths: [],
+      whyNow: { default: '' }, howToPick: '', howToStore: '', howToUse: '',
+    }
+    expect(buildComingView([peachCurrentOnly], new Date('2026-07-15T00:00:00')).months).toEqual([])
   })
 })

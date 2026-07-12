@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { hasDrops, matchEntry, priceView, selectPicks } from '../src/picks'
+import { comingMonths, hasDrops, matchEntry, priceView, selectPicks } from '../src/picks'
 import type { PriceEntry, PriceSnapshot, ProduceProfile } from '../src/types'
 
 function profile(over: Partial<ProduceProfile>): ProduceProfile {
@@ -189,4 +189,37 @@ describe('hasDrops', () => {
   const mk = (pct: number | null) => ({ profile: profile({}), inPeak: false, price: { price: 1, unit: '1kg', changeVsMonthAgoPct: pct, priceMonthAgo: 1, priceYearAgo: 1 } })
   test('하락이 있으면 true', () => expect(hasDrops([mk(-5)])).toBe(true))
   test('전부 상승/무변동이면 false', () => expect(hasDrops([mk(3), mk(null)])).toBe(false))
+})
+
+describe('comingMonths', () => {
+  test('다음 두 달을 달별로 묶고, 겹치면 먼저 드는 달에만 놓는다', () => {
+    const grape = profile({ id: 'grape', seasonMonths: [8, 9] })
+    const chestnut = profile({ id: 'chestnut', seasonMonths: [9, 10] })
+    const g = comingMonths([grape, chestnut], 7)
+    expect(g.map((x) => x.month)).toEqual([8, 9])
+    expect(g[0].items.map((i) => i.profile.id)).toEqual(['grape'])
+    expect(g[1].items.map((i) => i.profile.id)).toEqual(['chestnut']) // grape는 8에 이미 배정
+  })
+
+  test('이번 달에 이미 제철인 품목은 제외한다', () => {
+    const peach = profile({ id: 'peach', seasonMonths: [7, 8] }) // 7월이 현재 → 8월에도 안 나온다
+    expect(comingMonths([peach], 7)).toEqual([])
+  })
+
+  test('연말을 넘어 다음 해로 랩어라운드한다', () => {
+    const g = comingMonths([profile({ id: 'mandarin', seasonMonths: [1] })], 12)
+    expect(g.map((x) => x.month)).toEqual([1])
+    expect(g[0].items.map((i) => i.profile.id)).toEqual(['mandarin'])
+  })
+
+  test('배정된 달에 절정이면 peak=true', () => {
+    const g = comingMonths([profile({ id: 'fig', seasonMonths: [9], peakMonths: [9] })], 8)
+    expect(g[0].month).toBe(9)
+    expect(g[0].items[0].peak).toBe(true)
+  })
+
+  test('새로 드는 품목이 없는 달은 결과에서 뺀다', () => {
+    const g = comingMonths([profile({ id: 'chestnut', seasonMonths: [9] })], 7) // 8월엔 없음, 9월에만
+    expect(g.map((x) => x.month)).toEqual([9])
+  })
 })
