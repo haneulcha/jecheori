@@ -45,6 +45,41 @@ export function priceView(entry: PriceEntry): PriceView | null {
   }
 }
 
+export interface ComingPick {
+  profile: ProduceProfile
+  peak: boolean
+}
+
+export interface ComingGroup {
+  month: number
+  items: ComingPick[]
+}
+
+/** 앞으로 horizon개월, 각 달에 새로 드는 품목을 달별로. 현재 달 제외,
+ *  가장 이른 달에 한 번만, 연말 랩어라운드, 배정된 달의 절정 여부 표시. */
+export function comingMonths(
+  profiles: ProduceProfile[],
+  month: number,
+  horizon = 2,
+): ComingGroup[] {
+  const wrap = (m: number) => ((m - 1) % 12) + 1
+  const assigned = new Set<string>()
+  const groups: ComingGroup[] = []
+  for (let k = 1; k <= horizon; k++) {
+    const mk = wrap(month + k)
+    const items: ComingPick[] = []
+    for (const profile of profiles) {
+      if (profile.seasonMonths.includes(month)) continue // 이번 달은 "지금"
+      if (assigned.has(profile.id)) continue // 먼저 든 달에만
+      if (!profile.seasonMonths.includes(mk)) continue
+      assigned.add(profile.id)
+      items.push({ profile, peak: profile.peakMonths.includes(mk) })
+    }
+    if (items.length > 0) groups.push({ month: mk, items })
+  }
+  return groups
+}
+
 /** 다음 달에 새로 철 드는 품목 (이번 달엔 아직 아닌 것만) */
 export function comingSoon(profiles: ProduceProfile[], month: number): ProduceProfile[] {
   const next = month === 12 ? 1 : month + 1
