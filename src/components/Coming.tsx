@@ -1,15 +1,16 @@
 import type { ComingView } from '../view-types'
 import { weekLabel } from '../week'
-import { IndexTab } from './IndexTab'
 import { Sprig } from './Sprig'
+import { NavIndex } from './NavIndex'
+import { ComingCard } from './ComingCard'
 
-/** 다가오는 제철 전용 페이지. 예고는 카드보다 가볍게 — 가격·펼침 없음. 표시 전용. */
+/** 다가오는 제철 전용 페이지. 카드형(껍데기 재활용), 예고는 가볍게. 표시 전용. */
 export function Coming({ view }: { view: ComingView }) {
   const { months, date, term } = view
   const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
   return (
     <>
-      <IndexTab side="left" path="" label="지금" ariaLabel="지금 담기 좋은 것" />
+      <NavIndex current="coming" />
       <header>
         <Sprig />
         <p className="week">{eyebrow}</p>
@@ -20,14 +21,11 @@ export function Coming({ view }: { view: ComingView }) {
           months.map((m) => (
             <section className="coming-month" key={m.month}>
               <h2>{m.month}월</h2>
-              <ul>
+              <div className="list">
                 {m.items.map((it, i) => (
-                  <li key={i} className={it.peak ? 'peak' : undefined}>
-                    {it.emoji} {it.name}
-                    {it.peak && <span className="peak-tag">절정</span>}
-                  </li>
+                  <ComingCard key={i} item={it} season={m.season} />
                 ))}
-              </ul>
+              </div>
             </section>
           ))
         ) : (
