@@ -210,8 +210,6 @@ header h1 {
 }
 
 .nodrop { color: var(--muted); font-size: 0.88rem; margin: 0 0 1rem; }
-.coming { margin-top: 1rem; color: var(--muted); font-size: 0.85rem; }
-.coming span { color: var(--ink); font-weight: 600; }
 
 footer { margin-top: 2.5rem; }
 footer p { color: var(--muted); font-size: 0.75rem; }
@@ -359,4 +357,93 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 
 @media (prefers-reduced-motion: reduce) {
   .memo, .memo-closing { animation: none; }
+}
+
+/* 다이어리 옆면 인덱스 탭 — 진짜 앵커, 종이 북마크 */
+.index-tab {
+  position: fixed;
+  top: 42%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem; /* ~44px 터치 타깃 */
+  padding: 0.9rem 0.4rem;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  background: var(--tint);
+  border: 1px solid var(--line);
+  text-decoration: none;
+  box-shadow: var(--lift); /* 메모 부양 1단 예외 */
+  transition: transform 160ms ease;
+}
+.index-tab-right {
+  right: 0;
+  border-radius: 0.3rem 0 0 0.3rem; /* 바깥(왼쪽)만 둥글게 */
+  border-right: none;
+}
+.index-tab-left {
+  left: 0;
+  border-radius: 0 0.3rem 0.3rem 0; /* 바깥(오른쪽)만 둥글게 */
+  border-left: none;
+}
+.index-tab-right:hover,
+.index-tab-right:focus-visible {
+  transform: translateX(-3px); /* 손끝에 걸리듯 들림 */
+}
+.index-tab-left:hover,
+.index-tab-left:focus-visible {
+  transform: translateX(3px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .index-tab {
+    transition: none;
+  }
+  .index-tab:hover,
+  .index-tab:focus-visible {
+    transform: none;
+  }
+}
+
+/* 다가오는 제철 — 달별 섹션 + 절정 태그 */
+.coming-month {
+  margin-top: 1.5rem;
+}
+.coming-month h2 {
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+.coming-month ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+.coming-month li {
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.coming-month li.peak {
+  font-weight: 600;
+}
+.peak-tag {
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  font-size: 0.75rem;
+  color: var(--ink);
+  background: var(--tint); /* 웜 컬러는 배경으로만, 글자는 쪽빛 */
+  border-radius: 0.2rem;
+}
+
+/* 선택적 향상 — MPA View Transitions (지원 브라우저에서만). */
+@view-transition {
+  navigation: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }
