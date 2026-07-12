@@ -15,7 +15,6 @@ export interface AppView {
   /** 카드 중 하나라도 레시피가 있으면 페이지 하단에 출처를 한 번 표기한다 */
   hasRecipes: boolean
   seasonal: Chip[]
-  coming: Chip[]
   date: Date
   staleDays: number
   /** 현재 절기 이름 — 있으면 아이브로에 "소서 · 7월 둘째 주"로 표기 */

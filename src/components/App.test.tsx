@@ -19,7 +19,7 @@ const pick: PickResult = {
 }
 const base: AppView = {
   cards: [toCardView(pick, 7)], noDrop: false, hasNutrition: false, hasRecipes: false,
-  seasonal: [{ emoji: '🍑', name: '복숭아' }], coming: [],
+  seasonal: [{ emoji: '🍑', name: '복숭아' }],
   date: new Date('2026-07-10'), staleDays: 0,
 }
 
@@ -41,12 +41,9 @@ describe('App', () => {
     expect(container.textContent).toContain('이번 달 제철 정보가 아직 없어요')
     expect(container.querySelector('#f-fruit')).toBeNull()
   })
-  test('noDrop·곧 제철', () => {
-    const { container } = render(
-      <App view={{ ...base, noDrop: true, coming: [{ emoji: '🍇', name: '포도' }] }} />,
-    )
+  test('noDrop이면 담백한 안내를 보인다', () => {
+    const { container } = render(<App view={{ ...base, noDrop: true }} />)
     expect(container.textContent).toContain('크게 내려온 게 없어요')
-    expect(container.textContent).toContain('포도')
   })
   test('절기가 있으면 아이브로에 함께', () => {
     const { container } = render(<App view={{ ...base, cards: [], seasonal: [], term: '소서' }} />)
@@ -59,5 +56,15 @@ describe('App', () => {
   test('hasRecipes false면 레시피 출처가 없다', () => {
     const { container } = render(<App view={base} />)
     expect(container.textContent).not.toContain('조리식품 레시피 DB')
+  })
+  test('오른쪽 인덱스 탭으로 다가오는 제철로 간다', () => {
+    const { container } = render(<App view={base} />)
+    const tab = container.querySelector('.index-tab-right')!
+    expect(tab.getAttribute('href')).toContain('coming')
+    expect(tab.getAttribute('aria-label')).toBe('다가오는 제철')
+  })
+  test('맨 아래 옛 "곧 제철" 한 줄은 없다', () => {
+    const { container } = render(<App view={base} />)
+    expect(container.querySelector('.coming')).toBeNull()
   })
 })

@@ -1,5 +1,5 @@
 import type { NutritionSnapshot, PriceSnapshot, ProduceProfile, RecipeSnapshot } from './types'
-import { comingMonths, comingSoon, hasDrops, seasonalThisMonth, selectPicks } from './picks'
+import { comingMonths, hasDrops, seasonalThisMonth, selectPicks } from './picks'
 import { toCardView } from './card'
 import { currentTerm } from './season'
 import { snapshotAgeDays } from './data'
@@ -33,7 +33,6 @@ export function buildAppView(
     hasNutrition: cards.some((c) => c.nutrition !== null),
     hasRecipes: cards.some((c) => c.recipes !== null),
     seasonal: seasonalThisMonth(profiles, month).map(label),
-    coming: comingSoon(profiles, month).map(label),
     date: now,
     staleDays: snapshot ? snapshotAgeDays(snapshot, now) : 0,
     term: currentTerm(now),

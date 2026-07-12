@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { comingSoon, hasDrops, matchEntry, priceView, selectPicks } from '../src/picks'
+import { hasDrops, matchEntry, priceView, selectPicks } from '../src/picks'
 import type { PriceEntry, PriceSnapshot, ProduceProfile } from '../src/types'
 
 function profile(over: Partial<ProduceProfile>): ProduceProfile {
@@ -182,18 +182,6 @@ describe('selectPicks', () => {
     const entries = [entry({ itemName: 'A', price: 880, priceMonthAgo: 1000 })]
     const picks = selectPicks(profiles, snap(entries), JULY)
     expect(picks[0].price?.changeVsMonthAgoPct).toBeCloseTo(-12)
-  })
-})
-
-describe('comingSoon', () => {
-  test('다음 달에 새로 드는 품목만', () => {
-    const p1 = profile({ id: 'a', seasonMonths: [7, 8] })   // 7월에도 제철 → 제외
-    const p2 = profile({ id: 'b', seasonMonths: [8, 9] })   // 8월 신규 → 포함
-    expect(comingSoon([p1, p2], 7).map((p) => p.id)).toEqual(['b'])
-  })
-  test('12월의 다음은 1월', () => {
-    const p = profile({ id: 'c', seasonMonths: [1] })
-    expect(comingSoon([p], 12).map((p) => p.id)).toEqual(['c'])
   })
 })
 

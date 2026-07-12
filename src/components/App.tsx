@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import type { AppView } from '../view-types'
 import { weekLabel } from '../week'
+import { IndexTab } from './IndexTab'
 import { ProduceCard } from './ProduceCard'
 import { Sprig } from './Sprig'
 
@@ -23,12 +24,13 @@ function usePeakDotTooltip() {
 }
 
 export function App({ view }: { view: AppView }) {
-  const { cards, noDrop, hasNutrition, hasRecipes, seasonal, coming, date, staleDays, term } = view
+  const { cards, noDrop, hasNutrition, hasRecipes, seasonal, date, staleDays, term } = view
   usePeakDotTooltip()
   const month = date.getMonth() + 1
   const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
   return (
     <>
+      <IndexTab side="right" path="coming" label="다가오는 제철" ariaLabel="다가오는 제철" />
       <header>
         <Sprig />
         <p className="week">{eyebrow}</p>
@@ -68,11 +70,6 @@ export function App({ view }: { view: AppView }) {
             ))}
           </ul>
         </section>
-        {coming.length > 0 && (
-          <p className="coming">
-            <span>곧 제철</span> · {coming.map((c) => `${c.emoji} ${c.name}`).join(' · ')}
-          </p>
-        )}
       </main>
       <footer>
         <p>가격: KAMIS(한국농수산식품유통공사) 일별 소매가격 · 전국 평균</p>

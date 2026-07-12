@@ -35,10 +35,9 @@ describe('buildAppView', () => {
     expect(v.noDrop).toBe(false)
   })
 
-  test('seasonal은 이번 달, coming은 다음 달 신규', () => {
+  test('seasonal은 이번 달 제철만', () => {
     const v = buildAppView([peach, grape], snap(), null, null, JULY)
     expect(v.seasonal).toEqual([{ emoji: '🍑', name: '복숭아' }])
-    expect(v.coming).toEqual([{ emoji: '🍇', name: '포도' }]) // 8월 신규
   })
 
   test('staleDays·term·date를 채운다', () => {
