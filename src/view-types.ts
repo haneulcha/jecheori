@@ -1,6 +1,7 @@
 import type { CardView } from './card'
+import type { Season } from './season'
 
-/** 이모지+이름 칩 하나 (제철 리스트·곧 제철 예고용) */
+/** 이모지+이름 칩 하나 (이번 달 제철 리스트용) */
 export interface Chip {
   emoji: string
   name: string
@@ -15,9 +16,30 @@ export interface AppView {
   /** 카드 중 하나라도 레시피가 있으면 페이지 하단에 출처를 한 번 표기한다 */
   hasRecipes: boolean
   seasonal: Chip[]
-  coming: Chip[]
   date: Date
   staleDays: number
   /** 현재 절기 이름 — 있으면 아이브로에 "소서 · 7월 둘째 주"로 표기 */
+  term?: string
+}
+
+export interface ComingItem {
+  emoji: string
+  name: string
+  peak: boolean
+  /** 배정된(미래) 월 기준 한마디 */
+  whyNow: string
+}
+
+export interface ComingMonth {
+  month: number
+  /** 그 달의 계절 — 카드 마스킹테이프 색 */
+  season: Season
+  items: ComingItem[]
+}
+
+export interface ComingView {
+  months: ComingMonth[]
+  date: Date
+  /** 현재 절기 이름 — 아이브로용 */
   term?: string
 }

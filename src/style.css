@@ -38,10 +38,10 @@
   /* 계절 기본값 (여름) — main.ts가 body[data-season]으로 덮어쓴다 */
   --accent: #ffc400;
 }
-body[data-season='spring'] { --accent: #a2d3a6; --tint: #eaf4e9; }
-body[data-season='summer'] { --accent: #ffc400; --tint: #fff4ce; }
-body[data-season='autumn'] { --accent: #ed7328; --tint: #fbe7d6; }
-body[data-season='winter'] { --accent: #bc6e79; --tint: #f6e7ea; }
+[data-season='spring'] { --accent: #a2d3a6; --tint: #eaf4e9; }
+[data-season='summer'] { --accent: #ffc400; --tint: #fff4ce; }
+[data-season='autumn'] { --accent: #ed7328; --tint: #fbe7d6; }
+[data-season='winter'] { --accent: #bc6e79; --tint: #f6e7ea; }
 
 * { box-sizing: border-box; }
 
@@ -210,8 +210,6 @@ header h1 {
 }
 
 .nodrop { color: var(--muted); font-size: 0.88rem; margin: 0 0 1rem; }
-.coming { margin-top: 1rem; color: var(--muted); font-size: 0.85rem; }
-.coming span { color: var(--ink); font-weight: 600; }
 
 footer { margin-top: 2.5rem; }
 footer p { color: var(--muted); font-size: 0.75rem; }
@@ -359,4 +357,67 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 
 @media (prefers-reduced-motion: reduce) {
   .memo, .memo-closing { animation: none; }
+}
+
+/* 다가오는 제철 — 달별 섹션. 절정 배지는 peak-dot의 점 비주얼 재사용(카드 로컬 계절색) */
+.peak-badge { display: inline-flex; }
+.peak-badge b {
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--tint);
+}
+/* 달 섹션 간 여백(카드 목록은 기존 .list 재사용) */
+.coming-month { margin-top: 1.6rem; }
+.coming-month h2 { font-size: 1rem; letter-spacing: 0.04em; margin-bottom: 0.8rem; }
+
+/* 램프줄(A) + 인덱스 서랍 — 상태기반(React state, 최소 JS) */
+.nav-index { position: fixed; top: -8px; right: 1rem; z-index: 20; } /* 위로 오버슈트 — 당겨도 틈 없음 */
+.nav-cord {
+  display: block; background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--ink); transition: transform 160ms ease;
+  position: relative; z-index: 22;   /* 차양(21)·백드롭(20) 앞에 — 열려도 줄로 다시 당겨 닫는다 */
+}
+.nav-cord svg { display: block; width: 12px; height: 72px; }
+.nav-cord::after {
+  content: ''; position: absolute; inset: 0 -16px;
+}
+.nav-cord:hover, .nav-cord:focus-visible { transform: translateY(4px); } /* 당김 (오버슈트 8 > 4라 위쪽 틈 없음) */
+.nav-backdrop { position: fixed; inset: 0; z-index: 20; background: transparent; border: 0; padding: 0; cursor: default; }
+.nav-panel {
+  position: fixed; top: 0; right: 0.8rem; z-index: 21;
+  width: 11rem;
+  background: var(--card); border: 1px solid var(--line);
+  border-top: 0;                          /* 천장에 붙음 — 위 테두리 없음 */
+  border-radius: 0 0 0.3rem 0.3rem;      /* 위에서 늘어지는 차양 */
+  box-shadow: var(--lift);
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+.nav-index[data-open] .nav-panel { grid-template-rows: 1fr; }
+.nav-panel-clip { overflow: hidden; }                    /* 접힘 전용 — 패딩 없음이라 0으로 완전 접힘 */
+.nav-panel-inner { padding: 0.85rem 0.95rem; }
+.nav-panel-title { font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.6rem; }
+.nav-panel a {
+  display: block; padding: 0.75rem 0; color: var(--ink); text-decoration: none;
+  border-bottom: 1px solid var(--line); font-size: 1.05rem;
+}
+.nav-panel a[aria-current='page'] { font-weight: 600; }
+@media (prefers-reduced-motion: reduce) {
+  .nav-cord, .nav-panel { transition: none; }
+  .nav-cord:hover, .nav-cord:focus-visible { transform: none; }
+}
+
+/* 선택적 향상 — MPA View Transitions (지원 브라우저에서만). */
+@view-transition {
+  navigation: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }

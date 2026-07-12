@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { buildAppView } from '../src/app'
+import { buildAppView, buildComingView } from '../src/app'
 import type { NutritionSnapshot, PriceEntry, PriceSnapshot, ProduceProfile, RecipeSnapshot } from '../src/types'
 
 const peach: ProduceProfile = {
@@ -35,10 +35,9 @@ describe('buildAppView', () => {
     expect(v.noDrop).toBe(false)
   })
 
-  test('seasonal은 이번 달, coming은 다음 달 신규', () => {
+  test('seasonal은 이번 달 제철만', () => {
     const v = buildAppView([peach, grape], snap(), null, null, JULY)
     expect(v.seasonal).toEqual([{ emoji: '🍑', name: '복숭아' }])
-    expect(v.coming).toEqual([{ emoji: '🍇', name: '포도' }]) // 8월 신규
   })
 
   test('staleDays·term·date를 채운다', () => {
@@ -101,5 +100,40 @@ describe('buildAppView', () => {
     const view = buildAppView(profiles, null, null, null, new Date('2026-07-11T00:00:00Z'))
     expect(view.cards[0].recipes).toBeNull()
     expect(view.hasRecipes).toBe(false)
+  })
+})
+
+// Helper for test fixture
+const cp = (
+  id: string, name: string, emoji: string,
+  seasonMonths: number[], peakMonths: number[], whyNow: Record<string, string>,
+): ProduceProfile => ({
+  id, name, emoji, category: 'fruit',
+  kamis: { categoryCode: '400', itemName: id },
+  seasonMonths, peakMonths, whyNow,
+  howToPick: 'p', howToStore: 's', howToUse: 'u',
+})
+
+describe('buildComingView', () => {
+  test('달별 계절과 품목별 미래월 한마디를 싣는다', () => {
+    const grape = cp('grape', '포도', '🍇', [8, 9], [8], { '8': '8월이 절정이에요', default: '가을' })
+    const view = buildComingView([grape], new Date('2026-07-15T00:00:00'))
+    expect(view.months).toHaveLength(1)
+    expect(view.months[0].month).toBe(8)
+    expect(view.months[0].season).toBe('summer')
+    expect(view.months[0].items[0]).toEqual({ emoji: '🍇', name: '포도', peak: true, whyNow: '8월이 절정이에요' })
+    expect(view.term).toBe('소서')
+  })
+
+  test('9월 그룹은 가을, 미래월 한마디를 뽑는다', () => {
+    const chestnut = cp('chestnut', '밤', '🌰', [9], [9], { '9': '9월이 절정이에요', default: '가을' })
+    const view = buildComingView([chestnut], new Date('2026-07-15T00:00:00'))
+    expect(view.months[0].season).toBe('autumn')
+    expect(view.months[0].items[0].whyNow).toBe('9월이 절정이에요')
+  })
+
+  test('다가오는 게 없으면 months는 빈 배열', () => {
+    const peach = cp('peach', '복숭아', '🍑', [7], [], { default: '여름' })
+    expect(buildComingView([peach], new Date('2026-07-15T00:00:00')).months).toEqual([])
   })
 })
