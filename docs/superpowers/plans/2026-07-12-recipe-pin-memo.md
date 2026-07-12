@@ -436,10 +436,12 @@ describe('ProduceCard 레시피', () => {
   })
 
   test('칩을 누르면 그 레시피 메모가 뜬다', () => {
-    const { container, getByText } = render(<ProduceCard card={withRecipes} />)
+    // 요리명은 칩과 메모 h3 두 곳에 나오므로 getByText가 아니라 메모로 스코프한다.
+    const { container } = render(<ProduceCard card={withRecipes} />)
     fireEvent.click(container.querySelectorAll('.chip-btn')[1])
-    expect(container.querySelector('.memo')).not.toBeNull()
-    expect(getByText('냉토마토파스타')).toBeTruthy()
+    const memo = container.querySelector('.memo')
+    expect(memo).not.toBeNull()
+    expect(memo!.querySelector('h3')!.textContent).toBe('냉토마토파스타')
   })
 
   test('‹ ›로 넘기면 메모 내용과 활성 칩이 동기화된다', () => {
