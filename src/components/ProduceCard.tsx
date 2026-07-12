@@ -58,10 +58,10 @@ export function ProduceCard({ card }: { card: CardView }) {
         {card.nutrition && <NutritionLine nutrition={card.nutrition} />}
         <Note note={card.note} />
         {recipes && (
-          <>
-            <p className="recipe-label">레시피 {recipes.length}개</p>
+          <div className="recipe-section">
+            <p className="recipe-label">레시피</p>
             <RecipeChips recipes={recipes} current={current} onSelect={select} memoId={memoId} />
-          </>
+          </div>
         )}
       </div>
       {recipes && current !== null && (

@@ -26,7 +26,7 @@ describe('ProduceCard 레시피', () => {
   test('recipes 있으면 칩을 보이고 처음엔 메모가 없다', () => {
     const { container } = render(<ProduceCard card={withRecipes} />)
     expect(container.querySelectorAll('.chip-btn')).toHaveLength(2)
-    expect(container.querySelector('.recipe-label')!.textContent).toContain('2개')
+    expect(container.querySelector('.recipe-label')!.textContent).toBe('레시피')
     expect(container.querySelector('.memo')).toBeNull()
   })
 

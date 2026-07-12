@@ -275,7 +275,8 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 .nutrition .serv { font-size: 0.68rem; color: var(--muted); text-align: right; margin-top: 0.3rem; }
 
 /* 레시피 진입 칩 + 카드 위 핀 메모 */
-.recipe-label { font-size: 0.68rem; letter-spacing: 0.08em; color: var(--muted); margin: 0.2rem 0 0.45rem; }
+/* 라벨+칩은 한 묶음(.recipe-section) — .open의 flex gap이 둘 사이에 끼지 않게, 간격은 라벨 margin만 */
+.recipe-label { font-size: 0.68rem; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 0.35rem; }
 
 .chips {
   display: flex; gap: 0.4rem; overflow-x: auto;
