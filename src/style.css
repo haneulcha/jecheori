@@ -34,6 +34,7 @@
   --tint: #fff4ce;
   /* 메모 고정 한정 옅은 부양(그림자 1단계). DESIGN.md 규율 예외 — 카드에만 쓴다. */
   --lift: 0 2px 6px rgba(43, 69, 134, 0.06);
+  --memo: #FFFCF3;                   /* 메모 낱장 — 순백 카드와 구분되는 살짝 따뜻한 종이 */
   /* 계절 기본값 (여름) — main.ts가 body[data-season]으로 덮어쓴다 */
   --accent: #ffc400;
 }
@@ -273,51 +274,78 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 .nutrition .val .u { font-size: 0.72rem; font-weight: 600; margin-left: 0.06rem; }
 .nutrition .serv { font-size: 0.68rem; color: var(--muted); text-align: right; margin-top: 0.3rem; }
 
-/* 레시피 바텀시트 — 하단에서 슬라이드업, 텍스트만 */
-.recipe-open {
-  align-self: center;
-  margin-top: 0.2rem;
-  background: none;
-  border: 1px dashed var(--line);
-  border-radius: 0.4rem;
-  padding: 0.34rem 0.8rem;
-  color: var(--ink);
-  font: inherit;
-  font-size: 0.82rem;
-  cursor: pointer;
+/* 레시피 진입 칩 + 카드 위 핀 메모 */
+.recipe-label { font-size: 0.68rem; letter-spacing: 0.08em; color: var(--muted); margin: 0.2rem 0 0.45rem; }
+
+.chips {
+  display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.3rem;
+  scrollbar-width: thin; -webkit-overflow-scrolling: touch;
 }
-.sheet-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(43, 69, 134, 0.28);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 50;
+.chip-btn {
+  flex: 0 0 auto; font: inherit; font-size: 0.82rem;
+  background: none; border: 1px dashed var(--line); border-radius: 0.4rem;
+  padding: 0.34rem 0.8rem; color: var(--ink); cursor: pointer; white-space: nowrap;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s ease-out;
 }
-.sheet {
-  position: relative;
-  width: 100%;
-  max-width: 32rem;
-  max-height: 82vh;
-  overflow-y: auto;
-  background: var(--card);
-  border-radius: 1rem 1rem 0 0;
-  padding: 1.4rem 1.3rem 2rem;
-  box-shadow: 0 -4px 20px rgba(43, 69, 134, 0.14);
+.chip-btn:hover { border-color: var(--ink); }
+.chip-btn:active { transform: scale(0.97); }              /* 누르는 순간 즉시 피드백 */
+.chip-btn[aria-pressed="true"] { border-style: solid; border-color: var(--ink); background: var(--tint); }
+.chip-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.memo-layer { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+.memo {
+  position: absolute; left: 50%; top: 12px; width: min(21rem, 94%);
+  transform: translateX(-50%) rotate(-0.7deg);
+  background: var(--memo); border: 1px solid var(--line); border-radius: 0.15rem;
+  padding: 1.35rem 2.5rem 1rem;                            /* 좌우 여백 = ‹ › 자리 */
+  box-shadow: 0 12px 26px -12px rgba(43, 69, 134, 0.32);  /* 예외: 메모 부양 1단 */
+  pointer-events: auto; outline: none;
+  animation: memo-in 0.2s ease-out;                        /* 오버슈트 없음 */
 }
-.sheet-close {
-  position: absolute;
-  top: 0.8rem;
-  right: 0.9rem;
-  background: none;
-  border: none;
-  color: var(--muted);
-  font-size: 1.1rem;
-  cursor: pointer;
+.memo-closing { animation: memo-out 0.18s ease-in forwards; }  /* 열기와 대칭 */
+@keyframes memo-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-8px) scale(0.98) rotate(-0.7deg); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1) rotate(-0.7deg); }
 }
-.sheet .recipe + .recipe { border-top: 1px dashed var(--line); margin-top: 1.2rem; padding-top: 1.2rem; }
-.sheet .recipe h3 { color: var(--ink); font-size: 1rem; margin: 0 0 0.5rem; }
-.sheet .recipe .ing { color: var(--muted); font-size: 0.85rem; margin: 0 0 0.7rem; }
-.sheet .steps { margin: 0; padding-left: 1.3rem; color: #5a5140; font-size: 0.9rem; line-height: 1.7; }
-.sheet .steps li { margin-bottom: 0.3rem; }
+@keyframes memo-out {
+  from { opacity: 1; transform: translateX(-50%) translateY(0) scale(1) rotate(-0.7deg); }
+  to   { opacity: 0; transform: translateX(-50%) translateY(-8px) scale(0.98) rotate(-0.7deg); }
+}
+.memo h3 { font-size: 1rem; margin: 0 0 0.5rem; color: var(--ink); text-align: center; }
+.memo .ing { font-size: 0.79rem; color: var(--muted); margin: 0 0 0.8rem; line-height: 1.55; }
+.memo .steps { margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: #5a5140; line-height: 1.7; max-height: 15rem; overflow-y: auto; }
+.memo .steps li { margin-bottom: 0.35rem; }
+.memo .steps li::marker { color: var(--muted); }
+.memo .count { text-align: center; font-size: 0.72rem; color: var(--muted); margin: 0.85rem 0 0; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+
+/* 압정 = 닫기. 단색 러스트 + 흰 하이라이트(그라데이션 금지). 히트 영역 ~44px. */
+.pin {
+  position: absolute; top: -0.62rem; left: 50%; transform: translateX(-50%);
+  width: 1.15rem; height: 1.15rem; border-radius: 50%; border: none; cursor: pointer;
+  background: var(--rise); padding: 0; z-index: 2;
+  box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.35);
+}
+.pin::after { content: ""; position: absolute; top: 30%; left: 30%; width: 0.3rem; height: 0.3rem; border-radius: 50%; background: rgba(255, 255, 255, 0.8); }
+.pin::before { content: ""; position: absolute; inset: -0.75rem; }   /* 투명 히트 패딩 */
+.pin:hover { filter: brightness(1.06); }
+
+/* ‹ › 넘김. 히트 영역 ~44px. */
+.nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 1.9rem; height: 1.9rem; border-radius: 50%;
+  border: 1px solid var(--ink); background: var(--card); color: var(--ink);
+  font-size: 1rem; line-height: 1; cursor: pointer; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav::before { content: ""; position: absolute; inset: -0.5rem; }   /* 투명 히트 패딩 */
+.nav-prev { left: 0.3rem; }
+.nav-next { right: 0.3rem; }
+.nav:hover:not(:disabled) { background: var(--tint); }
+.nav:disabled { opacity: 0.28; cursor: default; }
+.pin:focus-visible, .nav:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .memo, .memo-closing { animation: none; }
+  .chip-btn { transition: border-color 0.15s, background 0.15s; }
+  .chip-btn:active { transform: none; }
+}
