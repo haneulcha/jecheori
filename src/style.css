@@ -45,6 +45,10 @@ body[data-season='winter'] { --accent: #bc6e79; --tint: #f6e7ea; }
 
 * { box-sizing: border-box; }
 
+/* 스크롤바 전역 숨김 — 스크롤 기능은 유지, 바만 감춘다 (페이지·메모 단계 목록·칩 행 모두) */
+* { scrollbar-width: none; -ms-overflow-style: none; }
+*::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
 body {
   margin: 0;
   background: var(--paper);
@@ -282,11 +286,8 @@ footer p { color: var(--muted); font-size: 0.75rem; }
   display: flex; gap: 0.4rem; overflow-x: auto;
   margin: 0 -1.05rem;                  /* 카드 안쪽 패딩 상쇄 — 횡스크롤 풀블리드(양옆 여백 제거) */
   padding: 0 1.05rem 0.3rem;           /* 첫/끝 칩은 콘텐츠에 정렬, 스크롤은 가장자리까지 */
-  scrollbar-width: none;               /* 스크롤바 숨김 (Firefox) */
-  -ms-overflow-style: none;            /* 스크롤바 숨김 (구 Edge/IE) */
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;   /* 스크롤바는 전역 규칙에서 숨김 */
 }
-.chips::-webkit-scrollbar { display: none; }  /* 스크롤바 숨김 (WebKit) */
 .chip-btn {
   flex: 0 0 auto; font: inherit; font-size: 0.82rem;
   background: none; border: 1px dashed var(--line); border-radius: 0.4rem;
@@ -322,6 +323,11 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 .memo .steps { margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: #5a5140; line-height: 1.7; max-height: 15rem; overflow-y: auto; }
 .memo .steps li { margin-bottom: 0.35rem; }
 .memo .steps li::marker { color: var(--muted); }
+/* 단계가 넘쳐 스크롤이 생기고 아직 바닥이 아닐 때만, 하단 경계를 페이드로 부드럽게 (JS로 클래스 토글) */
+.memo .steps-fade {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 1.6rem), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 1.6rem), transparent);
+}
 .memo .count { text-align: center; font-size: 0.72rem; color: var(--muted); margin: 0.85rem 0 0; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
 
 /* 압정 = 닫기. 단색 러스트 + 흰 하이라이트(그라데이션 금지). 히트 영역 ~44px. */
@@ -335,19 +341,21 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 .pin::before { content: ""; position: absolute; inset: -0.75rem; }   /* 투명 히트 패딩 */
 .pin:hover { filter: brightness(1.06); }
 
-/* ‹ › 넘김. 히트 영역 ~44px. */
+/* ‹ › 넘김 — 따뜻한 헤어라인(쪽빛 아님) + 크림 페이퍼 채움으로 메모에 조용히 얹힌다.
+   히트 영역 ~44px. */
 .nav {
   position: absolute; top: 50%; transform: translateY(-50%);
-  width: 1.9rem; height: 1.9rem; border-radius: 50%;
-  border: 1px solid var(--ink); background: var(--card); color: var(--ink);
-  font-size: 1rem; line-height: 1; cursor: pointer; padding: 0;
+  width: 1.7rem; height: 1.7rem; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--paper); color: var(--ink);
+  font-size: 1.05rem; line-height: 1; cursor: pointer; padding: 0 0 0.08rem;
   display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
 }
-.nav::before { content: ""; position: absolute; inset: -0.5rem; }   /* 투명 히트 패딩 */
-.nav-prev { left: 0.3rem; }
-.nav-next { right: 0.3rem; }
-.nav:hover:not(:disabled) { background: var(--tint); }
-.nav:disabled { opacity: 0.28; cursor: default; }
+.nav::before { content: ""; position: absolute; inset: -0.6rem; }   /* 투명 히트 패딩 */
+.nav-prev { left: 0.2rem; }
+.nav-next { right: 0.2rem; }
+.nav:hover:not(:disabled) { background: var(--tint); border-color: var(--ink); }
+.nav:disabled { opacity: 0.3; cursor: default; }
 .pin:focus-visible, .nav:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {

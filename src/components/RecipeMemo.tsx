@@ -43,6 +43,26 @@ export function RecipeMemo({
     }
   }, [index])
 
+  // 단계 목록이 카드 높이를 넘어 스크롤이 생기고, 아직 바닥이 아닐 때만 하단 페이드.
+  const stepsRef = useRef<HTMLOListElement>(null)
+  const [stepsFade, setStepsFade] = useState(false)
+  const syncStepsFade = () => {
+    const el = stepsRef.current
+    if (!el) {
+      setStepsFade(false)
+      return
+    }
+    const overflowing = el.scrollHeight > el.clientHeight + 1
+    const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 2
+    setStepsFade(overflowing && !atBottom)
+  }
+  // 레시피가 바뀌면 단계를 처음부터 보여주고(스크롤 리셋) 페이드를 재측정.
+  useEffect(() => {
+    if (stepsRef.current) stepsRef.current.scrollTop = 0
+    syncStepsFade()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index])
+
   const beginClose = () => {
     // 이미 예약된 닫힘이 있으면 취소하고 새로 잡는다 — 압정 연타·압정+Esc로 타이머가 고아가
     // 돼 나중에 엉뚱한 레시피를 닫는 걸 막는다. (Esc 리스너는 마운트 클로저라 stale한 closing을
@@ -104,7 +124,11 @@ export function RecipeMemo({
       <h3>{r.name}</h3>
       {r.ingredients && <p className="ing">{r.ingredients}</p>}
       {r.steps.length > 0 && (
-        <ol className="steps">
+        <ol
+          ref={stepsRef}
+          className={stepsFade ? 'steps steps-fade' : 'steps'}
+          onScroll={syncStepsFade}
+        >
           {r.steps.map((s, i) => (
             <li key={i}>{s}</li>
           ))}
