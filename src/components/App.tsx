@@ -2,16 +2,7 @@ import { useEffect } from 'react'
 import type { AppView } from '../view-types'
 import { weekLabel } from '../week'
 import { ProduceCard } from './ProduceCard'
-
-const Sprig = () => (
-  <svg className="sprig" viewBox="0 0 120 120" fill="none" aria-hidden="true">
-    <path d="M20 110 C 45 85, 70 55, 98 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    <path d="M46 82 C 38 68, 40 58, 52 50 C 56 62, 54 72, 46 82 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-    <path d="M64 60 C 74 46, 86 42, 98 46 C 92 58, 80 64, 64 60 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-    <path d="M34 96 C 26 88, 24 78, 30 70 C 38 76, 40 88, 34 96 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-    <circle cx="98" cy="18" r="4" stroke="currentColor" strokeWidth="1.5" />
-  </svg>
-)
+import { Sprig } from './Sprig'
 
 // 절정 dot 툴팁: 데스크톱은 CSS hover/focus, 터치는 탭 토글 (문서 위임).
 // dot 탭은 카드 펼침(<summary>)을 막고 자기 툴팁만 여닫는다.
