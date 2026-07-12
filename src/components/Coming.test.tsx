@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
-import { render } from '@testing-library/react'
 import { describe, expect, test } from 'vitest'
 import { Coming } from './Coming'
+import { renderWithRouter } from '../test-utils'
 import type { ComingView } from '../view-types'
 
 const base: ComingView = {
@@ -14,8 +14,8 @@ const base: ComingView = {
 }
 
 describe('Coming', () => {
-  test('머리말·달 헤더·카드·절정 배지·목차를 그린다', () => {
-    const { container } = render(<Coming view={base} />)
+  test('머리말·달 헤더·카드·절정 배지·목차를 그린다', async () => {
+    const { container } = await renderWithRouter(<Coming view={base} />)
     expect(container.querySelector('h1')?.textContent).toContain('다가오는 제철')
     expect([...container.querySelectorAll('h2')].map((h) => h.textContent)).toEqual(['8월', '9월'])
     const cards = container.querySelectorAll('.coming-card')
@@ -29,8 +29,8 @@ describe('Coming', () => {
     expect(container.querySelector('.sprig')).not.toBeNull()
   })
 
-  test('다가오는 게 없으면 담백한 안내', () => {
-    const { container } = render(<Coming view={{ ...base, months: [] }} />)
+  test('다가오는 게 없으면 담백한 안내', async () => {
+    const { container } = await renderWithRouter(<Coming view={{ ...base, months: [] }} />)
     expect(container.textContent).toContain('다가오는 제철 정보가 아직 없어요')
     expect(container.querySelector('h2')).toBeNull()
   })

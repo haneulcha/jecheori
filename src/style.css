@@ -373,29 +373,22 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 .coming-month { margin-top: 1.6rem; }
 .coming-month h2 { font-size: 1rem; letter-spacing: 0.04em; margin-bottom: 0.8rem; }
 
-/* 램프줄(A) + 인덱스 서랍 — 체크박스 훅(무JS) */
-.nav-index { position: fixed; top: 0; right: 1rem; z-index: 20; }
-/* 토글: 시각적으로 숨기되 포커스 가능 */
-.nav-toggle {
-  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+/* 램프줄(A) + 인덱스 서랍 — 상태기반(React state, 최소 JS) */
+.nav-index { position: fixed; top: -8px; right: 1rem; z-index: 20; } /* 위로 오버슈트 — 당겨도 틈 없음 */
+.nav-cord {
+  display: block; background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--ink); transition: transform 160ms ease;
 }
-/* 램프줄: 얇은 쪽빛 선 + 끝점 링(Sprig 어휘 라임) */
-.nav-cord { display: block; cursor: pointer; color: var(--ink); transition: transform 160ms ease; }
-.nav-cord svg { display: block; width: 12px; height: 64px; }
-.nav-cord:hover,
-.nav-toggle:focus-visible + .nav-cord { transform: translateY(3px); } /* 당김 */
-/* 바깥 클릭 닫기용 투명 백드롭 */
-.nav-backdrop { display: none; position: fixed; inset: 0; z-index: 20; background: transparent; }
-#nav-toggle:checked ~ .nav-backdrop { display: block; }
-/* 서랍: 오른쪽에서 슬라이드 */
+.nav-cord svg { display: block; width: 12px; height: 72px; }
+.nav-cord:hover, .nav-cord:focus-visible { transform: translateY(4px); } /* 당김 (오버슈트 8 > 4라 위쪽 틈 없음) */
+.nav-backdrop { position: fixed; inset: 0; z-index: 20; background: transparent; border: 0; padding: 0; cursor: default; }
 .nav-panel {
   position: fixed; top: 0; right: 0; z-index: 21; height: 100%;
   width: min(16rem, 80vw); padding: 3rem 1.4rem;
   background: var(--card); border-left: 1px solid var(--line); box-shadow: var(--lift);
   transform: translateX(100%); transition: transform 220ms ease;
 }
-#nav-toggle:checked ~ .nav-panel { transform: translateX(0); }
+.nav-index[data-open] .nav-panel { transform: translateX(0); }
 .nav-panel-title { font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.6rem; }
 .nav-panel a {
   display: block; padding: 0.75rem 0; color: var(--ink); text-decoration: none;
@@ -404,7 +397,7 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 .nav-panel a[aria-current='page'] { font-weight: 600; }
 @media (prefers-reduced-motion: reduce) {
   .nav-cord, .nav-panel { transition: none; }
-  .nav-cord:hover, .nav-toggle:focus-visible + .nav-cord { transform: none; }
+  .nav-cord:hover, .nav-cord:focus-visible { transform: none; }
 }
 
 /* 선택적 향상 — MPA View Transitions (지원 브라우저에서만). */
