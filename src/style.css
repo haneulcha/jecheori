@@ -278,9 +278,14 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 .recipe-label { font-size: 0.68rem; letter-spacing: 0.08em; color: var(--muted); margin: 0.2rem 0 0.45rem; }
 
 .chips {
-  display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.3rem;
-  scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+  display: flex; gap: 0.4rem; overflow-x: auto;
+  margin: 0 -1.05rem;                  /* 카드 안쪽 패딩 상쇄 — 횡스크롤 풀블리드(양옆 여백 제거) */
+  padding: 0 1.05rem 0.3rem;           /* 첫/끝 칩은 콘텐츠에 정렬, 스크롤은 가장자리까지 */
+  scrollbar-width: none;               /* 스크롤바 숨김 (Firefox) */
+  -ms-overflow-style: none;            /* 스크롤바 숨김 (구 Edge/IE) */
+  -webkit-overflow-scrolling: touch;
 }
+.chips::-webkit-scrollbar { display: none; }  /* 스크롤바 숨김 (WebKit) */
 .chip-btn {
   flex: 0 0 auto; font: inherit; font-size: 0.82rem;
   background: none; border: 1px dashed var(--line); border-radius: 0.4rem;
@@ -294,22 +299,22 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 
 .memo-layer { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
 .memo {
-  position: absolute; left: 50%; top: 12px; width: min(21rem, 94%);
-  transform: translateX(-50%) rotate(-0.7deg);
+  position: absolute; left: 50%; top: 50%; width: min(21rem, 94%);
+  transform: translate(-50%, -50%) rotate(-0.7deg);        /* 카드 정중앙 */
   background: var(--memo); border: 1px solid var(--line); border-radius: 0.15rem;
   padding: 1.35rem 2.5rem 1rem;                            /* 좌우 여백 = ‹ › 자리 */
-  box-shadow: 0 12px 26px -12px rgba(43, 69, 134, 0.32);  /* 예외: 메모 부양 1단 */
+  box-shadow: 0 6px 16px -10px rgba(43, 69, 134, 0.20);   /* 예외: 메모 부양(옅게) */
   pointer-events: auto; outline: none;
   animation: memo-in 0.2s ease-out;                        /* 오버슈트 없음 */
 }
 .memo-closing { animation: memo-out 0.18s ease-in forwards; }  /* 열기와 대칭 */
 @keyframes memo-in {
-  from { opacity: 0; transform: translateX(-50%) translateY(-8px) scale(0.98) rotate(-0.7deg); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1) rotate(-0.7deg); }
+  from { opacity: 0; transform: translate(-50%, calc(-50% - 8px)) scale(0.98) rotate(-0.7deg); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-0.7deg); }
 }
 @keyframes memo-out {
-  from { opacity: 1; transform: translateX(-50%) translateY(0) scale(1) rotate(-0.7deg); }
-  to   { opacity: 0; transform: translateX(-50%) translateY(-8px) scale(0.98) rotate(-0.7deg); }
+  from { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-0.7deg); }
+  to   { opacity: 0; transform: translate(-50%, calc(-50% - 8px)) scale(0.98) rotate(-0.7deg); }
 }
 .memo h3 { font-size: 1rem; margin: 0 0 0.5rem; color: var(--ink); text-align: center; }
 .memo .ing { font-size: 0.79rem; color: var(--muted); margin: 0 0 0.8rem; line-height: 1.55; }
