@@ -24,13 +24,15 @@ export function NavIndex({ current }: { current: 'now' | 'coming' }) {
         <button type="button" className="nav-backdrop" aria-label="목차 닫기" onClick={close} />
       )}
       <div className="nav-panel">
-        <p className="nav-panel-title">목차</p>
-        <Link to="/" viewTransition aria-current={current === 'now' ? 'page' : undefined} onClick={close}>
-          지금 담기 좋은 것
-        </Link>
-        <Link to="/coming" viewTransition aria-current={current === 'coming' ? 'page' : undefined} onClick={close}>
-          다가오는 제철
-        </Link>
+        <div className="nav-panel-inner">
+          <p className="nav-panel-title">목차</p>
+          <Link to="/" viewTransition aria-current={current === 'now' ? 'page' : undefined} onClick={close}>
+            지금 담기 좋은 것
+          </Link>
+          <Link to="/coming" viewTransition aria-current={current === 'coming' ? 'page' : undefined} onClick={close}>
+            다가오는 제철
+          </Link>
+        </div>
       </div>
     </nav>
   )
