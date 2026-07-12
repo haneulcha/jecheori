@@ -114,4 +114,17 @@ describe('RecipeMemo', () => {
     await new Promise((r) => setTimeout(r, 220))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
+
+  test('압정+Esc 연타로도 타이머가 고아가 되지 않아 onClose는 한 번만', async () => {
+    const onClose = vi.fn()
+    const { container } = render(
+      <RecipeMemo recipes={recipes} index={0} onClose={onClose} onStep={noop} />,
+    )
+    fireEvent.click(container.querySelector('.pin')!)
+    fireEvent.keyDown(document, { key: 'Escape' })
+    fireEvent.keyDown(document, { key: 'Escape' })
+    await waitFor(() => expect(onClose).toHaveBeenCalled())
+    await new Promise((r) => setTimeout(r, 250)) // 고아 타이머가 있었다면 이 창에서 또 불렸을 것
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
 })

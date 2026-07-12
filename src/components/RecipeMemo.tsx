@@ -44,7 +44,10 @@ export function RecipeMemo({
   }, [index])
 
   const beginClose = () => {
-    if (closing) return
+    // 이미 예약된 닫힘이 있으면 취소하고 새로 잡는다 — 압정 연타·압정+Esc로 타이머가 고아가
+    // 돼 나중에 엉뚱한 레시피를 닫는 걸 막는다. (Esc 리스너는 마운트 클로저라 stale한 closing을
+    // 읽으므로, guard 대신 무조건 clear로 정확성을 보장한다.)
+    if (timer.current) clearTimeout(timer.current)
     setClosing(true)
     timer.current = setTimeout(() => onCloseRef.current(), CLOSE_MS)
   }
