@@ -21,3 +21,21 @@ export interface AppView {
   /** 현재 절기 이름 — 있으면 아이브로에 "소서 · 7월 둘째 주"로 표기 */
   term?: string
 }
+
+export interface ComingItem {
+  emoji: string
+  name: string
+  peak: boolean
+}
+
+export interface ComingMonth {
+  month: number
+  items: ComingItem[]
+}
+
+export interface ComingView {
+  months: ComingMonth[]
+  date: Date
+  /** 현재 절기 이름 — 아이브로용 */
+  term?: string
+}

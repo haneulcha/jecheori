@@ -1,11 +1,11 @@
 import type { NutritionSnapshot, PriceSnapshot, ProduceProfile, RecipeSnapshot } from './types'
-import { comingSoon, hasDrops, seasonalThisMonth, selectPicks } from './picks'
+import { comingMonths, comingSoon, hasDrops, seasonalThisMonth, selectPicks } from './picks'
 import { toCardView } from './card'
 import { currentTerm } from './season'
 import { snapshotAgeDays } from './data'
 import { matchNutrition, nutritionView } from './nutrition'
 import { matchRecipes, recipeView } from './recipe'
-import type { AppView } from './view-types'
+import type { AppView, ComingView } from './view-types'
 
 const label = (p: ProduceProfile) => ({ emoji: p.emoji, name: p.name })
 
@@ -38,4 +38,14 @@ export function buildAppView(
     staleDays: snapshot ? snapshotAgeDays(snapshot, now) : 0,
     term: currentTerm(now),
   }
+}
+
+/** 원시 프로필+시계 → 다가오는 제철 뷰. 순수. 가격·영양·레시피 안 씀. */
+export function buildComingView(profiles: ProduceProfile[], now: Date): ComingView {
+  const month = now.getMonth() + 1
+  const months = comingMonths(profiles, month).map((g) => ({
+    month: g.month,
+    items: g.items.map((it) => ({ emoji: it.profile.emoji, name: it.profile.name, peak: it.peak })),
+  }))
+  return { months, date: now, term: currentTerm(now) }
 }
