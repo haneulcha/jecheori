@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
-import { render } from '@testing-library/react'
-import { describe, expect, test } from 'vitest'
+import { cleanup, render } from '@testing-library/react'
+import { afterEach, describe, expect, test } from 'vitest'
 import { App } from './App'
 import { toCardView } from '../card'
 import type { PickResult } from '../picks'
@@ -24,6 +24,8 @@ const base: AppView = {
 }
 
 describe('App', () => {
+  afterEach(() => cleanup())
+
   test('카드·필터·whyNow·절정 dot 렌더', () => {
     const { container } = render(<App view={base} />)
     const html = container.innerHTML
@@ -57,11 +59,11 @@ describe('App', () => {
     const { container } = render(<App view={base} />)
     expect(container.textContent).not.toContain('조리식품 레시피 DB')
   })
-  test('오른쪽 인덱스 탭으로 다가오는 제철로 간다', () => {
-    const { container } = render(<App view={base} />)
-    const tab = container.querySelector('.index-tab-right')!
-    expect(tab.getAttribute('href')).toContain('coming')
-    expect(tab.getAttribute('aria-label')).toBe('다가오는 제철')
+  test('목차(NavIndex)로 다가오는 제철에 갈 수 있다', () => {
+    const { container, getByText } = render(<App view={base} />)
+    expect(container.querySelector('.nav-index')).not.toBeNull()
+    const coming = getByText('다가오는 제철') as HTMLAnchorElement
+    expect(coming.getAttribute('href')).toContain('coming')
   })
   test('맨 아래 옛 "곧 제철" 한 줄은 없다', () => {
     const { container } = render(<App view={base} />)

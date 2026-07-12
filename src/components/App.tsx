@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import type { AppView } from '../view-types'
 import { weekLabel } from '../week'
-import { IndexTab } from './IndexTab'
+import { NavIndex } from './NavIndex'
 import { ProduceCard } from './ProduceCard'
 import { Sprig } from './Sprig'
 
@@ -30,7 +30,7 @@ export function App({ view }: { view: AppView }) {
   const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
   return (
     <>
-      <IndexTab side="right" path="coming" label="다가오는 제철" ariaLabel="다가오는 제철" />
+      <NavIndex current="now" />
       <header>
         <Sprig />
         <p className="week">{eyebrow}</p>
