@@ -291,10 +291,10 @@ footer p { color: var(--muted); font-size: 0.75rem; }
   flex: 0 0 auto; font: inherit; font-size: 0.82rem;
   background: none; border: 1px dashed var(--line); border-radius: 0.4rem;
   padding: 0.34rem 0.8rem; color: var(--ink); cursor: pointer; white-space: nowrap;
-  transition: border-color 0.15s, background 0.15s, transform 0.1s ease-out;
+  transition: border-color 0.15s, background 0.15s;
 }
 .chip-btn:hover { border-color: var(--ink); }
-.chip-btn:active { transform: scale(0.97); }              /* 누르는 순간 즉시 피드백 */
+/* 누름 피드백은 활성(tint+실선)으로 충분 — scale 변형은 텍스트가 들썩여 쓰지 않는다 */
 .chip-btn[aria-pressed="true"] { border-style: solid; border-color: var(--ink); background: var(--tint); }
 .chip-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
@@ -352,6 +352,4 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 
 @media (prefers-reduced-motion: reduce) {
   .memo, .memo-closing { animation: none; }
-  .chip-btn { transition: border-color 0.15s, background 0.15s; }
-  .chip-btn:active { transform: none; }
 }
