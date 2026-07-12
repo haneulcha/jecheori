@@ -38,10 +38,10 @@
   /* 계절 기본값 (여름) — main.ts가 body[data-season]으로 덮어쓴다 */
   --accent: #ffc400;
 }
-body[data-season='spring'] { --accent: #a2d3a6; --tint: #eaf4e9; }
-body[data-season='summer'] { --accent: #ffc400; --tint: #fff4ce; }
-body[data-season='autumn'] { --accent: #ed7328; --tint: #fbe7d6; }
-body[data-season='winter'] { --accent: #bc6e79; --tint: #f6e7ea; }
+[data-season='spring'] { --accent: #a2d3a6; --tint: #eaf4e9; }
+[data-season='summer'] { --accent: #ffc400; --tint: #fff4ce; }
+[data-season='autumn'] { --accent: #ed7328; --tint: #fbe7d6; }
+[data-season='winter'] { --accent: #bc6e79; --tint: #f6e7ea; }
 
 * { box-sizing: border-box; }
 
@@ -359,81 +359,52 @@ footer p { color: var(--muted); font-size: 0.75rem; }
   .memo, .memo-closing { animation: none; }
 }
 
-/* 다이어리 옆면 인덱스 탭 — 진짜 앵커, 종이 북마크 */
-.index-tab {
-  position: fixed;
-  top: 42%;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2.75rem; /* ~44px 터치 타깃 */
-  padding: 0.9rem 0.4rem;
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-  letter-spacing: 0.06em;
-  color: var(--ink);
-  background: var(--tint);
-  border: 1px solid var(--line);
-  text-decoration: none;
-  box-shadow: var(--lift); /* 메모 부양 1단 예외 */
-  transition: transform 160ms ease;
+/* 다가오는 제철 — 달별 섹션. 절정 배지는 peak-dot의 점 비주얼 재사용(카드 로컬 계절색) */
+.peak-badge { display: inline-flex; }
+.peak-badge b {
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--tint);
 }
-.index-tab-right {
-  right: 0;
-  border-radius: 0.3rem 0 0 0.3rem; /* 바깥(왼쪽)만 둥글게 */
-  border-right: none;
-}
-.index-tab-left {
-  left: 0;
-  border-radius: 0 0.3rem 0.3rem 0; /* 바깥(오른쪽)만 둥글게 */
-  border-left: none;
-}
-.index-tab-right:hover,
-.index-tab-right:focus-visible {
-  transform: translateX(-3px); /* 손끝에 걸리듯 들림 */
-}
-.index-tab-left:hover,
-.index-tab-left:focus-visible {
-  transform: translateX(3px);
-}
-@media (prefers-reduced-motion: reduce) {
-  .index-tab {
-    transition: none;
-  }
-  .index-tab:hover,
-  .index-tab:focus-visible {
-    transform: none;
-  }
-}
+/* 달 섹션 간 여백(카드 목록은 기존 .list 재사용) */
+.coming-month { margin-top: 1.6rem; }
+.coming-month h2 { font-size: 1rem; letter-spacing: 0.04em; margin-bottom: 0.8rem; }
 
-/* 다가오는 제철 — 달별 섹션 + 절정 태그 */
-.coming-month {
-  margin-top: 1.5rem;
+/* 램프줄(A) + 인덱스 서랍 — 체크박스 훅(무JS) */
+.nav-index { position: fixed; top: 0; right: 1rem; z-index: 20; }
+/* 토글: 시각적으로 숨기되 포커스 가능 */
+.nav-toggle {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
-.coming-month h2 {
-  font-size: 1rem;
-  letter-spacing: 0.04em;
+/* 램프줄: 얇은 쪽빛 선 + 끝점 링(Sprig 어휘 라임) */
+.nav-cord { display: block; cursor: pointer; color: var(--ink); transition: transform 160ms ease; }
+.nav-cord svg { display: block; width: 12px; height: 64px; }
+.nav-cord:hover,
+.nav-toggle:focus-visible + .nav-cord { transform: translateY(3px); } /* 당김 */
+/* 바깥 클릭 닫기용 투명 백드롭 */
+.nav-backdrop { display: none; position: fixed; inset: 0; z-index: 20; background: transparent; }
+#nav-toggle:checked ~ .nav-backdrop { display: block; }
+/* 서랍: 오른쪽에서 슬라이드 */
+.nav-panel {
+  position: fixed; top: 0; right: 0; z-index: 21; height: 100%;
+  width: min(16rem, 80vw); padding: 3rem 1.4rem;
+  background: var(--card); border-left: 1px solid var(--line); box-shadow: var(--lift);
+  transform: translateX(100%); transition: transform 220ms ease;
 }
-.coming-month ul {
-  list-style: none;
-  padding: 0;
-  margin: 0.5rem 0 0;
+#nav-toggle:checked ~ .nav-panel { transform: translateX(0); }
+.nav-panel-title { font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.6rem; }
+.nav-panel a {
+  display: block; padding: 0.75rem 0; color: var(--ink); text-decoration: none;
+  border-bottom: 1px solid var(--line); font-size: 1.05rem;
 }
-.coming-month li {
-  padding: 0.35rem 0;
-  border-bottom: 1px solid var(--line);
-}
-.coming-month li.peak {
-  font-weight: 600;
-}
-.peak-tag {
-  margin-left: 0.4rem;
-  padding: 0.05rem 0.4rem;
-  font-size: 0.75rem;
-  color: var(--ink);
-  background: var(--tint); /* 웜 컬러는 배경으로만, 글자는 쪽빛 */
-  border-radius: 0.2rem;
+.nav-panel a[aria-current='page'] { font-weight: 600; }
+@media (prefers-reduced-motion: reduce) {
+  .nav-cord, .nav-panel { transition: none; }
+  .nav-cord:hover, .nav-toggle:focus-visible + .nav-cord { transform: none; }
 }
 
 /* 선택적 향상 — MPA View Transitions (지원 브라우저에서만). */
