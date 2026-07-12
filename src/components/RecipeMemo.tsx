@@ -34,7 +34,17 @@ export function RecipeMemo({
     }
   }, [])
 
+  // index가 바뀌면(다른 레시피로 전환) 진행 중이던 닫힘을 취소한다.
+  useEffect(() => {
+    setClosing(false)
+    if (timer.current) {
+      clearTimeout(timer.current)
+      timer.current = undefined
+    }
+  }, [index])
+
   const beginClose = () => {
+    if (closing) return
     setClosing(true)
     timer.current = setTimeout(() => onCloseRef.current(), CLOSE_MS)
   }

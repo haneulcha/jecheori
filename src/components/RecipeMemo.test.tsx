@@ -89,4 +89,29 @@ describe('RecipeMemo', () => {
     fireEvent.keyDown(document, { key: 'Escape' })
     await waitFor(() => expect(onClose).toHaveBeenCalledTimes(1))
   })
+
+  test('닫힘 진행 중 index가 바뀌면 닫힘이 취소되고 onClose가 안 불린다', async () => {
+    const onClose = vi.fn()
+    const { container, rerender } = render(
+      <RecipeMemo recipes={recipes} index={0} onClose={onClose} onStep={noop} />,
+    )
+    fireEvent.click(container.querySelector('.pin')!)
+    expect(container.querySelector('.memo')!.className).toContain('memo-closing')
+    rerender(<RecipeMemo recipes={recipes} index={1} onClose={onClose} onStep={noop} />)
+    expect(container.querySelector('.memo')!.className).not.toContain('memo-closing')
+    await new Promise((r) => setTimeout(r, 250)) // 원래 예약됐던 180ms 타이머가 지나도록
+    expect(onClose).not.toHaveBeenCalled()
+  })
+
+  test('압정을 두 번 눌러도 onClose는 한 번만 불린다', async () => {
+    const onClose = vi.fn()
+    const { container } = render(
+      <RecipeMemo recipes={recipes} index={0} onClose={onClose} onStep={noop} />,
+    )
+    fireEvent.click(container.querySelector('.pin')!)
+    fireEvent.click(container.querySelector('.pin')!)
+    await waitFor(() => expect(onClose).toHaveBeenCalled())
+    await new Promise((r) => setTimeout(r, 220))
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
 })
