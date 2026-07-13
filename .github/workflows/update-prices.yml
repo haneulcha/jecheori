@@ -2,7 +2,9 @@ name: update-prices
 
 on:
   schedule:
-    - cron: '0 22 * * *' # 07:00 KST
+    # 08:00 UTC = 17:00 KST — 당일 소매가격 공표 이후. 07:00 KST에 돌리면
+    # 당일값이 아직 없어 매일 폴백(1일전)에 의존하고, 월요일엔 전 품목이 null이 된다.
+    - cron: '0 8 * * *'
   workflow_dispatch:
 
 permissions:
@@ -15,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - name: Fetch KAMIS prices
         run: node scripts/fetch-prices.mjs
         env:

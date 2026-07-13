@@ -1,6 +1,11 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, test } from 'vitest'
-import { buildSnapshot, kstDateString } from '../scripts/fetch-prices.mjs'
+import {
+  buildLatestSnapshot,
+  buildSnapshot,
+  kstDateString,
+  shiftDateString,
+} from '../scripts/fetch-prices.mjs'
 
 const fixture = JSON.parse(
   readFileSync(new URL('./fixtures/kamis-daily-200.json', import.meta.url), 'utf-8'),
@@ -11,11 +16,26 @@ const errorFixture = JSON.parse(
 
 const okFetch = (json) => async () => ({ ok: true, json: async () => json })
 
+/** 픽스처를 복제하되 모든 행의 당일·1일전을 결측('-')으로 — 공표 전/일요일 응답 */
+const blankToday = () => {
+  const clone = structuredClone(fixture)
+  for (const item of clone.data.item) {
+    item.dpr1 = '-'
+    item.dpr2 = '-'
+  }
+  return clone
+}
+
 describe('kstDateString', () => {
   test('UTC 자정 직전은 KST로 다음 날이다', () => {
     // 2026-07-09 22:00 UTC = 2026-07-10 07:00 KST
     expect(kstDateString(new Date('2026-07-09T22:00:00Z'))).toBe('2026-07-10')
   })
+})
+
+describe('shiftDateString', () => {
+  test('하루 전으로 물러난다', () => expect(shiftDateString('2026-07-13', -1)).toBe('2026-07-12'))
+  test('월 경계를 넘는다', () => expect(shiftDateString('2026-07-01', -1)).toBe('2026-06-30'))
 })
 
 describe('buildSnapshot', () => {
@@ -25,12 +45,7 @@ describe('buildSnapshot', () => {
       calls.push(new URL(url).searchParams.get('p_item_category_code'))
       return { ok: true, json: async () => fixture }
     }
-    const snap = await buildSnapshot({
-      certKey: 'k',
-      certId: 'i',
-      regday: '2026-07-10',
-      fetchFn,
-    })
+    const snap = await buildSnapshot({ certKey: 'k', certId: 'i', regday: '2026-07-13', fetchFn })
     expect(calls).toEqual(['100', '200', '400'])
     expect(snap.schemaVersion).toBe(1)
     expect(snap.entries).toHaveLength(12) // 픽스처 4행 × 3부류
@@ -61,12 +76,46 @@ describe('buildSnapshot', () => {
 
   test('KAMIS 오류 응답이면 throw한다', async () => {
     await expect(
-      buildSnapshot({
+      buildSnapshot({ certKey: 'k', certId: 'i', regday: '2026-07-10', fetchFn: okFetch(errorFixture) }),
+    ).rejects.toThrow(/KAMIS/)
+  })
+})
+
+describe('buildLatestSnapshot', () => {
+  test('요청일에 가격이 있으면 그 날짜를 쓴다', async () => {
+    const snap = await buildLatestSnapshot({
+      certKey: 'k',
+      certId: 'i',
+      from: '2026-07-13',
+      fetchFn: okFetch(fixture),
+    })
+    expect(snap.priceDate).toBe('2026-07-13')
+    expect(snap.entries.filter((e) => e.price !== null).length).toBeGreaterThan(0)
+  })
+
+  test('당일 가격이 아직 공표되지 않았으면 전날로 물러난다', async () => {
+    // 07-13은 전부 결측(공표 전 + 1일전은 일요일), 07-12부터는 정상
+    const asked = []
+    const fetchFn = async (url) => {
+      const regday = new URL(url).searchParams.get('p_regday')
+      asked.push(regday)
+      return { ok: true, json: async () => (regday === '2026-07-13' ? blankToday() : fixture) }
+    }
+    const snap = await buildLatestSnapshot({ certKey: 'k', certId: 'i', from: '2026-07-13', fetchFn })
+    expect(snap.priceDate).toBe('2026-07-12')
+    expect(asked).toContain('2026-07-13')
+    expect(snap.entries.every((e) => e.price !== null || e.itemName === '당근')).toBe(true)
+  })
+
+  test('연휴처럼 조회 구간이 통째로 비면 throw한다 (all-null을 커밋하지 않는다)', async () => {
+    await expect(
+      buildLatestSnapshot({
         certKey: 'k',
         certId: 'i',
-        regday: '2026-07-10',
-        fetchFn: okFetch(errorFixture),
+        from: '2026-07-13',
+        maxLookbackDays: 3,
+        fetchFn: okFetch(blankToday()),
       }),
-    ).rejects.toThrow(/KAMIS/)
+    ).rejects.toThrow(/유효한 가격/)
   })
 })

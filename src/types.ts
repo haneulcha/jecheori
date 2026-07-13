@@ -48,6 +48,8 @@ export interface PriceSnapshot {
   schemaVersion: number
   /** ISO 8601 */
   fetchedAt: string
+  /** 가격의 실제 조사일 (YYYY-MM-DD). 공표 전·휴장일이면 fetchedAt보다 며칠 앞설 수 있다 */
+  priceDate?: string
   entries: PriceEntry[]
 }
 
