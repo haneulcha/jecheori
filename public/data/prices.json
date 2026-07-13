@@ -1,16 +1,176 @@
 {
   "schemaVersion": 1,
-  "fetchedAt": "2026-07-09T22:00:00.000Z",
+  "fetchedAt": "2026-07-13T04:44:59.850Z",
   "entries": [
     {
-      "itemCode": "413",
-      "itemName": "복숭아",
-      "kindName": "백도(10개)",
+      "itemCode": "111",
+      "itemName": "쌀",
+      "kindName": "20kg(20kg)",
       "rank": "상품",
-      "unit": "10개",
-      "price": 18200,
-      "priceMonthAgo": 24500,
-      "priceYearAgo": 19800
+      "unit": "20kg",
+      "price": null,
+      "priceMonthAgo": 61363,
+      "priceYearAgo": 62153
+    },
+    {
+      "itemCode": "111",
+      "itemName": "쌀",
+      "kindName": "10kg(10kg)",
+      "rank": "상품",
+      "unit": "10kg",
+      "price": null,
+      "priceMonthAgo": 35261,
+      "priceYearAgo": 34195
+    },
+    {
+      "itemCode": "112",
+      "itemName": "찹쌀",
+      "kindName": "일반계(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 5233,
+      "priceYearAgo": 5393
+    },
+    {
+      "itemCode": "141",
+      "itemName": "콩",
+      "kindName": "흰 콩(국산)(500g)",
+      "rank": "상품",
+      "unit": "500g",
+      "price": null,
+      "priceMonthAgo": 4986,
+      "priceYearAgo": 5000
+    },
+    {
+      "itemCode": "142",
+      "itemName": "팥",
+      "kindName": "붉은 팥(국산)(500g)",
+      "rank": "상품",
+      "unit": "500g",
+      "price": null,
+      "priceMonthAgo": 13471,
+      "priceYearAgo": 13433
+    },
+    {
+      "itemCode": "143",
+      "itemName": "녹두",
+      "kindName": "국산(500g)",
+      "rank": "상품",
+      "unit": "500g",
+      "price": null,
+      "priceMonthAgo": 11539,
+      "priceYearAgo": 11872
+    },
+    {
+      "itemCode": "151",
+      "itemName": "고구마",
+      "kindName": "밤(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 5226,
+      "priceYearAgo": 5616
+    },
+    {
+      "itemCode": "151",
+      "itemName": "고구마",
+      "kindName": "밤(1kg)",
+      "rank": "중품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 4025,
+      "priceYearAgo": 4107
+    },
+    {
+      "itemCode": "152",
+      "itemName": "감자",
+      "kindName": "수미(노지)(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 312,
+      "priceYearAgo": 308
+    },
+    {
+      "itemCode": "152",
+      "itemName": "감자",
+      "kindName": "수미(노지)(100g)",
+      "rank": "중품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 291,
+      "priceYearAgo": null
+    },
+    {
+      "itemCode": "211",
+      "itemName": "배추",
+      "kindName": "봄(1포기)",
+      "rank": "상품",
+      "unit": "1포기",
+      "price": null,
+      "priceMonthAgo": 3608,
+      "priceYearAgo": 3818
+    },
+    {
+      "itemCode": "212",
+      "itemName": "양배추",
+      "kindName": "양배추(1포기)",
+      "rank": "상품",
+      "unit": "1포기",
+      "price": null,
+      "priceMonthAgo": 3149,
+      "priceYearAgo": 3008
+    },
+    {
+      "itemCode": "212",
+      "itemName": "양배추",
+      "kindName": "양배추(1포기)",
+      "rank": "중품",
+      "unit": "1포기",
+      "price": null,
+      "priceMonthAgo": 2584,
+      "priceYearAgo": 2561
+    },
+    {
+      "itemCode": "213",
+      "itemName": "시금치",
+      "kindName": "시금치(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 805,
+      "priceYearAgo": 914
+    },
+    {
+      "itemCode": "214",
+      "itemName": "상추",
+      "kindName": "적(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 1127,
+      "priceYearAgo": 1099
+    },
+    {
+      "itemCode": "214",
+      "itemName": "상추",
+      "kindName": "청(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 1163,
+      "priceYearAgo": 1118
+    },
+    {
+      "itemCode": "215",
+      "itemName": "얼갈이배추",
+      "kindName": "얼갈이배추(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 2247,
+      "priceYearAgo": 2371
     },
     {
       "itemCode": "221",
@@ -18,9 +178,19 @@
       "kindName": "수박(1개)",
       "rank": "상품",
       "unit": "1개",
-      "price": 21400,
-      "priceMonthAgo": 23800,
-      "priceYearAgo": 22100
+      "price": null,
+      "priceMonthAgo": 23576,
+      "priceYearAgo": 24483
+    },
+    {
+      "itemCode": "221",
+      "itemName": "수박",
+      "kindName": "수박(1개)",
+      "rank": "중품",
+      "unit": "1개",
+      "price": null,
+      "priceMonthAgo": 20045,
+      "priceYearAgo": 21595
     },
     {
       "itemCode": "222",
@@ -28,9 +198,19 @@
       "kindName": "참외(10개)",
       "rank": "상품",
       "unit": "10개",
-      "price": 12600,
-      "priceMonthAgo": 16900,
-      "priceYearAgo": 13400
+      "price": null,
+      "priceMonthAgo": 14641,
+      "priceYearAgo": 15748
+    },
+    {
+      "itemCode": "222",
+      "itemName": "참외",
+      "kindName": "참외(10개)",
+      "rank": "중품",
+      "unit": "10개",
+      "price": null,
+      "priceMonthAgo": 10592,
+      "priceYearAgo": 11762
     },
     {
       "itemCode": "223",
@@ -38,19 +218,39 @@
       "kindName": "가시계통(10개)",
       "rank": "상품",
       "unit": "10개",
-      "price": 8540,
-      "priceMonthAgo": 10120,
-      "priceYearAgo": 9050
+      "price": null,
+      "priceMonthAgo": 7623,
+      "priceYearAgo": 7298
     },
     {
-      "itemCode": "225",
-      "itemName": "토마토",
-      "kindName": "토마토(1kg)",
+      "itemCode": "223",
+      "itemName": "오이",
+      "kindName": "다다기계통(10개)",
       "rank": "상품",
-      "unit": "1kg",
-      "price": 4800,
-      "priceMonthAgo": 5400,
-      "priceYearAgo": 5100
+      "unit": "10개",
+      "price": null,
+      "priceMonthAgo": 5384,
+      "priceYearAgo": 4442
+    },
+    {
+      "itemCode": "223",
+      "itemName": "오이",
+      "kindName": "다다기계통(10개)",
+      "rank": "중품",
+      "unit": "10개",
+      "price": null,
+      "priceMonthAgo": 3876,
+      "priceYearAgo": 4046
+    },
+    {
+      "itemCode": "223",
+      "itemName": "오이",
+      "kindName": "취청(10개)",
+      "rank": "상품",
+      "unit": "10개",
+      "price": null,
+      "priceMonthAgo": 9436,
+      "priceYearAgo": 8266
     },
     {
       "itemCode": "224",
@@ -58,19 +258,519 @@
       "kindName": "애호박(1개)",
       "rank": "상품",
       "unit": "1개",
-      "price": 1450,
-      "priceMonthAgo": 1980,
-      "priceYearAgo": 1600
+      "price": null,
+      "priceMonthAgo": 1028,
+      "priceYearAgo": 969
     },
     {
-      "itemCode": "152",
-      "itemName": "감자",
-      "kindName": "수미(100g)",
+      "itemCode": "224",
+      "itemName": "호박",
+      "kindName": "쥬키니(1개)",
+      "rank": "상품",
+      "unit": "1개",
+      "price": null,
+      "priceMonthAgo": 1422,
+      "priceYearAgo": 1444
+    },
+    {
+      "itemCode": "225",
+      "itemName": "토마토",
+      "kindName": "토마토(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 3816,
+      "priceYearAgo": 3633
+    },
+    {
+      "itemCode": "231",
+      "itemName": "무",
+      "kindName": "봄(1개)",
+      "rank": "상품",
+      "unit": "1개",
+      "price": null,
+      "priceMonthAgo": 1804,
+      "priceYearAgo": 1993
+    },
+    {
+      "itemCode": "231",
+      "itemName": "무",
+      "kindName": "봄(1개)",
+      "rank": "중품",
+      "unit": "1개",
+      "price": null,
+      "priceMonthAgo": 1774,
+      "priceYearAgo": 1980
+    },
+    {
+      "itemCode": "232",
+      "itemName": "당근",
+      "kindName": "무세척(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 3590,
+      "priceYearAgo": 3587
+    },
+    {
+      "itemCode": "232",
+      "itemName": "당근",
+      "kindName": "무세척(1kg)",
+      "rank": "중품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 2889,
+      "priceYearAgo": null
+    },
+    {
+      "itemCode": "233",
+      "itemName": "열무",
+      "kindName": "열무(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 2380,
+      "priceYearAgo": 2379
+    },
+    {
+      "itemCode": "241",
+      "itemName": "건고추",
+      "kindName": "화건(600g)",
+      "rank": "상품",
+      "unit": "600g",
+      "price": null,
+      "priceMonthAgo": 17214,
+      "priceYearAgo": 17330
+    },
+    {
+      "itemCode": "242",
+      "itemName": "풋고추",
+      "kindName": "풋고추(녹광 등)(100g)",
       "rank": "상품",
       "unit": "100g",
-      "price": 380,
-      "priceMonthAgo": 420,
-      "priceYearAgo": 350
+      "price": null,
+      "priceMonthAgo": 1779,
+      "priceYearAgo": 1839
+    },
+    {
+      "itemCode": "242",
+      "itemName": "풋고추",
+      "kindName": "꽈리고추(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 1467,
+      "priceYearAgo": 1536
+    },
+    {
+      "itemCode": "242",
+      "itemName": "풋고추",
+      "kindName": "꽈리고추(100g)",
+      "rank": "중품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 1146,
+      "priceYearAgo": null
+    },
+    {
+      "itemCode": "242",
+      "itemName": "풋고추",
+      "kindName": "청양고추(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 1404,
+      "priceYearAgo": 1420
+    },
+    {
+      "itemCode": "242",
+      "itemName": "풋고추",
+      "kindName": "청양고추(100g)",
+      "rank": "중품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 956,
+      "priceYearAgo": 904
+    },
+    {
+      "itemCode": "242",
+      "itemName": "풋고추",
+      "kindName": "오이맛고추(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 1185,
+      "priceYearAgo": 1223
+    },
+    {
+      "itemCode": "243",
+      "itemName": "붉은고추",
+      "kindName": "붉은고추(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 2006,
+      "priceYearAgo": 2133
+    },
+    {
+      "itemCode": "245",
+      "itemName": "양파",
+      "kindName": "양파(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 1743,
+      "priceYearAgo": 1818
+    },
+    {
+      "itemCode": "246",
+      "itemName": "파",
+      "kindName": "대파(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 3066,
+      "priceYearAgo": 2887
+    },
+    {
+      "itemCode": "246",
+      "itemName": "파",
+      "kindName": "쪽파(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 9915,
+      "priceYearAgo": 10773
+    },
+    {
+      "itemCode": "247",
+      "itemName": "생강",
+      "kindName": "국산(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 15336,
+      "priceYearAgo": 15478
+    },
+    {
+      "itemCode": "248",
+      "itemName": "고춧가루",
+      "kindName": "국산(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 33700,
+      "priceYearAgo": 33852
+    },
+    {
+      "itemCode": "248",
+      "itemName": "고춧가루",
+      "kindName": "중국(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 13509,
+      "priceYearAgo": 13509
+    },
+    {
+      "itemCode": "252",
+      "itemName": "미나리",
+      "kindName": "미나리(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 1406,
+      "priceYearAgo": 1414
+    },
+    {
+      "itemCode": "253",
+      "itemName": "깻잎",
+      "kindName": "깻잎(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 2291,
+      "priceYearAgo": 2240
+    },
+    {
+      "itemCode": "255",
+      "itemName": "피망",
+      "kindName": "청(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 1513,
+      "priceYearAgo": 1540
+    },
+    {
+      "itemCode": "256",
+      "itemName": "파프리카",
+      "kindName": "파프리카(200g)",
+      "rank": "상품",
+      "unit": "200g",
+      "price": null,
+      "priceMonthAgo": 1193,
+      "priceYearAgo": 1316
+    },
+    {
+      "itemCode": "256",
+      "itemName": "파프리카",
+      "kindName": "파프리카(200g)",
+      "rank": "중품",
+      "unit": "200g",
+      "price": null,
+      "priceMonthAgo": 1003,
+      "priceYearAgo": 1049
+    },
+    {
+      "itemCode": "257",
+      "itemName": "멜론",
+      "kindName": "멜론(1개)",
+      "rank": "상품",
+      "unit": "1개",
+      "price": null,
+      "priceMonthAgo": 9335,
+      "priceYearAgo": 10597
+    },
+    {
+      "itemCode": "258",
+      "itemName": "깐마늘(국산)",
+      "kindName": "깐마늘(국산)(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 11599,
+      "priceYearAgo": 12465
+    },
+    {
+      "itemCode": "258",
+      "itemName": "깐마늘(국산)",
+      "kindName": "깐마늘(국산)(1kg)",
+      "rank": "중품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 10224,
+      "priceYearAgo": 10765
+    },
+    {
+      "itemCode": "279",
+      "itemName": "알배기배추",
+      "kindName": "알배기배추(1포기)",
+      "rank": "상품",
+      "unit": "1포기",
+      "price": null,
+      "priceMonthAgo": 2613,
+      "priceYearAgo": 2678
+    },
+    {
+      "itemCode": "279",
+      "itemName": "알배기배추",
+      "kindName": "알배기배추(1포기)",
+      "rank": "중품",
+      "unit": "1포기",
+      "price": null,
+      "priceMonthAgo": 1553,
+      "priceYearAgo": 1519
+    },
+    {
+      "itemCode": "280",
+      "itemName": "브로콜리",
+      "kindName": "브로콜리(국산)(1개)",
+      "rank": "상품",
+      "unit": "1개",
+      "price": null,
+      "priceMonthAgo": 1889,
+      "priceYearAgo": 2245
+    },
+    {
+      "itemCode": "422",
+      "itemName": "방울토마토",
+      "kindName": "방울토마토(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 5943,
+      "priceYearAgo": 6633
+    },
+    {
+      "itemCode": "422",
+      "itemName": "방울토마토",
+      "kindName": "대추방울토마토(1kg)",
+      "rank": "상품",
+      "unit": "1kg",
+      "price": null,
+      "priceMonthAgo": 5546,
+      "priceYearAgo": 6230
+    },
+    {
+      "itemCode": "411",
+      "itemName": "사과",
+      "kindName": "후지(10개)",
+      "rank": "상품",
+      "unit": "10개",
+      "price": null,
+      "priceMonthAgo": 25775,
+      "priceYearAgo": 25159
+    },
+    {
+      "itemCode": "411",
+      "itemName": "사과",
+      "kindName": "후지(10개)",
+      "rank": "중품",
+      "unit": "10개",
+      "price": null,
+      "priceMonthAgo": 20200,
+      "priceYearAgo": 21795
+    },
+    {
+      "itemCode": "412",
+      "itemName": "배",
+      "kindName": "신고(10개)",
+      "rank": "상품",
+      "unit": "10개",
+      "price": null,
+      "priceMonthAgo": 44024,
+      "priceYearAgo": 41485
+    },
+    {
+      "itemCode": "412",
+      "itemName": "배",
+      "kindName": "신고(10개)",
+      "rank": "중품",
+      "unit": "10개",
+      "price": null,
+      "priceMonthAgo": 34615,
+      "priceYearAgo": 32004
+    },
+    {
+      "itemCode": "418",
+      "itemName": "바나나",
+      "kindName": "수입(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 315,
+      "priceYearAgo": 316
+    },
+    {
+      "itemCode": "418",
+      "itemName": "바나나",
+      "kindName": "수입(100g)",
+      "rank": "중품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 275,
+      "priceYearAgo": 313
+    },
+    {
+      "itemCode": "419",
+      "itemName": "참다래",
+      "kindName": "그린 뉴질랜드(10개)",
+      "rank": "상품",
+      "unit": "10개",
+      "price": null,
+      "priceMonthAgo": 11228,
+      "priceYearAgo": 11185
+    },
+    {
+      "itemCode": "420",
+      "itemName": "파인애플",
+      "kindName": "수입(1개)",
+      "rank": "상품",
+      "unit": "1개",
+      "price": null,
+      "priceMonthAgo": 7107,
+      "priceYearAgo": 7120
+    },
+    {
+      "itemCode": "420",
+      "itemName": "파인애플",
+      "kindName": "수입(1개)",
+      "rank": "중품",
+      "unit": "1개",
+      "price": null,
+      "priceMonthAgo": 5705,
+      "priceYearAgo": 5705
+    },
+    {
+      "itemCode": "421",
+      "itemName": "오렌지",
+      "kindName": "네이블 미국(10개)",
+      "rank": "상품",
+      "unit": "10개",
+      "price": null,
+      "priceMonthAgo": null,
+      "priceYearAgo": 18907
+    },
+    {
+      "itemCode": "421",
+      "itemName": "오렌지",
+      "kindName": "네이블 호주(10개)",
+      "rank": "중품",
+      "unit": "10개",
+      "price": null,
+      "priceMonthAgo": 17533,
+      "priceYearAgo": null
+    },
+    {
+      "itemCode": "424",
+      "itemName": "레몬",
+      "kindName": "수입(10개)",
+      "rank": "상품",
+      "unit": "10개",
+      "price": null,
+      "priceMonthAgo": 10213,
+      "priceYearAgo": 9707
+    },
+    {
+      "itemCode": "424",
+      "itemName": "레몬",
+      "kindName": "수입(10개)",
+      "rank": "중품",
+      "unit": "10개",
+      "price": null,
+      "priceMonthAgo": 10097,
+      "priceYearAgo": 9652
+    },
+    {
+      "itemCode": "425",
+      "itemName": "체리",
+      "kindName": "수입(100g)",
+      "rank": "상품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": 2288,
+      "priceYearAgo": 2189
+    },
+    {
+      "itemCode": "425",
+      "itemName": "체리",
+      "kindName": "수입(100g)",
+      "rank": "중품",
+      "unit": "100g",
+      "price": null,
+      "priceMonthAgo": null,
+      "priceYearAgo": 1955
+    },
+    {
+      "itemCode": "428",
+      "itemName": "망고",
+      "kindName": "수입(1개)",
+      "rank": "상품",
+      "unit": "1개",
+      "price": null,
+      "priceMonthAgo": 5761,
+      "priceYearAgo": 5836
+    },
+    {
+      "itemCode": "430",
+      "itemName": "아보카도",
+      "kindName": "수입(1개)",
+      "rank": "상품",
+      "unit": "1개",
+      "price": null,
+      "priceMonthAgo": 1617,
+      "priceYearAgo": 1634
     }
   ]
 }
