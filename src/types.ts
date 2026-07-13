@@ -16,7 +16,10 @@ export interface ProduceProfile {
   name: string
   emoji: string
   category: Category
-  kamis: KamisRef
+  /** KAMIS 가격 참조 (선택). KAMIS 소매 일일조사는 모든 제철 작물을 다루지 않는다 —
+   *  가지·옥수수·부추·단호박은 소매·도매 어느 쪽에도 없다. 그런 품목은 이 참조를 비워
+   *  가격 없이 제철 정보만 보여준다. "아직 못 맞춘 것"과 "원래 가격이 없는 것"은 다르다. */
+  kamis?: KamisRef
   /** 영양 grounding 참조 (선택). 없으면 카드에 영양 줄 없음. */
   foodDb?: FoodDbRef
   /** 레시피 grounding 참조 (선택). 없으면 카드에 레시피 진입점 없음. */
