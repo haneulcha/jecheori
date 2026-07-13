@@ -7,7 +7,12 @@ export function parseNum(s) {
   return Number.isFinite(n) && n > 0 ? n : null
 }
 
-/** KAMIS dailyPriceByCategoryList 응답 → PriceEntry[] (오류 응답이면 throw) */
+/** KAMIS dailyPriceByCategoryList 응답 → PriceEntry[] (오류 응답이면 throw)
+ *
+ *  dpr 컬럼은 순서가 아니라 의미로 골라야 한다 (응답의 day1~day7이 라벨을 준다):
+ *    dpr1=당일  dpr2=1일전  dpr3=1주일전  dpr4=2주일전  dpr5=1개월전  dpr6=1년전  dpr7=일평년
+ *  1개월전을 dpr3에서 읽으면 조용히 1주일전 값이 들어온다 (실제로 그랬다).
+ */
 export function parseCategoryResponse(json) {
   const data = json?.data
   if (!data || Array.isArray(data)) {
@@ -25,7 +30,7 @@ export function parseCategoryResponse(json) {
     rank: String(it.rank ?? '').trim(),
     unit: String(it.unit ?? '').trim(),
     price: parseNum(it.dpr1) ?? parseNum(it.dpr2),
-    priceMonthAgo: parseNum(it.dpr3),
-    priceYearAgo: parseNum(it.dpr4),
+    priceMonthAgo: parseNum(it.dpr5),
+    priceYearAgo: parseNum(it.dpr6),
   }))
 }
