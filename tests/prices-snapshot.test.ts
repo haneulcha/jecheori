@@ -31,11 +31,17 @@ describe('커밋된 prices.json', () => {
     }
   })
 
-  test('모든 엔트리의 단위가 구조체이고, 계량은 닫힌 집합 안에 있다', () => {
+  test('모든 엔트리의 단위가 구조체이고, 계량은 무게/개수로 갈린다', () => {
     for (const e of snapshot.entries) {
       expect(typeof e.unit.quantity).toBe('number')
       expect(e.unit.quantity).toBeGreaterThan(0)
-      expect(['kg', 'g', '개', '포기']).toContain(e.unit.measure)
+      expect(['weight', 'count']).toContain(e.unit.measure.kind)
+      if (e.unit.measure.kind === 'weight') expect(['kg', 'g']).toContain(e.unit.measure.unit)
+      else expect(['개', '포기']).toContain(e.unit.measure.unit)
     }
+  })
+
+  test('죽은 KAMIS 잔재(itemCode)를 싣지 않는다', () => {
+    for (const e of snapshot.entries) expect(e).not.toHaveProperty('itemCode')
   })
 })

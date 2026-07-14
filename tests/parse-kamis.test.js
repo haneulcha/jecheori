@@ -17,14 +17,21 @@ describe('parseNum', () => {
 
 describe('parseUnit', () => {
   test('수량과 계량을 가른다', () => {
-    expect(parseUnit('10개')).toEqual({ quantity: 10, measure: '개' })
-    expect(parseUnit('1kg')).toEqual({ quantity: 1, measure: 'kg' })
-    expect(parseUnit('100g')).toEqual({ quantity: 100, measure: 'g' })
-    expect(parseUnit('1포기')).toEqual({ quantity: 1, measure: '포기' })
+    expect(parseUnit('10개')).toEqual({ quantity: 10, measure: { kind: 'count', unit: '개' } })
+    expect(parseUnit('1kg')).toEqual({ quantity: 1, measure: { kind: 'weight', unit: 'kg' } })
+    expect(parseUnit('100g')).toEqual({ quantity: 100, measure: { kind: 'weight', unit: 'g' } })
+    expect(parseUnit('1포기')).toEqual({ quantity: 1, measure: { kind: 'count', unit: '포기' } })
   })
 
   test('kg를 g로 잘못 집지 않는다', () => {
-    expect(parseUnit('1kg').measure).toBe('kg')
+    expect(parseUnit('1kg').measure.unit).toBe('kg')
+  })
+
+  test('무게와 개수를 가른다 — 개당값 규칙이 KAMIS 글자에 붙지 않게', () => {
+    expect(parseUnit('1kg').measure.kind).toBe('weight')
+    expect(parseUnit('100g').measure.kind).toBe('weight')
+    expect(parseUnit('10개').measure.kind).toBe('count')
+    expect(parseUnit('1포기').measure.kind).toBe('count') // 포기도 셀 수 있다
   })
 
   test('처음 보는 표기는 null로 뭉개지 않고 throw한다', () => {
@@ -43,11 +50,10 @@ describe('parseCategoryResponse', () => {
   test('모든 행을 PriceEntry로 변환한다 — 관측과 기준선은 다른 칸이다', () => {
     expect(entries).toHaveLength(4)
     expect(entries[0]).toEqual({
-      itemCode: '211',
       itemName: '배추',
       kindName: '봄(1포기)',
       rank: '상품',
-      unit: { quantity: 1, measure: '포기' },
+      unit: { quantity: 1, measure: { kind: 'count', unit: '포기' } },
       price: 3513, // dpr1 (당일 = 조사일의 관측)
       baseline: {
         monthAgo: 3692, // dpr5 — dpr3(1주일전)이 아니다
@@ -113,11 +119,10 @@ describe('parseCategoryResponse', () => {
     })
     expect(entries).toEqual([
       {
-        itemCode: '223',
         itemName: '오이',
         kindName: '가시계통(10개)',
         rank: '상품',
-        unit: { quantity: 10, measure: '개' },
+        unit: { quantity: 10, measure: { kind: 'count', unit: '개' } },
         price: 8540,
         baseline: { monthAgo: 10120, yearAgo: 9050 },
       },

@@ -20,7 +20,8 @@ export type ChangeView =
   | null // 지난달 데이터 없음 → 칩·문구 없음
 
 export interface SparkView {
-  points: { x: number; y: number }[]
+  /** 세 값(작년/한달전/지금)의 상대 위치 (0 = 최저, 1 = 최고). 픽셀은 컴포넌트가 정한다 */
+  levels: number[]
   yearAgo: number
   monthAgo: number
   now: number
@@ -47,25 +48,25 @@ export interface CardView {
   recipes: RecipeView | null
 }
 
-/** "N개"(N>1) 단위면 개당값을 계산. 단수·무게 단위는 null.
- *  KAMIS 표기 파싱은 어댑터(parse-kamis.mjs)가 이미 끝냈다 — 뷰는 구조체만 본다. */
+/** 개당값 — **셀 수 있는 단위이고 수량이 1보다 클 때만** 성립한다.
+ *  무게(kg·g)엔 개당값이 없고, 1개·1포기처럼 단수면 나눌 게 없다.
+ *  KAMIS 표기 파싱은 어댑터(parse-kamis.mjs)가 이미 끝냈다 — 여기선 종류만 본다. */
 export function perUnitPrice(price: number, unit: Unit): { each: number } | null {
-  if (unit.measure !== '개' || unit.quantity <= 1) return null
+  if (unit.measure.kind !== 'count' || unit.quantity <= 1) return null
   return { each: Math.round(price / unit.quantity) }
 }
 
-const SPARK_X = [45, 150, 255]
-
-/** 세 값(작년/한달전/지금)을 스파크라인 좌표로. 최댓값 y=24(위), 최솟값 y=44(아래), 모두 같으면 34. */
-export function sparklineGeometry(v: { yearAgo: number; monthAgo: number; now: number }): { x: number; y: number }[] {
+/** 세 값(작년/한달전/지금)의 **상대 위치**. 0 = 최솟값, 1 = 최댓값, 모두 같으면 0.5.
+ *
+ *  픽셀도 viewBox도 여기선 모른다 — 그건 컴포넌트 소관이다. 예전엔 이 함수가
+ *  x=[45,150,255]·y=24~44라는 SVG 좌표를 그대로 뱉어서, 스파크라인 크기를 바꾸면
+ *  "순수 파생" 레이어가 따라 바뀌었다. 도메인 사실은 "어디쯤인가"지 "x가 몇"이 아니다. */
+export function sparklineLevels(v: { yearAgo: number; monthAgo: number; now: number }): number[] {
   const vals = [v.yearAgo, v.monthAgo, v.now]
   const min = Math.min(...vals)
   const max = Math.max(...vals)
   const span = max - min
-  return vals.map((val, i) => ({
-    x: SPARK_X[i],
-    y: span === 0 ? 34 : 44 - ((val - min) / span) * 20,
-  }))
+  return vals.map((val) => (span === 0 ? 0.5 : (val - min) / span))
 }
 
 /** 월별 "왜 지금인지" 한 줄. 키는 "1"~"12" 또는 "default". */
@@ -84,7 +85,7 @@ function toSpark(v: PriceView): SparkView | null {
   const { monthAgo, yearAgo } = v.baseline
   if (monthAgo === null || yearAgo === null) return null
   return {
-    points: sparklineGeometry({ yearAgo, monthAgo, now: v.price }),
+    levels: sparklineLevels({ yearAgo, monthAgo, now: v.price }),
     yearAgo,
     monthAgo,
     now: v.price,

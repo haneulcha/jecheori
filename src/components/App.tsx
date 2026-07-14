@@ -24,7 +24,7 @@ function usePeakDotTooltip() {
 }
 
 export function App({ view }: { view: AppView }) {
-  const { cards, noDrop, hasNutrition, hasRecipes, seasonal, date, staleDays, term } = view
+  const { cards, noDrop, hasNutrition, hasRecipes, seasonal, date, freshness, term } = view
   usePeakDotTooltip()
   const month = date.getMonth() + 1
   const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
@@ -35,7 +35,9 @@ export function App({ view }: { view: AppView }) {
         <Sprig />
         <p className="week">{eyebrow}</p>
         <h1>지금 장바구니에 담기 좋은 것들</h1>
-        {staleDays >= 3 && <p className="stale">가격은 {staleDays}일 전 기준이에요</p>}
+        {freshness.kind === 'stale' && (
+          <p className="stale">가격은 {freshness.days}일 전 기준이에요</p>
+        )}
       </header>
       <main>
         <section className="picks">

@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { comingMonths, hasDrops, matchEntry, priceView, selectPicks } from '../src/picks'
 import type { PriceEntry, PriceSnapshot, ProduceProfile } from '../src/types'
+import { weight } from './units'
 
 function profile(over: Partial<ProduceProfile>): ProduceProfile {
   return {
@@ -21,11 +22,10 @@ function profile(over: Partial<ProduceProfile>): ProduceProfile {
 
 function entry(over: Partial<PriceEntry> = {}): PriceEntry {
   return {
-    itemCode: '0',
     itemName: '품목',
     kindName: '기본',
     rank: '상품',
-    unit: { quantity: 1, measure: 'kg' },
+    unit: weight(1, 'kg'),
     price: 1000,
     baseline: { monthAgo: 1000, yearAgo: 1000 },
     ...over,
@@ -91,7 +91,7 @@ describe('priceView 기준선 통과', () => {
     const v = priceView(entry({ price: 12600, baseline: { monthAgo: 16900, yearAgo: 13400 } }))
     expect(v).toEqual({
       price: 12600,
-      unit: { quantity: 1, measure: 'kg' },
+      unit: weight(1, 'kg'),
       changeVsMonthAgoPct: expect.closeTo(-25.44, 1),
       baseline: { monthAgo: 16900, yearAgo: 13400 },
     })
@@ -196,7 +196,7 @@ describe('hasDrops', () => {
     inPeak: false,
     price: {
       price: 1,
-      unit: { quantity: 1, measure: 'kg' } as const,
+      unit: weight(1, 'kg'),
       changeVsMonthAgoPct: pct,
       baseline: { monthAgo: 1, yearAgo: 1 },
     },

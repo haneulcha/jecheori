@@ -35,10 +35,17 @@ export interface ProduceProfile {
   howToUse: string
 }
 
-/** KAMIS가 쓰는 계량 단위. 전 계절·전 부류 실측 결과 이 넷뿐이다. */
-export type Measure = 'kg' | 'g' | '개' | '포기'
+/** 계량의 종류. KAMIS 표기(kg·g·개·포기)는 이 둘 중 하나로 떨어진다.
+ *
+ *  **무게냐 개수냐가 도메인 구분이고, KAMIS의 글자는 그 안의 라벨일 뿐이다.**
+ *  개당값은 "셀 수 있는 단위이고 수량이 1보다 클 때" 성립한다 — '개'인지 아닌지가 아니다.
+ *  포기도 셀 수 있다. 예전엔 `measure !== '개'`로 걸렀는데, KAMIS가 우연히 1포기만
+ *  주기 때문에 안 틀렸을 뿐이다. 응답의 우연을 규칙으로 굳히지 않는다. */
+export type Measure =
+  | { kind: 'weight'; unit: 'kg' | 'g' }
+  | { kind: 'count'; unit: '개' | '포기' }
 
-/** "10개" = { quantity: 10, measure: '개' }.
+/** "10개" = { quantity: 10, measure: { kind: 'count', unit: '개' } }.
  *  KAMIS 표기를 그대로 보존하고 환산하지 않는다 — 환산이 없으면 오차도 없다. */
 export interface Unit {
   quantity: number
@@ -53,7 +60,6 @@ export interface Baseline {
 }
 
 export interface PriceEntry {
-  itemCode: string
   itemName: string
   kindName: string
   rank: string

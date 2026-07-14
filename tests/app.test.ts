@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { buildAppView, buildComingView } from '../src/app'
 import type { NutritionSnapshot, PriceEntry, PriceSnapshot, ProduceProfile, RecipeSnapshot } from '../src/types'
+import { count } from './units'
 
 const peach: ProduceProfile = {
   id: 'peach', name: '복숭아', emoji: '🍑', category: 'fruit',
@@ -20,8 +21,8 @@ const snap = (over: Partial<PriceEntry> = {}): PriceSnapshot => ({
   fetchedAt: '2026-07-08T00:00:00Z',
   surveyedOn: '2026-07-08',
   entries: [{
-    itemCode: '413', itemName: '복숭아', kindName: '백도(10개)', rank: '상품',
-    unit: { quantity: 10, measure: '개' },
+    itemName: '복숭아', kindName: '백도(10개)', rank: '상품',
+    unit: count(10),
     price: 18200, baseline: { monthAgo: 24500, yearAgo: 19800 }, ...over,
   }],
 })
@@ -42,11 +43,22 @@ describe('buildAppView', () => {
     expect(v.seasonal).toEqual([{ emoji: '🍑', name: '복숭아' }])
   })
 
-  test('staleDays·term·date를 채운다', () => {
+  test('term·date를 채운다', () => {
     const v = buildAppView([peach], snap(), null, null, JULY)
-    expect(v.staleDays).toBe(2)
     expect(typeof v.term).toBe('string')
     expect(v.date).toBe(JULY)
+  })
+
+  test('조사일이 이틀 전이면 fresh — 임계(3일) 아래는 알리지 않는다', () => {
+    // 조사일 7/8, 기준 7/10 → 2일. 임계가 3이라 경고하지 않는다.
+    const v = buildAppView([peach], snap(), null, null, JULY)
+    expect(v.freshness).toEqual({ kind: 'fresh' })
+  })
+
+  test('조사일이 사흘 넘으면 stale + 날수를 싣는다', () => {
+    const old = { ...snap(), surveyedOn: '2026-07-06' } // 7/10 기준 4일
+    const v = buildAppView([peach], old, null, null, JULY)
+    expect(v.freshness).toEqual({ kind: 'stale', days: 4 })
   })
 
   test('상승만이면 noDrop true', () => {
@@ -54,10 +66,10 @@ describe('buildAppView', () => {
     expect(v.noDrop).toBe(true)
   })
 
-  test('스냅샷 없으면 가격 null, staleDays 0', () => {
+  test('스냅샷 없으면 가격 null, freshness는 fresh (경고할 가격 자체가 없다)', () => {
     const v = buildAppView([peach], null, null, null, JULY)
     expect(v.cards[0].price).toBeNull()
-    expect(v.staleDays).toBe(0)
+    expect(v.freshness).toEqual({ kind: 'fresh' })
   })
 
   test('foodDb 매칭 시 카드에 nutrition이 실린다', () => {
