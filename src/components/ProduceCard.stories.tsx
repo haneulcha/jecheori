@@ -71,9 +71,24 @@ export const 가격없음: Story = {
   },
 }
 
-/** 영양은 프로필 40개 중 3개(복숭아·토마토·사과)에만 있다. 그래서 대부분의 날엔 이 줄이 없다. */
+/** 영양은 프로필 40개 중 3개(복숭아·토마토·사과)에만 있다 — 그래서 대부분의 날엔 이 줄이 없다.
+ *  기본값(감자)은 foodDb 참조가 아예 없는 품목이라, hasNutrition을 켜도 영양이 안 뜬다
+ *  (매처가 아예 못 찾는다). 그래서 실제로 영양이 붙는 복숭아로 품목을 바꿔야 이 상태를 볼 수 있다.
+ *  가격 노브는 그럴듯한 값 — 이 스토리가 증명하려는 축이 아니다. */
 export const 영양있음: Story = {
-  args: { hasNutrition: true },
+  args: {
+    name: '복숭아',
+    emoji: '🍑',
+    kindName: '',
+    category: 'fruit',
+    price: 12000,
+    monthAgo: 13500,
+    yearAgo: 11000,
+    unitQuantity: 1,
+    unitMeasure: 'kg',
+    whyNow: '7~8월이 노지 복숭아의 절정이에요',
+    hasNutrition: true,
+  },
 }
 
 /** 레시피 참조가 없으면 카드 펼침에 레시피 진입점이 없다. */

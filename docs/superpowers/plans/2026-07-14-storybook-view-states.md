@@ -243,8 +243,8 @@ import type { CardView } from './card'
 import { toCardView } from './card'
 import type { PickResult } from './picks'
 import { priceView } from './picks'
-import { nutritionView } from './nutrition'
-import { recipeView } from './recipe'
+import { matchNutrition, nutritionView } from './nutrition'
+import { matchRecipes, recipeView } from './recipe'
 import type {
   Category,
   Measure,
@@ -295,8 +295,11 @@ export interface CardKnobs {
   yearAgo: number | null
   unitQuantity: number
   unitMeasure: MeasureKey
+  /** 영양은 프로필에 foodDb 참조가 있어야 성립한다 — 40개 중 3개(복숭아·토마토·사과)뿐이다.
+   *  이 토글을 켜도 name이 그 셋 중 하나가 아니면(예: 기본값 감자) 영양은 안 뜬다 — 그게 규칙이다. */
   hasNutrition: boolean
-  /** 0이면 레시피 섹션 없음. 실제 recipes.json에서 앞에서부터 n개 */
+  /** 0이면 레시피 섹션 없음. 그 품목의 실제 레시피(matchRecipes)에서 앞에서부터 n개.
+   *  품목이 실제로 가진 레시피 수보다 크게 올려도 더 나오지 않는다 — 그것도 사실이다. */
   recipeCount: number
 }
 
@@ -326,7 +329,11 @@ export const CARD_ARG_TYPES = {
   recipeCount: { control: { type: 'range', min: 0, max: 5, step: 1 } },
 } as const
 
-function toProfile(k: CardKnobs): ProduceProfile {
+/** 노브 이름으로 실물 프로필을 찾아 recipeRef·foodDb를 얹는다. 그래야 레시피·영양이
+ *  "그 품목의 진짜 데이터"로 매칭된다 — 임의로 고른 엔트리가 아무 이름에나 붙지 않는다.
+ *  임의 이름(실물에 없는 이름)이면 참조 없이 둔다 — 그것도 정직한 상태다(레시피·영양 없는 카드). */
+function toProfile(k: CardKnobs, month: number): ProduceProfile {
+  const real = REAL.profiles.find((p) => p.name === k.name)
   return {
     id: 'story',
     name: k.name,
@@ -334,8 +341,12 @@ function toProfile(k: CardKnobs): ProduceProfile {
     category: k.category,
     // 카드의 품종 줄은 profile.kamis.kindName에서 온다 (card.ts) — 참조를 여기서 채운다.
     kamis: { categoryCode: '200', itemName: k.name, kindName: k.kindName },
+    foodDb: real?.foodDb,
+    recipeRef: real?.recipeRef,
     seasonMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    peakMonths: [],
+    // inPeak 노브에서 파생 — picks.ts의 selectPicks와 같은 방향(peakMonths.includes(month)).
+    // 노브로 직접 세팅한 inPeak와 모순되지 않도록 재료 안에서 일관되게 만든다.
+    peakMonths: k.inPeak ? [month] : [],
     whyNow: { default: k.whyNow },
     howToPick: '단단하고 흠집 없는 것으로 고르세요',
     howToStore: '서늘하고 어두운 곳에 두세요',
@@ -357,19 +368,23 @@ function toEntry(k: CardKnobs): PriceEntry | null {
 
 /** 노브 → 재료 → **진짜 파이프라인** → CardView.
  *  1% "비슷" 임계도, 개당값 조건도, 스파크 null 조건도 여기서 정하지 않는다 — card.ts가 정한다.
- *  그래서 도달 불가능한 조합(무게 단위인데 개당값이 붙은 카드)은 애초에 만들 수 없다. */
+ *  그래서 도달 불가능한 조합(무게 단위인데 개당값이 붙은 카드)은 애초에 만들 수 없다.
+ *  영양·레시피도 진짜 매처(matchNutrition/matchRecipes)를 통과하므로, 품목과 무관한
+ *  레시피·영양이 붙는 조합 자체를 만들 수 없다 — recipeCount는 매칭된 목록을 자르기만 한다. */
 export function buildCard(k: CardKnobs, month: number): CardView {
   const entry = toEntry(k)
+  const profile = toProfile(k, month)
   const pick: PickResult = {
-    profile: toProfile(k),
+    profile,
     inPeak: k.inPeak,
     price: entry ? priceView(entry) : null,
   }
+  const recipes = matchRecipes(profile, REAL.recipes).slice(0, k.recipeCount)
   return toCardView(
     pick,
     month,
-    k.hasNutrition ? nutritionView(REAL.nutrition.entries[0]) : null,
-    recipeView(REAL.recipes.entries.slice(0, k.recipeCount)),
+    k.hasNutrition ? nutritionView(matchNutrition(profile, REAL.nutrition)) : null,
+    recipeView(recipes),
   )
 }
 
@@ -435,7 +450,7 @@ priceView→toCardView를 통과시킨다. 그래서 1% 임계·개당값 조건
 | 개당값 | `unitQuantity: 10, unitMeasure: '개'` | **"10개 기준 · 개당 704원"** |
 | 스파크없음 | `yearAgo: null` | **스파크라인 사라짐 (칩은 남음)** |
 | 가격없음 | `price: null` | **가격 블록 전체 사라짐** (KAMIS 참조 없는 옥수수·부추 등) |
-| 영양있음 | `hasNutrition: true` | **영양 스탯 6칸** (프로필 40개 중 3개만 해당) |
+| 영양있음 | `name: '복숭아', hasNutrition: true` | **영양 스탯 6칸** (프로필 40개 중 3개만 해당 — 감자는 foodDb가 없어 안 뜬다) |
 | 레시피없음 | `recipeCount: 0` | 레시피 칩 섹션 사라짐 |
 | 절정아님 | `inPeak: false` | 이름 옆 절정 점 사라짐 |
 
@@ -512,9 +527,24 @@ export const 가격없음: Story = {
   },
 }
 
-/** 영양은 프로필 40개 중 3개(복숭아·토마토·사과)에만 있다. 그래서 대부분의 날엔 이 줄이 없다. */
+/** 영양은 프로필 40개 중 3개(복숭아·토마토·사과)에만 있다 — 그래서 대부분의 날엔 이 줄이 없다.
+ *  기본값(감자)은 foodDb 참조가 아예 없는 품목이라, hasNutrition을 켜도 영양이 안 뜬다
+ *  (매처가 아예 못 찾는다). 그래서 실제로 영양이 붙는 복숭아로 품목을 바꿔야 이 상태를 볼 수 있다.
+ *  가격 노브는 그럴듯한 값 — 이 스토리가 증명하려는 축이 아니다. */
 export const 영양있음: Story = {
-  args: { hasNutrition: true },
+  args: {
+    name: '복숭아',
+    emoji: '🍑',
+    kindName: '',
+    category: 'fruit',
+    price: 12000,
+    monthAgo: 13500,
+    yearAgo: 11000,
+    unitQuantity: 1,
+    unitMeasure: 'kg',
+    whyNow: '7~8월이 노지 복숭아의 절정이에요',
+    hasNutrition: true,
+  },
 }
 
 /** 레시피 참조가 없으면 카드 펼침에 레시피 진입점이 없다. */
