@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "fetchedAt": "2026-07-13T22:54:45.743Z",
+  "fetchedAt": "2026-07-13T10:49:22.244Z",
   "entries": [
     {
       "itemCode": "111",
@@ -9,8 +9,8 @@
       "rank": "상품",
       "unit": "20kg",
       "price": 61507,
-      "priceMonthAgo": 61363,
-      "priceYearAgo": 62293
+      "priceMonthAgo": 48661,
+      "priceYearAgo": 59309
     },
     {
       "itemCode": "111",
@@ -19,8 +19,8 @@
       "rank": "상품",
       "unit": "10kg",
       "price": 35205,
-      "priceMonthAgo": 35261,
-      "priceYearAgo": 34264
+      "priceMonthAgo": 48661,
+      "priceYearAgo": 32064
     },
     {
       "itemCode": "112",
@@ -29,8 +29,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 4660,
-      "priceMonthAgo": 5197,
-      "priceYearAgo": 5405
+      "priceMonthAgo": 5339,
+      "priceYearAgo": 6114
     },
     {
       "itemCode": "141",
@@ -39,8 +39,8 @@
       "rank": "상품",
       "unit": "500g",
       "price": 5010,
-      "priceMonthAgo": 4986,
-      "priceYearAgo": 4999
+      "priceMonthAgo": 5008,
+      "priceYearAgo": 5053
     },
     {
       "itemCode": "142",
@@ -49,8 +49,8 @@
       "rank": "상품",
       "unit": "500g",
       "price": 13219,
-      "priceMonthAgo": 13471,
-      "priceYearAgo": 13449
+      "priceMonthAgo": 13315,
+      "priceYearAgo": 13990
     },
     {
       "itemCode": "143",
@@ -59,8 +59,8 @@
       "rank": "상품",
       "unit": "500g",
       "price": 10417,
-      "priceMonthAgo": 11539,
-      "priceYearAgo": 11872
+      "priceMonthAgo": 11854,
+      "priceYearAgo": 11492
     },
     {
       "itemCode": "151",
@@ -69,8 +69,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 5125,
-      "priceMonthAgo": 5276,
-      "priceYearAgo": 5683
+      "priceMonthAgo": 5336,
+      "priceYearAgo": 5129
     },
     {
       "itemCode": "151",
@@ -79,8 +79,8 @@
       "rank": "중품",
       "unit": "1kg",
       "price": 4055,
-      "priceMonthAgo": 4025,
-      "priceYearAgo": 4025
+      "priceMonthAgo": 4143,
+      "priceYearAgo": 3988
     },
     {
       "itemCode": "152",
@@ -89,8 +89,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 315,
-      "priceMonthAgo": 307,
-      "priceYearAgo": 320
+      "priceMonthAgo": 370,
+      "priceYearAgo": 339
     },
     {
       "itemCode": "152",
@@ -99,8 +99,8 @@
       "rank": "중품",
       "unit": "100g",
       "price": 306,
-      "priceMonthAgo": 306,
-      "priceYearAgo": null
+      "priceMonthAgo": 334,
+      "priceYearAgo": 273
     },
     {
       "itemCode": "211",
@@ -109,8 +109,8 @@
       "rank": "상품",
       "unit": "1포기",
       "price": 3513,
-      "priceMonthAgo": 3606,
-      "priceYearAgo": 3834
+      "priceMonthAgo": 3692,
+      "priceYearAgo": 4642
     },
     {
       "itemCode": "212",
@@ -119,8 +119,8 @@
       "rank": "상품",
       "unit": "1포기",
       "price": 2997,
-      "priceMonthAgo": 3195,
-      "priceYearAgo": 2982
+      "priceMonthAgo": 2911,
+      "priceYearAgo": 3831
     },
     {
       "itemCode": "212",
@@ -129,8 +129,8 @@
       "rank": "중품",
       "unit": "1포기",
       "price": 2598,
-      "priceMonthAgo": 2562,
-      "priceYearAgo": 2556
+      "priceMonthAgo": 2448,
+      "priceYearAgo": 3290
     },
     {
       "itemCode": "213",
@@ -139,8 +139,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 1018,
-      "priceMonthAgo": 784,
-      "priceYearAgo": 919
+      "priceMonthAgo": 846,
+      "priceYearAgo": 1666
     },
     {
       "itemCode": "214",
@@ -149,8 +149,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 1192,
-      "priceMonthAgo": 1128,
-      "priceYearAgo": 1105
+      "priceMonthAgo": 1062,
+      "priceYearAgo": 1243
     },
     {
       "itemCode": "214",
@@ -159,8 +159,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 1193,
-      "priceMonthAgo": 1165,
-      "priceYearAgo": 1130
+      "priceMonthAgo": 1053,
+      "priceYearAgo": 1396
     },
     {
       "itemCode": "215",
@@ -169,8 +169,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 2047,
-      "priceMonthAgo": 2246,
-      "priceYearAgo": 2355
+      "priceMonthAgo": 2351,
+      "priceYearAgo": 3396
     },
     {
       "itemCode": "221",
@@ -179,8 +179,8 @@
       "rank": "상품",
       "unit": "1개",
       "price": 21476,
-      "priceMonthAgo": 23533,
-      "priceYearAgo": 24353
+      "priceMonthAgo": 24006,
+      "priceYearAgo": 30196
     },
     {
       "itemCode": "221",
@@ -189,8 +189,8 @@
       "rank": "중품",
       "unit": "1개",
       "price": 19800,
-      "priceMonthAgo": 20073,
-      "priceYearAgo": 21738
+      "priceMonthAgo": 20580,
+      "priceYearAgo": 25657
     },
     {
       "itemCode": "222",
@@ -199,8 +199,8 @@
       "rank": "상품",
       "unit": "10개",
       "price": 13143,
-      "priceMonthAgo": 14349,
-      "priceYearAgo": 15392
+      "priceMonthAgo": 16447,
+      "priceYearAgo": 16521
     },
     {
       "itemCode": "222",
@@ -209,8 +209,8 @@
       "rank": "중품",
       "unit": "10개",
       "price": 9274,
-      "priceMonthAgo": 10259,
-      "priceYearAgo": 11531
+      "priceMonthAgo": 12343,
+      "priceYearAgo": 12379
     },
     {
       "itemCode": "223",
@@ -219,8 +219,8 @@
       "rank": "상품",
       "unit": "10개",
       "price": 7043,
-      "priceMonthAgo": 7623,
-      "priceYearAgo": 7358
+      "priceMonthAgo": 8009,
+      "priceYearAgo": 11930
     },
     {
       "itemCode": "223",
@@ -229,8 +229,8 @@
       "rank": "상품",
       "unit": "10개",
       "price": 5259,
-      "priceMonthAgo": 5369,
-      "priceYearAgo": 4654
+      "priceMonthAgo": 4997,
+      "priceYearAgo": 7774
     },
     {
       "itemCode": "223",
@@ -239,8 +239,8 @@
       "rank": "중품",
       "unit": "10개",
       "price": 3846,
-      "priceMonthAgo": 3894,
-      "priceYearAgo": 4013
+      "priceMonthAgo": 4283,
+      "priceYearAgo": 5367
     },
     {
       "itemCode": "223",
@@ -249,8 +249,8 @@
       "rank": "상품",
       "unit": "10개",
       "price": 9200,
-      "priceMonthAgo": 9548,
-      "priceYearAgo": 8340
+      "priceMonthAgo": 9662,
+      "priceYearAgo": 13508
     },
     {
       "itemCode": "224",
@@ -259,8 +259,8 @@
       "rank": "상품",
       "unit": "1개",
       "price": 1022,
-      "priceMonthAgo": 1026,
-      "priceYearAgo": 960
+      "priceMonthAgo": 1173,
+      "priceYearAgo": 1100
     },
     {
       "itemCode": "224",
@@ -269,8 +269,8 @@
       "rank": "상품",
       "unit": "1개",
       "price": 1391,
-      "priceMonthAgo": 1424,
-      "priceYearAgo": 1450
+      "priceMonthAgo": 1510,
+      "priceYearAgo": 1489
     },
     {
       "itemCode": "225",
@@ -279,8 +279,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 4231,
-      "priceMonthAgo": 3819,
-      "priceYearAgo": 3608
+      "priceMonthAgo": 3730,
+      "priceYearAgo": 4669
     },
     {
       "itemCode": "231",
@@ -289,8 +289,8 @@
       "rank": "상품",
       "unit": "1개",
       "price": 2042,
-      "priceMonthAgo": 1832,
-      "priceYearAgo": 2001
+      "priceMonthAgo": 2156,
+      "priceYearAgo": 2439
     },
     {
       "itemCode": "231",
@@ -299,8 +299,8 @@
       "rank": "중품",
       "unit": "1개",
       "price": 1612,
-      "priceMonthAgo": 1708,
-      "priceYearAgo": 1999
+      "priceMonthAgo": 1924,
+      "priceYearAgo": 1859
     },
     {
       "itemCode": "232",
@@ -309,8 +309,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 3127,
-      "priceMonthAgo": 3365,
-      "priceYearAgo": 3612
+      "priceMonthAgo": 3490,
+      "priceYearAgo": 3213
     },
     {
       "itemCode": "232",
@@ -319,8 +319,8 @@
       "rank": "중품",
       "unit": "1kg",
       "price": null,
-      "priceMonthAgo": 2889,
-      "priceYearAgo": null
+      "priceMonthAgo": null,
+      "priceYearAgo": 2952
     },
     {
       "itemCode": "233",
@@ -329,8 +329,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 2331,
-      "priceMonthAgo": 2409,
-      "priceYearAgo": 2355
+      "priceMonthAgo": 2296,
+      "priceYearAgo": 3915
     },
     {
       "itemCode": "241",
@@ -339,8 +339,8 @@
       "rank": "상품",
       "unit": "600g",
       "price": 17139,
-      "priceMonthAgo": 17214,
-      "priceYearAgo": 17214
+      "priceMonthAgo": 17256,
+      "priceYearAgo": 17547
     },
     {
       "itemCode": "242",
@@ -349,8 +349,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 1744,
-      "priceMonthAgo": 1789,
-      "priceYearAgo": 1844
+      "priceMonthAgo": 1658,
+      "priceYearAgo": 1996
     },
     {
       "itemCode": "242",
@@ -359,8 +359,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 1350,
-      "priceMonthAgo": 1446,
-      "priceYearAgo": 1524
+      "priceMonthAgo": 1534,
+      "priceYearAgo": 1552
     },
     {
       "itemCode": "242",
@@ -369,7 +369,7 @@
       "rank": "중품",
       "unit": "100g",
       "price": null,
-      "priceMonthAgo": 1153,
+      "priceMonthAgo": 1129,
       "priceYearAgo": null
     },
     {
@@ -379,8 +379,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 1256,
-      "priceMonthAgo": 1385,
-      "priceYearAgo": 1425
+      "priceMonthAgo": 1266,
+      "priceYearAgo": 1598
     },
     {
       "itemCode": "242",
@@ -389,8 +389,8 @@
       "rank": "중품",
       "unit": "100g",
       "price": 927,
-      "priceMonthAgo": 960,
-      "priceYearAgo": 902
+      "priceMonthAgo": 793,
+      "priceYearAgo": 858
     },
     {
       "itemCode": "242",
@@ -399,8 +399,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 1043,
-      "priceMonthAgo": 1181,
-      "priceYearAgo": 1221
+      "priceMonthAgo": 1093,
+      "priceYearAgo": 1283
     },
     {
       "itemCode": "243",
@@ -409,8 +409,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 2151,
-      "priceMonthAgo": 2019,
-      "priceYearAgo": 2133
+      "priceMonthAgo": 2208,
+      "priceYearAgo": 2017
     },
     {
       "itemCode": "245",
@@ -419,8 +419,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 1622,
-      "priceMonthAgo": 1683,
-      "priceYearAgo": 1814
+      "priceMonthAgo": 1847,
+      "priceYearAgo": 1800
     },
     {
       "itemCode": "246",
@@ -429,8 +429,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 2893,
-      "priceMonthAgo": 2928,
-      "priceYearAgo": 2900
+      "priceMonthAgo": 2710,
+      "priceYearAgo": 2352
     },
     {
       "itemCode": "246",
@@ -439,8 +439,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 8396,
-      "priceMonthAgo": 9845,
-      "priceYearAgo": 10633
+      "priceMonthAgo": 8687,
+      "priceYearAgo": 9752
     },
     {
       "itemCode": "247",
@@ -449,8 +449,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 14893,
-      "priceMonthAgo": 15336,
-      "priceYearAgo": 15482
+      "priceMonthAgo": 15419,
+      "priceYearAgo": 13631
     },
     {
       "itemCode": "248",
@@ -459,8 +459,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 31924,
-      "priceMonthAgo": 33168,
-      "priceYearAgo": 33752
+      "priceMonthAgo": 33929,
+      "priceYearAgo": 33637
     },
     {
       "itemCode": "248",
@@ -469,8 +469,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 13509,
-      "priceMonthAgo": 13509,
-      "priceYearAgo": 13509
+      "priceMonthAgo": 13491,
+      "priceYearAgo": 13395
     },
     {
       "itemCode": "252",
@@ -479,8 +479,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 1192,
-      "priceMonthAgo": 1408,
-      "priceYearAgo": 1410
+      "priceMonthAgo": 1390,
+      "priceYearAgo": 1378
     },
     {
       "itemCode": "253",
@@ -489,8 +489,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 1881,
-      "priceMonthAgo": 2261,
-      "priceYearAgo": 2225
+      "priceMonthAgo": 2444,
+      "priceYearAgo": 2663
     },
     {
       "itemCode": "255",
@@ -499,8 +499,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 1334,
-      "priceMonthAgo": 1517,
-      "priceYearAgo": 1530
+      "priceMonthAgo": 1528,
+      "priceYearAgo": 1283
     },
     {
       "itemCode": "256",
@@ -509,8 +509,8 @@
       "rank": "상품",
       "unit": "200g",
       "price": 1164,
-      "priceMonthAgo": 1163,
-      "priceYearAgo": 1338
+      "priceMonthAgo": 1353,
+      "priceYearAgo": 1302
     },
     {
       "itemCode": "256",
@@ -519,8 +519,8 @@
       "rank": "중품",
       "unit": "200g",
       "price": 1029,
-      "priceMonthAgo": 956,
-      "priceYearAgo": 1035
+      "priceMonthAgo": 1201,
+      "priceYearAgo": 1056
     },
     {
       "itemCode": "257",
@@ -529,8 +529,8 @@
       "rank": "상품",
       "unit": "1개",
       "price": 9549,
-      "priceMonthAgo": 9497,
-      "priceYearAgo": 10249
+      "priceMonthAgo": 11821,
+      "priceYearAgo": 9981
     },
     {
       "itemCode": "257",
@@ -540,7 +540,7 @@
       "unit": "1개",
       "price": 8733,
       "priceMonthAgo": null,
-      "priceYearAgo": null
+      "priceYearAgo": 6498
     },
     {
       "itemCode": "258",
@@ -549,8 +549,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 9923,
-      "priceMonthAgo": 11599,
-      "priceYearAgo": 12505
+      "priceMonthAgo": 12480,
+      "priceYearAgo": 12410
     },
     {
       "itemCode": "258",
@@ -559,8 +559,8 @@
       "rank": "중품",
       "unit": "1kg",
       "price": 8118,
-      "priceMonthAgo": 10239,
-      "priceYearAgo": 10765
+      "priceMonthAgo": 10837,
+      "priceYearAgo": 9113
     },
     {
       "itemCode": "279",
@@ -569,8 +569,8 @@
       "rank": "상품",
       "unit": "1포기",
       "price": 2278,
-      "priceMonthAgo": 2552,
-      "priceYearAgo": 2689
+      "priceMonthAgo": 2659,
+      "priceYearAgo": 3086
     },
     {
       "itemCode": "279",
@@ -579,8 +579,8 @@
       "rank": "중품",
       "unit": "1포기",
       "price": 1604,
-      "priceMonthAgo": 1578,
-      "priceYearAgo": 1604
+      "priceMonthAgo": 1606,
+      "priceYearAgo": 1714
     },
     {
       "itemCode": "280",
@@ -589,8 +589,8 @@
       "rank": "상품",
       "unit": "1개",
       "price": 1857,
-      "priceMonthAgo": 1928,
-      "priceYearAgo": 2216
+      "priceMonthAgo": 2138,
+      "priceYearAgo": 2342
     },
     {
       "itemCode": "422",
@@ -599,8 +599,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 5352,
-      "priceMonthAgo": 6093,
-      "priceYearAgo": 6633
+      "priceMonthAgo": 7261,
+      "priceYearAgo": 7982
     },
     {
       "itemCode": "422",
@@ -609,8 +609,8 @@
       "rank": "상품",
       "unit": "1kg",
       "price": 4804,
-      "priceMonthAgo": 5554,
-      "priceYearAgo": 6160
+      "priceMonthAgo": 5921,
+      "priceYearAgo": 6895
     },
     {
       "itemCode": "411",
@@ -619,8 +619,8 @@
       "rank": "상품",
       "unit": "10개",
       "price": 25677,
-      "priceMonthAgo": 25723,
-      "priceYearAgo": 24714
+      "priceMonthAgo": 27174,
+      "priceYearAgo": 28253
     },
     {
       "itemCode": "411",
@@ -629,8 +629,8 @@
       "rank": "중품",
       "unit": "10개",
       "price": 19684,
-      "priceMonthAgo": 20177,
-      "priceYearAgo": 21475
+      "priceMonthAgo": 21805,
+      "priceYearAgo": 21928
     },
     {
       "itemCode": "412",
@@ -639,8 +639,8 @@
       "rank": "상품",
       "unit": "10개",
       "price": 46685,
-      "priceMonthAgo": 44746,
-      "priceYearAgo": 41567
+      "priceMonthAgo": 38150,
+      "priceYearAgo": 39222
     },
     {
       "itemCode": "412",
@@ -649,8 +649,8 @@
       "rank": "중품",
       "unit": "10개",
       "price": 32809,
-      "priceMonthAgo": 34443,
-      "priceYearAgo": 31517
+      "priceMonthAgo": 29427,
+      "priceYearAgo": 25265
     },
     {
       "itemCode": "413",
@@ -659,8 +659,8 @@
       "rank": "상품",
       "unit": "10개",
       "price": 19141,
-      "priceMonthAgo": 22135,
-      "priceYearAgo": null
+      "priceMonthAgo": null,
+      "priceYearAgo": 22959
     },
     {
       "itemCode": "413",
@@ -669,8 +669,8 @@
       "rank": "중품",
       "unit": "10개",
       "price": 16263,
-      "priceMonthAgo": 17886,
-      "priceYearAgo": null
+      "priceMonthAgo": null,
+      "priceYearAgo": 19681
     },
     {
       "itemCode": "418",
@@ -679,8 +679,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 314,
-      "priceMonthAgo": 317,
-      "priceYearAgo": 315
+      "priceMonthAgo": 311,
+      "priceYearAgo": 306
     },
     {
       "itemCode": "418",
@@ -689,8 +689,8 @@
       "rank": "중품",
       "unit": "100g",
       "price": 285,
-      "priceMonthAgo": 274,
-      "priceYearAgo": 311
+      "priceMonthAgo": 287,
+      "priceYearAgo": 241
     },
     {
       "itemCode": "419",
@@ -699,8 +699,8 @@
       "rank": "상품",
       "unit": "10개",
       "price": 11303,
-      "priceMonthAgo": 11237,
-      "priceYearAgo": 11200
+      "priceMonthAgo": 10989,
+      "priceYearAgo": 10086
     },
     {
       "itemCode": "420",
@@ -709,8 +709,8 @@
       "rank": "상품",
       "unit": "1개",
       "price": 7121,
-      "priceMonthAgo": 7111,
-      "priceYearAgo": 7092
+      "priceMonthAgo": 7116,
+      "priceYearAgo": 6662
     },
     {
       "itemCode": "420",
@@ -719,8 +719,8 @@
       "rank": "중품",
       "unit": "1개",
       "price": 5607,
-      "priceMonthAgo": 5772,
-      "priceYearAgo": 5798
+      "priceMonthAgo": 5668,
+      "priceYearAgo": 5830
     },
     {
       "itemCode": "421",
@@ -729,8 +729,8 @@
       "rank": "상품",
       "unit": "10개",
       "price": null,
-      "priceMonthAgo": null,
-      "priceYearAgo": 18833
+      "priceMonthAgo": 18729,
+      "priceYearAgo": 19678
     },
     {
       "itemCode": "421",
@@ -739,7 +739,7 @@
       "rank": "중품",
       "unit": "10개",
       "price": 17430,
-      "priceMonthAgo": 17533,
+      "priceMonthAgo": null,
       "priceYearAgo": null
     },
     {
@@ -749,8 +749,8 @@
       "rank": "상품",
       "unit": "10개",
       "price": 10284,
-      "priceMonthAgo": 10424,
-      "priceYearAgo": 10076
+      "priceMonthAgo": 9518,
+      "priceYearAgo": 9623
     },
     {
       "itemCode": "424",
@@ -759,8 +759,8 @@
       "rank": "중품",
       "unit": "10개",
       "price": 10183,
-      "priceMonthAgo": 10097,
-      "priceYearAgo": 9956
+      "priceMonthAgo": 8731,
+      "priceYearAgo": 8506
     },
     {
       "itemCode": "425",
@@ -769,8 +769,8 @@
       "rank": "상품",
       "unit": "100g",
       "price": 2311,
-      "priceMonthAgo": 2363,
-      "priceYearAgo": 2178
+      "priceMonthAgo": 2755,
+      "priceYearAgo": 1844
     },
     {
       "itemCode": "425",
@@ -780,7 +780,7 @@
       "unit": "100g",
       "price": null,
       "priceMonthAgo": null,
-      "priceYearAgo": 1901
+      "priceYearAgo": 1266
     },
     {
       "itemCode": "428",
@@ -789,8 +789,8 @@
       "rank": "상품",
       "unit": "1개",
       "price": 5557,
-      "priceMonthAgo": 5780,
-      "priceYearAgo": 5844
+      "priceMonthAgo": 5744,
+      "priceYearAgo": 4349
     },
     {
       "itemCode": "430",
@@ -799,8 +799,9 @@
       "rank": "상품",
       "unit": "1개",
       "price": 1557,
-      "priceMonthAgo": 1598,
-      "priceYearAgo": 1629
+      "priceMonthAgo": 1761,
+      "priceYearAgo": 1956
     }
-  ]
+  ],
+  "priceDate": "2026-07-13"
 }

@@ -66,6 +66,13 @@ describe('matchEntry', () => {
     expect(matchEntry(p, entries)).toBeNull()
   })
 
+  test('KAMIS가 조사하지 않는 품목(kamis 참조 없음)은 null이다', () => {
+    // 가지·옥수수·부추·단호박은 소매·도매 어느 쪽에도 없다 — 가격 없이 제철만 보여준다
+    const entries = [entry({ itemName: '가지', price: 3000 })]
+    const p = profile({ name: '가지', kamis: undefined })
+    expect(matchEntry(p, entries)).toBeNull()
+  })
+
   test('일치하는 이름이 없거나 가격이 전부 null이면 null', () => {
     const p = profile({ kamis: { categoryCode: '200', itemName: '멜론' } })
     expect(matchEntry(p, [entry({ itemName: '오이' })])).toBeNull()

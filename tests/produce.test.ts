@@ -16,8 +16,12 @@ describe('produce.json 스키마', () => {
     expect(p.name.length).toBeGreaterThan(0)
     expect(p.emoji.length).toBeGreaterThan(0)
     expect(['fruit', 'vegetable']).toContain(p.category)
-    expect(['100', '200', '400']).toContain(p.kamis.categoryCode)
-    expect(p.kamis.itemName.length).toBeGreaterThan(0)
+    // kamis는 선택 — KAMIS가 조사하지 않는 품목(가지·옥수수·부추·단호박)은 참조가 없다.
+    // 있다면 유효해야 한다.
+    if (p.kamis) {
+      expect(['100', '200', '400']).toContain(p.kamis.categoryCode)
+      expect(p.kamis.itemName.length).toBeGreaterThan(0)
+    }
     for (const m of [...p.seasonMonths, ...p.peakMonths]) {
       expect(m).toBeGreaterThanOrEqual(1)
       expect(m).toBeLessThanOrEqual(12)

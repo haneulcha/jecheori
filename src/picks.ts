@@ -20,9 +20,8 @@ export function seasonalThisMonth(profiles: ProduceProfile[], month: number): Pr
 }
 
 export function matchEntry(profile: ProduceProfile, entries: PriceEntry[]): PriceEntry | null {
-  const byName = entries.filter(
-    (e) => e.itemName === profile.kamis.itemName && e.price !== null,
-  )
+  if (!profile.kamis) return null
+  const byName = entries.filter((e) => e.itemName === profile.kamis!.itemName && e.price !== null)
   if (byName.length === 0) return null
   const kind = profile.kamis.kindName
   const byKind = kind ? byName.filter((e) => e.kindName.includes(kind)) : byName

@@ -4,15 +4,34 @@
     "name": "복숭아",
     "emoji": "🍑",
     "category": "fruit",
-    "kamis": { "categoryCode": "400", "itemName": "복숭아" },
-    "foodDb": { "category1": "과일류", "foodName": "복숭아_백도_생것" },
-    "recipeRef": { "names": ["복숭아 화채", "복숭아샤벳"] },
-    "seasonMonths": [6, 7, 8, 9],
-    "peakMonths": [7, 8],
+    "kamis": {
+      "categoryCode": "400",
+      "itemName": "복숭아"
+    },
+    "foodDb": {
+      "category1": "과일류",
+      "foodName": "복숭아_백도_생것"
+    },
+    "recipeRef": {
+      "names": [
+        "복숭아 화채",
+        "복숭아샤벳"
+      ]
+    },
+    "seasonMonths": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "peakMonths": [
+      7,
+      8
+    ],
     "whyNow": {
-      "default": "여름 한복판이 복숭아의 계절이에요",
       "7": "7~8월이 노지 복숭아의 절정이에요",
-      "8": "말랑한 백도가 가장 달 때예요"
+      "8": "말랑한 백도가 가장 달 때예요",
+      "default": "여름 한복판이 복숭아의 계절이에요"
     },
     "howToPick": "봉합선이 뚜렷하고 향이 진한 것. 꼭지 주변까지 붉게 물든 것이 잘 익은 거예요.",
     "howToStore": "실온에서 후숙하고, 먹기 2~3시간 전에만 냉장. 차게 오래 두면 단맛이 떨어져요.",
@@ -23,13 +42,29 @@
     "name": "수박",
     "emoji": "🍉",
     "category": "fruit",
-    "kamis": { "categoryCode": "200", "itemName": "수박" },
-    "recipeRef": { "names": ["수박 화채", "수박비빔국수와 수박고추장소스", "수박껍질풋고추볶음", "식혜양갱과 수박증편"] },
-    "seasonMonths": [6, 7, 8],
-    "peakMonths": [7],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "수박"
+    },
+    "recipeRef": {
+      "names": [
+        "수박 화채",
+        "수박비빔국수와 수박고추장소스",
+        "수박껍질풋고추볶음",
+        "식혜양갱과 수박증편"
+      ]
+    },
+    "seasonMonths": [
+      6,
+      7,
+      8
+    ],
+    "peakMonths": [
+      7
+    ],
     "whyNow": {
-      "default": "더위가 시작되면 수박이 달아져요",
-      "7": "7월 수박이 당도가 가장 높아요"
+      "7": "7월 수박이 당도가 가장 높아요",
+      "default": "더위가 시작되면 수박이 달아져요"
     },
     "howToPick": "두드렸을 때 맑은 통통 소리가 나고, 줄무늬가 진하고 선명한 것.",
     "howToStore": "자르기 전엔 서늘한 실온, 자른 후엔 단면을 랩으로 덮어 냉장 2~3일.",
@@ -40,13 +75,29 @@
     "name": "참외",
     "emoji": "🍈",
     "category": "fruit",
-    "kamis": { "categoryCode": "200", "itemName": "참외" },
-    "recipeRef": { "names": ["참외깍두기", "성주참외동치미", "들깨삼겹살과 참외쌈장", "참외지 리코타버무리"] },
-    "seasonMonths": [5, 6, 7],
-    "peakMonths": [6],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "참외"
+    },
+    "recipeRef": {
+      "names": [
+        "참외깍두기",
+        "성주참외동치미",
+        "들깨삼겹살과 참외쌈장",
+        "참외지 리코타버무리"
+      ]
+    },
+    "seasonMonths": [
+      5,
+      6,
+      7
+    ],
+    "peakMonths": [
+      6
+    ],
     "whyNow": {
-      "default": "초여름 성주 참외가 한창이에요",
-      "7": "7월 참외는 물량이 많아 가격이 내려와요"
+      "7": "7월 참외는 물량이 많아 가격이 내려와요",
+      "default": "초여름 성주 참외가 한창이에요"
     },
     "howToPick": "골이 깊고 노란색이 진하며, 향이 꼭지까지 올라오는 것.",
     "howToStore": "냉장 보관, 씨를 빼지 말고 통째로. 일주일 안에 먹는 게 좋아요.",
@@ -57,11 +108,33 @@
     "name": "토마토",
     "emoji": "🍅",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "토마토" },
-    "foodDb": { "category1": "채소류", "foodName": "토마토_생것" },
-    "recipeRef": { "names": ["토마토제철나물 샐러드", "토마토 가지 카프레제", "냉토마토파스타", "토마토스프파스타", "가지토마토구이"] },
-    "seasonMonths": [5, 6, 7, 8],
-    "peakMonths": [6, 7],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "토마토"
+    },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "토마토_생것"
+    },
+    "recipeRef": {
+      "names": [
+        "토마토제철나물 샐러드",
+        "토마토 가지 카프레제",
+        "냉토마토파스타",
+        "토마토스프파스타",
+        "가지토마토구이"
+      ]
+    },
+    "seasonMonths": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "peakMonths": [
+      6,
+      7
+    ],
     "whyNow": {
       "default": "노지 토마토가 나오는 계절이에요"
     },
@@ -74,10 +147,29 @@
     "name": "오이",
     "emoji": "🥒",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "오이" },
-    "recipeRef": { "names": ["오이초절임", "오이파프리카새콤무침", "오이 짱아지 무침", "겨자 오이고추소박이", "오이냉국을 곁들인 오색쌈밥"] },
-    "seasonMonths": [5, 6, 7, 8],
-    "peakMonths": [6, 7],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "오이"
+    },
+    "recipeRef": {
+      "names": [
+        "오이초절임",
+        "오이파프리카새콤무침",
+        "오이 짱아지 무침",
+        "겨자 오이고추소박이",
+        "오이냉국을 곁들인 오색쌈밥"
+      ]
+    },
+    "seasonMonths": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "peakMonths": [
+      6,
+      7
+    ],
     "whyNow": {
       "default": "여름 오이는 수분이 많고 시원해요"
     },
@@ -90,10 +182,30 @@
     "name": "애호박",
     "emoji": "🥬",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "호박", "kindName": "애호박" },
-    "recipeRef": { "names": ["애호박들깨볶음", "깻잎애호박찜", "해물애호박 전병말이", "애호박장떡말이밥", "토마토소스 애호박냉파스타"] },
-    "seasonMonths": [6, 7, 8, 9],
-    "peakMonths": [7, 8],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "호박",
+      "kindName": "애호박"
+    },
+    "recipeRef": {
+      "names": [
+        "애호박들깨볶음",
+        "깻잎애호박찜",
+        "해물애호박 전병말이",
+        "애호박장떡말이밥",
+        "토마토소스 애호박냉파스타"
+      ]
+    },
+    "seasonMonths": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "peakMonths": [
+      7,
+      8
+    ],
     "whyNow": {
       "default": "여름 애호박이 부드럽고 달아요"
     },
@@ -106,10 +218,28 @@
     "name": "감자",
     "emoji": "🥔",
     "category": "vegetable",
-    "kamis": { "categoryCode": "100", "itemName": "감자" },
-    "recipeRef": { "names": ["감자냉채", "감자미역국", "양배추감자전", "감자느타리버섯국", "카레감자전"] },
-    "seasonMonths": [6, 7, 8],
-    "peakMonths": [6, 7],
+    "kamis": {
+      "categoryCode": "100",
+      "itemName": "감자"
+    },
+    "recipeRef": {
+      "names": [
+        "감자냉채",
+        "감자미역국",
+        "양배추감자전",
+        "감자느타리버섯국",
+        "카레감자전"
+      ]
+    },
+    "seasonMonths": [
+      6,
+      7,
+      8
+    ],
+    "peakMonths": [
+      6,
+      7
+    ],
     "whyNow": {
       "default": "햇감자가 나오는 계절 — 껍질이 얇고 포슬포슬해요"
     },
@@ -122,10 +252,21 @@
     "name": "옥수수",
     "emoji": "🌽",
     "category": "vegetable",
-    "kamis": { "categoryCode": "100", "itemName": "옥수수" },
-    "recipeRef": { "names": ["모듬옥수수", "옥수수감자샐러드", "해산물 옥수수 오븐구이"] },
-    "seasonMonths": [7, 8],
-    "peakMonths": [7, 8],
+    "recipeRef": {
+      "names": [
+        "모듬옥수수",
+        "옥수수감자샐러드",
+        "해산물 옥수수 오븐구이"
+      ]
+    },
+    "seasonMonths": [
+      7,
+      8
+    ],
+    "peakMonths": [
+      7,
+      8
+    ],
     "whyNow": {
       "default": "옥수수는 딱 여름 두 달이 제철이에요"
     },
@@ -138,15 +279,35 @@
     "name": "사과",
     "emoji": "🍎",
     "category": "fruit",
-    "kamis": { "categoryCode": "400", "itemName": "사과" },
-    "foodDb": { "category1": "과일류", "foodName": "사과_부사_생것" },
-    "recipeRef": { "names": ["호두 사과 샐러드", "사과장아찌", "사과채소타코", "사과소스폭찹", "사과 견과류 식빵"] },
-    "seasonMonths": [9, 10, 11],
-    "peakMonths": [10],
+    "kamis": {
+      "categoryCode": "400",
+      "itemName": "사과"
+    },
+    "foodDb": {
+      "category1": "과일류",
+      "foodName": "사과_부사_생것"
+    },
+    "recipeRef": {
+      "names": [
+        "호두 사과 샐러드",
+        "사과장아찌",
+        "사과채소타코",
+        "사과소스폭찹",
+        "사과 견과류 식빵"
+      ]
+    },
+    "seasonMonths": [
+      9,
+      10,
+      11
+    ],
+    "peakMonths": [
+      10
+    ],
     "whyNow": {
-      "default": "가을 사과가 아삭하고 달아요",
       "9": "홍로가 나오기 시작하는 때예요",
-      "10": "부사(후지)가 가장 맛있는 때예요"
+      "10": "부사(후지)가 가장 맛있는 때예요",
+      "default": "가을 사과가 아삭하고 달아요"
     },
     "howToPick": "들었을 때 묵직하고 꼭지가 싱싱한 것. 향이 진하면 잘 익은 거예요.",
     "howToStore": "비닐에 싸서 냉장. 다른 과일과 따로 (에틸렌 때문에 다른 과일이 빨리 익어요).",
@@ -157,12 +318,24 @@
     "name": "시금치",
     "emoji": "🥗",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "시금치" },
-    "seasonMonths": [11, 12, 1, 2, 3],
-    "peakMonths": [12, 1],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "시금치"
+    },
+    "seasonMonths": [
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "peakMonths": [
+      12,
+      1
+    ],
     "whyNow": {
-      "default": "겨울 시금치가 달아요",
-      "12": "노지 겨울 시금치(섬초)가 나오는 때 — 단맛이 최고예요"
+      "12": "노지 겨울 시금치(섬초)가 나오는 때 — 단맛이 최고예요",
+      "default": "겨울 시금치가 달아요"
     },
     "howToPick": "뿌리 쪽이 붉고 잎이 도톰한 것. 겨울엔 키 작은 노지 시금치가 달아요.",
     "howToStore": "젖은 키친타월로 감싸 세워서 냉장. 데쳐서 냉동해도 좋아요.",
@@ -173,12 +346,22 @@
     "name": "배",
     "emoji": "🍐",
     "category": "fruit",
-    "kamis": { "categoryCode": "400", "itemName": "배" },
-    "seasonMonths": [9, 10, 11],
-    "peakMonths": [9, 10],
+    "kamis": {
+      "categoryCode": "400",
+      "itemName": "배"
+    },
+    "seasonMonths": [
+      9,
+      10,
+      11
+    ],
+    "peakMonths": [
+      9,
+      10
+    ],
     "whyNow": {
-      "default": "가을이 깊어지면 배가 달아지고 즙이 많아져요",
-      "10": "10월 신고배가 가장 아삭하고 즙이 많은 때예요"
+      "10": "10월 신고배가 가장 아삭하고 즙이 많은 때예요",
+      "default": "가을이 깊어지면 배가 달아지고 즙이 많아져요"
     },
     "howToPick": "표면이 매끈하고 꼭지가 마르지 않은 것. 밑동을 눌렀을 때 단단한 것이 신선해요.",
     "howToStore": "신문지에 하나씩 싸서 서늘한 곳이나 냉장 보관. 온도가 낮을수록 오래가요.",
@@ -189,12 +372,22 @@
     "name": "포도",
     "emoji": "🍇",
     "category": "fruit",
-    "kamis": { "categoryCode": "400", "itemName": "포도", "kindName": "캠벨" },
-    "seasonMonths": [8, 9, 10],
-    "peakMonths": [9],
+    "kamis": {
+      "categoryCode": "400",
+      "itemName": "포도",
+      "kindName": "캠벨"
+    },
+    "seasonMonths": [
+      8,
+      9,
+      10
+    ],
+    "peakMonths": [
+      9
+    ],
     "whyNow": {
-      "default": "늦여름부터 캠벨포도가 짙은 보랏빛으로 익어가요",
-      "9": "9월 캠벨포도가 당도와 향이 가장 진한 때예요"
+      "9": "9월 캠벨포도가 당도와 향이 가장 진한 때예요",
+      "default": "늦여름부터 캠벨포도가 짙은 보랏빛으로 익어가요"
     },
     "howToPick": "알이 촘촘히 붙어 있고 표면에 하얀 분이 남아 있는 것. 만졌을 때 알이 단단한 것이 신선해요.",
     "howToStore": "씻지 않은 채로 밀폐 용기에 담아 냉장. 먹기 직전에 씻어야 오래가요.",
@@ -205,12 +398,23 @@
     "name": "샤인머스캣",
     "emoji": "🍇",
     "category": "fruit",
-    "kamis": { "categoryCode": "400", "itemName": "포도", "kindName": "샤인" },
-    "seasonMonths": [9, 10, 11],
-    "peakMonths": [9, 10],
+    "kamis": {
+      "categoryCode": "400",
+      "itemName": "포도",
+      "kindName": "샤인"
+    },
+    "seasonMonths": [
+      9,
+      10,
+      11
+    ],
+    "peakMonths": [
+      9,
+      10
+    ],
     "whyNow": {
-      "default": "청포도의 계절, 샤인머스캣이 씨 없이 아삭하게 나와요",
-      "10": "10월 샤인머스캣이 당도가 가장 높은 때예요"
+      "10": "10월 샤인머스캣이 당도가 가장 높은 때예요",
+      "default": "청포도의 계절, 샤인머스캣이 씨 없이 아삭하게 나와요"
     },
     "howToPick": "알이 노르스름한 연둣빛을 띠고 껍질에 탄력이 있는 것. 줄기가 마르지 않은 것이 싱싱해요.",
     "howToStore": "키친타월로 감싸 밀폐 용기에 담아 냉장, 일주일 안에 먹는 게 좋아요.",
@@ -221,12 +425,23 @@
     "name": "감귤",
     "emoji": "🍊",
     "category": "fruit",
-    "kamis": { "categoryCode": "400", "itemName": "감귤" },
-    "seasonMonths": [11, 12, 1, 2],
-    "peakMonths": [12, 1],
+    "kamis": {
+      "categoryCode": "400",
+      "itemName": "감귤"
+    },
+    "seasonMonths": [
+      11,
+      12,
+      1,
+      2
+    ],
+    "peakMonths": [
+      12,
+      1
+    ],
     "whyNow": {
-      "default": "겨울이 되면 제주 감귤이 새콤달콤하게 익어요",
-      "12": "12월 감귤이 당도와 산미의 균형이 가장 좋은 때예요"
+      "12": "12월 감귤이 당도와 산미의 균형이 가장 좋은 때예요",
+      "default": "겨울이 되면 제주 감귤이 새콤달콤하게 익어요"
     },
     "howToPick": "껍질이 얇고 윤기가 나며 들었을 때 묵직한 것. 꼭지가 작은 것이 단맛이 좋아요.",
     "howToStore": "서늘하고 통풍이 잘되는 곳에 겹치지 않게 둬요. 냉장고에 오래 두면 껍질이 마르고 퍽퍽해져요.",
@@ -237,12 +452,22 @@
     "name": "단감",
     "emoji": "🟠",
     "category": "fruit",
-    "kamis": { "categoryCode": "400", "itemName": "단감" },
-    "seasonMonths": [10, 11, 12],
-    "peakMonths": [10, 11],
+    "kamis": {
+      "categoryCode": "400",
+      "itemName": "단감"
+    },
+    "seasonMonths": [
+      10,
+      11,
+      12
+    ],
+    "peakMonths": [
+      10,
+      11
+    ],
     "whyNow": {
-      "default": "가을 끝자락, 단감이 아삭하고 달게 익어요",
-      "11": "11월 단감이 가장 단단하고 단맛이 오른 때예요"
+      "11": "11월 단감이 가장 단단하고 단맛이 오른 때예요",
+      "default": "가을 끝자락, 단감이 아삭하고 달게 익어요"
     },
     "howToPick": "표면에 흠집이 없고 꼭지 주변까지 주황빛이 고른 것. 들었을 때 묵직한 것이 좋아요.",
     "howToStore": "서늘한 곳에 신문지로 싸서 보관하고, 무르기 시작하면 냉장으로 옮겨요.",
@@ -253,9 +478,18 @@
     "name": "참다래",
     "emoji": "🥝",
     "category": "fruit",
-    "kamis": { "categoryCode": "400", "itemName": "참다래" },
-    "seasonMonths": [10, 11, 12],
-    "peakMonths": [11],
+    "kamis": {
+      "categoryCode": "400",
+      "itemName": "참다래"
+    },
+    "seasonMonths": [
+      10,
+      11,
+      12
+    ],
+    "peakMonths": [
+      11
+    ],
     "whyNow": {
       "default": "가을부터 국산 참다래가 나와 신맛과 단맛이 조화로워요"
     },
@@ -268,12 +502,25 @@
     "name": "딸기",
     "emoji": "🍓",
     "category": "fruit",
-    "kamis": { "categoryCode": "200", "itemName": "딸기" },
-    "seasonMonths": [12, 1, 2, 3, 4],
-    "peakMonths": [1, 2, 3],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "딸기"
+    },
+    "seasonMonths": [
+      12,
+      1,
+      2,
+      3,
+      4
+    ],
+    "peakMonths": [
+      1,
+      2,
+      3
+    ],
     "whyNow": {
-      "default": "겨울부터 봄까지가 하우스 딸기의 계절이에요",
-      "2": "2월 딸기가 가장 달고 향이 진한 때예요"
+      "2": "2월 딸기가 가장 달고 향이 진한 때예요",
+      "default": "겨울부터 봄까지가 하우스 딸기의 계절이에요"
     },
     "howToPick": "꼭지가 초록색으로 싱싱하고 씨가 붉게 도드라진 것. 표면 전체가 고르게 붉은 것이 잘 익은 거예요.",
     "howToStore": "씻지 않고 꼭지를 그대로 둔 채 냉장, 먹기 직전에 씻어요.",
@@ -284,10 +531,25 @@
     "name": "멜론",
     "emoji": "🍈",
     "category": "fruit",
-    "kamis": { "categoryCode": "200", "itemName": "멜론" },
-    "recipeRef": { "names": ["멜론스프"] },
-    "seasonMonths": [6, 7, 8, 9],
-    "peakMonths": [7, 8],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "멜론"
+    },
+    "recipeRef": {
+      "names": [
+        "멜론스프"
+      ]
+    },
+    "seasonMonths": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "peakMonths": [
+      7,
+      8
+    ],
     "whyNow": {
       "default": "한여름 멜론이 향과 당도가 가장 좋아요"
     },
@@ -300,12 +562,23 @@
     "name": "배추",
     "emoji": "🥬",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "배추" },
-    "seasonMonths": [4, 5, 11, 12],
-    "peakMonths": [11, 12],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "배추"
+    },
+    "seasonMonths": [
+      4,
+      5,
+      11,
+      12
+    ],
+    "peakMonths": [
+      11,
+      12
+    ],
     "whyNow": {
-      "default": "가을배추가 속이 꽉 차고 달게 여무는 시기예요",
-      "11": "11월 배추가 김장에 가장 적합하게 여무는 때예요"
+      "11": "11월 배추가 김장에 가장 적합하게 여무는 때예요",
+      "default": "가을배추가 속이 꽉 차고 달게 여무는 시기예요"
     },
     "howToPick": "겉잎이 진한 초록이고 속이 노랗게 찬 것. 들었을 때 묵직한 것이 속이 꽉 찬 거예요.",
     "howToStore": "신문지에 싸서 서늘한 곳에 두고, 자른 단면은 랩으로 덮어 냉장 보관해요.",
@@ -316,10 +589,27 @@
     "name": "양배추",
     "emoji": "🥬",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "양배추" },
-    "recipeRef": { "names": ["양배추말이 김치", "김치양배추볶음", "양배추롤", "양배추 깻잎 피클", "양배추버섯말이"] },
-    "seasonMonths": [5, 6, 7],
-    "peakMonths": [6],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "양배추"
+    },
+    "recipeRef": {
+      "names": [
+        "양배추말이 김치",
+        "김치양배추볶음",
+        "양배추롤",
+        "양배추 깻잎 피클",
+        "양배추버섯말이"
+      ]
+    },
+    "seasonMonths": [
+      5,
+      6,
+      7
+    ],
+    "peakMonths": [
+      6
+    ],
     "whyNow": {
       "default": "초여름 양배추가 잎이 얇고 아삭해요"
     },
@@ -332,9 +622,20 @@
     "name": "상추",
     "emoji": "🥬",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "상추" },
-    "seasonMonths": [4, 5, 6, 9, 10],
-    "peakMonths": [5],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "상추"
+    },
+    "seasonMonths": [
+      4,
+      5,
+      6,
+      9,
+      10
+    ],
+    "peakMonths": [
+      5
+    ],
     "whyNow": {
       "default": "봄가을 상추가 잎이 부드럽고 쓴맛이 적어요"
     },
@@ -347,9 +648,18 @@
     "name": "얼갈이배추",
     "emoji": "🥬",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "얼갈이배추" },
-    "seasonMonths": [4, 5, 6],
-    "peakMonths": [5],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "얼갈이배추"
+    },
+    "seasonMonths": [
+      4,
+      5,
+      6
+    ],
+    "peakMonths": [
+      5
+    ],
     "whyNow": {
       "default": "봄 얼갈이배추가 연하고 단맛이 올라와요"
     },
@@ -362,9 +672,14 @@
     "name": "부추",
     "emoji": "🌿",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "부추" },
-    "seasonMonths": [3, 4, 5],
-    "peakMonths": [4],
+    "seasonMonths": [
+      3,
+      4,
+      5
+    ],
+    "peakMonths": [
+      4
+    ],
     "whyNow": {
       "default": "봄 부추가 향이 진하고 부드러워요"
     },
@@ -377,10 +692,29 @@
     "name": "깻잎",
     "emoji": "🌿",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "깻잎" },
-    "recipeRef": { "names": ["깻잎장아찌롤", "깻잎애호박찜", "깻잎단호박튀김", "깻잎향을 입힌 관자 샐러드", "두부 깻잎 과자"] },
-    "seasonMonths": [6, 7, 8, 9],
-    "peakMonths": [7, 8],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "깻잎"
+    },
+    "recipeRef": {
+      "names": [
+        "깻잎장아찌롤",
+        "깻잎애호박찜",
+        "깻잎단호박튀김",
+        "깻잎향을 입힌 관자 샐러드",
+        "두부 깻잎 과자"
+      ]
+    },
+    "seasonMonths": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "peakMonths": [
+      7,
+      8
+    ],
     "whyNow": {
       "default": "여름 깻잎이 향이 가장 진해요"
     },
@@ -393,10 +727,23 @@
     "name": "단호박",
     "emoji": "🎃",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "호박", "kindName": "단호박" },
-    "recipeRef": { "names": ["단호박전", "단호박 스프", "단호박생채", "단호박 두부찜", "단호박약식"] },
-    "seasonMonths": [7, 8, 9],
-    "peakMonths": [8],
+    "recipeRef": {
+      "names": [
+        "단호박전",
+        "단호박 스프",
+        "단호박생채",
+        "단호박 두부찜",
+        "단호박약식"
+      ]
+    },
+    "seasonMonths": [
+      7,
+      8,
+      9
+    ],
+    "peakMonths": [
+      8
+    ],
     "whyNow": {
       "default": "여름 단호박이 속이 노랗고 달게 여물어요"
     },
@@ -409,10 +756,24 @@
     "name": "방울토마토",
     "emoji": "🍅",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "방울토마토" },
-    "recipeRef": { "names": ["방울토마토 소박이", "방울토마토를 곁들인 너비아니구이와 쌈밥"] },
-    "seasonMonths": [5, 6, 7],
-    "peakMonths": [6],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "방울토마토"
+    },
+    "recipeRef": {
+      "names": [
+        "방울토마토 소박이",
+        "방울토마토를 곁들인 너비아니구이와 쌈밥"
+      ]
+    },
+    "seasonMonths": [
+      5,
+      6,
+      7
+    ],
+    "peakMonths": [
+      6
+    ],
     "whyNow": {
       "default": "초여름 방울토마토가 당도가 오르고 껍질이 얇아져요"
     },
@@ -425,10 +786,25 @@
     "name": "가지",
     "emoji": "🍆",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "가지" },
-    "recipeRef": { "names": ["가지볶음", "가지나물냉국", "가지겉절이", "삼겹가지볶음", "가지말이샐러드"] },
-    "seasonMonths": [6, 7, 8, 9],
-    "peakMonths": [7, 8],
+    "recipeRef": {
+      "names": [
+        "가지볶음",
+        "가지나물냉국",
+        "가지겉절이",
+        "삼겹가지볶음",
+        "가지말이샐러드"
+      ]
+    },
+    "seasonMonths": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "peakMonths": [
+      7,
+      8
+    ],
     "whyNow": {
       "default": "여름 가지가 씨가 적고 육질이 부드러워요"
     },
@@ -441,10 +817,24 @@
     "name": "풋고추",
     "emoji": "🌶️",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "풋고추" },
-    "recipeRef": { "names": ["수박껍질풋고추볶음"] },
-    "seasonMonths": [6, 7, 8],
-    "peakMonths": [7, 8],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "풋고추"
+    },
+    "recipeRef": {
+      "names": [
+        "수박껍질풋고추볶음"
+      ]
+    },
+    "seasonMonths": [
+      6,
+      7,
+      8
+    ],
+    "peakMonths": [
+      7,
+      8
+    ],
     "whyNow": {
       "default": "여름 풋고추가 아삭하고 매운맛이 은은해요"
     },
@@ -457,10 +847,29 @@
     "name": "파프리카",
     "emoji": "🫑",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "파프리카" },
-    "recipeRef": { "names": ["파프리카 물김치", "파프리카볶음밥", "오이파프리카새콤무침", "새우게살 파프리카롤", "파프리카더덕소고기깻잎롤"] },
-    "seasonMonths": [5, 6, 7, 8],
-    "peakMonths": [6, 7],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "파프리카"
+    },
+    "recipeRef": {
+      "names": [
+        "파프리카 물김치",
+        "파프리카볶음밥",
+        "오이파프리카새콤무침",
+        "새우게살 파프리카롤",
+        "파프리카더덕소고기깻잎롤"
+      ]
+    },
+    "seasonMonths": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "peakMonths": [
+      6,
+      7
+    ],
     "whyNow": {
       "default": "여름 파프리카가 색이 짙고 단맛이 올라요"
     },
@@ -473,9 +882,18 @@
     "name": "무",
     "emoji": "🫜",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "무" },
-    "seasonMonths": [10, 11, 12],
-    "peakMonths": [11],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "무"
+    },
+    "seasonMonths": [
+      10,
+      11,
+      12
+    ],
+    "peakMonths": [
+      11
+    ],
     "whyNow": {
       "default": "가을 무가 수분이 많고 단맛이 올라요"
     },
@@ -488,10 +906,27 @@
     "name": "열무",
     "emoji": "🫜",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "열무" },
-    "recipeRef": { "names": ["열무곤약국수", "열무김치파스타", "열무톳김치"] },
-    "seasonMonths": [5, 6, 7, 8],
-    "peakMonths": [6, 7],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "열무"
+    },
+    "recipeRef": {
+      "names": [
+        "열무곤약국수",
+        "열무김치파스타",
+        "열무톳김치"
+      ]
+    },
+    "seasonMonths": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "peakMonths": [
+      6,
+      7
+    ],
     "whyNow": {
       "default": "초여름 열무가 잎과 뿌리가 함께 연해요"
     },
@@ -504,9 +939,18 @@
     "name": "당근",
     "emoji": "🥕",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "당근" },
-    "seasonMonths": [11, 12, 1],
-    "peakMonths": [12],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "당근"
+    },
+    "seasonMonths": [
+      11,
+      12,
+      1
+    ],
+    "peakMonths": [
+      12
+    ],
     "whyNow": {
       "default": "겨울 당근이 단맛이 올라 생으로 먹기 좋아요"
     },
@@ -519,9 +963,20 @@
     "name": "브로콜리",
     "emoji": "🥦",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "브로콜리" },
-    "seasonMonths": [11, 12, 1, 2],
-    "peakMonths": [12, 1],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "브로콜리"
+    },
+    "seasonMonths": [
+      11,
+      12,
+      1,
+      2
+    ],
+    "peakMonths": [
+      12,
+      1
+    ],
     "whyNow": {
       "default": "겨울 브로콜리가 송이가 단단하고 단맛이 올라요"
     },
@@ -534,9 +989,19 @@
     "name": "대파",
     "emoji": "🌱",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "파", "kindName": "대파" },
-    "seasonMonths": [11, 12, 1],
-    "peakMonths": [12],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "파",
+      "kindName": "대파"
+    },
+    "seasonMonths": [
+      11,
+      12,
+      1
+    ],
+    "peakMonths": [
+      12
+    ],
     "whyNow": {
       "default": "겨울 대파가 속이 꽉 차고 단맛이 진해져요"
     },
@@ -549,9 +1014,19 @@
     "name": "쪽파",
     "emoji": "🌱",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "파", "kindName": "쪽파" },
-    "seasonMonths": [9, 10, 11],
-    "peakMonths": [10],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "파",
+      "kindName": "쪽파"
+    },
+    "seasonMonths": [
+      9,
+      10,
+      11
+    ],
+    "peakMonths": [
+      10
+    ],
     "whyNow": {
       "default": "가을 쪽파가 향이 진하고 잎이 부드러워요"
     },
@@ -564,10 +1039,25 @@
     "name": "양파",
     "emoji": "🧅",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "양파" },
-    "recipeRef": { "names": ["양파홍초절임", "양파토마토스튜", "비트양파김치"] },
-    "seasonMonths": [5, 6, 7],
-    "peakMonths": [6],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "양파"
+    },
+    "recipeRef": {
+      "names": [
+        "양파홍초절임",
+        "양파토마토스튜",
+        "비트양파김치"
+      ]
+    },
+    "seasonMonths": [
+      5,
+      6,
+      7
+    ],
+    "peakMonths": [
+      6
+    ],
     "whyNow": {
       "default": "초여름 햇양파가 수분이 많고 매운맛이 순해요"
     },
@@ -580,10 +1070,26 @@
     "name": "마늘",
     "emoji": "🧄",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "마늘" },
-    "recipeRef": { "names": ["대하마늘볶음밥", "흑마늘견과류조림", "마늘 불고기 덮밥", "마늘칩 감자샐러드", "마늘드레싱을 곁들인 키위샐러드"] },
-    "seasonMonths": [6, 7],
-    "peakMonths": [6],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "깐마늘(국산)"
+    },
+    "recipeRef": {
+      "names": [
+        "대하마늘볶음밥",
+        "흑마늘견과류조림",
+        "마늘 불고기 덮밥",
+        "마늘칩 감자샐러드",
+        "마늘드레싱을 곁들인 키위샐러드"
+      ]
+    },
+    "seasonMonths": [
+      6,
+      7
+    ],
+    "peakMonths": [
+      6
+    ],
     "whyNow": {
       "default": "초여름 햇마늘이 수확돼 알이 통통해요"
     },
@@ -596,9 +1102,17 @@
     "name": "생강",
     "emoji": "🫚",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "생강" },
-    "seasonMonths": [10, 11],
-    "peakMonths": [10],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "생강"
+    },
+    "seasonMonths": [
+      10,
+      11
+    ],
+    "peakMonths": [
+      10
+    ],
     "whyNow": {
       "default": "가을 햇생강이 향이 진하고 매운맛이 산뜻해요"
     },
@@ -611,12 +1125,21 @@
     "name": "고구마",
     "emoji": "🍠",
     "category": "vegetable",
-    "kamis": { "categoryCode": "100", "itemName": "고구마" },
-    "seasonMonths": [9, 10, 11],
-    "peakMonths": [10],
+    "kamis": {
+      "categoryCode": "100",
+      "itemName": "고구마"
+    },
+    "seasonMonths": [
+      9,
+      10,
+      11
+    ],
+    "peakMonths": [
+      10
+    ],
     "whyNow": {
-      "default": "가을 고구마가 수확 직후라 단맛이 살아 있어요",
-      "10": "10월 고구마는 숙성이 시작돼 단맛이 더 진해지는 때예요"
+      "10": "10월 고구마는 숙성이 시작돼 단맛이 더 진해지는 때예요",
+      "default": "가을 고구마가 수확 직후라 단맛이 살아 있어요"
     },
     "howToPick": "표면이 매끈하고 흠집이 없으며 양 끝이 마르지 않은 것.",
     "howToStore": "신문지에 싸서 서늘하고 통풍이 잘되는 곳에 두고, 냉장 보관하면 맛이 떨어져요.",
@@ -627,9 +1150,18 @@
     "name": "미나리",
     "emoji": "🌿",
     "category": "vegetable",
-    "kamis": { "categoryCode": "200", "itemName": "미나리" },
-    "seasonMonths": [3, 4, 5],
-    "peakMonths": [4],
+    "kamis": {
+      "categoryCode": "200",
+      "itemName": "미나리"
+    },
+    "seasonMonths": [
+      3,
+      4,
+      5
+    ],
+    "peakMonths": [
+      4
+    ],
     "whyNow": {
       "default": "봄 미나리가 향이 진하고 줄기가 아삭해요"
     },

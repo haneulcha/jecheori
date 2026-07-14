@@ -114,7 +114,7 @@ export function toCardView(
   return {
     emoji: profile.emoji,
     name: profile.name,
-    kind: profile.kamis.kindName ?? '',
+    kind: profile.kamis?.kindName ?? '',
     category: profile.category,
     inPeak,
     whyNow: whyNowLine(profile, month),
