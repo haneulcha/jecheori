@@ -19,7 +19,7 @@ function profile(over: Partial<ProduceProfile>): ProduceProfile {
   }
 }
 
-function entry(over: Partial<PriceEntry>): PriceEntry {
+function entry(over: Partial<PriceEntry> = {}): PriceEntry {
   return {
     itemCode: '0',
     itemName: '품목',
@@ -27,8 +27,7 @@ function entry(over: Partial<PriceEntry>): PriceEntry {
     rank: '상품',
     unit: '1kg',
     price: 1000,
-    priceMonthAgo: 1000,
-    priceYearAgo: 1000,
+    baseline: { monthAgo: 1000, yearAgo: 1000 },
     ...over,
   }
 }
@@ -87,21 +86,19 @@ describe('priceView', () => {
   })
 })
 
-describe('priceView 절댓값 통과', () => {
-  test('지난값·작년값을 그대로 싣는다', () => {
-    const v = priceView(entry({ price: 12600, priceMonthAgo: 16900, priceYearAgo: 13400 }))
+describe('priceView 기준선 통과', () => {
+  test('기준선을 그대로 싣는다', () => {
+    const v = priceView(entry({ price: 12600, baseline: { monthAgo: 16900, yearAgo: 13400 } }))
     expect(v).toEqual({
       price: 12600,
       unit: '1kg',
       changeVsMonthAgoPct: expect.closeTo(-25.44, 1),
-      priceMonthAgo: 16900,
-      priceYearAgo: 13400,
+      baseline: { monthAgo: 16900, yearAgo: 13400 },
     })
   })
   test('결측은 null로 통과', () => {
-    const v = priceView(entry({ price: 1000, priceMonthAgo: null, priceYearAgo: null }))
-    expect(v?.priceMonthAgo).toBeNull()
-    expect(v?.priceYearAgo).toBeNull()
+    const v = priceView(entry({ price: 1000, baseline: { monthAgo: null, yearAgo: null } }))
+    expect(v?.baseline).toEqual({ monthAgo: null, yearAgo: null })
     expect(v?.changeVsMonthAgoPct).toBeNull()
   })
 })
@@ -126,8 +123,8 @@ describe('selectPicks', () => {
       }),
     ]
     const entries = [
-      entry({ itemName: 'A', price: 500, priceMonthAgo: 1000 }), // 50% 하락
-      entry({ itemName: 'B', price: 1200, priceMonthAgo: 1000 }), // 20% 상승
+      entry({ itemName: 'A', price: 500, baseline: { monthAgo: 1000, yearAgo: 1000 } }), // 50% 하락
+      entry({ itemName: 'B', price: 1200, baseline: { monthAgo: 1000, yearAgo: 1000 } }), // 20% 상승
     ]
     const picks = selectPicks(profiles, snap(entries), JULY)
     expect(picks.map((p) => p.profile.id)).toEqual(['peak-expensive', 'season-cheap'])
@@ -139,8 +136,8 @@ describe('selectPicks', () => {
       profile({ id: 'big-drop', kamis: { categoryCode: '200', itemName: 'B' } }),
     ]
     const entries = [
-      entry({ itemName: 'A', price: 950, priceMonthAgo: 1000 }),
-      entry({ itemName: 'B', price: 600, priceMonthAgo: 1000 }),
+      entry({ itemName: 'A', price: 950, baseline: { monthAgo: 1000, yearAgo: 1000 } }),
+      entry({ itemName: 'B', price: 600, baseline: { monthAgo: 1000, yearAgo: 1000 } }),
     ]
     const picks = selectPicks(profiles, snap(entries), JULY)
     expect(picks.map((p) => p.profile.id)).toEqual(['big-drop', 'small-drop'])
@@ -151,7 +148,7 @@ describe('selectPicks', () => {
       profile({ id: 'no-price', kamis: { categoryCode: '200', itemName: '없음' } }),
       profile({ id: 'priced', kamis: { categoryCode: '200', itemName: 'A' } }),
     ]
-    const entries = [entry({ itemName: 'A', price: 900, priceMonthAgo: 1000 })]
+    const entries = [entry({ itemName: 'A', price: 900, baseline: { monthAgo: 1000, yearAgo: 1000 } })]
     const picks = selectPicks(profiles, snap(entries), JULY)
     expect(picks.map((p) => p.profile.id)).toEqual(['priced', 'no-price'])
     expect(picks[1].price).toBeNull()
@@ -164,8 +161,8 @@ describe('selectPicks', () => {
       profile({ id: 'has-change', kamis: { categoryCode: '200', itemName: 'A' } }),
     ]
     const entries = [
-      entry({ itemName: 'A', price: 1100, priceMonthAgo: 1000 }), // 상승이라도 그룹 0
-      entry({ itemName: 'B', price: 800, priceMonthAgo: null }),
+      entry({ itemName: 'A', price: 1100, baseline: { monthAgo: 1000, yearAgo: 1000 } }), // 상승이라도 그룹 0
+      entry({ itemName: 'B', price: 800, baseline: { monthAgo: null, yearAgo: null } }),
     ]
     const picks = selectPicks(profiles, snap(entries), JULY)
     expect(picks.map((p) => p.profile.id)).toEqual(['has-change', 'no-change', 'no-price'])
@@ -187,14 +184,18 @@ describe('selectPicks', () => {
 
   test('changeVsMonthAgoPct 계산: (당일-1개월전)/1개월전×100', () => {
     const profiles = [profile({ kamis: { categoryCode: '200', itemName: 'A' } })]
-    const entries = [entry({ itemName: 'A', price: 880, priceMonthAgo: 1000 })]
+    const entries = [entry({ itemName: 'A', price: 880, baseline: { monthAgo: 1000, yearAgo: 1000 } })]
     const picks = selectPicks(profiles, snap(entries), JULY)
     expect(picks[0].price?.changeVsMonthAgoPct).toBeCloseTo(-12)
   })
 })
 
 describe('hasDrops', () => {
-  const mk = (pct: number | null) => ({ profile: profile({}), inPeak: false, price: { price: 1, unit: '1kg', changeVsMonthAgoPct: pct, priceMonthAgo: 1, priceYearAgo: 1 } })
+  const mk = (pct: number | null) => ({
+    profile: profile({}),
+    inPeak: false,
+    price: { price: 1, unit: '1kg', changeVsMonthAgoPct: pct, baseline: { monthAgo: 1, yearAgo: 1 } },
+  })
   test('하락이 있으면 true', () => expect(hasDrops([mk(-5)])).toBe(true))
   test('전부 상승/무변동이면 false', () => expect(hasDrops([mk(3), mk(null)])).toBe(false))
 })

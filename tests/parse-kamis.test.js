@@ -20,7 +20,7 @@ describe('parseNum', () => {
 describe('parseCategoryResponse', () => {
   const entries = parseCategoryResponse(load('kamis-daily-200.json'))
 
-  test('모든 행을 PriceEntry로 변환한다', () => {
+  test('모든 행을 PriceEntry로 변환한다 — 관측과 기준선은 다른 칸이다', () => {
     expect(entries).toHaveLength(4)
     expect(entries[0]).toEqual({
       itemCode: '211',
@@ -28,35 +28,38 @@ describe('parseCategoryResponse', () => {
       kindName: '봄(1포기)',
       rank: '상품',
       unit: '1포기',
-      price: 3513, // dpr1 (당일)
-      priceMonthAgo: 3692, // dpr5 — dpr3(1주일전)이 아니다
-      priceYearAgo: 4642, // dpr6 — dpr4(2주일전)이 아니다
+      price: 3513, // dpr1 (당일 = 조사일의 관측)
+      baseline: {
+        monthAgo: 3692, // dpr5 — dpr3(1주일전)이 아니다
+        yearAgo: 4642, // dpr6 — dpr4(2주일전)이 아니다
+      },
     })
   })
 
-  test('1개월전은 dpr5, 1년전은 dpr6에서 읽는다 (1·2주일전 컬럼과 혼동 금지)', () => {
+  test('기준선은 dpr5·dpr6에서 읽는다 (1·2주일전 컬럼과 혼동 금지)', () => {
     const cabbage = entries[0]
     // 같은 행의 1주일전(3,608)·2주일전(3,818)을 잘못 집으면 실패한다
-    expect(cabbage.priceMonthAgo).not.toBe(3608)
-    expect(cabbage.priceYearAgo).not.toBe(3818)
+    expect(cabbage.baseline.monthAgo).not.toBe(3608)
+    expect(cabbage.baseline.yearAgo).not.toBe(3818)
   })
 
-  test('당일(dpr1)이 결측이면 1일전(dpr2)으로 폴백한다', () => {
+  test('당일(dpr1)이 결측이면 1일전으로 메우지 않고 null이다', () => {
+    // 스냅샷은 조사일 하나를 뜻한다. 다른 날 값으로 메우면 그 약속이 깨진다.
     const entries = parseCategoryResponse({
       data: {
         error_code: '000',
         item: { item_name: '오이', dpr1: '-', dpr2: '8,420', dpr5: '10,120', dpr6: '9,050' },
       },
     })
-    expect(entries[0].price).toBe(8420)
+    expect(entries[0].price).toBeNull()
   })
 
-  test('당일·1일전이 모두 결측이면 price가 null이다', () => {
-    // 당근: 월요일이라 1일전(일요일)이 없고, 당일 조사도 없는 행
+  test('관측이 결측이어도 기준선은 남는다', () => {
+    // 당근: 당일 조사가 없는 행. 그래도 1년전 값은 KAMIS가 준다.
     const carrot = entries.find((e) => e.itemName === '당근')
     expect(carrot.price).toBeNull()
-    expect(carrot.priceMonthAgo).toBeNull() // dpr5 결측
-    expect(carrot.priceYearAgo).toBe(2952) // dpr6은 있다
+    expect(carrot.baseline.monthAgo).toBeNull() // dpr5 결측
+    expect(carrot.baseline.yearAgo).toBe(2952) // dpr6은 있다
   })
 
   test('오류 응답이면 throw한다', () => {
@@ -96,8 +99,7 @@ describe('parseCategoryResponse', () => {
         rank: '상품',
         unit: '10개',
         price: 8540,
-        priceMonthAgo: 10120,
-        priceYearAgo: 9050,
+        baseline: { monthAgo: 10120, yearAgo: 9050 },
       },
     ])
   })

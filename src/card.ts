@@ -83,11 +83,12 @@ function toChange(pct: number | null): ChangeView {
 }
 
 function toSpark(v: PriceView): SparkView | null {
-  if (v.priceMonthAgo === null || v.priceYearAgo === null) return null
+  const { monthAgo, yearAgo } = v.baseline
+  if (monthAgo === null || yearAgo === null) return null
   return {
-    points: sparklineGeometry({ yearAgo: v.priceYearAgo, monthAgo: v.priceMonthAgo, now: v.price }),
-    yearAgo: v.priceYearAgo,
-    monthAgo: v.priceMonthAgo,
+    points: sparklineGeometry({ yearAgo, monthAgo, now: v.price }),
+    yearAgo,
+    monthAgo,
     now: v.price,
   }
 }
@@ -96,7 +97,7 @@ function toPriceCardView(v: PriceView): PriceCardView {
   const per = perUnitPrice(v.price, v.unit)
   return {
     now: v.price,
-    wasMonthAgo: v.priceMonthAgo,
+    wasMonthAgo: v.baseline.monthAgo,
     perUnit: per ? per.each : null,
     change: toChange(v.changeVsMonthAgoPct),
     spark: toSpark(v),

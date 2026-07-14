@@ -21,7 +21,7 @@ const snap = (over: Partial<PriceEntry> = {}): PriceSnapshot => ({
   surveyedOn: '2026-07-08',
   entries: [{
     itemCode: '413', itemName: '복숭아', kindName: '백도(10개)', rank: '상품', unit: '10개',
-    price: 18200, priceMonthAgo: 24500, priceYearAgo: 19800, ...over,
+    price: 18200, baseline: { monthAgo: 24500, yearAgo: 19800 }, ...over,
   }],
 })
 
@@ -49,7 +49,7 @@ describe('buildAppView', () => {
   })
 
   test('상승만이면 noDrop true', () => {
-    const v = buildAppView([peach], snap({ price: 18200, priceMonthAgo: 16000 }), null, null, JULY)
+    const v = buildAppView([peach], snap({ price: 18200, baseline: { monthAgo: 16000, yearAgo: 19800 } }), null, null, JULY)
     expect(v.noDrop).toBe(true)
   })
 

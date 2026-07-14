@@ -35,16 +35,23 @@ export interface ProduceProfile {
   howToUse: string
 }
 
+/** 비교용 과거 가격. KAMIS가 **날짜를 주지 않고 라벨만 준다** — 그래서 관측이 아니다.
+ *  관측과 같은 칸·같은 타입에 두면 컬럼을 바꿔 꽂아도 아무도 모른다 (실제로 그랬다). */
+export interface Baseline {
+  monthAgo: number | null
+  yearAgo: number | null
+}
+
 export interface PriceEntry {
   itemCode: string
   itemName: string
   kindName: string
   rank: string
   unit: string
-  /** 당일 평균 소매가 (당일 조사 없으면 최근 조사일 가격). 결측이면 null */
+  /** 조사일(`PriceSnapshot.surveyedOn`)에 실제로 조사된 소매가.
+   *  그날 그 품목 조사가 없으면 null — 다른 날 값으로 메우지 않는다. */
   price: number | null
-  priceMonthAgo: number | null
-  priceYearAgo: number | null
+  baseline: Baseline
 }
 
 export interface PriceSnapshot {

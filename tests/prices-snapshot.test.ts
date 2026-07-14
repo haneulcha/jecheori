@@ -22,4 +22,12 @@ describe('커밋된 prices.json', () => {
     const priced = snapshot.entries.filter((e) => e.price !== null).length
     expect(priced / snapshot.entries.length).toBeGreaterThan(0.5)
   })
+
+  test('모든 엔트리가 기준선 칸을 갖는다 (평면 priceMonthAgo가 아니다)', () => {
+    for (const e of snapshot.entries) {
+      expect(e.baseline).toBeDefined()
+      expect(e).not.toHaveProperty('priceMonthAgo')
+      expect(e).not.toHaveProperty('priceYearAgo')
+    }
+  })
 })
