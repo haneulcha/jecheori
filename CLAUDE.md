@@ -22,6 +22,7 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
 - `npm run dev` — 개발 서버
 - `npm run generate-routes` — 라우트 트리 생성 (`src/routeTree.gen.ts`, 빌드시 자동)
 - `npm test` — Vitest 전체 (순수 로직 + 컴포넌트 RTL)
+- `npm run storybook` — 뷰 상태 탐색기 (데이터→UI 인과를 노브로 확인, 스펙: `docs/superpowers/specs/2026-07-14-storybook-view-states-design.md`)
 - `npm run build` — 프리렌더 정적 빌드 (`dist/client/`)
 - `npm run fetch:prices` — KAMIS 가격 수집 (env: `KAMIS_CERT_KEY`, `KAMIS_CERT_ID`)
 - `npm run fetch:nutrition` — 식약처 영양성분DB 수집 (env: `DATA_GO_KR_KEY`)
