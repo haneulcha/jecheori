@@ -1,8 +1,8 @@
-import type { Baseline, PriceEntry, PriceSnapshot, ProduceProfile } from './types'
+import type { Baseline, PriceEntry, PriceSnapshot, ProduceProfile, Unit } from './types'
 
 export interface PriceView {
   price: number
-  unit: string
+  unit: Unit
   /** 1개월 전 대비 % (음수 = 하락). 기준선이 없으면 null */
   changeVsMonthAgoPct: number | null
   baseline: Baseline

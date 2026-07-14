@@ -16,7 +16,12 @@ const profile: ProduceProfile = {
 }
 const pick: PickResult = {
   profile, inPeak: true,
-  price: { price: 18200, unit: '10개', changeVsMonthAgoPct: -25.7, baseline: { monthAgo: 24500, yearAgo: 19800 } },
+  price: {
+    price: 18200,
+    unit: { quantity: 10, measure: '개' },
+    changeVsMonthAgoPct: -25.7,
+    baseline: { monthAgo: 24500, yearAgo: 19800 },
+  },
 }
 const base: AppView = {
   cards: [toCardView(pick, 7)], noDrop: false, hasNutrition: false, hasRecipes: false,

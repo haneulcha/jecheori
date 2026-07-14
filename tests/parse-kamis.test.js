@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, test } from 'vitest'
-import { parseCategoryResponse, parseNum } from '../scripts/lib/parse-kamis.mjs'
+import { parseCategoryResponse, parseNum, parseUnit } from '../scripts/lib/parse-kamis.mjs'
 
 const load = (name) =>
   JSON.parse(readFileSync(new URL(`./fixtures/${name}`, import.meta.url), 'utf-8'))
@@ -12,6 +12,26 @@ describe('parseNum', () => {
     expect(parseNum('')).toBeNull()
     expect(parseNum('0')).toBeNull()
     expect(parseNum(null)).toBeNull()
+  })
+})
+
+describe('parseUnit', () => {
+  test('수량과 계량을 가른다', () => {
+    expect(parseUnit('10개')).toEqual({ quantity: 10, measure: '개' })
+    expect(parseUnit('1kg')).toEqual({ quantity: 1, measure: 'kg' })
+    expect(parseUnit('100g')).toEqual({ quantity: 100, measure: 'g' })
+    expect(parseUnit('1포기')).toEqual({ quantity: 1, measure: '포기' })
+  })
+
+  test('kg를 g로 잘못 집지 않는다', () => {
+    expect(parseUnit('1kg').measure).toBe('kg')
+  })
+
+  test('처음 보는 표기는 null로 뭉개지 않고 throw한다', () => {
+    // 조용한 오염보다 시끄러운 실패가 낫다 — 단위 없는 가격이 화면까지 새어나가면 안 된다
+    expect(() => parseUnit('1단')).toThrow(/단위/)
+    expect(() => parseUnit('')).toThrow(/단위/)
+    expect(() => parseUnit(null)).toThrow(/단위/)
   })
 })
 
@@ -27,7 +47,7 @@ describe('parseCategoryResponse', () => {
       itemName: '배추',
       kindName: '봄(1포기)',
       rank: '상품',
-      unit: '1포기',
+      unit: { quantity: 1, measure: '포기' },
       price: 3513, // dpr1 (당일 = 조사일의 관측)
       baseline: {
         monthAgo: 3692, // dpr5 — dpr3(1주일전)이 아니다
@@ -48,7 +68,7 @@ describe('parseCategoryResponse', () => {
     const entries = parseCategoryResponse({
       data: {
         error_code: '000',
-        item: { item_name: '오이', dpr1: '-', dpr2: '8,420', dpr5: '10,120', dpr6: '9,050' },
+        item: { item_name: '오이', unit: '10개', dpr1: '-', dpr2: '8,420', dpr5: '10,120', dpr6: '9,050' },
       },
     })
     expect(entries[0].price).toBeNull()
@@ -97,7 +117,7 @@ describe('parseCategoryResponse', () => {
         itemName: '오이',
         kindName: '가시계통(10개)',
         rank: '상품',
-        unit: '10개',
+        unit: { quantity: 10, measure: '개' },
         price: 8540,
         baseline: { monthAgo: 10120, yearAgo: 9050 },
       },

@@ -25,7 +25,7 @@ function entry(over: Partial<PriceEntry> = {}): PriceEntry {
     itemName: '품목',
     kindName: '기본',
     rank: '상품',
-    unit: '1kg',
+    unit: { quantity: 1, measure: 'kg' },
     price: 1000,
     baseline: { monthAgo: 1000, yearAgo: 1000 },
     ...over,
@@ -91,7 +91,7 @@ describe('priceView 기준선 통과', () => {
     const v = priceView(entry({ price: 12600, baseline: { monthAgo: 16900, yearAgo: 13400 } }))
     expect(v).toEqual({
       price: 12600,
-      unit: '1kg',
+      unit: { quantity: 1, measure: 'kg' },
       changeVsMonthAgoPct: expect.closeTo(-25.44, 1),
       baseline: { monthAgo: 16900, yearAgo: 13400 },
     })
@@ -194,7 +194,12 @@ describe('hasDrops', () => {
   const mk = (pct: number | null) => ({
     profile: profile({}),
     inPeak: false,
-    price: { price: 1, unit: '1kg', changeVsMonthAgoPct: pct, baseline: { monthAgo: 1, yearAgo: 1 } },
+    price: {
+      price: 1,
+      unit: { quantity: 1, measure: 'kg' } as const,
+      changeVsMonthAgoPct: pct,
+      baseline: { monthAgo: 1, yearAgo: 1 },
+    },
   })
   test('하락이 있으면 true', () => expect(hasDrops([mk(-5)])).toBe(true))
   test('전부 상승/무변동이면 false', () => expect(hasDrops([mk(3), mk(null)])).toBe(false))

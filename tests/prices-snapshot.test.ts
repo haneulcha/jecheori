@@ -30,4 +30,12 @@ describe('커밋된 prices.json', () => {
       expect(e).not.toHaveProperty('priceYearAgo')
     }
   })
+
+  test('모든 엔트리의 단위가 구조체이고, 계량은 닫힌 집합 안에 있다', () => {
+    for (const e of snapshot.entries) {
+      expect(typeof e.unit.quantity).toBe('number')
+      expect(e.unit.quantity).toBeGreaterThan(0)
+      expect(['kg', 'g', '개', '포기']).toContain(e.unit.measure)
+    }
+  })
 })

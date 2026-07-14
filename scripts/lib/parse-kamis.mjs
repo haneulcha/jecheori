@@ -7,6 +7,19 @@ export function parseNum(s) {
   return Number.isFinite(n) && n > 0 ? n : null
 }
 
+/** KAMIS 단위 표기 → { quantity, measure }. "10개" → { quantity: 10, measure: '개' }
+ *
+ *  measure는 'kg' | 'g' | '개' | '포기' 넷뿐이다 (전 계절·전 부류 실측).
+ *  처음 보는 표기는 null로 뭉개지 않고 throw한다 — 단위 없는 가격이 화면까지 새어나가면
+ *  아무도 모른 채 틀린 개당값을 본다. 조용한 오염보다 시끄러운 실패가 낫다.
+ *  환산은 하지 않는다. KAMIS 표기를 그대로 보존한다 — 환산이 없으면 오차도 없다.
+ */
+export function parseUnit(s) {
+  const m = /^(\d+)\s*(kg|g|개|포기)$/.exec(String(s ?? '').trim())
+  if (!m) throw new Error(`KAMIS 단위 표기를 모르겠습니다: ${JSON.stringify(s)}`)
+  return { quantity: Number(m[1]), measure: m[2] }
+}
+
 /** KAMIS dailyPriceByCategoryList 응답 → PriceEntry[] (오류 응답이면 throw)
  *
  *  dpr 컬럼은 순서가 아니라 의미로 골라야 한다 (응답의 day1~day7이 라벨을 준다):
@@ -32,7 +45,7 @@ export function parseCategoryResponse(json) {
     itemName: String(it.item_name ?? '').trim(),
     kindName: String(it.kind_name ?? '').trim(),
     rank: String(it.rank ?? '').trim(),
-    unit: String(it.unit ?? '').trim(),
+    unit: parseUnit(it.unit),
     price: parseNum(it.dpr1),
     baseline: {
       monthAgo: parseNum(it.dpr5),

@@ -35,6 +35,16 @@ export interface ProduceProfile {
   howToUse: string
 }
 
+/** KAMIS가 쓰는 계량 단위. 전 계절·전 부류 실측 결과 이 넷뿐이다. */
+export type Measure = 'kg' | 'g' | '개' | '포기'
+
+/** "10개" = { quantity: 10, measure: '개' }.
+ *  KAMIS 표기를 그대로 보존하고 환산하지 않는다 — 환산이 없으면 오차도 없다. */
+export interface Unit {
+  quantity: number
+  measure: Measure
+}
+
 /** 비교용 과거 가격. KAMIS가 **날짜를 주지 않고 라벨만 준다** — 그래서 관측이 아니다.
  *  관측과 같은 칸·같은 타입에 두면 컬럼을 바꿔 꽂아도 아무도 모른다 (실제로 그랬다). */
 export interface Baseline {
@@ -47,7 +57,7 @@ export interface PriceEntry {
   itemName: string
   kindName: string
   rank: string
-  unit: string
+  unit: Unit
   /** 조사일(`PriceSnapshot.surveyedOn`)에 실제로 조사된 소매가.
    *  그날 그 품목 조사가 없으면 null — 다른 날 값으로 메우지 않는다. */
   price: number | null

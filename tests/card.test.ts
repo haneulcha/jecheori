@@ -21,7 +21,7 @@ const profile: ProduceProfile = {
 
 const priceView = (over: Partial<PriceView> = {}): PriceView => ({
   price: 12600,
-  unit: '10개',
+  unit: { quantity: 10, measure: '개' },
   changeVsMonthAgoPct: -25.4,
   baseline: { monthAgo: 16900, yearAgo: 13400 },
   ...over,
@@ -35,10 +35,16 @@ const pick = (over: Partial<PickResult> = {}): PickResult => ({
 })
 
 describe('perUnitPrice', () => {
-  test('10개면 개당값', () => expect(perUnitPrice(18200, '10개')).toEqual({ each: 1820 }))
-  test('반올림', () => expect(perUnitPrice(12600, '10개')).toEqual({ each: 1260 }))
-  test('1개(단수)는 null', () => expect(perUnitPrice(21400, '1개')).toBeNull())
-  test('무게 단위는 null', () => expect(perUnitPrice(8000, '1kg')).toBeNull())
+  test('10개면 개당값', () =>
+    expect(perUnitPrice(18200, { quantity: 10, measure: '개' })).toEqual({ each: 1820 }))
+  test('반올림', () =>
+    expect(perUnitPrice(12600, { quantity: 10, measure: '개' })).toEqual({ each: 1260 }))
+  test('1개(단수)는 null', () =>
+    expect(perUnitPrice(21400, { quantity: 1, measure: '개' })).toBeNull())
+  test('무게 단위는 null', () =>
+    expect(perUnitPrice(8000, { quantity: 1, measure: 'kg' })).toBeNull())
+  test('100g도 null — 무게는 개당값이 없다', () =>
+    expect(perUnitPrice(315, { quantity: 100, measure: 'g' })).toBeNull())
 })
 
 describe('sparklineGeometry', () => {
@@ -113,7 +119,7 @@ describe('toCardView', () => {
   })
 
   test('무게 단위는 perUnit null', () => {
-    const c = toCardView(pick({ price: priceView({ unit: '1kg' }) }), 7)
+    const c = toCardView(pick({ price: priceView({ unit: { quantity: 1, measure: 'kg' } }) }), 7)
     expect(c.price?.perUnit).toBeNull()
   })
 

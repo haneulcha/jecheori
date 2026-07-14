@@ -20,7 +20,8 @@ const snap = (over: Partial<PriceEntry> = {}): PriceSnapshot => ({
   fetchedAt: '2026-07-08T00:00:00Z',
   surveyedOn: '2026-07-08',
   entries: [{
-    itemCode: '413', itemName: '복숭아', kindName: '백도(10개)', rank: '상품', unit: '10개',
+    itemCode: '413', itemName: '복숭아', kindName: '백도(10개)', rank: '상품',
+    unit: { quantity: 10, measure: '개' },
     price: 18200, baseline: { monthAgo: 24500, yearAgo: 19800 }, ...over,
   }],
 })

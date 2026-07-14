@@ -1,5 +1,5 @@
 import type { PickResult, PriceView } from './picks'
-import type { Category, ProduceProfile } from './types'
+import type { Category, ProduceProfile, Unit } from './types'
 import type { NutritionView } from './nutrition'
 import type { RecipeView } from './recipe'
 
@@ -47,13 +47,11 @@ export interface CardView {
   recipes: RecipeView | null
 }
 
-/** "N개"(N>1) 단위면 개당값을 계산. 단수·무게 단위는 null. */
-export function perUnitPrice(price: number, unit: string): { each: number } | null {
-  const m = /^(\d+)\s*개$/.exec(unit.trim())
-  if (!m) return null
-  const count = Number(m[1])
-  if (count <= 1) return null
-  return { each: Math.round(price / count) }
+/** "N개"(N>1) 단위면 개당값을 계산. 단수·무게 단위는 null.
+ *  KAMIS 표기 파싱은 어댑터(parse-kamis.mjs)가 이미 끝냈다 — 뷰는 구조체만 본다. */
+export function perUnitPrice(price: number, unit: Unit): { each: number } | null {
+  if (unit.measure !== '개' || unit.quantity <= 1) return null
+  return { each: Math.round(price / unit.quantity) }
 }
 
 const SPARK_X = [45, 150, 255]
