@@ -4,7 +4,7 @@ const read = (p) => JSON.parse(readFileSync(new URL(`../public/data/${p}`, impor
 const profiles = read('produce.json')
 const snapshot = read('prices.json')
 
-const month = Number((snapshot.priceDate ?? snapshot.fetchedAt).slice(5, 7))
+const month = Number(snapshot.surveyedOn.slice(5, 7))
 
 /** picks.ts matchEntry와 같은 규칙 — itemName 일치 + kindName 부분일치.
  *  kindName까지 봐야 단호박류 함정(itemName은 맞는데 품종이 없는 경우)을 잡는다. */
@@ -37,7 +37,7 @@ for (const p of profiles) {
 
 const priced = snapshot.entries.filter((e) => e.price !== null).length
 console.log(
-  `스냅샷: 조사일 ${snapshot.priceDate ?? '?'} — ${priced}/${snapshot.entries.length}개 항목에 가격`,
+  `스냅샷: 조사일 ${snapshot.surveyedOn} — ${priced}/${snapshot.entries.length}개 항목에 가격`,
 )
 console.log(`매칭됨: ${matched.length}/${profiles.length - unsurveyed.length} (KAMIS 참조가 있는 프로필 기준)`)
 

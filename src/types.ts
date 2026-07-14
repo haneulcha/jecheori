@@ -49,10 +49,11 @@ export interface PriceEntry {
 
 export interface PriceSnapshot {
   schemaVersion: number
-  /** ISO 8601 */
+  /** 스크립트가 KAMIS를 호출한 시각 (ISO 8601). 신선도 판단엔 쓰지 않는다 — 조사일을 쓴다 */
   fetchedAt: string
-  /** 가격의 실제 조사일 (YYYY-MM-DD). 공표 전·휴장일이면 fetchedAt보다 며칠 앞설 수 있다 */
-  priceDate?: string
+  /** 이 스냅샷 전체의 조사일 (YYYY-MM-DD). 엔트리마다 다르지 않다.
+   *  당일 가격은 오후에 공표되고 일요일·공휴일엔 조사가 없어 fetchedAt보다 며칠 앞설 수 있다 */
+  surveyedOn: string
   entries: PriceEntry[]
 }
 

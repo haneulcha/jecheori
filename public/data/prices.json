@@ -1,6 +1,7 @@
 {
-  "schemaVersion": 1,
-  "fetchedAt": "2026-07-13T10:49:22.244Z",
+  "schemaVersion": 2,
+  "fetchedAt": "2026-07-14T02:55:32.151Z",
+  "surveyedOn": "2026-07-14",
   "entries": [
     {
       "itemCode": "111",
@@ -802,6 +803,5 @@
       "priceMonthAgo": 1761,
       "priceYearAgo": 1956
     }
-  ],
-  "priceDate": "2026-07-13"
+  ]
 }

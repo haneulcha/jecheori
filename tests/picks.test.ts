@@ -34,8 +34,9 @@ function entry(over: Partial<PriceEntry>): PriceEntry {
 }
 
 const snap = (entries: PriceEntry[]): PriceSnapshot => ({
-  schemaVersion: 1,
+  schemaVersion: 2,
   fetchedAt: '2026-07-10T00:00:00Z',
+  surveyedOn: '2026-07-10',
   entries,
 })
 

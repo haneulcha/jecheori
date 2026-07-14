@@ -16,8 +16,9 @@ const grape: ProduceProfile = {
 }
 
 const snap = (over: Partial<PriceEntry> = {}): PriceSnapshot => ({
-  schemaVersion: 1,
+  schemaVersion: 2,
   fetchedAt: '2026-07-08T00:00:00Z',
+  surveyedOn: '2026-07-08',
   entries: [{
     itemCode: '413', itemName: '복숭아', kindName: '백도(10개)', rank: '상품', unit: '10개',
     price: 18200, priceMonthAgo: 24500, priceYearAgo: 19800, ...over,

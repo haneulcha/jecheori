@@ -3,22 +3,33 @@ import { loadProfiles, loadSnapshot, snapshotAgeDays } from '../src/data'
 import type { PriceSnapshot, ProduceProfile } from '../src/types'
 
 const snap: PriceSnapshot = {
-  schemaVersion: 1,
-  fetchedAt: '2026-07-07T22:00:00Z',
+  schemaVersion: 2,
+  // 수집은 7/10에 돌았지만 실제 조사일은 7/7 — 공표 전·휴장일이면 이렇게 벌어진다
+  fetchedAt: '2026-07-10T08:00:00Z',
+  surveyedOn: '2026-07-07',
   entries: [],
 }
 
 afterEach(() => vi.unstubAllGlobals())
 
 describe('snapshotAgeDays', () => {
-  test('만 3일 지난 스냅샷은 3', () => {
-    expect(snapshotAgeDays(snap, new Date('2026-07-10T23:00:00Z'))).toBe(3)
+  test('조사일로 잰다 — 수집시각이 아니다', () => {
+    // 조사일 7/7 KST 자정 기준, 7/10 09:00 KST = 만 3일
+    expect(snapshotAgeDays(snap, new Date('2026-07-10T00:00:00Z'))).toBe(3)
   })
-  test('당일이면 0', () => {
-    expect(snapshotAgeDays(snap, new Date('2026-07-08T01:00:00Z'))).toBe(0)
+
+  test('조사 당일이면 0', () => {
+    expect(snapshotAgeDays(snap, new Date('2026-07-07T11:00:00Z'))).toBe(0)
   })
-  test('now가 fetchedAt보다 이르면 음수 대신 0', () => {
+
+  test('now가 조사일보다 이르면 음수 대신 0', () => {
     expect(snapshotAgeDays(snap, new Date('2026-07-05T00:00:00Z'))).toBe(0)
+  })
+
+  test('fetchedAt이 오늘이어도 조사일이 오래됐으면 오래된 것이다', () => {
+    // cron이 매일 도니까 fetchedAt으로 재면 늘 0이 된다 — 그 구멍을 막는 테스트
+    const daily: PriceSnapshot = { ...snap, fetchedAt: '2026-07-13T08:00:00Z' }
+    expect(snapshotAgeDays(daily, new Date('2026-07-13T08:00:00Z'))).toBe(6)
   })
 })
 

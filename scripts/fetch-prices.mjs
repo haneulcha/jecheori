@@ -7,6 +7,9 @@ const API_BASE = 'https://www.kamis.or.kr/service/price/xml.do'
 // 식량작물(감자·고구마·옥수수), 채소류, 과일류
 const CATEGORY_CODES = ['100', '200', '400']
 
+/** 스냅샷 shape 버전. 2 = 조사일(surveyedOn)·관측/기준선 분리·구조화된 단위 */
+const SCHEMA_VERSION = 2
+
 /** 유효한 스냅샷으로 인정하는 최소 가격 보유 비율.
  *  정상 조사일이면 95% 이상이 값을 갖고, 공표 전·휴장일이면 0%다 — 둘은 확실히 갈린다. */
 const MIN_PRICED_RATIO = 0.5
@@ -48,7 +51,12 @@ export async function buildSnapshot({ certKey, certId, regday, fetchFn = fetch }
     if (!res.ok) throw new Error(`KAMIS HTTP ${res.status} (부류 ${categoryCode})`)
     entries.push(...parseCategoryResponse(await res.json()))
   }
-  return { schemaVersion: 1, fetchedAt: new Date().toISOString(), entries }
+  return {
+    schemaVersion: SCHEMA_VERSION,
+    fetchedAt: new Date().toISOString(),
+    surveyedOn: regday,
+    entries,
+  }
 }
 
 /** 최근 조사일 스냅샷.
@@ -68,7 +76,7 @@ export async function buildLatestSnapshot({
   for (let back = 0; back <= maxLookbackDays; back++) {
     const regday = shiftDateString(from, -back)
     const snapshot = await buildSnapshot({ certKey, certId, regday, fetchFn })
-    if (pricedRatio(snapshot.entries) >= MIN_PRICED_RATIO) return { ...snapshot, priceDate: regday }
+    if (pricedRatio(snapshot.entries) >= MIN_PRICED_RATIO) return snapshot
     tried.push(regday)
   }
   throw new Error(`유효한 가격이 없습니다 (조회한 날짜: ${tried.join(', ')})`)
@@ -98,7 +106,7 @@ if (isMain) {
     const priced = snapshot.entries.filter((e) => e.price !== null).length
     writeSnapshot(snapshot, outPath)
     console.log(
-      `prices.json 갱신: ${priced}/${snapshot.entries.length}개 항목에 가격 (조사일 ${snapshot.priceDate})`,
+      `prices.json 갱신: ${priced}/${snapshot.entries.length}개 항목에 가격 (조사일 ${snapshot.surveyedOn})`,
     )
   } catch (err) {
     console.error('가격 수집 실패 — prices.json은 변경하지 않음:', err.message)
