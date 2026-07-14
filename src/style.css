@@ -171,7 +171,10 @@ header h1 {
 .price .nowline { display: flex; align-items: center; gap: 0.4rem; }
 .price .big { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
 .price .wonu { font-size: 0.95rem; font-weight: 600; }
-.price .per { color: var(--muted); font-size: 0.74rem; margin-top: 0.32rem; }
+/* 기준선 — "이 숫자를 무엇으로 재었나". 단위 + (있으면) 개당값.
+   개당값과 같은 계층에 둔다: 둘 다 큰 숫자를 어떻게 읽는지 말하는 각주다.
+   큰 숫자·등락 칩의 위계는 건드리지 않는다 — 이 앱의 머리기사는 "내려왔다"이다. */
+.price .basis { color: var(--muted); font-size: 0.74rem; margin-top: 0.32rem; white-space: nowrap; }
 .price .near { color: var(--muted); font-size: 0.78rem; margin-top: 0.2rem; }
 .price .chip { display: inline-flex; align-items: center; gap: 0.2rem; font-size: 0.8rem; font-weight: 700; padding: 0.18rem 0.48rem; border-radius: 1rem; }
 .price .arrow { display: block; }
