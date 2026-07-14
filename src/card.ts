@@ -30,6 +30,9 @@ export interface SparkView {
 export interface PriceCardView {
   now: number
   wasMonthAgo: number | null
+  /** 이 가격을 무엇으로 재었나. 없으면 315원(감자 100g)과 21,476원(수박 1개)이
+   *  같은 저울 위에 있는 것처럼 읽힌다. 문자열 조립은 컴포넌트 소관이라 구조체로 넘긴다. */
+  unit: Unit
   perUnit: number | null
   change: ChangeView
   spark: SparkView | null
@@ -97,6 +100,7 @@ function toPriceCardView(v: PriceView): PriceCardView {
   return {
     now: v.price,
     wasMonthAgo: v.baseline.monthAgo,
+    unit: v.unit,
     perUnit: per ? per.each : null,
     change: toChange(v.changeVsMonthAgoPct),
     spark: toSpark(v),
