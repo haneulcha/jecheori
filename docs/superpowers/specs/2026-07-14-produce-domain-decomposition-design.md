@@ -36,12 +36,23 @@
 **이 단계에서 한다**
 
 1. `ProduceProfile` → `Produce` + `ProduceProfile` + `SourceRef` 셋으로 **타입** 분해
-2. `PriceEntry` → `Price` (이름만; A단계에서 모양은 이미 확정)
+2. `PriceEntry` → `KamisQuote` (이름만; A단계에서 모양은 이미 확정)
 3. **`PriceMatch` 신설** — 조인의 결과를 값으로 붙잡는 판별 유니온
 4. 매칭을 `src/match.ts`로 독립 (두 소비자: `picks.ts` + 커버리지 리포트)
 5. `report-coverage`의 중복 매칭 규칙 **삭제** — 진짜 매처를 부른다
 6. `hasDrops`를 "데이터 없음"과 "안 내렸음"으로 가른다
 7. `kindName` 한 이름 두 개념 해소, `rank: string` → `Grade` 유니온
+8. **노트를 `notes: Note[]`로** — 카드 레이아웃이 도메인 필드 개수를 정하지 않게
+9. **`whyNow` 키를 `Month` 유니온으로** — JSON의 문자열 키가 타입으로 새어나온 것
+
+### 이미 끝난 것 (A단계 리뷰에서 선반영, `b735bf3`)
+
+앵커링 리뷰에서 나온 넷은 A단계 브랜치에서 이미 고쳤다 — 화면을 안 바꾸고 즉시 갚아졌기 때문:
+
+- `Measure`를 KAMIS 글자가 아니라 **무게/개수**로 (개당값 규칙이 응답의 우연에 붙어 있었다)
+- `sparklineGeometry` → `sparklineLevels`, **픽셀은 컴포넌트로**
+- `staleDays >= 3` 임계를 JSX에서 꺼내 **`Freshness` 유니온**으로
+- 죽은 `itemCode` 삭제
 
 **이 단계에서 안 한다**
 
@@ -63,22 +74,31 @@
 Produce          id · name · emoji · category · seasonMonths · peakMonths
                  └ 세상에 대한 사실. 이 앱을 몰라야 한다. 외부 소스도 몰라야 한다.
 
-ProduceProfile   produceId · whyNow · howToPick · howToStore · howToUse
+ProduceProfile   produceId · whyNow · notes[]
                  └ 이 앱의 편집 콘텐츠. Produce를 알지만, Produce는 이걸 모른다.
+                   노트는 배열이다 — 카드가 세 줄을 그린다고 도메인 필드가 셋일 이유는 없다.
 
 SourceRef        produceId · kamis? · foodDb? · recipeRef?
                  └ 외부 소스와의 조인 키. KAMIS·식약처를 아는 유일한 도메인 타입.
 
-Price            variety · grade · unit · price · baseline   (+ itemName · itemCode)
+KamisQuote       itemName · variety · grade · unit · price · baseline
                  └ KAMIS 좌표계의 관측 한 줄. **Produce를 모른다.**
 
-PriceSnapshot    surveyedOn · fetchedAt · schemaVersion · Price[]
+PriceSnapshot    surveyedOn · fetchedAt · schemaVersion · KamisQuote[]
                  └ 하나의 조사일. (A단계에서 확정)
 
-PriceMatch       Produce ↔ Price 조인의 결과. 성공이든 실패든 "왜"가 값으로 남는다.
+PriceMatch       Produce ↔ KamisQuote 조인의 결과. 성공이든 실패든 "왜"가 값으로 남는다.
 ```
 
-의존 방향: `Produce ← ProduceProfile`, `Produce ← SourceRef`, `Produce ← PriceMatch → Price`.
+### 왜 `Price`가 아니라 `KamisQuote`인가
+
+처음엔 `Price`라고 부르려 했다. 그런데 이 타입은 **"배추의 가격"이 아니라 "남의 조사표의 한 행"**이다. `itemName`·`variety`·`grade`가 전부 KAMIS의 좌표계고, 두 번째 가격 소스가 오면 이 모양은 깨진다.
+
+지금 소스가 하나라 추상화(`PriceSource` 인터페이스 같은 것)는 YAGNI다 — **어댑터 하나는 가설상의 심(seam)**이다. 하지만 **이름은 지금 정직해야 한다.** `Price`라고 부르면 다음 사람이 이걸 도메인의 가격이라 믿고 여기저기 들고 다닌다. `KamisQuote`라고 부르면 "이건 KAMIS 것"이라는 게 호출부마다 보인다.
+
+`PriceMatch`가 그걸 도메인 쪽으로 번역하는 자리다.
+
+의존 방향: `Produce ← ProduceProfile`, `Produce ← SourceRef`, `Produce ← PriceMatch → KamisQuote`.
 **`Produce`는 아무것도 모른다.** 이게 앵커링을 푸는 축이다.
 
 ### 타입
@@ -101,12 +121,25 @@ export interface Produce {
 /** 이 앱의 편집 콘텐츠. 다른 제품이 같은 Produce를 써도 이건 다를 수 있다. */
 export interface ProduceProfile {
   produceId: string
-  /** 월별 "왜 지금인지" 한 줄. 키는 "1"~"12" 또는 "default" */
-  whyNow: Record<string, string>
-  howToPick: string
-  howToStore: string
-  howToUse: string
+  /** 월별 "왜 지금인지" 한 줄 */
+  whyNow: WhyNow
+  notes: Note[]
 }
+
+/** 키가 "1"~"12" | "default"인 Record<string,string>이었다. JSON 모양이 타입으로
+ *  새어나온 것 — "13"도, 오타 "defualt"도 타입이 못 잡았다. */
+export type Month = 1|2|3|4|5|6|7|8|9|10|11|12
+export interface WhyNow {
+  byMonth: Partial<Record<Month, string>>
+  fallback: string
+}
+
+/** 장보기 노트 한 장. **개수가 고정이 아니다.** */
+export interface Note {
+  kind: NoteKind
+  text: string
+}
+export type NoteKind = 'pick' | 'store' | 'use'
 
 /** 외부 소스와의 조인 키. 없으면 그 소스가 그 품목을 다루지 않는다는 뜻 —
  *  "아직 못 맞춘 것"이 아니라 "원래 없는 것". */
@@ -122,12 +155,22 @@ export interface KamisRef {
   /** KAMIS item_name과 정확 일치 */
   itemName: string
   /** 선호 품종을 고르는 **질의 패턴** — KAMIS 응답의 품종명에 부분 일치 (예: "샤인").
-   *  응답의 실제 품종값(Price.variety)과 다른 개념이다. 그래서 이름도 다르다. */
+   *  응답의 실제 품종값(KamisQuote.variety)과 다른 개념이다. 그래서 이름도 다르다. */
   varietyPattern?: string
 }
 ```
 
 **`kindName`이 두 개념에 한 이름을 쓰던 걸 여기서 끊는다.** 질의 쪽은 `varietyPattern`(패턴), 응답 쪽은 `variety`(값). 지금은 둘 다 `kindName`이라 `card.ts`가 패턴을 값인 양 화면에 찍고 있다.
+
+### 노트는 왜 배열인가 — 화면이 도메인의 모양을 정하고 있었다
+
+지금 `howToPick` / `howToStore` / `howToUse`가 정확히 **셋**인 이유는, `Note.tsx`가 "고르는 법 / 보관 / 쓰임" 세 줄을 그리기 때문이다. **카드 레이아웃이 도메인 레코드의 필드 개수를 정하고 있다.** 카드에 네 번째 줄이 생기면 도메인 타입이 바뀐다.
+
+그리고 `card.ts`의 `NoteView { pick, store, use }`는 그 셋을 **1:1로 베낀 얕은 통과**다 — 삭제 테스트를 해보면 복잡도가 재등장하지 않고 그냥 이름만 바뀐다. 지워도 되는 타입이다.
+
+`notes: Note[]`로 바꾸면 편집 콘텐츠가 **자기 모양을 스스로 갖는다.** 카드는 그중 자기가 그릴 것을 고른다. `NoteKind`는 지금 셋뿐이지만, 늘리는 데 도메인 타입 수술이 필요 없다.
+
+이건 이 스펙이 처음 놓쳤던 지점이다 — `ProduceProfile`을 "편집 콘텐츠"라고 **이름만 옮기고 모양은 카드가 정한 채로 뒀다.** 앵커링을 반만 푼 셈이었다.
 
 ```ts
 /** KAMIS 등급. 실측 결과 이 둘뿐 (2026-07-14 스냅샷 80행: 상품·중품). */
@@ -135,8 +178,7 @@ export type Grade = '상품' | '중품'
 
 /** KAMIS 좌표계의 관측 한 줄. Produce를 모른다 —
  *  "배추의 가격"이 아니라 "남의 조사표의 한 행"이다. */
-export interface Price {
-  itemCode: string
+export interface KamisQuote {
   itemName: string
   /** 응답의 실제 품종명 (예: "적상추(100g)") */
   variety: string
@@ -148,14 +190,14 @@ export interface Price {
 }
 ```
 
-(`Unit`·`Baseline`·`PriceSnapshot`은 A단계에서 확정. 여기선 `PriceEntry` → `Price`, `kindName` → `variety`, `rank: string` → `grade: Grade` 리네임만.)
+(`Unit`·`Baseline`·`PriceSnapshot`은 A단계에서 확정. 여기선 `PriceEntry` → `KamisQuote`, `kindName` → `variety`, `rank: string` → `grade: Grade` 리네임만. `itemCode`는 A단계 리뷰에서 이미 삭제됐다.)
 
 ### PriceMatch — 이 단계의 핵심
 
 ```ts
-/** Produce ↔ Price 조인의 결과. null 하나로 뭉개지 않는다. */
+/** Produce ↔ KamisQuote 조인의 결과. null 하나로 뭉개지 않는다. */
 export type PriceMatch =
-  | { kind: 'matched'; price: Price; provenance: Provenance }
+  | { kind: 'matched'; quote: KamisQuote; provenance: Provenance }
   /** SourceRef에 kamis가 없다 — KAMIS가 애초에 조사하지 않는 품목 (정상) */
   | { kind: 'unsurveyed' }
   /** 스냅샷 자체가 없다 (수집 실패·최초 배포) */
