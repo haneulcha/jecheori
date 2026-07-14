@@ -306,7 +306,10 @@ export interface CardKnobs {
 export const CARD_KNOBS_DEFAULT: CardKnobs = {
   name: '감자',
   emoji: '🥔',
-  kindName: '수미',
+  // 실물 감자 프로필엔 kamis.kindName이 없다(40개 중 애호박·포도·샤인머스캣·대파·쪽파 5개만 보유).
+  // 빈 문자열로 두어 기본 카드가 실제 앱엔 없는 품종 줄을 그리지 않게 한다.
+  // 노브 자체는 남긴다 — 품종을 가진 품목(샤인머스캣 등)도 있어 유효한 축이다.
+  kindName: '',
   category: 'vegetable',
   inPeak: true,
   whyNow: '햇감자가 나오는 철이에요',
@@ -449,9 +452,9 @@ priceView→toCardView를 통과시킨다. 그래서 1% 임계·개당값 조건
 | 비슷 | `price: 315, monthAgo: 317` (−0.6%) | **칩 사라지고 "한 달 전과 비슷해요"** |
 | 개당값 | `unitQuantity: 10, unitMeasure: '개'` | **"10개 기준 · 개당 704원"** |
 | 스파크없음 | `yearAgo: null` | **스파크라인 사라짐 (칩은 남음)** |
-| 가격없음 | `price: null` | **가격 블록 전체 사라짐** (KAMIS 참조 없는 옥수수·부추 등) |
+| 가격없음 | `price: null` | **가격 블록 전체 사라짐** (KAMIS 참조 없는 옥수수·부추 등, 또는 참조는 있으나 그날 조사 결측) |
 | 영양있음 | `name: '복숭아', hasNutrition: true` | **영양 스탯 6칸** (프로필 40개 중 3개만 해당 — 감자는 foodDb가 없어 안 뜬다) |
-| 레시피없음 | `recipeCount: 0` | 레시피 칩 섹션 사라짐 |
+| 레시피없음 | `recipeCount: 0` | 레시피 칩 섹션 사라짐 (recipeRef 자체가 없는 품목은 40개 중 20개) |
 | 절정아님 | `inPeak: false` | 이름 옆 절정 점 사라짐 |
 
 - [ ] **Step 1: 스토리 작성**
@@ -513,8 +516,11 @@ export const 스파크없음: Story = {
   args: { yearAgo: null },
 }
 
-/** KAMIS 참조가 아예 없는 품목(옥수수·부추·단호박·가지)은 가격 없이 제철 정보만 보여준다.
- *  "아직 못 맞춘 것"과 "원래 가격이 없는 것"은 다르다 (types.ts). */
+/** 가격 관측이 없으면(price: null) 가격 블록이 통째로 사라진다. 두 경우 모두 이 상태로 이어진다:
+ *  ① KAMIS 참조가 아예 없는 품목(옥수수·부추·단호박·가지) — 재보는 시장 자체가 없다.
+ *  ② 참조는 있으나 그날 조사가 없어 결측인 경우 — "아직 못 맞춘 것"과 "원래 가격이 없는 것"은
+ *  다르다 (types.ts). 이 스토리는 ①(옥수수)을 쓴다. toProfile은 노브로 kamis를 무조건 채우므로
+ *  렌더 자체는 price: null만으로 정직하다 — 실물 옥수수 프로필에 kamis가 없다는 사실과는 별개다. */
 export const 가격없음: Story = {
   args: {
     name: '옥수수',
@@ -547,7 +553,10 @@ export const 영양있음: Story = {
   },
 }
 
-/** 레시피 참조가 없으면 카드 펼침에 레시피 진입점이 없다. */
+/** 레시피가 0개면(recipeCount: 0) 카드 펼침에 레시피 진입점이 없다. 기본값(감자)은
+ *  recipeRef를 가진 품목이라, 여기서 비는 건 "참조가 없어서"가 아니라 "0개로 잘라서"다.
+ *  실제로 recipeRef가 아예 없는 품목은 40개 중 20개다 — 그 절반은 이 스토리 없이도
+ *  일상적으로 레시피 없는 카드를 만든다. */
 export const 레시피없음: Story = {
   args: { recipeCount: 0 },
 }
@@ -671,12 +680,32 @@ export const 빈상태: StoryObj = {
 
 /** **가장 은밀한 슬롯.** 영양이 있는 카드가 하나라도 렌더되면 푸터에 출처 줄이 생긴다.
  *  영양은 프로필 40개 중 3개(복숭아·토마토·사과)뿐이고, 그 셋이 top-5에 못 들면
- *  카드의 영양 스탯뿐 아니라 이 푸터 줄까지 통째로 사라진다 (app.ts의 hasNutrition). */
+ *  카드의 영양 스탯뿐 아니라 이 푸터 줄까지 통째로 사라진다 (app.ts의 hasNutrition).
+ *  그래서 카드 재료를 반드시 그 셋 중 하나(여기선 복숭아)로 써야 한다 — 기본값(감자)엔
+ *  foodDb 참조가 없어 hasNutrition 노브를 켜도 매처가 못 찾아 카드도 페이지도 거짓을 그린다. */
 export const 영양푸터: StoryObj = {
   render: () => (
     <App
       view={pageView({
-        cards: [buildCard({ ...CARD_KNOBS_DEFAULT, hasNutrition: true }, 7)],
+        cards: [
+          buildCard(
+            {
+              ...CARD_KNOBS_DEFAULT,
+              name: '복숭아',
+              emoji: '🍑',
+              kindName: '',
+              category: 'fruit',
+              price: 12000,
+              monthAgo: 13500,
+              yearAgo: 11000,
+              unitQuantity: 1,
+              unitMeasure: 'kg',
+              whyNow: '7~8월이 노지 복숭아의 절정이에요',
+              hasNutrition: true,
+            },
+            7,
+          ),
+        ],
         hasNutrition: true,
       })}
     />

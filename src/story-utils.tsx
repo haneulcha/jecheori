@@ -73,7 +73,10 @@ export interface CardKnobs {
 export const CARD_KNOBS_DEFAULT: CardKnobs = {
   name: '감자',
   emoji: '🥔',
-  kindName: '수미',
+  // 실물 감자 프로필엔 kamis.kindName이 없다(40개 중 애호박·포도·샤인머스캣·대파·쪽파 5개만 보유).
+  // 빈 문자열로 두어 기본 카드가 실제 앱엔 없는 품종 줄을 그리지 않게 한다.
+  // 노브 자체는 남긴다 — 품종을 가진 품목(샤인머스캣 등)도 있어 유효한 축이다.
+  kindName: '',
   category: 'vegetable',
   inPeak: true,
   whyNow: '햇감자가 나오는 철이에요',

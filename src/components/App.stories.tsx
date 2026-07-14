@@ -66,12 +66,32 @@ export const 빈상태: StoryObj = {
 
 /** **가장 은밀한 슬롯.** 영양이 있는 카드가 하나라도 렌더되면 푸터에 출처 줄이 생긴다.
  *  영양은 프로필 40개 중 3개(복숭아·토마토·사과)뿐이고, 그 셋이 top-5에 못 들면
- *  카드의 영양 스탯뿐 아니라 이 푸터 줄까지 통째로 사라진다 (app.ts의 hasNutrition). */
+ *  카드의 영양 스탯뿐 아니라 이 푸터 줄까지 통째로 사라진다 (app.ts의 hasNutrition).
+ *  그래서 카드 재료를 반드시 그 셋 중 하나(여기선 복숭아)로 써야 한다 — 기본값(감자)엔
+ *  foodDb 참조가 없어 hasNutrition 노브를 켜도 매처가 못 찾아 카드도 페이지도 거짓을 그린다. */
 export const 영양푸터: StoryObj = {
   render: () => (
     <App
       view={pageView({
-        cards: [buildCard({ ...CARD_KNOBS_DEFAULT, hasNutrition: true }, 7)],
+        cards: [
+          buildCard(
+            {
+              ...CARD_KNOBS_DEFAULT,
+              name: '복숭아',
+              emoji: '🍑',
+              kindName: '',
+              category: 'fruit',
+              price: 12000,
+              monthAgo: 13500,
+              yearAgo: 11000,
+              unitQuantity: 1,
+              unitMeasure: 'kg',
+              whyNow: '7~8월이 노지 복숭아의 절정이에요',
+              hasNutrition: true,
+            },
+            7,
+          ),
+        ],
         hasNutrition: true,
       })}
     />
