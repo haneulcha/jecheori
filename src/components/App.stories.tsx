@@ -43,9 +43,18 @@ export const 오래된가격: StoryObj = {
   render: () => <App view={pageView({ freshness: { kind: 'stale', days: 5 } })} />,
 }
 
-/** 픽은 있는데 하락이 하나도 없는 날. 담백한 안내가 붙는다 — 이커머스 화법 금지. */
+/** 픽은 있는데 하락이 하나도 없는 날. 담백한 안내가 붙는다 — 이커머스 화법 금지.
+ *  카드도 하락이 없어야 앞뒤가 맞는다: 한 달 전과 같은 값이면 card.ts가 "비슷해요"를 낸다.
+ *  (실제 앱의 noDrop은 app.ts가 `picks.length > 0 && !hasDrops(picks)`로 파생한다.) */
 export const 하락없음: StoryObj = {
-  render: () => <App view={pageView({ noDrop: true })} />,
+  render: () => (
+    <App
+      view={pageView({
+        cards: [buildCard({ ...CARD_KNOBS_DEFAULT, monthAgo: CARD_KNOBS_DEFAULT.price }, 7)],
+        noDrop: true,
+      })}
+    />
+  ),
 }
 
 /** 이번 달 제철 프로필이 아예 없는 달. 카드도 필터도 없이 문구 한 줄. */
