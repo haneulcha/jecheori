@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { App } from './App'
 import { buildAppView } from '../app'
-import { seasonOf } from '../season'
+import { currentTerm, seasonOf } from '../season'
 import type { AppView } from '../view-types'
 import type { PriceSnapshot } from '../types'
 import { CARD_KNOBS_DEFAULT, REAL, buildCard, withRouter } from '../story-utils'
@@ -28,7 +28,9 @@ function pageView(over: Partial<AppView>): AppView {
       .map((p) => ({ emoji: p.emoji, name: p.name })),
     date,
     freshness: { kind: 'fresh' },
-    term: '초복',
+    // term은 지어내지 않는다 — 초복은 24절기가 아니라 season.ts의 currentTerm()이
+    // 절대 반환할 수 없는 값이었다. 날짜에서 실제로 파생시킨다.
+    term: currentTerm(date),
     ...over,
   }
 }
