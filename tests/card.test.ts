@@ -1,9 +1,10 @@
 import { describe, expect, test } from 'vitest'
-import { perUnitPrice, sparklineGeometry, whyNowLine, toCardView } from '../src/card'
+import { perUnitPrice, sparklineLevels, whyNowLine, toCardView } from '../src/card'
 import type { PickResult, PriceView } from '../src/picks'
 import type { ProduceProfile } from '../src/types'
 import { nutritionView } from '../src/nutrition'
 import { recipeView } from '../src/recipe'
+import { count, weight } from './units'
 
 const profile: ProduceProfile = {
   id: 'peach',
@@ -21,10 +22,9 @@ const profile: ProduceProfile = {
 
 const priceView = (over: Partial<PriceView> = {}): PriceView => ({
   price: 12600,
-  unit: '10개',
+  unit: count(10),
   changeVsMonthAgoPct: -25.4,
-  priceMonthAgo: 16900,
-  priceYearAgo: 13400,
+  baseline: { monthAgo: 16900, yearAgo: 13400 },
   ...over,
 })
 
@@ -36,23 +36,41 @@ const pick = (over: Partial<PickResult> = {}): PickResult => ({
 })
 
 describe('perUnitPrice', () => {
-  test('10개면 개당값', () => expect(perUnitPrice(18200, '10개')).toEqual({ each: 1820 }))
-  test('반올림', () => expect(perUnitPrice(12600, '10개')).toEqual({ each: 1260 }))
-  test('1개(단수)는 null', () => expect(perUnitPrice(21400, '1개')).toBeNull())
-  test('무게 단위는 null', () => expect(perUnitPrice(8000, '1kg')).toBeNull())
+  test('10개면 개당값', () => expect(perUnitPrice(18200, count(10))).toEqual({ each: 1820 }))
+  test('반올림', () => expect(perUnitPrice(12600, count(10))).toEqual({ each: 1260 }))
+  test('1개(단수)는 null', () => expect(perUnitPrice(21400, count(1))).toBeNull())
+  test('무게 단위는 null', () => expect(perUnitPrice(8000, weight(1, 'kg'))).toBeNull())
+  test('100g도 null — 무게는 개당값이 없다', () =>
+    expect(perUnitPrice(315, weight(100, 'g'))).toBeNull())
+
+  test('포기도 셀 수 있는 단위 — 10포기면 개당값이 나온다', () => {
+    // 규칙은 "개인가"가 아니라 "셀 수 있고 수량이 1보다 큰가"다.
+    // 예전엔 measure !== '개'로 걸러서 이게 null이었다. KAMIS가 우연히 1포기만
+    // 주기 때문에 안 틀렸을 뿐, 규칙 자체가 응답의 우연에 붙어 있었다.
+    expect(perUnitPrice(29970, count(10, '포기'))).toEqual({ each: 2997 })
+  })
+
+  test('1포기(단수)는 여전히 null', () =>
+    expect(perUnitPrice(2997, count(1, '포기'))).toBeNull())
 })
 
-describe('sparklineGeometry', () => {
-  test('최댓값은 위(y=24), 최솟값은 아래(y=44)', () => {
-    const pts = sparklineGeometry({ yearAgo: 13400, monthAgo: 16900, now: 12600 })
-    expect(pts.map((p) => p.x)).toEqual([45, 150, 255])
-    expect(pts[1].y).toBeCloseTo(24, 1)
-    expect(pts[2].y).toBeCloseTo(44, 1)
-    expect(pts[0].y).toBeGreaterThan(pts[1].y)
+describe('sparklineLevels', () => {
+  test('최솟값 0, 최댓값 1, 중간은 그 사이', () => {
+    // 픽셀이 아니라 상대 위치를 낸다 — viewBox는 컴포넌트 소관
+    const lv = sparklineLevels({ yearAgo: 13400, monthAgo: 16900, now: 12600 })
+    expect(lv[1]).toBeCloseTo(1, 5) // 한 달 전이 최고
+    expect(lv[2]).toBeCloseTo(0, 5) // 지금이 최저
+    expect(lv[0]).toBeGreaterThan(0)
+    expect(lv[0]).toBeLessThan(1)
   })
-  test('모두 같으면 중앙', () => {
-    const pts = sparklineGeometry({ yearAgo: 100, monthAgo: 100, now: 100 })
-    expect(pts.every((p) => p.y === 34)).toBe(true)
+
+  test('모두 같으면 0.5 (중앙)', () => {
+    expect(sparklineLevels({ yearAgo: 100, monthAgo: 100, now: 100 })).toEqual([0.5, 0.5, 0.5])
+  })
+
+  test('픽셀 좌표를 내지 않는다', () => {
+    const lv = sparklineLevels({ yearAgo: 13400, monthAgo: 16900, now: 12600 })
+    expect(lv.every((v) => v >= 0 && v <= 1)).toBe(true)
   })
 })
 
@@ -100,18 +118,21 @@ describe('toCardView', () => {
   })
 
   test('지난달 없으면 change null · spark null', () => {
-    const c = toCardView(pick({ price: priceView({ changeVsMonthAgoPct: null, priceMonthAgo: null }) }), 7)
+    const c = toCardView(
+      pick({ price: priceView({ changeVsMonthAgoPct: null, baseline: { monthAgo: null, yearAgo: 13400 } }) }),
+      7,
+    )
     expect(c.price?.change).toBeNull()
     expect(c.price?.spark).toBeNull()
   })
 
   test('작년 없으면 spark null', () => {
-    const c = toCardView(pick({ price: priceView({ priceYearAgo: null }) }), 7)
+    const c = toCardView(pick({ price: priceView({ baseline: { monthAgo: 16900, yearAgo: null } }) }), 7)
     expect(c.price?.spark).toBeNull()
   })
 
   test('무게 단위는 perUnit null', () => {
-    const c = toCardView(pick({ price: priceView({ unit: '1kg' }) }), 7)
+    const c = toCardView(pick({ price: priceView({ unit: weight(1, 'kg') }) }), 7)
     expect(c.price?.perUnit).toBeNull()
   })
 

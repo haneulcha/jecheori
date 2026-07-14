@@ -1,12 +1,11 @@
-import type { PriceEntry, PriceSnapshot, ProduceProfile } from './types'
+import type { Baseline, PriceEntry, PriceSnapshot, ProduceProfile, Unit } from './types'
 
 export interface PriceView {
   price: number
-  unit: string
-  /** 1개월 전 대비 % (음수 = 하락). 1개월 전 가격이 없으면 null */
+  unit: Unit
+  /** 1개월 전 대비 % (음수 = 하락). 기준선이 없으면 null */
   changeVsMonthAgoPct: number | null
-  priceMonthAgo: number | null
-  priceYearAgo: number | null
+  baseline: Baseline
 }
 
 export interface PickResult {
@@ -31,16 +30,13 @@ export function matchEntry(profile: ProduceProfile, entries: PriceEntry[]): Pric
 
 export function priceView(entry: PriceEntry): PriceView | null {
   if (entry.price === null) return null
-  const change =
-    entry.priceMonthAgo !== null
-      ? ((entry.price - entry.priceMonthAgo) / entry.priceMonthAgo) * 100
-      : null
+  const { monthAgo } = entry.baseline
+  const change = monthAgo !== null ? ((entry.price - monthAgo) / monthAgo) * 100 : null
   return {
     price: entry.price,
     unit: entry.unit,
     changeVsMonthAgoPct: change,
-    priceMonthAgo: entry.priceMonthAgo,
-    priceYearAgo: entry.priceYearAgo,
+    baseline: entry.baseline,
   }
 }
 

@@ -20,7 +20,10 @@ export async function loadSnapshot(): Promise<PriceSnapshot | null> {
   }
 }
 
+/** 가격의 신선도 — 조사일 KST 자정을 기준으로 잰다.
+ *  fetchedAt으로 재면 cron이 매일 도는 한 항상 0이라, 일주일 묵은 가격도 오늘 것처럼 보인다. */
 export function snapshotAgeDays(snapshot: PriceSnapshot, now: Date): number {
-  const ms = now.getTime() - new Date(snapshot.fetchedAt).getTime()
+  const surveyedAt = new Date(`${snapshot.surveyedOn}T00:00:00+09:00`)
+  const ms = now.getTime() - surveyedAt.getTime()
   return Math.max(0, Math.floor(ms / 86_400_000))
 }

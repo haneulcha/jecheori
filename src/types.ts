@@ -35,24 +35,48 @@ export interface ProduceProfile {
   howToUse: string
 }
 
+/** 계량의 종류. KAMIS 표기(kg·g·개·포기)는 이 둘 중 하나로 떨어진다.
+ *
+ *  **무게냐 개수냐가 도메인 구분이고, KAMIS의 글자는 그 안의 라벨일 뿐이다.**
+ *  개당값은 "셀 수 있는 단위이고 수량이 1보다 클 때" 성립한다 — '개'인지 아닌지가 아니다.
+ *  포기도 셀 수 있다. 예전엔 `measure !== '개'`로 걸렀는데, KAMIS가 우연히 1포기만
+ *  주기 때문에 안 틀렸을 뿐이다. 응답의 우연을 규칙으로 굳히지 않는다. */
+export type Measure =
+  | { kind: 'weight'; unit: 'kg' | 'g' }
+  | { kind: 'count'; unit: '개' | '포기' }
+
+/** "10개" = { quantity: 10, measure: { kind: 'count', unit: '개' } }.
+ *  KAMIS 표기를 그대로 보존하고 환산하지 않는다 — 환산이 없으면 오차도 없다. */
+export interface Unit {
+  quantity: number
+  measure: Measure
+}
+
+/** 비교용 과거 가격. KAMIS가 **날짜를 주지 않고 라벨만 준다** — 그래서 관측이 아니다.
+ *  관측과 같은 칸·같은 타입에 두면 컬럼을 바꿔 꽂아도 아무도 모른다 (실제로 그랬다). */
+export interface Baseline {
+  monthAgo: number | null
+  yearAgo: number | null
+}
+
 export interface PriceEntry {
-  itemCode: string
   itemName: string
   kindName: string
   rank: string
-  unit: string
-  /** 당일 평균 소매가 (당일 조사 없으면 최근 조사일 가격). 결측이면 null */
+  unit: Unit
+  /** 조사일(`PriceSnapshot.surveyedOn`)에 실제로 조사된 소매가.
+   *  그날 그 품목 조사가 없으면 null — 다른 날 값으로 메우지 않는다. */
   price: number | null
-  priceMonthAgo: number | null
-  priceYearAgo: number | null
+  baseline: Baseline
 }
 
 export interface PriceSnapshot {
   schemaVersion: number
-  /** ISO 8601 */
+  /** 스크립트가 KAMIS를 호출한 시각 (ISO 8601). 신선도 판단엔 쓰지 않는다 — 조사일을 쓴다 */
   fetchedAt: string
-  /** 가격의 실제 조사일 (YYYY-MM-DD). 공표 전·휴장일이면 fetchedAt보다 며칠 앞설 수 있다 */
-  priceDate?: string
+  /** 이 스냅샷 전체의 조사일 (YYYY-MM-DD). 엔트리마다 다르지 않다.
+   *  당일 가격은 오후에 공표되고 일요일·공휴일엔 조사가 없어 fetchedAt보다 며칠 앞설 수 있다 */
+  surveyedOn: string
   entries: PriceEntry[]
 }
 

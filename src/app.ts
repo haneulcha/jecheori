@@ -5,9 +5,19 @@ import { currentTerm, seasonOf } from './season'
 import { snapshotAgeDays } from './data'
 import { matchNutrition, nutritionView } from './nutrition'
 import { matchRecipes, recipeView } from './recipe'
-import type { AppView, ComingView } from './view-types'
+import type { AppView, ComingView, Freshness } from './view-types'
 
 const label = (p: ProduceProfile) => ({ emoji: p.emoji, name: p.name })
+
+/** 이 날수부터 "가격이 오래됐다"고 알린다. 제품 규칙 — 뷰가 아니라 여기서 정한다. */
+const STALE_AFTER_DAYS = 3
+
+function freshnessOf(snapshot: PriceSnapshot | null, now: Date): Freshness {
+  // 스냅샷이 아예 없으면 보여줄 가격도 없다 — "N일 전 가격"이라 할 것도 없으니 경고하지 않는다.
+  if (!snapshot) return { kind: 'fresh' }
+  const days = snapshotAgeDays(snapshot, now)
+  return days >= STALE_AFTER_DAYS ? { kind: 'stale', days } : { kind: 'fresh' }
+}
 
 /** 원시 데이터(프로필·스냅샷·시계) → 화면 뷰. 순수 함수 — "무엇을 보여줄지" 조립을 한 곳에 모은다. */
 export function buildAppView(
@@ -34,7 +44,7 @@ export function buildAppView(
     hasRecipes: cards.some((c) => c.recipes !== null),
     seasonal: seasonalThisMonth(profiles, month).map(label),
     date: now,
-    staleDays: snapshot ? snapshotAgeDays(snapshot, now) : 0,
+    freshness: freshnessOf(snapshot, now),
     term: currentTerm(now),
   }
 }

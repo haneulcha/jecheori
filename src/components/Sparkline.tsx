@@ -2,8 +2,15 @@ import type { SparkView } from '../card'
 
 const n = (x: number) => x.toLocaleString('ko-KR')
 
+// 픽셀 기하는 여기 산다 — card.ts는 "상대 위치(0~1)"까지만 정한다.
+// viewBox를 바꾸려면 이 파일만 바꾸면 된다.
+const X = [45, 150, 255]
+const Y_FLOOR = 44 // level 0 (최저값)
+const Y_RISE = 20 // level 1이면 Y_FLOOR - Y_RISE = 24 (최고값)
+const y = (level: number) => Y_FLOOR - level * Y_RISE
+
 export function Sparkline({ spark: s }: { spark: SparkView }) {
-  const [yr, mo, now] = s.points
+  const [yr, mo, now] = s.levels.map((level, i) => ({ x: X[i], y: y(level) }))
   const label = `가격 추이: 작년 이맘때 ${n(s.yearAgo)} · 한 달 전 ${n(s.monthAgo)} · 지금 ${n(s.now)}`
   return (
     <div className="spark num">

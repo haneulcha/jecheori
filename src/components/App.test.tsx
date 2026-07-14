@@ -16,12 +16,17 @@ const profile: ProduceProfile = {
 }
 const pick: PickResult = {
   profile, inPeak: true,
-  price: { price: 18200, unit: '10개', changeVsMonthAgoPct: -25.7, priceMonthAgo: 24500, priceYearAgo: 19800 },
+  price: {
+    price: 18200,
+    unit: { quantity: 10, measure: { kind: 'count', unit: '개' } },
+    changeVsMonthAgoPct: -25.7,
+    baseline: { monthAgo: 24500, yearAgo: 19800 },
+  },
 }
 const base: AppView = {
   cards: [toCardView(pick, 7)], noDrop: false, hasNutrition: false, hasRecipes: false,
   seasonal: [{ emoji: '🍑', name: '복숭아' }],
-  date: new Date('2026-07-10'), staleDays: 0,
+  date: new Date('2026-07-10'), freshness: { kind: 'fresh' },
 }
 
 describe('App', () => {

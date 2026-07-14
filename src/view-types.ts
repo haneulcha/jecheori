@@ -7,6 +7,13 @@ export interface Chip {
   name: string
 }
 
+/** 가격 신선도. **임계(며칠부터 "오래됐다"인가)는 제품 규칙이라 여기서 정한다** —
+ *  컴포넌트가 `staleDays >= 3`을 판정하고 있었는데, 그건 JSX에 박힌 규칙이었다.
+ *  ChangeView와 같은 처리: 케이스를 타입으로 갈라 뷰가 빠뜨릴 수 없게 한다. */
+export type Freshness =
+  | { kind: 'fresh' }
+  | { kind: 'stale'; days: number }
+
 export interface AppView {
   cards: CardView[]
   /** 픽은 있으나 하락이 없을 때 담백한 안내를 보인다 */
@@ -17,7 +24,7 @@ export interface AppView {
   hasRecipes: boolean
   seasonal: Chip[]
   date: Date
-  staleDays: number
+  freshness: Freshness
   /** 현재 절기 이름 — 있으면 아이브로에 "소서 · 7월 둘째 주"로 표기 */
   term?: string
 }

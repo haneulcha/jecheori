@@ -47,7 +47,8 @@ describe('buildSnapshot', () => {
     }
     const snap = await buildSnapshot({ certKey: 'k', certId: 'i', regday: '2026-07-13', fetchFn })
     expect(calls).toEqual(['100', '200', '400'])
-    expect(snap.schemaVersion).toBe(1)
+    expect(snap.schemaVersion).toBe(2)
+    expect(snap.surveyedOn).toBe('2026-07-13')
     expect(snap.entries).toHaveLength(12) // 픽스처 4행 × 3부류
     expect(new Date(snap.fetchedAt).getTime()).not.toBeNaN()
   })
@@ -89,7 +90,7 @@ describe('buildLatestSnapshot', () => {
       from: '2026-07-13',
       fetchFn: okFetch(fixture),
     })
-    expect(snap.priceDate).toBe('2026-07-13')
+    expect(snap.surveyedOn).toBe('2026-07-13')
     expect(snap.entries.filter((e) => e.price !== null).length).toBeGreaterThan(0)
   })
 
@@ -102,7 +103,7 @@ describe('buildLatestSnapshot', () => {
       return { ok: true, json: async () => (regday === '2026-07-13' ? blankToday() : fixture) }
     }
     const snap = await buildLatestSnapshot({ certKey: 'k', certId: 'i', from: '2026-07-13', fetchFn })
-    expect(snap.priceDate).toBe('2026-07-12')
+    expect(snap.surveyedOn).toBe('2026-07-12')
     expect(asked).toContain('2026-07-13')
     expect(snap.entries.every((e) => e.price !== null || e.itemName === '당근')).toBe(true)
   })
