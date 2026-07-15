@@ -16,6 +16,8 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
 - 카드·가격 설계: `docs/superpowers/specs/2026-07-10-card-info-and-price-display-design.md`
 - 도메인·아키텍처 용어: `CONTEXT.md`
 - 비주얼 디자인: `DESIGN.md` (팔레트·타이포·컨셉 — UI 작업 전 필독)
+- 제품 동작(무엇이 언제·왜 보이나, 가격 수집 정책): `docs/제품-동작-지도.md`
+- 확장 아이디어 백로그(실현 가능성·제약): `docs/아이디어-백로그.md`
 
 ## 명령어
 
