@@ -37,6 +37,24 @@
   --memo: #FFFCF3;                   /* 메모 낱장 — 순백 카드와 구분되는 살짝 따뜻한 종이 */
   /* 계절 기본값 (여름) — main.ts가 body[data-season]으로 덮어쓴다 */
   --accent: #ffc400;
+  /* 간격 스케일 — 리듬 보존(앱의 0.4rem 계열). 1.0(lg)이 최대 클러스터. impeccable 감사. */
+  --space-3xs: 0.2rem;
+  --space-2xs: 0.3rem;
+  --space-xs: 0.4rem;
+  --space-sm: 0.6rem;
+  --space-md: 0.8rem;
+  --space-lg: 1rem;
+  --space-xl: 1.5rem;
+  --space-2xl: 2.5rem;
+  --space-3xl: 3rem;
+  /* 폰트 패밀리 — @font-face가 정의한 별칭 그대로. DESIGN.md: 못 구하면 serif 폴백. */
+  --font-display: 'MaruBuri', serif;
+  --font-hand: 'Hakgyoansim', 'MaruBuri', serif;
+  --font-body: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  /* 라운드 — 역할별. crisp=메모 낱장 카드, soft=칩·배지, pill=알약 */
+  --radius-crisp: 0.2rem;
+  --radius-soft: 0.4rem;
+  --radius-pill: 1rem;
 }
 [data-season='spring'] { --accent: #a2d3a6; --tint: #eaf4e9; }
 [data-season='summer'] { --accent: #ffc400; --tint: #fff4ce; }
