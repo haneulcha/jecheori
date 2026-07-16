@@ -15,7 +15,7 @@ const meta: Meta = {
 
 export default meta
 
-/** 합성 페이지 뷰 — 페이지 레벨 슬롯(stale·noDrop·빈상태·푸터)만 골라 보기 위한 것. */
+/** 합성 페이지 뷰 — 페이지 레벨 슬롯(조사일·noDrop·빈상태·푸터)만 골라 보기 위한 것. */
 function pageView(over: Partial<AppView>): AppView {
   const date = new Date('2026-07-14T09:00:00+09:00')
   return {
