@@ -76,10 +76,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-#app { max-width: 28rem; margin: 0 auto; padding: 1.5rem 1.1rem 3rem; }
+#app { max-width: 28rem; margin: 0 auto; padding: var(--space-xl) var(--space-lg) var(--space-3xl); }
 
 /* 헤더 — 시그니처: 쪽빛 스케치 + 계절 틴트 블롭 */
-header { position: relative; margin-bottom: 1.4rem; }
+header { position: relative; margin-bottom: var(--space-xl); }
 header::before {
   content: '';
   position: absolute;
@@ -105,14 +105,14 @@ header::before {
   color: var(--ink);
   font-size: 0.9rem;
   letter-spacing: 0.02em;
-  margin: 0.4rem 0 0;
+  margin: var(--space-xs) 0 0;
 }
 header h1 {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.5rem;
   line-height: 1.45;
-  margin: 0.2rem 0 0.45rem;
+  margin: var(--space-3xs) 0 var(--space-xs);
 }
 /* 조사일 상시 줄 — 경고가 아니라 메타. 아이브로(.week)보다 한 단계 조용하게. */
 .surveyed {
@@ -122,7 +122,7 @@ header h1 {
   margin: 0;
 }
 
-.list { display: flex; flex-direction: column; gap: 1.4rem; }
+.list { display: flex; flex-direction: column; gap: var(--space-xl); }
 
 /* 카드 — 달력 낱장 */
 .card {
@@ -130,7 +130,7 @@ header h1 {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius-crisp); /* 종이처럼 crisp (기존 0.9rem) */
-  padding: 0.95rem 1.05rem;
+  padding: var(--space-lg) var(--space-lg);
   box-shadow: var(--lift);           /* 아주 옅은 부양 */
   /* 기울기 회전 기준점을 상단으로 — 펼칠 때 상단이 고정되고 아래만 늘어난다
      (center면 카드가 길어질 때 윗부분이 옆으로 밀린다) */
@@ -154,20 +154,20 @@ header h1 {
 .card:nth-child(even) { transform: rotate(-0.4deg); }
 .card summary { cursor: pointer; list-style: none; }
 .card summary::-webkit-details-marker { display: none; }
-.card .summary-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.9rem; }
-.card .id { display: flex; align-items: center; gap: 0.6rem; }
+.card .summary-row { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-lg); }
+.card .id { display: flex; align-items: center; gap: var(--space-sm); }
 .card .emoji { font-size: 1.7rem; line-height: 1; }
-.card-title { font-size: 1.05rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.45rem; }
-.card .kind { display: block; color: var(--muted); font-size: 0.78rem; margin-top: 0.1rem; }
+.card-title { font-size: 1.05rem; font-weight: 600; display: inline-flex; align-items: center; gap: var(--space-xs); }
+.card .kind { display: block; color: var(--muted); font-size: 0.78rem; margin-top: var(--space-3xs); }
 /* 펼침 영역 — 점선 디바이더로 표지와 나누고, 섹션(스파크·영양·노트) 사이는
    넉넉한 간격으로 빽빽하지 않게 */
 .open {
   border-top: 1px dashed var(--line);
-  margin-top: 1.05rem;
-  padding-top: 1.05rem;
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--space-xl);
 }
 /* 제철이의 한마디 — 종이에 연필로 적어준 듯한 손글씨. 펼치기 전에도 늘 보이는,
    카드 표지 하단의 한 줄. 쪽빛의 뮤트(--muted)로 연필 흑연처럼, 살짝 기울여. */
@@ -176,7 +176,7 @@ header h1 {
   color: var(--muted);
   font-size: 0.98rem;
   line-height: 1.3;
-  margin: 0.95rem 0 0;
+  margin: var(--space-lg) 0 0;
   transform: rotate(-0.5deg);
   transform-origin: left center;
   /* body의 antialiased가 L 웨이트를 너무 가늘게 만든다 — 여기선 꺼서 살짝 두툼하게 */
@@ -184,35 +184,35 @@ header h1 {
 }
 .price { display: flex; flex-direction: column; align-items: flex-end; }
 .num { font-variant-numeric: tabular-nums; }
-.price .was { color: var(--muted); font-size: 0.85rem; text-decoration: line-through; margin-bottom: 0.18rem; }
-.price .nowline { display: flex; align-items: center; gap: 0.4rem; }
+.price .was { color: var(--muted); font-size: 0.85rem; text-decoration: line-through; margin-bottom: var(--space-3xs); }
+.price .nowline { display: flex; align-items: center; gap: var(--space-xs); }
 .price .big { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
 .price .wonu { font-size: 0.95rem; font-weight: 600; }
 /* 기준선 — "이 숫자를 무엇으로 재었나". 단위 + (있으면) 개당값.
    개당값과 같은 계층에 둔다: 둘 다 큰 숫자를 어떻게 읽는지 말하는 각주다.
    큰 숫자·등락 칩의 위계는 건드리지 않는다 — 이 앱의 머리기사는 "내려왔다"이다. */
-.price .basis { color: var(--muted); font-size: 0.74rem; margin-top: 0.32rem; white-space: nowrap; }
-.price .near { color: var(--muted); font-size: 0.78rem; margin-top: 0.2rem; }
-.price .chip { display: inline-flex; align-items: center; gap: 0.2rem; font-size: 0.8rem; font-weight: 700; padding: 0.18rem 0.48rem; border-radius: var(--radius-pill); }
+.price .basis { color: var(--muted); font-size: 0.74rem; margin-top: var(--space-2xs); white-space: nowrap; }
+.price .near { color: var(--muted); font-size: 0.78rem; margin-top: var(--space-3xs); }
+.price .chip { display: inline-flex; align-items: center; gap: var(--space-3xs); font-size: 0.8rem; font-weight: 700; padding: var(--space-3xs) var(--space-xs); border-radius: var(--radius-pill); }
 .price .arrow { display: block; }
 .price.fall .big { color: var(--ink); }
 .price.fall .chip { background: var(--tint); color: var(--ink); }
 .price.rise .big { color: var(--rise); }
 .price.rise .chip { background: var(--rise-lo); color: var(--rise); }
 
-.note { position: relative; padding-left: 1.1rem; }
+.note { position: relative; padding-left: var(--space-lg); }
 .note::before { content: ''; position: absolute; left: 0.3rem; top: 0.1rem; bottom: 0.1rem; width: 1px; background: var(--margin); }
-.nrow { display: grid; grid-template-columns: 4rem 1fr; gap: 0.55rem; align-items: baseline; border-bottom: 1px dotted var(--line); padding: 0.42rem 0; font-size: 0.82rem; color: #5a5140; line-height: 1.5; }
+.nrow { display: grid; grid-template-columns: 4rem 1fr; gap: var(--space-sm); align-items: baseline; border-bottom: 1px dotted var(--line); padding: var(--space-xs) 0; font-size: 0.82rem; color: #5a5140; line-height: 1.5; }
 .nrow:last-child { border-bottom: none; }
 .nrow .lbl { color: var(--ink); font-weight: 700; letter-spacing: 0.02em; }
 
 /* 이번 달 제철 리스트 */
-.seasonal { margin-top: 2.2rem; }
+.seasonal { margin-top: var(--space-2xl); }
 .seasonal h2 {
   font-size: 0.95rem;
   color: var(--muted);
   font-weight: 600;
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--space-sm);
 }
 .seasonal ul {
   list-style: none;
@@ -220,35 +220,35 @@ header h1 {
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--space-sm);
 }
 .seasonal li {
   background: var(--tint);
   border-radius: 999px;
-  padding: 0.25rem 0.8rem;
+  padding: var(--space-2xs) var(--space-md);
   font-size: 0.85rem;
 }
 
-.nodrop { color: var(--muted); font-size: 0.88rem; margin: 0 0 1rem; }
+.nodrop { color: var(--muted); font-size: 0.88rem; margin: 0 0 var(--space-lg); }
 
-footer { margin-top: 2.5rem; }
+footer { margin-top: var(--space-2xl); }
 footer p { color: var(--muted); font-size: 0.75rem; }
 .empty, .loading {
   color: var(--muted);
   font-size: 0.95rem;
   text-align: center;
-  margin-top: 3rem;
+  margin-top: var(--space-3xl);
 }
 
 /* 절정 도트 + 툴팁 */
 .peak-dot { position: relative; width: 0.75rem; height: 0.75rem; padding: 0; border: 0; background: none; cursor: pointer; vertical-align: 0.1rem; }
 .peak-dot b { display: block; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--tint); }
-.peak-tip { position: absolute; left: 50%; top: 150%; transform: translateX(-50%); background: var(--ink); color: #fff; font-size: 0.72rem; white-space: nowrap; padding: 0.3rem 0.55rem; border-radius: var(--radius-soft); opacity: 0; pointer-events: none; transition: opacity 0.12s; z-index: 5; }
+.peak-tip { position: absolute; left: 50%; top: 150%; transform: translateX(-50%); background: var(--ink); color: #fff; font-size: 0.72rem; white-space: nowrap; padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-soft); opacity: 0; pointer-events: none; transition: opacity 0.12s; z-index: 5; }
 .peak-dot:hover .peak-tip, .peak-dot:focus .peak-tip, .peak-dot.show .peak-tip { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .peak-tip { transition: none; } }
 
 /* 스파크라인 */
-.spark { margin: 0 0 1.6rem; }
+.spark { margin: 0 0 var(--space-xl); }
 .spark svg { display: block; width: 100%; height: auto; }
 .spark .trend { fill: none; stroke: var(--muted); stroke-width: 1.1; stroke-linejoin: round; opacity: 0.65; }
 .spark .axis { stroke: var(--axis); stroke-width: 0.3; }
@@ -259,8 +259,8 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 
 /* 과일/채소 필터 (CSS-only) */
 .picks input[name='cat-filter'] { position: absolute; opacity: 0; pointer-events: none; }
-.filter { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
-.filter label { font-size: 0.85rem; padding: 0.32rem 0.8rem; border-radius: var(--radius-pill); cursor: pointer; border: 1px solid var(--line); color: var(--muted); user-select: none; }
+.filter { display: flex; gap: var(--space-xs); margin-bottom: var(--space-lg); }
+.filter label { font-size: 0.85rem; padding: var(--space-2xs) var(--space-md); border-radius: var(--radius-pill); cursor: pointer; border: 1px solid var(--line); color: var(--muted); user-select: none; }
 #f-all:checked ~ .filter label[for='f-all'],
 #f-fruit:checked ~ .filter label[for='f-fruit'],
 #f-veg:checked ~ .filter label[for='f-veg'] { background: var(--tint); color: var(--ink); border-color: var(--tint); font-weight: 600; }
@@ -279,7 +279,7 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 /* 영양 블록은 스탯 너비로 줄여(align-self: center) 카드 중앙에 두고,
    "100g 기준"은 그 블록 안에서 우측 정렬 → 스탯 너비 아래 오른쪽에 붙는다 */
 .nutrition { color: var(--ink); align-self: center; }
-.nutrition .stats { display: flex; flex-wrap: wrap; gap: 1.4rem; justify-content: center; }
+.nutrition .stats { display: flex; flex-wrap: wrap; gap: var(--space-xl); justify-content: center; }
 .nutrition .cell { display: flex; flex-direction: column; align-items: center; }
 .nutrition .lab {
   font-size: 0.68rem;
@@ -291,25 +291,25 @@ footer p { color: var(--muted); font-size: 0.75rem; }
   font-weight: 700;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
-  margin-top: 0.1rem;
+  margin-top: var(--space-3xs);
 }
-.nutrition .val .u { font-size: 0.72rem; font-weight: 600; margin-left: 0.06rem; }
-.nutrition .serv { font-size: 0.68rem; color: var(--muted); text-align: right; margin-top: 0.3rem; }
+.nutrition .val .u { font-size: 0.72rem; font-weight: 600; margin-left: var(--space-3xs); }
+.nutrition .serv { font-size: 0.68rem; color: var(--muted); text-align: right; margin-top: var(--space-2xs); }
 
 /* 레시피 진입 칩 + 카드 위 핀 메모 */
 /* 라벨+칩은 한 묶음(.recipe-section) — .open의 flex gap이 둘 사이에 끼지 않게, 간격은 라벨 margin만 */
-.recipe-label { font-size: 0.68rem; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 0.35rem; }
+.recipe-label { font-size: 0.68rem; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 var(--space-2xs); }
 
 .chips {
-  display: flex; gap: 0.4rem; overflow-x: auto;
-  margin: 0 -1.05rem;                  /* 카드 안쪽 패딩 상쇄 — 횡스크롤 풀블리드(양옆 여백 제거) */
-  padding: 0 1.05rem 0.3rem;           /* 첫/끝 칩은 콘텐츠에 정렬, 스크롤은 가장자리까지 */
+  display: flex; gap: var(--space-xs); overflow-x: auto;
+  margin: 0 calc(-1 * var(--space-lg));  /* 카드 안쪽 패딩 상쇄 — 횡스크롤 풀블리드(양옆 여백 제거) */
+  padding: 0 var(--space-lg) var(--space-2xs); /* 첫/끝 칩은 콘텐츠에 정렬, 스크롤은 가장자리까지 */
   -webkit-overflow-scrolling: touch;   /* 스크롤바는 전역 규칙에서 숨김 */
 }
 .chip-btn {
   flex: 0 0 auto; font: inherit; font-size: 0.82rem;
   background: none; border: 1px dashed var(--line); border-radius: var(--radius-soft);
-  padding: 0.34rem 0.8rem; color: var(--ink); cursor: pointer; white-space: nowrap;
+  padding: var(--space-2xs) var(--space-md); color: var(--ink); cursor: pointer; white-space: nowrap;
   transition: border-color 0.15s, background 0.15s;
 }
 .chip-btn:hover { border-color: var(--ink); }
@@ -322,7 +322,7 @@ footer p { color: var(--muted); font-size: 0.75rem; }
   position: absolute; left: 50%; top: 50%; width: min(21rem, 94%);
   transform: translate(-50%, -50%) rotate(-0.7deg);        /* 카드 정중앙 */
   background: var(--memo); border: 1px solid var(--line); border-radius: var(--radius-crisp);
-  padding: 1.35rem 2.5rem 1rem;                            /* 좌우 여백 = ‹ › 자리 */
+  padding: var(--space-xl) var(--space-2xl) var(--space-lg); /* 좌우 여백 = ‹ › 자리 */
   box-shadow: 0 6px 16px -10px rgba(43, 69, 134, 0.20);   /* 예외: 메모 부양(옅게) */
   pointer-events: auto; outline: none;
   animation: memo-in 0.2s ease-out;                        /* 오버슈트 없음 */
@@ -336,17 +336,17 @@ footer p { color: var(--muted); font-size: 0.75rem; }
   from { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-0.7deg); }
   to   { opacity: 0; transform: translate(-50%, calc(-50% - 8px)) scale(0.98) rotate(-0.7deg); }
 }
-.memo h3 { font-size: 1rem; margin: 0 0 0.5rem; color: var(--ink); text-align: center; }
-.memo .ing { font-size: 0.79rem; color: var(--muted); margin: 0 0 0.8rem; line-height: 1.55; }
-.memo .steps { margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: #5a5140; line-height: 1.7; max-height: 15rem; overflow-y: auto; }
-.memo .steps li { margin-bottom: 0.35rem; }
+.memo h3 { font-size: 1rem; margin: 0 0 var(--space-sm); color: var(--ink); text-align: center; }
+.memo .ing { font-size: 0.79rem; color: var(--muted); margin: 0 0 var(--space-md); line-height: 1.55; }
+.memo .steps { margin: 0; padding-left: var(--space-lg); font-size: 0.85rem; color: #5a5140; line-height: 1.7; max-height: 15rem; overflow-y: auto; }
+.memo .steps li { margin-bottom: var(--space-2xs); }
 .memo .steps li::marker { color: var(--muted); }
 /* 단계가 넘쳐 스크롤이 생기고 아직 바닥이 아닐 때만, 하단 경계를 페이드로 부드럽게 (JS로 클래스 토글) */
 .memo .steps-fade {
   -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 1.6rem), transparent);
   mask-image: linear-gradient(to bottom, #000 calc(100% - 1.6rem), transparent);
 }
-.memo .count { text-align: center; font-size: 0.72rem; color: var(--muted); margin: 0.85rem 0 0; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+.memo .count { text-align: center; font-size: 0.72rem; color: var(--muted); margin: var(--space-md) 0 0; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
 
 /* 압정 = 닫기. 단색 러스트 + 흰 하이라이트(그라데이션 금지). 히트 영역 ~44px. */
 .pin {
@@ -364,7 +364,7 @@ footer p { color: var(--muted); font-size: 0.75rem; }
   position: absolute; top: 50%; transform: translateY(-50%);
   width: 1.6rem; height: 1.6rem;
   border: none; background: none; color: var(--ink);
-  font-size: 1.3rem; line-height: 1; cursor: pointer; padding: 0 0 0.1rem;
+  font-size: 1.3rem; line-height: 1; cursor: pointer; padding: 0 0 var(--space-3xs);
   display: flex; align-items: center; justify-content: center;
   opacity: 0.5; transition: opacity 0.15s;
 }
@@ -390,8 +390,8 @@ footer p { color: var(--muted); font-size: 0.75rem; }
   box-shadow: 0 0 0 3px var(--tint);
 }
 /* 달 섹션 간 여백(카드 목록은 기존 .list 재사용) */
-.coming-month { margin-top: 1.6rem; }
-.coming-month h2 { font-size: 1rem; letter-spacing: 0.04em; margin-bottom: 0.8rem; }
+.coming-month { margin-top: var(--space-xl); }
+.coming-month h2 { font-size: 1rem; letter-spacing: 0.04em; margin-bottom: var(--space-md); }
 
 /* 램프줄(A) + 인덱스 서랍 — 상태기반(React state, 최소 JS) */
 .nav-index { position: fixed; top: -8px; right: 1rem; z-index: 20; } /* 위로 오버슈트 — 당겨도 틈 없음 */
@@ -418,10 +418,10 @@ footer p { color: var(--muted); font-size: 0.75rem; }
 }
 .nav-index[data-open] .nav-panel { grid-template-rows: 1fr; }
 .nav-panel-clip { overflow: hidden; }                    /* 접힘 전용 — 패딩 없음이라 0으로 완전 접힘 */
-.nav-panel-inner { padding: 0.85rem 0.95rem; }
-.nav-panel-title { font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.6rem; }
+.nav-panel-inner { padding: var(--space-md) var(--space-lg); }
+.nav-panel-title { font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted); margin-bottom: var(--space-sm); }
 .nav-panel a {
-  display: block; padding: 0.75rem 0; color: var(--ink); text-decoration: none;
+  display: block; padding: var(--space-md) 0; color: var(--ink); text-decoration: none;
   border-bottom: 1px solid var(--line); font-size: 1.05rem;
 }
 .nav-panel a[aria-current='page'] { font-weight: 600; }
