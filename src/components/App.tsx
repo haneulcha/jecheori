@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import type { AppView } from '../view-types'
-import { weekLabel } from '../week'
+import { surveyedLabel, weekLabel } from '../week'
 import { NavIndex } from './NavIndex'
 import { ProduceCard } from './ProduceCard'
 import { Sprig } from './Sprig'
@@ -35,8 +35,8 @@ export function App({ view }: { view: AppView }) {
         <Sprig />
         <p className="week">{eyebrow}</p>
         <h1>지금 장바구니에 담기 좋은 것들</h1>
-        {freshness.kind === 'stale' && (
-          <p className="stale">가격은 {freshness.days}일 전 기준이에요</p>
+        {freshness.kind === 'dated' && (
+          <p className="surveyed">{surveyedLabel(freshness.days, freshness.surveyedOn)}</p>
         )}
       </header>
       <main>

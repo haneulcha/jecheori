@@ -27,7 +27,7 @@ function pageView(over: Partial<AppView>): AppView {
       .filter((p) => p.seasonMonths.includes(7))
       .map((p) => ({ emoji: p.emoji, name: p.name })),
     date,
-    freshness: { kind: 'fresh' },
+    freshness: { kind: 'dated', surveyedOn: '2026-07-14', days: 0 },
     // term은 지어내지 않는다 — 초복은 24절기가 아니라 season.ts의 currentTerm()이
     // 절대 반환할 수 없는 값이었다. 날짜에서 실제로 파생시킨다.
     term: currentTerm(date),
@@ -40,9 +40,16 @@ export const 기본: StoryObj = {
   render: () => <App view={pageView({})} />,
 }
 
-/** 조사일이 3일 이상 지나면 헤더에 경고 한 줄이 붙는다. 임계는 app.ts의 STALE_AFTER_DAYS. */
+/** 조사일이 며칠 지난 날. 신선도와 무관하게 "N일 전 · 날짜 기준"이 항상 헤더에 뜬다. */
 export const 오래된가격: StoryObj = {
-  render: () => <App view={pageView({ freshness: { kind: 'stale', days: 5 } })} />,
+  render: () => (
+    <App view={pageView({ freshness: { kind: 'dated', surveyedOn: '2026-07-09', days: 5 } })} />
+  ),
+}
+
+/** 스냅샷이 아예 없는 날(가격 fetch 실패 등). 조사일 줄이 사라진다 — 날짜를 지어내지 않는다. */
+export const 조사일없음: StoryObj = {
+  render: () => <App view={pageView({ freshness: { kind: 'none' } })} />,
 }
 
 /** 픽은 있는데 하락이 하나도 없는 날. 담백한 안내가 붙는다 — 이커머스 화법 금지.
@@ -102,9 +109,9 @@ export const 영양푸터: StoryObj = {
  *  1월엔 딸기·감귤·시금치가, 10월엔 사과·단감이 뜬다. "칩은 19개인데 카드는 5개"도 여기서 보인다.
  *
  *  한계 둘:
- *  1. prices.json은 2026-07-13 조사분 한 장뿐이다. surveyedOn만 시뮬레이션 날짜로 덮어
- *     stale 경고를 끈다 — 선정·정렬·카드 구성은 전부 진짜지만,
- *     **가격 숫자는 7월 실측이라 다른 달에선 참고용이다.** 신선도는 "오래된가격"에서 본다.
+ *  1. prices.json은 2026-07-13 조사분 한 장뿐이다.
+ *     surveyedOn을 시뮬레이션 날짜로 덮으므로 헤더엔 "오늘 · {그 달} 기준"이 뜬다 —
+ *     선정·정렬·카드 구성은 전부 진짜지만, **가격 숫자는 7월 실측이라 다른 달에선 참고용이다.**
  *  2. 이 스토리는 계절을 **월 노브에서** 정하므로 상단 계절 툴바가 먹지 않는다.
  *     버그가 아니라 의도다 — 실제 앱도 계절을 고르지 않고 현재 월에서 유도한다. */
 export const 그달의진짜앱: StoryObj<{ month: number }> = {

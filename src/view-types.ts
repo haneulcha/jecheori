@@ -7,12 +7,12 @@ export interface Chip {
   name: string
 }
 
-/** 가격 신선도. **임계(며칠부터 "오래됐다"인가)는 제품 규칙이라 여기서 정한다** —
- *  컴포넌트가 `staleDays >= 3`을 판정하고 있었는데, 그건 JSX에 박힌 규칙이었다.
- *  ChangeView와 같은 처리: 케이스를 타입으로 갈라 뷰가 빠뜨릴 수 없게 한다. */
+/** 가격 조사일. 스냅샷이 있으면 신선도와 무관하게 날짜를 항상 싣는다(상시 표시).
+ *  임계·경고는 없앴다 — 상대 문구("3일 전")가 신선도를 말한다. 케이스를 타입으로
+ *  갈라 뷰가 빠뜨릴 수 없게 한다(스냅샷 없음 vs 날짜 있음). */
 export type Freshness =
-  | { kind: 'fresh' }
-  | { kind: 'stale'; days: number }
+  | { kind: 'none' }
+  | { kind: 'dated'; surveyedOn: string; days: number }
 
 export interface AppView {
   cards: CardView[]
