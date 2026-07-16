@@ -26,7 +26,7 @@ const pick: PickResult = {
 const base: AppView = {
   cards: [toCardView(pick, 7)], noDrop: false, hasNutrition: false, hasRecipes: false,
   seasonal: [{ emoji: '🍑', name: '복숭아' }],
-  date: new Date('2026-07-10'), freshness: { kind: 'fresh' },
+  date: new Date('2026-07-10'), freshness: { kind: 'dated', surveyedOn: '2026-07-10', days: 0 },
 }
 
 describe('App', () => {
@@ -74,5 +74,14 @@ describe('App', () => {
   test('맨 아래 옛 "곧 제철" 한 줄은 없다', async () => {
     const { container } = await renderWithRouter(<App view={base} />)
     expect(container.querySelector('.coming')).toBeNull()
+  })
+  test('조사일 한 줄을 항상 보여준다 (오늘)', async () => {
+    const { container } = await renderWithRouter(<App view={base} />)
+    expect(container.querySelector('.surveyed')?.textContent).toBe('오늘 · 7월 10일 기준')
+  })
+  test('스냅샷 없으면(none) 조사일 줄이 없다', async () => {
+    const view: AppView = { ...base, freshness: { kind: 'none' } }
+    const { container } = await renderWithRouter(<App view={view} />)
+    expect(container.querySelector('.surveyed')).toBeNull()
   })
 })

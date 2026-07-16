@@ -49,16 +49,16 @@ describe('buildAppView', () => {
     expect(v.date).toBe(JULY)
   })
 
-  test('조사일이 이틀 전이면 fresh — 임계(3일) 아래는 알리지 않는다', () => {
-    // 조사일 7/8, 기준 7/10 → 2일. 임계가 3이라 경고하지 않는다.
+  test('스냅샷 있으면 dated — 조사일·날수를 싣는다 (2일 전, 임계 없음)', () => {
+    // 조사일 7/8, 기준 7/10 → 2일. 임계가 없으니 그대로 dated로 싣는다.
     const v = buildAppView([peach], snap(), null, null, JULY)
-    expect(v.freshness).toEqual({ kind: 'fresh' })
+    expect(v.freshness).toEqual({ kind: 'dated', surveyedOn: '2026-07-08', days: 2 })
   })
 
-  test('조사일이 사흘 넘으면 stale + 날수를 싣는다', () => {
+  test('오래된 조사일도 임계 없이 날수 그대로 싣는다 (4일)', () => {
     const old = { ...snap(), surveyedOn: '2026-07-06' } // 7/10 기준 4일
     const v = buildAppView([peach], old, null, null, JULY)
-    expect(v.freshness).toEqual({ kind: 'stale', days: 4 })
+    expect(v.freshness).toEqual({ kind: 'dated', surveyedOn: '2026-07-06', days: 4 })
   })
 
   test('상승만이면 noDrop true', () => {
@@ -66,10 +66,10 @@ describe('buildAppView', () => {
     expect(v.noDrop).toBe(true)
   })
 
-  test('스냅샷 없으면 가격 null, freshness는 fresh (경고할 가격 자체가 없다)', () => {
+  test('스냅샷 없으면 가격 null, freshness는 none (지어낼 조사일이 없다)', () => {
     const v = buildAppView([peach], null, null, null, JULY)
     expect(v.cards[0].price).toBeNull()
-    expect(v.freshness).toEqual({ kind: 'fresh' })
+    expect(v.freshness).toEqual({ kind: 'none' })
   })
 
   test('foodDb 매칭 시 카드에 nutrition이 실린다', () => {
