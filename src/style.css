@@ -55,6 +55,13 @@
   --radius-crisp: 0.2rem;
   --radius-soft: 0.4rem;
   --radius-pill: 1rem;
+  /* 타입 스케일 — 리듬 보존 6단계. 시그니처(아이브로 0.9·h1 1.5·디스플레이 1.7) 무이동. impeccable 감사. */
+  --text-2xs: 0.7rem;  /* 마이크로 라벨·캡션 */
+  --text-xs: 0.8rem;   /* 소형 라벨 */
+  --text-sm: 0.9rem;   /* 보조 텍스트·절기 아이브로 */
+  --text-md: 1rem;     /* 본문·카드/섹션 제목 */
+  --text-lg: 1.5rem;   /* 디스플레이 헤딩 — h1·빈 화면 */
+  --text-xl: 1.7rem;   /* 최대 디스플레이 — 카드 이모지·큰 가격 */
 }
 [data-season='spring'] { --accent: #a2d3a6; --tint: #eaf4e9; }
 [data-season='summer'] { --accent: #ffc400; --tint: #fff4ce; }
