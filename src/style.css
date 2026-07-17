@@ -120,6 +120,8 @@ header h1 {
   font-size: var(--text-lg);
   line-height: 1.45;
   margin: var(--space-3xs) 0 var(--space-xs);
+  word-break: keep-all;   /* 한글은 어절 단위로만 줄바꿈 ("방법"이 방/법으로 안 쪼개지게) */
+  text-wrap: balance;     /* 두 줄 길이 균형 */
 }
 /* 조사일 상시 줄 — 경고가 아니라 메타. 아이브로(.week)보다 한 단계 조용하게. */
 .surveyed {

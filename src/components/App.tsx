@@ -34,7 +34,7 @@ export function App({ view }: { view: AppView }) {
       <header>
         <Sprig />
         <p className="week">{eyebrow}</p>
-        <h1>지금 장바구니에 담기 좋은 것들</h1>
+        <h1>이 계절을 맛보는 가장 알뜰한 방법</h1>
         {freshness.kind === 'dated' && (
           <p className="surveyed">{surveyedLabel(freshness.days, freshness.surveyedOn)}</p>
         )}
