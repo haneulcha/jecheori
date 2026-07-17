@@ -16,7 +16,7 @@
 - **`font-size`만** 토큰화. `line-height`·`letter-spacing`·`font-weight`·`width`·`height` 등은 불변.
 - **`.spark .val, .spark .lab`의 `font-size: 9px`는 그대로 둔다** — SVG 데이터 라벨, 토큰 아님.
 - 색·간격(`--space-*`)·폰트패밀리(`--font-*`)·라운드(`--radius-*`) 토큰은 변경하지 않는다.
-- 빈 화면(`.empty, .loading`) `1.3rem`은 `--text-lg`(1.5)로 — **의도적 상향**(리듬 보존의 유일한 예외, +3.2px).
+- ‹ › 넘김 셰브론(`.nav`) `1.3rem`은 `--text-lg`(1.5)로 — **의도적 상향**(리듬 보존의 유일한 예외, +3.2px). (`.empty/.loading`은 0.95→`md`, 평범한 스냅.)
 - 커밋 메시지 끝 줄: `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>`
 - 브랜치: `feat/type-scale-tokens` (이미 존재, 스펙 커밋 e771391·7a28263이 올라가 있음).
 
@@ -61,7 +61,7 @@
   --text-xs: 0.8rem;   /* 소형 라벨 */
   --text-sm: 0.9rem;   /* 보조 텍스트·절기 아이브로 */
   --text-md: 1rem;     /* 본문·카드/섹션 제목 */
-  --text-lg: 1.5rem;   /* 디스플레이 헤딩 — h1·빈 화면 */
+  --text-lg: 1.5rem;   /* 디스플레이 헤딩 — h1 (+ ‹ › 넘김 셰브론 1.3→1.5 흡수) */
   --text-xl: 1.7rem;   /* 최대 디스플레이 — 카드 이모지·큰 가격 */
 ```
 
@@ -131,7 +131,8 @@ EOF
 | `.memo .ing` | 0.79 | `--text-xs` |
 | `.memo .steps` | 0.85 | `--text-sm` |
 | `.memo .count` | 0.72 | `--text-2xs` |
-| `.empty, .loading` | 1.3 | `--text-lg` (**의도적 +3.2px 상향**) |
+| `.nav` (레시피 ‹ › 넘김) | 1.3 | `--text-lg` (**의도적 +3.2px 상향**) |
+| `.empty, .loading` | 0.95 | `--text-md` (+0.8px, 평범) |
 | `.coming-month h2` | 1 | `--text-md` |
 | `.nav-panel-title` | 0.8 | `--text-xs` |
 | (nav item, 1.05) | 1.05 | `--text-md` |
@@ -150,7 +151,7 @@ Run: `grep -nE "font-size:" src/style.css`
 - `.card-title { font-size: 1.05rem; … }` → `font-size: var(--text-md);`
 - `.card .emoji { font-size: 1.7rem; line-height: 1; }` → `font-size: var(--text-xl); line-height: 1;` (line-height 불변)
 - `.price .basis { … font-size: 0.74rem; … }` → `font-size: var(--text-2xs);`
-- `.empty, .loading { … font-size: 1.3rem; line-height: 1; … }` → `font-size: var(--text-lg); line-height: 1;` (의도적 상향)
+- `.nav { … font-size: 1.3rem; line-height: 1; … }` (‹ › 넘김) → `font-size: var(--text-lg); line-height: 1;` (의도적 상향)
 - `.spark .val, .spark .lab { fill: var(--muted); font-size: 9px; }` → **변경 없음**
 
 - [ ] **Step 3: 완결성·경계 확인**
@@ -177,7 +178,7 @@ git commit -m "$(cat <<'EOF'
 feat: font-size를 --text-* 스케일로 스냅
 
 font-size rem 리터럴 전량을 6단계 토큰으로. 시그니처(아이브로·h1·디스플레이)
-무이동, 본문 클러스터 ≤0.8px, 빈 화면만 의도적 상향(1.3→1.5). .spark 9px 제외.
+무이동, 본문 클러스터 ≤0.8px, ‹ › 넘김 셰브론만 의도적 상향(1.3→1.5). .spark 9px 제외.
 
 Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
 EOF
@@ -186,7 +187,7 @@ EOF
 
 - [ ] **Step 6: (컨트롤러) 브라우저 재실측 + 사인오프**
 
-컨트롤러가 `npm run dev`로 주요 화면을 직접 연다: 메인(`/`) 헤더·필터·카드 리스트·카드 펼침(노트·스파크·레시피 칩·메모)·`/coming`·**빈 화면(1.3→1.5, 유일한 큰 이동)**. 특히:
+컨트롤러가 `npm run dev`로 주요 화면을 직접 연다: 메인(`/`) 헤더·필터·카드 리스트·카드 펼침(노트·스파크·레시피 칩·메모의 **‹ › 넘김 셰브론 1.3→1.5, 유일한 큰 이동**)·`/coming`·빈 화면. 특히:
 - **카드 타이틀 위계(중요):** `.card-title`이 본문과 같은 1.0이 되어도 굵기(600)로 제목처럼 읽히는지. 안 읽히면 `.card-title`을 예외로 되돌릴지 재검토.
 - 0.85→0.9, 0.95→1.0 클러스터 몰린 곳(필터 라벨·취소선 가격·원단위·계절 칩)에서 줄바꿈·오버플로 없는지.
 토큰화 전/후 스크린샷 비교로 의도한 이동 외 변화가 없는지 확인하고 사인오프.
@@ -199,7 +200,7 @@ EOF
 - 6단계 토큰 정의(역할 주석) → Task 1. ✓
 - font-size 전면 스냅(매핑표) → Task 2 규칙표 + Step 2. ✓
 - `.spark` 9px 제외 → Global Constraints + Task 2 표·Step 2·3. ✓
-- 빈 화면 1.3→lg(1.5) 의도적 상향 → Global Constraints + Task 2 표·Step 2. ✓
+- ‹ › 넘김 셰브론 1.3→lg(1.5) 의도적 상향 → Global Constraints + Task 2 표·Step 2. ✓
 - 카드 타이틀 위계 브라우저 확인 → Task 2 Step 6. ✓
 - line-height·letter-spacing·font-weight 불변 → Global Constraints + Task 2 Step 3 경계 grep. ✓
 - 색·간격·폰트·라운드 불변 → Global Constraints. ✓
