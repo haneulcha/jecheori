@@ -274,7 +274,8 @@ header h1 {
 .nodrop { color: var(--muted); font-size: var(--text-sm); margin: 0 0 var(--space-lg); }
 
 footer { margin-top: var(--space-2xl); }
-footer p { color: var(--muted); font-size: var(--text-xs); }
+footer p { color: var(--muted); font-size: var(--text-xs); line-height: 1.35; margin: 0; }
+footer p + p { margin-top: var(--space-3xs); }
 .empty, .loading {
   color: var(--muted);
   font-size: var(--text-md);
