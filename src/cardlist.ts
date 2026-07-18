@@ -1,13 +1,9 @@
 import type { CardView } from './card'
 import type { Filter, OffSeasonHint, SortMode } from './view-types'
 
-/** CardView의 부호 있는 등락률(하락 음수). 무가격·기준선없음이면 null. */
+/** 정렬·필터용 지난달 등락(하락 음수). 없으면 null. (표시 change=값어치와 별개 축) */
 export function signedChange(card: CardView): number | null {
-  const ch = card.price?.change
-  if (!ch) return null // price 없음 or change === null(기준선 없음)
-  if (ch.kind === 'fall') return -ch.pct
-  if (ch.kind === 'rise') return ch.pct
-  return 0 // similar
+  return card.price?.monthAgoPct ?? null
 }
 
 function dropGroup(c: CardView): number {
@@ -34,7 +30,7 @@ export function sortCards(cards: CardView[], mode: SortMode): CardView[] {
 const PRED: Record<Filter, (c: CardView) => boolean> = {
   fruit: (c) => c.category === 'fruit',
   vegetable: (c) => c.category === 'vegetable',
-  drop: (c) => c.price?.change?.kind === 'fall',
+  drop: (c) => (c.price?.monthAgoPct ?? 0) < 0,
   peak: (c) => c.inPeak,
   priced: (c) => c.price != null,
 }

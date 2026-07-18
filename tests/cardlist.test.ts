@@ -10,6 +10,11 @@ function card(over: Partial<CardView>): CardView {
     price: null, nutrition: null, recipes: null, ...over,
   }
 }
+
+/** 축 분리 회귀 테스트용: 표시 change(값어치)와 monthAgoPct(지난달)를 다르게 설정 */
+function card2(name: string, monthAgoPct: number | null, change: any): CardView {
+  return card({ name, price: { now: 100, wasMonthAgo: null, unit: count(1, '개'), perUnit: null, monthAgoPct, change, spark: null } })
+}
 function withPrice(
   name: string,
   now: number,
@@ -35,6 +40,10 @@ describe('signedChange', () => {
   test('비슷은 0', () => expect(signedChange(withPrice('a', 100, { kind: 'similar', basisLabel: '지난달' }))).toBe(0))
   test('기준선 없으면 null', () => expect(signedChange(withPrice('a', 100, null))).toBeNull())
   test('무가격이면 null', () => expect(signedChange(card({ price: null }))).toBeNull())
+  test('축 분리: monthAgoPct(지난달)를 읽음 — 표시 change(값어치)와 무관', () => {
+    // 표시는 평년보다 비쌈(rise)이지만 지난달로는 하락(-12)
+    expect(signedChange(card2('평년비쌈-지난달하락', -12, { kind: 'rise', pct: 3, basisLabel: '평년' }))).toBe(-12)
+  })
 })
 
 describe('sortCards', () => {
@@ -63,6 +72,14 @@ describe('sortCards', () => {
     sortCards(cards, 'name')
     expect(cards.map((c) => c.name)).toEqual(['나', '가'])
   })
+  test('축 분리: drop 정렬은 monthAgoPct(지난달) 기준 — 표시 값어치와 무관', () => {
+    const cards = [
+      card2('평년쌈-지난달상승', 8, { kind: 'fall', pct: 20, basisLabel: '평년' }),
+      card2('평년비쌈-지난달하락', -12, { kind: 'rise', pct: 3, basisLabel: '평년' }),
+    ]
+    // 지난달 기준으로 정렬: -12가 8보다 먼저
+    expect(sortCards(cards, 'drop').map((c) => c.name)).toEqual(['평년비쌈-지난달하락', '평년쌈-지난달상승'])
+  })
 })
 
 describe('filterCards', () => {
@@ -77,6 +94,14 @@ describe('filterCards', () => {
   test('절정만', () => expect(filterCards(all, new Set(['peak'])).map((c) => c.name)).toEqual(['수박', '토마토']))
   test('가격 있는 것만', () => expect(filterCards(all, new Set(['priced'])).map((c) => c.name)).toEqual(['수박', '토마토']))
   test('AND: 채소 + 가격있음', () => expect(filterCards(all, new Set(['vegetable', 'priced'])).map((c) => c.name)).toEqual(['토마토']))
+  test('축 분리: drop 필터는 monthAgoPct(지난달) 기준 — 표시 값어치와 무관', () => {
+    const cards = [
+      card2('평년쌈-지난달상승', 8, { kind: 'fall', pct: 20, basisLabel: '평년' }),
+      card2('평년비쌈-지난달하락', -12, { kind: 'rise', pct: 3, basisLabel: '평년' }),
+    ]
+    // 지난달 기준으로 필터: -12만 하락(< 0)
+    expect(filterCards(cards, new Set(['drop'])).map((c) => c.name)).toEqual(['평년비쌈-지난달하락'])
+  })
 })
 
 describe('searchCards / searchHints', () => {
