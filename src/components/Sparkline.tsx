@@ -16,29 +16,24 @@ export function Sparkline({ spark: s }: { spark: SparkView }) {
   const x = (i: number) => PAD_X + i * ((VW - 2 * PAD_X) / (n - 1))
   const y = (level: number) => FLOOR - level * RISE
 
-  // 평년을 points와 같은 min/max 스케일로 투영 (levels가 이미 정규화된 것과 동일 기준)
-  const vals = s.points.map((p) => p.value)
-  const min = Math.min(...vals)
-  const max = Math.max(...vals)
-  const span = max - min || 1
-  const normLevel = s.normalYear !== null ? (s.normalYear - min) / span : null
-
+  // normalYearLevel은 card.ts가 points와 같은 스케일(평년 포함 min/max)로 이미 계산해 실어보낸다.
+  // 여기서 다시 min/max를 구하면 평탄 궤적(span=0)이나 평년이 범위 밖일 때 어긋난다 — 재계산 금지.
   const pts = s.points.map((p, i) => `${x(i)},${y(s.levels[i]).toFixed(1)}`).join(' ')
   const label = '가격 추이: ' + s.points.map((p) => `${p.label} ${won(p.value)}`).join(' · ')
 
   return (
     <div className="spark num">
       <svg viewBox={`0 0 ${VW} ${VH}`} role="img" aria-label={label}>
-        {normLevel !== null && (
+        {s.normalYearLevel !== null && (
           <>
             <line
               className="norm-line"
               x1={PAD_X}
-              y1={y(normLevel).toFixed(1)}
+              y1={y(s.normalYearLevel).toFixed(1)}
               x2={VW - PAD_X}
-              y2={y(normLevel).toFixed(1)}
+              y2={y(s.normalYearLevel).toFixed(1)}
             />
-            <text className="norm-lab" x={VW - PAD_X} y={(y(normLevel) - 3).toFixed(1)} textAnchor="end">
+            <text className="norm-lab" x={VW - PAD_X} y={(y(s.normalYearLevel) - 3).toFixed(1)} textAnchor="end">
               평년
             </text>
           </>

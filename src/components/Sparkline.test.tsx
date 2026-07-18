@@ -15,6 +15,9 @@ describe('Sparkline', () => {
             { label: '지금', value: 3513 },
           ],
           levels: [0.6, 1, 0.36, 0.28],
+          // 평년(4473)은 점들 최고치(3818)보다 위 — card.ts가 평년을 포함한 스케일로 계산하므로
+          // 평년이 새 최댓값이 되어 level 1(캔버스 상단)에 놓인다.
+          normalYearLevel: 1,
           normalYear: 4473,
           yearAgo: 4622,
         }}
@@ -37,6 +40,7 @@ describe('Sparkline', () => {
             { label: '지금', value: 100 },
           ],
           levels: [1, 0],
+          normalYearLevel: null,
           normalYear: null,
           yearAgo: null,
         }}

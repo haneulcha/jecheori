@@ -25,6 +25,10 @@ export interface SparkView {
   points: { label: string; value: number }[]
   /** points 각각의 상대 위치 (0 = 최저, 1 = 최고). 픽셀은 컴포넌트가 정한다 */
   levels: number[]
+  /** normalYear의 상대 위치 — points와 **같은 스케일**(정상년이 스케일에 포함된 채)로 계산.
+   *  없으면 null. 컴포넌트가 따로 min/max를 재계산하면 평년이 점들의 범위 밖(주로 위)일 때
+   *  스케일을 벗어나 점선이 캔버스 밖으로 사라지거나(평탄 궤적 span=0), 클리핑된다. */
+  normalYearLevel: number | null
   /** 평년 기준선(각주 + 점선). 없으면 null — 점선·각주 항목 생략 */
   normalYear: number | null
   /** 작년 이맘때(각주). 없으면 null — 각주 항목 생략 */
@@ -76,8 +80,14 @@ export function perUnitPrice(price: number, unit: Unit): { each: number } | null
 export function sparklineLevels(vals: number[]): number[] {
   const min = Math.min(...vals)
   const max = Math.max(...vals)
+  return vals.map((val) => relativeLevel(val, min, max))
+}
+
+/** 값 하나의 상대 위치를 주어진 [min, max] 스케일 위에서 구한다. span이 0(모두 같음)이면
+ *  0.5(중앙) — sparklineLevels와 toSpark의 normalYearLevel이 이 하나의 규칙을 공유한다. */
+function relativeLevel(val: number, min: number, max: number): number {
   const span = max - min
-  return vals.map((val) => (span === 0 ? 0.5 : (val - min) / span))
+  return span === 0 ? 0.5 : (val - min) / span
 }
 
 /** 월별 "왜 지금인지" 한 줄. 키는 "1"~"12" 또는 "default". */
@@ -106,10 +116,18 @@ export function toSpark(price: number, b: Baseline): SparkView | null {
   ]
   const points = seq.filter((p): p is { label: string; value: number } => p.value !== null && p.value !== undefined)
   if (points.length < 2) return null
+  const normalYear = b.normalYear ?? null
+  // 평년을 스케일에 포함시킨다 — 평년이 점들 범위 밖(주로 위, "우린 평년보다 싸다"가 요점)일 때
+  // 점들만으로 스케일을 잡으면 평년선이 범위 밖으로 잘리거나(특히 평탄 궤적에서 캔버스 밖으로).
+  const pointValues = points.map((p) => p.value)
+  const scaleValues = normalYear !== null ? [...pointValues, normalYear] : pointValues
+  const min = Math.min(...scaleValues)
+  const max = Math.max(...scaleValues)
   return {
     points,
-    levels: sparklineLevels(points.map((p) => p.value)),
-    normalYear: b.normalYear ?? null,
+    levels: pointValues.map((v) => relativeLevel(v, min, max)),
+    normalYearLevel: normalYear !== null ? relativeLevel(normalYear, min, max) : null,
+    normalYear,
     yearAgo: b.yearAgo ?? null,
   }
 }

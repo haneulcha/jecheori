@@ -294,7 +294,6 @@ footer p { color: var(--muted); font-size: var(--text-xs); }
 .spark { margin: 0 0 var(--space-xl); }
 .spark svg { display: block; width: 100%; height: auto; }
 .spark .trend { fill: none; stroke: var(--muted); stroke-width: 1.1; stroke-linejoin: round; opacity: 0.65; }
-.spark .axis { stroke: var(--axis); stroke-width: 0.3; }
 .spark .pt { fill: var(--card); stroke: var(--muted); stroke-width: 0.8; }
 .spark .pt.now { fill: var(--ink); stroke: var(--ink); }
 .spark .lab { fill: var(--muted); font-size: 9px; }

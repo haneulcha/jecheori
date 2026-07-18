@@ -100,6 +100,25 @@ describe('toSpark (최근 4점)', () => {
   test('점 2개 미만이면 null', () => {
     expect(toSpark(100, baseline())).toBeNull()
   })
+
+  test('평탄 궤적(모든 점이 같음) + 평년 있음 — normalYearLevel이 캔버스 밖으로 안 나간다', () => {
+    // KAMIS 주간가가 그대로일 때 흔한 케이스. 점들만으로 스케일을 잡으면 span=0이라
+    // normalYear가 (val-min)/1 같은 임의 나눗셈으로 튀어 화면 밖으로 사라졌던 회귀 버그.
+    const s = toSpark(3500, baseline({ monthAgo: 3500, twoWeeksAgo: 3500, weekAgo: 3500, normalYear: 4200 }))!
+    expect(s.levels.every((lv) => Number.isFinite(lv) && lv >= 0 && lv <= 1)).toBe(true)
+    // 평탄한 점들은 스케일 하단(평년이 새 최댓값이 되므로)에 몰린다.
+    expect(new Set(s.levels)).toEqual(new Set([0]))
+    expect(s.normalYearLevel).not.toBeNull()
+    expect(Number.isFinite(s.normalYearLevel)).toBe(true)
+    // 평년이 점들보다 위(평상시 케이스)이므로 스케일의 최댓값 — level 1(캔버스 상단)에 놓인다.
+    expect(s.normalYearLevel).toBeCloseTo(1, 5)
+  })
+
+  test('평년 없으면 normalYearLevel null, 평탄 궤적은 여전히 0.5(중앙)', () => {
+    const s = toSpark(3500, baseline({ monthAgo: 3500, twoWeeksAgo: 3500, weekAgo: 3500 }))!
+    expect(s.normalYearLevel).toBeNull()
+    expect(s.levels).toEqual([0.5, 0.5, 0.5, 0.5])
+  })
 })
 
 describe('toChange (값어치)', () => {
