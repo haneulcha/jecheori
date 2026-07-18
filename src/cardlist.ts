@@ -3,6 +3,9 @@ import type { CardView } from './card'
 // SortMode는 Task 6에서 view-types.ts로 옮긴다. 그때 이 로컬 정의를 import로 교체.
 export type SortMode = 'drop' | 'name' | 'priceLow'
 
+// Task 6에서 view-types.ts로 옮긴다. 그때 이 로컬 정의를 import로 교체.
+export type Filter = 'fruit' | 'vegetable' | 'drop' | 'peak' | 'priced'
+
 /** CardView의 부호 있는 등락률(하락 음수). 무가격·기준선없음이면 null. */
 export function signedChange(card: CardView): number | null {
   const ch = card.price?.change
@@ -31,4 +34,17 @@ export function sortCards(cards: CardView[], mode: SortMode): CardView[] {
     if (ga === 0) return signedChange(a)! - signedChange(b)!
     return 0
   })
+}
+
+const PRED: Record<Filter, (c: CardView) => boolean> = {
+  fruit: (c) => c.category === 'fruit',
+  vegetable: (c) => c.category === 'vegetable',
+  drop: (c) => c.price?.change?.kind === 'fall',
+  peak: (c) => c.inPeak,
+  priced: (c) => c.price != null,
+}
+
+/** 필터 술어 AND (순수). 과일/채소 상호배타는 UI(FilterBar)가 관장. */
+export function filterCards(cards: CardView[], filters: Set<Filter>): CardView[] {
+  return cards.filter((c) => [...filters].every((f) => PRED[f](c)))
 }

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { signedChange, sortCards } from '../src/cardlist'
+import { signedChange, sortCards, filterCards } from '../src/cardlist'
 import type { CardView } from '../src/card'
 import { count } from './units'
 
@@ -48,4 +48,18 @@ describe('sortCards', () => {
     sortCards(cards, 'name')
     expect(cards.map((c) => c.name)).toEqual(['나', '가'])
   })
+})
+
+describe('filterCards', () => {
+  const fruit = card({ name: '수박', category: 'fruit', inPeak: true, price: { now: 100, wasMonthAgo: null, unit: count(1, '개'), perUnit: null, change: { kind: 'fall', pct: 11 }, spark: null } })
+  const vegRise = card({ name: '토마토', category: 'vegetable', inPeak: true, price: { now: 100, wasMonthAgo: null, unit: count(1, '개'), perUnit: null, change: { kind: 'rise', pct: 13 }, spark: null } })
+  const vegNoPrice = card({ name: '가지', category: 'vegetable', inPeak: false, price: null })
+  const all = [fruit, vegRise, vegNoPrice]
+
+  test('빈 필터면 전부', () => expect(filterCards(all, new Set())).toHaveLength(3))
+  test('과일만', () => expect(filterCards(all, new Set(['fruit'])).map((c) => c.name)).toEqual(['수박']))
+  test('내려간 것만', () => expect(filterCards(all, new Set(['drop'])).map((c) => c.name)).toEqual(['수박']))
+  test('절정만', () => expect(filterCards(all, new Set(['peak'])).map((c) => c.name)).toEqual(['수박', '토마토']))
+  test('가격 있는 것만', () => expect(filterCards(all, new Set(['priced'])).map((c) => c.name)).toEqual(['수박', '토마토']))
+  test('AND: 채소 + 가격있음', () => expect(filterCards(all, new Set(['vegetable', 'priced'])).map((c) => c.name)).toEqual(['토마토']))
 })
