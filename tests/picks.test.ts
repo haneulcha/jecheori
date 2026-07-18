@@ -104,76 +104,33 @@ describe('priceView 기준선 통과', () => {
 })
 
 describe('selectPicks', () => {
-  test('이번 달 제철 품목만 나온다', () => {
-    const profiles = [
-      profile({ id: 'july', seasonMonths: [7] }),
-      profile({ id: 'dec', seasonMonths: [12] }),
-    ]
-    const picks = selectPicks(profiles, snap([]), JULY)
-    expect(picks.map((p) => p.profile.id)).toEqual(['july'])
-  })
-
-  test('절정 월 품목이 항상 먼저 온다', () => {
-    const profiles = [
-      profile({ id: 'season-cheap', kamis: { categoryCode: '200', itemName: 'A' } }),
-      profile({
-        id: 'peak-expensive',
-        peakMonths: [7],
-        kamis: { categoryCode: '200', itemName: 'B' },
-      }),
-    ]
-    const entries = [
-      entry({ itemName: 'A', price: 500, baseline: { monthAgo: 1000, yearAgo: 1000 } }), // 50% 하락
-      entry({ itemName: 'B', price: 1200, baseline: { monthAgo: 1000, yearAgo: 1000 } }), // 20% 상승
-    ]
-    const picks = selectPicks(profiles, snap(entries), JULY)
-    expect(picks.map((p) => p.profile.id)).toEqual(['peak-expensive', 'season-cheap'])
-  })
-
-  test('같은 그룹 안에서는 하락률 큰 순', () => {
-    const profiles = [
-      profile({ id: 'small-drop', kamis: { categoryCode: '200', itemName: 'A' } }),
-      profile({ id: 'big-drop', kamis: { categoryCode: '200', itemName: 'B' } }),
-    ]
-    const entries = [
-      entry({ itemName: 'A', price: 950, baseline: { monthAgo: 1000, yearAgo: 1000 } }),
-      entry({ itemName: 'B', price: 600, baseline: { monthAgo: 1000, yearAgo: 1000 } }),
-    ]
-    const picks = selectPicks(profiles, snap(entries), JULY)
-    expect(picks.map((p) => p.profile.id)).toEqual(['big-drop', 'small-drop'])
-  })
-
-  test('가격 결측 품목은 같은 그룹 맨 뒤로 (제철 정보는 유지)', () => {
-    const profiles = [
-      profile({ id: 'no-price', kamis: { categoryCode: '200', itemName: '없음' } }),
-      profile({ id: 'priced', kamis: { categoryCode: '200', itemName: 'A' } }),
-    ]
-    const entries = [entry({ itemName: 'A', price: 900, baseline: { monthAgo: 1000, yearAgo: 1000 } })]
-    const picks = selectPicks(profiles, snap(entries), JULY)
-    expect(picks.map((p) => p.profile.id)).toEqual(['priced', 'no-price'])
-    expect(picks[1].price).toBeNull()
-  })
-
-  test('가격은 있지만 1개월 전 가격이 없으면 하락률 그룹 뒤, 가격 결측 앞', () => {
-    const profiles = [
-      profile({ id: 'no-price', kamis: { categoryCode: '200', itemName: '없음' } }),
-      profile({ id: 'no-change', kamis: { categoryCode: '200', itemName: 'B' } }),
-      profile({ id: 'has-change', kamis: { categoryCode: '200', itemName: 'A' } }),
-    ]
-    const entries = [
-      entry({ itemName: 'A', price: 1100, baseline: { monthAgo: 1000, yearAgo: 1000 } }), // 상승이라도 그룹 0
-      entry({ itemName: 'B', price: 800, baseline: { monthAgo: null, yearAgo: null } }),
-    ]
-    const picks = selectPicks(profiles, snap(entries), JULY)
-    expect(picks.map((p) => p.profile.id)).toEqual(['has-change', 'no-change', 'no-price'])
-  })
-
-  test('최대 limit개까지만', () => {
+  test('selectPicks: 이번 달 제철 전체를 cap 없이 반환한다', () => {
     const profiles = Array.from({ length: 8 }, (_, i) =>
-      profile({ id: `p${i}`, kamis: { categoryCode: '200', itemName: `x${i}` } }),
+      profile({ id: `p${i}`, name: `품목${i}`, seasonMonths: [7] }),
     )
-    expect(selectPicks(profiles, snap([]), JULY)).toHaveLength(5)
-    expect(selectPicks(profiles, snap([]), JULY, 3)).toHaveLength(3)
+    const picks = selectPicks(profiles, null, new Date('2026-07-15'))
+    expect(picks).toHaveLength(8) // 5로 안 자른다
+  })
+
+  test('selectPicks: 제철 아닌 달 품목은 뺀다', () => {
+    const picks = selectPicks(
+      [profile({ seasonMonths: [7] }), profile({ id: 'q', seasonMonths: [1] })],
+      null,
+      new Date('2026-07-15'),
+    )
+    expect(picks.map((p) => p.profile.id)).toEqual(['x'])
+  })
+
+  test('selectPicks: inPeak·price 필드는 그대로 채운다', () => {
+    const snapshot: PriceSnapshot = {
+      schemaVersion: 2,
+      fetchedAt: '2026-07-15T00:00:00Z',
+      surveyedOn: '2026-07-15',
+      entries: [entry({ price: 900, baseline: { monthAgo: 1000, yearAgo: 1000 } })],
+    }
+    const [p] = selectPicks([profile({ peakMonths: [7] })], snapshot, new Date('2026-07-15'))
+    expect(p.inPeak).toBe(true)
+    expect(p.price?.price).toBe(900)
   })
 
   test('스냅샷이 null이어도 제철 정보만으로 동작한다', () => {
