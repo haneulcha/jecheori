@@ -161,3 +161,11 @@ CLAUDE.md의 규칙(한국어, 담백, 이커머스 화법 금지)에 더해:
   basepath도 자동 처리한다. 직접 URL 진입·무JS 폴백을 위해 CSS 크로스도큐먼트 view
   transition은 유지. `prefers-reduced-motion: reduce`면 차양 언롤·램프줄 당김·전환 전부 즉시로.
   스펙: `docs/superpowers/specs/2026-07-12-coming-seasonal-index-tab-design.md`
+- 카드에 **제철 띠(간트 바)**를 넣었다 (2026-07-18). 이모지·이름 바로 아래(왼쪽 `id-wrap`
+  열, 반폭 좌측정렬, `<summary>` 안이라 접힘/펼침 모두 표시). 12개월 축 위에 제철=연한
+  계절색(`--tint`)·절정=짙은 계절색(`--accent`)으로 얹는 **짙음/연함 간트** — 같은 계절색의
+  두 명도. 축선(`--line`)은 바 세로 중앙을 지나고, 시작·끝점을 1·12월 숫자 중앙에 맞춰 양끝
+  반 칸(`100%/24`)씩 들였다. 월 숫자는 **제철 월과 이번 달만**(모노, 이번 달만 잉크 볼드),
+  나머지는 숨겨 조용히. 색 규율 준수(웜=배경, 잉크는 숫자에만, 그라데이션 없음). 파생은
+  `src/card.ts` `toSeasonStrip`(순수), 표시는 `SeasonStrip`. 브라우저 시안 반복(색채움→모노
+  해치→도트→색채움→간트)으로 확정. 스펙: `docs/superpowers/specs/2026-07-18-season-strip-on-card-design.md`
