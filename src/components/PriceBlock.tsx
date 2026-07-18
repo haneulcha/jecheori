@@ -32,13 +32,13 @@ export function PriceBlock({ price: p }: { price: PriceCardView }) {
     ) : null
   return (
     <div className={`price ${dir}`}>
-      {chip && (
+      {chip && p.change && (p.change.kind === 'fall' || p.change.kind === 'rise') && (
         <span className="compare">
-          <span className="cmp-label">지난달 대비</span>
+          <span className="cmp-label">{p.change.basisLabel} 대비</span>
           {chip}
         </span>
       )}
-      {p.change?.kind === 'similar' && <span className="near">지난달과 비슷</span>}
+      {p.change?.kind === 'similar' && p.change && <span className="near">{p.change.basisLabel}과 비슷</span>}
       <span className="big num">
         {p.now.toLocaleString('ko-KR')}
         <span className="wonu">원</span>

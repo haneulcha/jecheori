@@ -9,17 +9,26 @@ const ten: Unit = { quantity: 10, measure: { kind: 'count', unit: '개' } }
 const onePogi: Unit = { quantity: 1, measure: { kind: 'count', unit: '포기' } }
 
 describe('PriceBlock', () => {
-  test('하락: "지난달 대비" 라벨 + 칩 + 큰가격, fall 클래스 (취소선 없음)', () => {
+  test('평년 기준이면 "평년 대비" 라벨 + 칩', () => {
     const { container } = render(
-      <PriceBlock price={{ now: 12600, wasMonthAgo: 16900, unit: ten, perUnit: 1260, change: { kind: 'fall', pct: 25, basisLabel: '지난달' }, monthAgoPct: -25, spark: null }} />,
+      <PriceBlock price={{ now: 3513, wasMonthAgo: null, unit: g100, perUnit: null, monthAgoPct: -5, change: { kind: 'fall', pct: 21, basisLabel: '평년' }, spark: null }} />,
     )
-    expect(container.querySelector('.price.fall')).not.toBeNull()
-    // 취소선 예전가는 없앴다 — 등락은 "지난달 대비" 라벨 + 칩으로 표현
-    expect(container.innerHTML).not.toContain('16,900')
-    expect(container.querySelector('.compare')?.textContent).toContain('지난달 대비')
-    expect(container.querySelector('.chip')).not.toBeNull()
-    expect(container.textContent).toContain('25%')
-    expect(container.innerHTML).toContain('12,600')
+    expect(container.querySelector('.compare')?.textContent).toContain('평년 대비')
+    expect(container.textContent).toContain('21%')
+  })
+
+  test('작년 폴백이면 "작년 대비"', () => {
+    const { container } = render(
+      <PriceBlock price={{ now: 100, wasMonthAgo: null, unit: g100, perUnit: null, monthAgoPct: null, change: { kind: 'fall', pct: 12, basisLabel: '작년' }, spark: null }} />,
+    )
+    expect(container.querySelector('.compare')?.textContent).toContain('작년 대비')
+  })
+
+  test('similar이면 "{기준}과 비슷"', () => {
+    const { container } = render(
+      <PriceBlock price={{ now: 100, wasMonthAgo: null, unit: g100, perUnit: null, monthAgoPct: 0, change: { kind: 'similar', basisLabel: '평년' }, spark: null }} />,
+    )
+    expect(container.textContent).toContain('평년과 비슷')
   })
 
   test('상승: rise 클래스', () => {
@@ -27,16 +36,6 @@ describe('PriceBlock', () => {
       <PriceBlock price={{ now: 5000, wasMonthAgo: 4400, unit: g100, perUnit: null, change: { kind: 'rise', pct: 14, basisLabel: '지난달' }, monthAgoPct: 14, spark: null }} />,
     )
     expect(container.querySelector('.price.rise')).not.toBeNull()
-  })
-
-  test('similar은 칩·라벨 없이 "지난달과 비슷"·쪽빛(fall)', () => {
-    const { container } = render(
-      <PriceBlock price={{ now: 5000, wasMonthAgo: 5010, unit: g100, perUnit: null, change: { kind: 'similar', basisLabel: '지난달' }, monthAgoPct: 0.2, spark: null }} />,
-    )
-    expect(container.querySelector('.price.fall')).not.toBeNull()
-    expect(container.querySelector('.chip')).toBeNull()
-    expect(container.querySelector('.compare')).toBeNull()
-    expect(container.textContent).toContain('지난달과 비슷')
   })
 
   test('change null이면 "지난달 대비" 줄 없이 가격만', () => {
