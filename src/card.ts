@@ -2,6 +2,7 @@ import type { PickResult, PriceView, ValueComparison } from './picks'
 import type { Baseline, Category, ProduceProfile, Unit } from './types'
 import type { NutritionView } from './nutrition'
 import type { RecipeView } from './recipe'
+import { seasonLabel } from './season'
 
 // 픽(PickResult)의 표시 투영. 카드 렌더에 필요한 모든 값을 계산해 담는다.
 // 파생 규칙(개당값·반올림·"비슷" 임계·스파크 좌표)은 전부 여기서 끝난다.
@@ -60,6 +61,7 @@ export interface CardView {
   price: PriceCardView | null
   nutrition: NutritionView | null
   recipes: RecipeView | null
+  season: SeasonStripView
 }
 
 /** 개당값 — **셀 수 있는 단위이고 수량이 1보다 클 때만** 성립한다.
@@ -92,6 +94,38 @@ function relativeLevel(val: number, min: number, max: number): number {
 /** 월별 "왜 지금인지" 한 줄. 키는 "1"~"12" 또는 "default". */
 export function whyNowLine(profile: ProduceProfile, month: number): string {
   return profile.whyNow[String(month)] ?? profile.whyNow['default'] ?? ''
+}
+
+export interface SeasonMonthCell {
+  month: number
+  inSeason: boolean
+  isPeak: boolean
+  isCurrent: boolean
+}
+
+/** 카드 펼침의 12칸 제철 달력 띠. months는 1→12 고정 순서.
+ *  seasonLabel/peakLabel은 season.ts의 seasonLabel() 재사용(랩어라운드 병합·aria용). */
+export interface SeasonStripView {
+  months: SeasonMonthCell[]
+  seasonLabel: string
+  peakLabel: string
+  currentMonth: number
+}
+
+/** 프로필 + 이번 달 → 12칸 띠 파생. 순수. 색·픽셀은 컴포넌트 소관(여기선 사실만). */
+export function toSeasonStrip(profile: ProduceProfile, month: number): SeasonStripView {
+  const season = new Set(profile.seasonMonths)
+  const peak = new Set(profile.peakMonths)
+  const months: SeasonMonthCell[] = Array.from({ length: 12 }, (_, i) => {
+    const m = i + 1
+    return { month: m, inSeason: season.has(m), isPeak: peak.has(m), isCurrent: m === month }
+  })
+  return {
+    months,
+    seasonLabel: seasonLabel(profile.seasonMonths),
+    peakLabel: seasonLabel(profile.peakMonths),
+    currentMonth: month,
+  }
 }
 
 export function toChange(c: ValueComparison | null): ChangeView {
@@ -163,5 +197,6 @@ export function toCardView(
     price: price ? toPriceCardView(price) : null,
     nutrition,
     recipes,
+    season: toSeasonStrip(profile, month),
   }
 }

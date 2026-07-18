@@ -5,6 +5,7 @@ import { Sparkline } from './Sparkline'
 import { NutritionLine } from './NutritionLine'
 import { Note } from './Note'
 import { PeakDot } from './PeakDot'
+import { SeasonStrip } from './SeasonStrip'
 import { RecipeChips } from './RecipeChips'
 import { RecipeMemo } from './RecipeMemo'
 
@@ -39,16 +40,19 @@ export function ProduceCard({ card }: { card: CardView }) {
     >
       <summary>
         <div className="summary-row">
-          <span className="id">
-            <span className="emoji">{card.emoji}</span>
-            <span>
-              <span className="card-title" data-testid="card-name">
-                {card.name}
-                {card.inPeak && <PeakDot />}
+          <div className="id-wrap">
+            <span className="id">
+              <span className="emoji">{card.emoji}</span>
+              <span>
+                <span className="card-title" data-testid="card-name">
+                  {card.name}
+                  {card.inPeak && <PeakDot />}
+                </span>
+                <span className="kind">{card.kind}</span>
               </span>
-              <span className="kind">{card.kind}</span>
             </span>
-          </span>
+            <SeasonStrip strip={card.season} />
+          </div>
           {card.price && <PriceBlock price={card.price} />}
         </div>
         {card.whyNow && <p className="why">{card.whyNow}</p>}

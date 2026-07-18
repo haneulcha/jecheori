@@ -51,6 +51,7 @@
   --font-display: 'MaruBuri', serif;
   --font-hand: 'Hakgyoansim', 'MaruBuri', serif;
   --font-body: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  --font-mono: 'SF Mono', 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
   /* 라운드 — 역할별. crisp=메모 낱장 카드, soft=칩·배지, pill=알약 */
   --radius-crisp: 0.2rem;
   --radius-soft: 0.4rem;
@@ -543,3 +544,38 @@ footer p + p { margin-top: var(--space-3xs); }
     animation: none !important;
   }
 }
+
+/* 제철 월 띠 — 간트 바. 12개월 축 위에 제철=연함·절정=짙음(색은 카드 상속 계절색).
+   웜색은 배경만, 잉크는 숫자에만 (색 규율). */
+/* 왼쪽 열: 이모지·이름 위, 그 아래 제철 띠. 오른쪽 가격 블록 높이와 무관하게 이름에 붙는다. */
+.card .id-wrap { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: var(--space-sm); }
+.season-strip { width: 60%; }
+/* 12개월 축 위의 간트 바. 얇은 축선(--line) 위에 제철=연함·절정=짙음으로 얹는다.
+   웜색은 배경만, 잉크는 절정 숫자에만 (색 규율). 격자·프레임 없음 — 연속 바. */
+.season-bar { display: flex; position: relative; }
+/* 축선 시작·끝을 1월·12월 숫자의 중앙에 맞춘다 — 12칸 중 양끝 반 칸(100%/24)씩 들인다. */
+.season-bar::before {
+  content: '';
+  position: absolute;
+  left: calc(100% / 24);
+  right: calc(100% / 24);
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1px;
+  background: var(--line);
+  z-index: 0;
+}
+.season-cell { position: relative; z-index: 1; flex: 1; min-width: 0; height: 0.45rem; }
+.season-cell.is-season { background: var(--tint); }
+.season-cell.is-peak { background: var(--accent); }
+.season-labels { display: flex; margin-top: var(--space-3xs); }
+.season-label {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  line-height: 1;
+  color: var(--muted);
+}
+.season-label.is-current { color: var(--ink); font-weight: 700; }

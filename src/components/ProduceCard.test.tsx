@@ -2,11 +2,19 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { describe, expect, test } from 'vitest'
 import { ProduceCard } from './ProduceCard'
-import type { CardView } from '../card'
+import type { CardView, SeasonStripView } from '../card'
+
+const emptyStrip: SeasonStripView = {
+  months: Array.from({ length: 12 }, (_, i) => ({
+    month: i + 1, inSeason: false, isPeak: false, isCurrent: false,
+  })),
+  seasonLabel: '', peakLabel: '', currentMonth: 7,
+}
 
 const base: CardView = {
   emoji: '🍅', name: '토마토', kind: '', category: 'vegetable', inPeak: false,
-  whyNow: '', note: { pick: 'p', store: 's', use: 'u' }, price: null, nutrition: null, recipes: null,
+  whyNow: '', note: { pick: 'p', store: 's', use: 'u' },
+  price: null, nutrition: null, recipes: null, season: emptyStrip,
 }
 const withRecipes: CardView = {
   ...base,
@@ -96,5 +104,13 @@ describe('ProduceCard 레시피', () => {
     details.open = true
     fireEvent(details, new Event('toggle'))
     expect(container.querySelector('.memo')).toBeNull() // 재열림 시 닫힌 상태
+  })
+})
+
+describe('ProduceCard 제철 띠', () => {
+  test('접기 전(summary)에도 season 띠를 보인다', () => {
+    const { container } = render(<ProduceCard card={base} />)
+    expect(container.querySelector('.season-bar')).not.toBeNull()
+    expect(container.querySelectorAll('.season-cell')).toHaveLength(12)
   })
 })
