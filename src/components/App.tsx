@@ -1,8 +1,11 @@
-import { useEffect } from 'react'
-import type { AppView } from '../view-types'
+import { useEffect, useState } from 'react'
+import { filterCards, sortCards } from '../cardlist'
+import type { AppView, Filter, SortMode } from '../view-types'
 import { surveyedLabel, weekLabel } from '../week'
+import { FilterBar } from './FilterBar'
 import { NavIndex } from './NavIndex'
 import { ProduceCard } from './ProduceCard'
+import { SortControl } from './SortControl'
 import { Sprig } from './Sprig'
 
 // 절정 dot 툴팁: 데스크톱은 CSS hover/focus, 터치는 탭 토글 (문서 위임).
@@ -26,8 +29,27 @@ function usePeakDotTooltip() {
 export function App({ view }: { view: AppView }) {
   const { cards, noDrop, hasNutrition, hasRecipes, seasonal, date, freshness, term } = view
   usePeakDotTooltip()
+  const [ready, setReady] = useState(false)
+  const [filters, setFilters] = useState<Set<Filter>>(new Set())
+  const [sort, setSort] = useState<SortMode>('drop')
+  useEffect(() => setReady(true), [])
+
+  const toggle = (f: Filter) =>
+    setFilters((prev) => {
+      const next = new Set(prev)
+      if (next.has(f)) next.delete(f)
+      else {
+        next.add(f)
+        if (f === 'fruit') next.delete('vegetable') // 상호배타
+        if (f === 'vegetable') next.delete('fruit')
+      }
+      return next
+    })
+
+  const shown = sortCards(filterCards(cards, filters), sort)
   const month = date.getMonth() + 1
   const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
+
   return (
     <>
       <NavIndex current="now" />
@@ -43,22 +65,24 @@ export function App({ view }: { view: AppView }) {
         <section className="picks">
           {cards.length > 0 ? (
             <>
-              <input type="radio" name="cat-filter" id="f-all" defaultChecked />
-              <input type="radio" name="cat-filter" id="f-fruit" />
-              <input type="radio" name="cat-filter" id="f-veg" />
-              <div className="filter">
-                <label htmlFor="f-all">전체</label>
-                <label htmlFor="f-fruit">과일</label>
-                <label htmlFor="f-veg">채소</label>
-              </div>
+              {ready && (
+                <div className="controls">
+                  <FilterBar filters={filters} onToggle={toggle} />
+                  <SortControl sort={sort} onChange={setSort} />
+                </div>
+              )}
               {noDrop && (
                 <p className="nodrop">이번 주는 크게 내려온 게 없어요. 제철은 그대로 곁에 있어요.</p>
               )}
-              <div className="list">
-                {cards.map((c, i) => (
-                  <ProduceCard key={i} card={c} />
-                ))}
-              </div>
+              {shown.length > 0 ? (
+                <div className="list">
+                  {shown.map((c, i) => (
+                    <ProduceCard key={c.name + i} card={c} />
+                  ))}
+                </div>
+              ) : (
+                <p className="empty">조건에 맞는 제철 품목이 없어요</p>
+              )}
             </>
           ) : (
             <p className="empty">이번 달 제철 정보가 아직 없어요</p>

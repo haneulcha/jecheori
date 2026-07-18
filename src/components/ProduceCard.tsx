@@ -42,7 +42,7 @@ export function ProduceCard({ card }: { card: CardView }) {
           <span className="id">
             <span className="emoji">{card.emoji}</span>
             <span>
-              <span className="card-title">
+              <span className="card-title" data-testid="card-name">
                 {card.name}
                 {card.inPeak && <PeakDot />}
               </span>

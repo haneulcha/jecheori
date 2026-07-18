@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
-import { cleanup } from '@testing-library/react'
+import { cleanup, fireEvent } from '@testing-library/react'
 import { afterEach, describe, expect, test } from 'vitest'
 import { App } from './App'
+import type { CardView } from '../card'
 import { toCardView } from '../card'
 import { renderWithRouter } from '../test-utils'
 import type { PickResult } from '../picks'
@@ -30,6 +31,20 @@ const base: AppView = {
   date: new Date('2026-07-10'), freshness: { kind: 'dated', surveyedOn: '2026-07-10', days: 0 },
 }
 
+/** 필터/정렬 테스트용 최소 CardView. 가격·영양·레시피 없이 이름·카테고리만 지정. */
+function makeCard(overrides: Partial<CardView> = {}): CardView {
+  return {
+    emoji: '🥕', name: '당근', kind: '', category: 'fruit', inPeak: false,
+    whyNow: '', note: { pick: '', store: '', use: '' },
+    price: null, nutrition: null, recipes: null,
+    ...overrides,
+  }
+}
+
+function viewWithCards(specs: Partial<CardView>[]): AppView {
+  return { ...base, cards: specs.map((s) => makeCard(s)) }
+}
+
 describe('App', () => {
   afterEach(() => cleanup())
 
@@ -37,7 +52,9 @@ describe('App', () => {
     const { container } = await renderWithRouter(<App view={base} />)
     const html = container.innerHTML
     expect(html).toContain('data-cat="fruit"')
-    expect(container.querySelector('#f-fruit')).not.toBeNull()
+    // 옛 CSS 라디오(#f-fruit) 대신 JS FilterBar 칩이 마운트 후 보인다
+    expect(container.querySelector('.fchip')).not.toBeNull()
+    expect(container.textContent).toContain('과일')
     expect(container.textContent).toContain('여름이 절정이에요')
     // 한마디는 펼치기 전에도 보이도록 summary 안에 산다 (손글씨 메모)
     expect(container.querySelector('summary .why')?.textContent).toBe('여름이 절정이에요')
@@ -48,7 +65,30 @@ describe('App', () => {
   test('카드 없으면 안내·필터 없음', async () => {
     const { container } = await renderWithRouter(<App view={{ ...base, cards: [] }} />)
     expect(container.textContent).toContain('이번 달 제철 정보가 아직 없어요')
-    expect(container.querySelector('#f-fruit')).toBeNull()
+    expect(container.querySelector('.fchip')).toBeNull()
+  })
+  test('필터 칩 토글로 카드가 걸러진다', async () => {
+    const view = viewWithCards([
+      { name: '수박', category: 'fruit' },
+      { name: '오이', category: 'vegetable' },
+    ])
+    const { container, getByRole } = await renderWithRouter(<App view={view} />)
+    fireEvent.click(getByRole('button', { name: '과일' }))
+    expect(container.textContent).toContain('수박')
+    expect(container.textContent).not.toContain('오이')
+  })
+  test('정렬 변경이 순서를 바꾼다 (이름)', async () => {
+    const view = viewWithCards([{ name: '수박' }, { name: '가지' }])
+    const { getByLabelText, getAllByTestId } = await renderWithRouter(<App view={view} />)
+    fireEvent.change(getByLabelText('정렬'), { target: { value: 'name' } })
+    const names = getAllByTestId('card-name').map((n) => n.textContent)
+    expect(names).toEqual(['가지', '수박'])
+  })
+  test('조건에 맞는 카드가 없으면 빈 상태 문구를 보인다', async () => {
+    const view = viewWithCards([{ name: '수박', category: 'fruit' }])
+    const { container, getByRole } = await renderWithRouter(<App view={view} />)
+    fireEvent.click(getByRole('button', { name: '채소' }))
+    expect(container.textContent).toContain('조건에 맞는 제철 품목이 없어요')
   })
   test('noDrop이면 담백한 안내를 보인다', async () => {
     const { container } = await renderWithRouter(<App view={{ ...base, noDrop: true }} />)
