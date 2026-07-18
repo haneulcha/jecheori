@@ -1,11 +1,12 @@
 import type { NutritionSnapshot, PriceSnapshot, ProduceProfile, RecipeSnapshot } from './types'
 import { comingMonths, hasDrops, seasonalThisMonth, selectPicks } from './picks'
 import { toCardView, whyNowLine } from './card'
-import { currentTerm, seasonOf } from './season'
+import { sortCards } from './cardlist'
+import { currentTerm, seasonLabel, seasonOf } from './season'
 import { snapshotAgeDays } from './data'
 import { matchNutrition, nutritionView } from './nutrition'
 import { matchRecipes, recipeView } from './recipe'
-import type { AppView, ComingView, Freshness } from './view-types'
+import type { AppView, ComingView, Freshness, OffSeasonHint } from './view-types'
 
 const label = (p: ProduceProfile) => ({ emoji: p.emoji, name: p.name })
 
@@ -25,20 +26,35 @@ export function buildAppView(
 ): AppView {
   const month = now.getMonth() + 1
   const picks = selectPicks(profiles, snapshot, now)
-  const cards = picks.map((p) =>
-    toCardView(
-      p,
-      month,
-      nutritionView(matchNutrition(p.profile, nutrition)),
-      recipeView(matchRecipes(p.profile, recipes)),
+  const cards = sortCards(
+    picks.map((p) =>
+      toCardView(
+        p,
+        month,
+        nutritionView(matchNutrition(p.profile, nutrition)),
+        recipeView(matchRecipes(p.profile, recipes)),
+      ),
     ),
+    'drop',
   )
+  const comingIds = new Set(
+    comingMonths(profiles, month).flatMap((g) => g.items.map((it) => it.profile.id)),
+  )
+  const searchIndex: OffSeasonHint[] = profiles
+    .filter((p) => !p.seasonMonths.includes(month))
+    .map((p) => ({
+      emoji: p.emoji,
+      name: p.name,
+      seasonLabel: seasonLabel(p.seasonMonths),
+      comingSoon: comingIds.has(p.id),
+    }))
   return {
     cards,
     noDrop: picks.length > 0 && !hasDrops(picks),
     hasNutrition: cards.some((c) => c.nutrition !== null),
     hasRecipes: cards.some((c) => c.recipes !== null),
     seasonal: seasonalThisMonth(profiles, month).map(label),
+    searchIndex,
     date: now,
     freshness: freshnessOf(snapshot, now),
     term: currentTerm(now),

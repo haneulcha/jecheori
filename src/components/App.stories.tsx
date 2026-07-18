@@ -26,6 +26,7 @@ function pageView(over: Partial<AppView>): AppView {
     seasonal: REAL.profiles
       .filter((p) => p.seasonMonths.includes(7))
       .map((p) => ({ emoji: p.emoji, name: p.name })),
+    searchIndex: [],
     date,
     freshness: { kind: 'dated', surveyedOn: '2026-07-14', days: 0 },
     // term은 지어내지 않는다 — 초복은 24절기가 아니라 season.ts의 currentTerm()이

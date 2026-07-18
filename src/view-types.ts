@@ -14,6 +14,19 @@ export type Freshness =
   | { kind: 'none' }
   | { kind: 'dated'; surveyedOn: string; days: number }
 
+export type Filter = 'fruit' | 'vegetable' | 'drop' | 'peak' | 'priced'
+export type SortMode = 'drop' | 'name' | 'priceLow'
+
+/** 검색이 이번 달 제철 밖의 품목을 찾았을 때 보여줄 힌트 (가격 없음). */
+export interface OffSeasonHint {
+  emoji: string
+  name: string
+  /** "12~4월" */
+  seasonLabel: string
+  /** 다음 제철이 /coming 범위(2개월) 안인가 */
+  comingSoon: boolean
+}
+
 export interface AppView {
   cards: CardView[]
   /** 픽은 있으나 하락이 없을 때 담백한 안내를 보인다 */
@@ -23,6 +36,8 @@ export interface AppView {
   /** 카드 중 하나라도 레시피가 있으면 페이지 하단에 출처를 한 번 표기한다 */
   hasRecipes: boolean
   seasonal: Chip[]
+  /** 이번 달 비제철 프로필 전체 — 검색이 제철 밖 품목을 찾았을 때 힌트로 보여준다 */
+  searchIndex: OffSeasonHint[]
   date: Date
   freshness: Freshness
   /** 현재 절기 이름 — 있으면 아이브로에 "소서 · 7월 둘째 주"로 표기 */

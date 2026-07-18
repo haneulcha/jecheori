@@ -1,18 +1,5 @@
 import type { CardView } from './card'
-
-// SortMode는 Task 6에서 view-types.ts로 옮긴다. 그때 이 로컬 정의를 import로 교체.
-export type SortMode = 'drop' | 'name' | 'priceLow'
-
-// Task 6에서 view-types.ts로 옮긴다. 그때 이 로컬 정의를 import로 교체.
-export type Filter = 'fruit' | 'vegetable' | 'drop' | 'peak' | 'priced'
-
-// OffSeasonHint는 Task 6에서 view-types.ts로 옮긴다. 그때 이 로컬 정의를 import로 교체.
-export interface OffSeasonHint {
-  emoji: string
-  name: string
-  seasonLabel: string
-  comingSoon: boolean
-}
+import type { Filter, OffSeasonHint, SortMode } from './view-types'
 
 /** CardView의 부호 있는 등락률(하락 음수). 무가격·기준선없음이면 null. */
 export function signedChange(card: CardView): number | null {

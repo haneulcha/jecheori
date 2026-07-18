@@ -26,6 +26,7 @@ const pick: PickResult = {
 const base: AppView = {
   cards: [toCardView(pick, 7)], noDrop: false, hasNutrition: false, hasRecipes: false,
   seasonal: [{ emoji: '🍑', name: '복숭아' }],
+  searchIndex: [],
   date: new Date('2026-07-10'), freshness: { kind: 'dated', surveyedOn: '2026-07-10', days: 0 },
 }
 
