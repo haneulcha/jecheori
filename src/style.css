@@ -51,6 +51,7 @@
   --font-display: 'MaruBuri', serif;
   --font-hand: 'Hakgyoansim', 'MaruBuri', serif;
   --font-body: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  --font-mono: 'SF Mono', 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
   /* 라운드 — 역할별. crisp=메모 낱장 카드, soft=칩·배지, pill=알약 */
   --radius-crisp: 0.2rem;
   --radius-soft: 0.4rem;
@@ -543,3 +544,45 @@ footer p + p { margin-top: var(--space-3xs); }
     animation: none !important;
   }
 }
+
+/* 제철 월 띠 — 원장 프레임 + 색 채우기(명도 차이). 색은 카드 상속 계절색.
+   웜색은 배경만, 잉크는 프레임·▼·숫자에만 (색 규율). */
+.season-strip { margin-top: var(--space-sm); }
+.season-cap {
+  margin: 0 0 var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.season-cells { display: flex; border: 1px solid var(--ink); }
+.season-cell {
+  position: relative;
+  flex: 1;
+  height: 0.8rem;
+  border-right: 1px solid var(--ink);
+}
+.season-cell:last-child { border-right: 0; }
+.season-cell.is-season { background: var(--tint); }
+.season-cell.is-peak { background: var(--accent); }
+.season-cell.is-current::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  border-left: 0.25rem solid transparent;
+  border-right: 0.25rem solid transparent;
+  border-top: 0.3rem solid var(--ink);
+}
+.season-nums { display: flex; margin-top: var(--space-3xs); }
+.season-num {
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--axis);
+}
+.season-num.is-season { color: var(--muted); }
+.season-num.is-current { color: var(--ink); font-weight: 700; }
