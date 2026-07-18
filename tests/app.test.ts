@@ -36,7 +36,11 @@ describe('buildAppView', () => {
     const v = buildAppView([peach, grape], snap(), null, null, JULY)
     expect(v.cards).toHaveLength(1) // 7월 제철은 복숭아만 (포도는 8월)
     expect(v.cards[0].name).toBe('복숭아')
-    expect(v.cards[0].price?.change).toEqual({ kind: 'fall', pct: 26 })
+    // baseline엔 monthAgo(24500)·yearAgo(19800) 둘 다 있지만, 값어치 표시(change)는
+    // 평년→작년→지난달 우선도라 normalYear가 없는 이 픽스처는 작년 기준(-8%)이 뜬다.
+    // 지난달 기준(-25.7%)은 change가 아니라 price.monthAgoPct 축으로 간다.
+    expect(v.cards[0].price?.change).toEqual({ kind: 'fall', pct: 8, basisLabel: '작년' })
+    expect(v.cards[0].price?.monthAgoPct).toBeCloseTo(-25.71, 1)
     expect(v.noDrop).toBe(false)
   })
 

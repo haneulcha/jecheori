@@ -10,14 +10,29 @@ function card(over: Partial<CardView>): CardView {
     price: null, nutrition: null, recipes: null, ...over,
   }
 }
-function withPrice(name: string, now: number, ch: { kind: 'fall' | 'rise'; pct: number } | { kind: 'similar' } | null): CardView {
-  return card({ name, price: { now, wasMonthAgo: null, unit: count(1, '개'), perUnit: null, change: ch, spark: null } })
+function withPrice(
+  name: string,
+  now: number,
+  ch: { kind: 'fall' | 'rise'; pct: number; basisLabel: string } | { kind: 'similar'; basisLabel: string } | null,
+): CardView {
+  return card({
+    name,
+    price: {
+      now,
+      wasMonthAgo: null,
+      unit: count(1, '개'),
+      perUnit: null,
+      change: ch,
+      monthAgoPct: ch && ch.kind !== 'similar' ? (ch.kind === 'fall' ? -ch.pct : ch.pct) : ch ? 0 : null,
+      spark: null,
+    },
+  })
 }
 
 describe('signedChange', () => {
-  test('하락은 음수', () => expect(signedChange(withPrice('a', 100, { kind: 'fall', pct: 23 }))).toBe(-23))
-  test('상승은 양수', () => expect(signedChange(withPrice('a', 100, { kind: 'rise', pct: 13 }))).toBe(13))
-  test('비슷은 0', () => expect(signedChange(withPrice('a', 100, { kind: 'similar' }))).toBe(0))
+  test('하락은 음수', () => expect(signedChange(withPrice('a', 100, { kind: 'fall', pct: 23, basisLabel: '지난달' }))).toBe(-23))
+  test('상승은 양수', () => expect(signedChange(withPrice('a', 100, { kind: 'rise', pct: 13, basisLabel: '지난달' }))).toBe(13))
+  test('비슷은 0', () => expect(signedChange(withPrice('a', 100, { kind: 'similar', basisLabel: '지난달' }))).toBe(0))
   test('기준선 없으면 null', () => expect(signedChange(withPrice('a', 100, null))).toBeNull())
   test('무가격이면 null', () => expect(signedChange(card({ price: null }))).toBeNull())
 })
@@ -25,10 +40,10 @@ describe('signedChange', () => {
 describe('sortCards', () => {
   test('drop: 큰 하락 먼저, 상승은 아래, 무가격 맨 뒤', () => {
     const cards = [
-      withPrice('상승', 100, { kind: 'rise', pct: 13 }),
+      withPrice('상승', 100, { kind: 'rise', pct: 13, basisLabel: '지난달' }),
       card({ name: '무가격', price: null }),
-      withPrice('큰하락', 100, { kind: 'fall', pct: 26 }),
-      withPrice('작은하락', 100, { kind: 'fall', pct: 11 }),
+      withPrice('큰하락', 100, { kind: 'fall', pct: 26, basisLabel: '지난달' }),
+      withPrice('작은하락', 100, { kind: 'fall', pct: 11, basisLabel: '지난달' }),
       withPrice('기준선없음', 100, null),
     ]
     expect(sortCards(cards, 'drop').map((c) => c.name)).toEqual([
@@ -51,8 +66,8 @@ describe('sortCards', () => {
 })
 
 describe('filterCards', () => {
-  const fruit = card({ name: '수박', category: 'fruit', inPeak: true, price: { now: 100, wasMonthAgo: null, unit: count(1, '개'), perUnit: null, change: { kind: 'fall', pct: 11 }, spark: null } })
-  const vegRise = card({ name: '토마토', category: 'vegetable', inPeak: true, price: { now: 100, wasMonthAgo: null, unit: count(1, '개'), perUnit: null, change: { kind: 'rise', pct: 13 }, spark: null } })
+  const fruit = card({ name: '수박', category: 'fruit', inPeak: true, price: { now: 100, wasMonthAgo: null, unit: count(1, '개'), perUnit: null, change: { kind: 'fall', pct: 11, basisLabel: '지난달' }, monthAgoPct: -11, spark: null } })
+  const vegRise = card({ name: '토마토', category: 'vegetable', inPeak: true, price: { now: 100, wasMonthAgo: null, unit: count(1, '개'), perUnit: null, change: { kind: 'rise', pct: 13, basisLabel: '지난달' }, monthAgoPct: 13, spark: null } })
   const vegNoPrice = card({ name: '가지', category: 'vegetable', inPeak: false, price: null })
   const all = [fruit, vegRise, vegNoPrice]
 

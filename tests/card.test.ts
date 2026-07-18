@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { perUnitPrice, sparklineLevels, whyNowLine, toCardView } from '../src/card'
+import { perUnitPrice, sparklineLevels, whyNowLine, toCardView, toChange } from '../src/card'
 import type { PickResult, PriceView } from '../src/picks'
 import type { ProduceProfile } from '../src/types'
 import { nutritionView } from '../src/nutrition'
@@ -75,6 +75,19 @@ describe('sparklineLevels', () => {
   })
 })
 
+describe('toChange (값어치)', () => {
+  test('아래면 fall + basisLabel', () =>
+    expect(toChange({ basis: 'normalYear', basisLabel: '평년', pct: -20 }))
+      .toEqual({ kind: 'fall', pct: 20, basisLabel: '평년' }))
+  test('위면 rise', () =>
+    expect(toChange({ basis: 'yearAgo', basisLabel: '작년', pct: 9 }))
+      .toEqual({ kind: 'rise', pct: 9, basisLabel: '작년' }))
+  test('±1% 미만은 similar', () =>
+    expect(toChange({ basis: 'monthAgo', basisLabel: '지난달', pct: 0.4 }))
+      .toEqual({ kind: 'similar', basisLabel: '지난달' }))
+  test('null이면 null', () => expect(toChange(null)).toBeNull())
+})
+
 describe('whyNowLine', () => {
   test('해당 월 문구를 쓰고, 없으면 default', () => {
     expect(whyNowLine(profile, 7)).toBe('칠월 문구')
@@ -99,9 +112,12 @@ describe('toCardView', () => {
     expect(toCardView(pick({ profile: p }), 7).kind).toBe('')
   })
 
-  test('하락: change fall + 반올림된 pct, 개당값·스파크 계산', () => {
-    const c = toCardView(pick({ price: priceView({ changeVsMonthAgoPct: -25.4 }) }), 7)
-    expect(c.price?.change).toEqual({ kind: 'fall', pct: 25 })
+  test('하락: change fall + 반올림된 pct·basisLabel, 개당값·스파크 계산', () => {
+    const c = toCardView(
+      pick({ price: priceView({ comparison: { basis: 'yearAgo', basisLabel: '작년', pct: -25.4 } }) }),
+      7,
+    )
+    expect(c.price?.change).toEqual({ kind: 'fall', pct: 25, basisLabel: '작년' })
     expect(c.price?.now).toBe(12600)
     expect(c.price?.wasMonthAgo).toBe(16900)
     expect(c.price?.perUnit).toBe(1260)
@@ -109,27 +125,46 @@ describe('toCardView', () => {
   })
 
   test('상승: change rise', () => {
-    const c = toCardView(pick({ price: priceView({ changeVsMonthAgoPct: 13.6 }) }), 7)
-    expect(c.price?.change).toEqual({ kind: 'rise', pct: 14 })
+    const c = toCardView(
+      pick({ price: priceView({ comparison: { basis: 'yearAgo', basisLabel: '작년', pct: 13.6 } }) }),
+      7,
+    )
+    expect(c.price?.change).toEqual({ kind: 'rise', pct: 14, basisLabel: '작년' })
   })
 
   test('변동 미미(<1%)는 similar', () => {
-    const c = toCardView(pick({ price: priceView({ changeVsMonthAgoPct: 0.2 }) }), 7)
-    expect(c.price?.change).toEqual({ kind: 'similar' })
+    const c = toCardView(
+      pick({ price: priceView({ comparison: { basis: 'monthAgo', basisLabel: '지난달', pct: 0.2 } }) }),
+      7,
+    )
+    expect(c.price?.change).toEqual({ kind: 'similar', basisLabel: '지난달' })
   })
 
-  test('지난달 없으면 change null · spark null', () => {
+  test('비교 기준(comparison) 없으면 change null', () => {
+    const c = toCardView(pick({ price: priceView({ comparison: null }) }), 7)
+    expect(c.price?.change).toBeNull()
+  })
+
+  test('지난달 없으면 spark null (change는 comparison 축이라 별개)', () => {
     const c = toCardView(
       pick({
         price: priceView({
-          changeVsMonthAgoPct: null,
           baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: null, yearAgo: 13400, normalYear: null },
         }),
       }),
       7,
     )
-    expect(c.price?.change).toBeNull()
     expect(c.price?.spark).toBeNull()
+  })
+
+  test('monthAgoPct는 changeVsMonthAgoPct를 그대로 싣는다(정렬·필터용, change와 별개 축)', () => {
+    const c = toCardView(pick({ price: priceView({ changeVsMonthAgoPct: -25 }) }), 7)
+    expect(c.price?.monthAgoPct).toBe(-25)
+  })
+
+  test('changeVsMonthAgoPct가 null이어도 monthAgoPct는 null로 그대로 싣는다', () => {
+    const c = toCardView(pick({ price: priceView({ changeVsMonthAgoPct: null }) }), 7)
+    expect(c.price?.monthAgoPct).toBeNull()
   })
 
   test('작년 없으면 spark null', () => {

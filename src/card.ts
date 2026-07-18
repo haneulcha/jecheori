@@ -1,4 +1,4 @@
-import type { PickResult, PriceView } from './picks'
+import type { PickResult, PriceView, ValueComparison } from './picks'
 import type { Category, ProduceProfile, Unit } from './types'
 import type { NutritionView } from './nutrition'
 import type { RecipeView } from './recipe'
@@ -12,12 +12,13 @@ export interface NoteView {
   use: string
 }
 
-/** 등락 표시. render는 케이스별로 소비한다. */
+/** 등락 표시(값어치 비교 = comparison에서 파생). basisLabel은 무엇 대비인지
+ *  ("평년"·"작년"·"지난달") — 폴백 우선도에 따라 픽마다 다를 수 있어 문구에 함께 싣는다. */
 export type ChangeView =
-  | { kind: 'fall'; pct: number } // 칩 ↓, 큰가격 쪽빛
-  | { kind: 'rise'; pct: number } // 칩 ↑, 큰가격 러스트
-  | { kind: 'similar' } // "비슷" 문구, 칩 없음
-  | null // 지난달 데이터 없음 → 칩·문구 없음
+  | { kind: 'fall'; pct: number; basisLabel: string } // 칩 ↓, 큰가격 쪽빛
+  | { kind: 'rise'; pct: number; basisLabel: string } // 칩 ↑, 큰가격 러스트
+  | { kind: 'similar'; basisLabel: string } // "비슷" 문구, 칩 없음
+  | null // 비교 기준 없음 → 칩·문구 없음
 
 export interface SparkView {
   /** 세 값(작년/한달전/지금)의 상대 위치 (0 = 최저, 1 = 최고). 픽셀은 컴포넌트가 정한다 */
@@ -34,7 +35,11 @@ export interface PriceCardView {
    *  같은 저울 위에 있는 것처럼 읽힌다. 문자열 조립은 컴포넌트 소관이라 구조체로 넘긴다. */
   unit: Unit
   perUnit: number | null
+  /** 값어치 비교(평년→작년→지난달 폴백) — 표시용 등락. */
   change: ChangeView
+  /** 지난달 대비 %(음수=하락). change와 별도 축 — 정렬·필터(하락순, "하락" 필터)는
+   *  항상 이 값을 쓴다. 표시 기준(change.basisLabel)이 평년이어도 정렬은 지난달로 고정. */
+  monthAgoPct: number | null
   spark: SparkView | null
 }
 
@@ -77,11 +82,13 @@ export function whyNowLine(profile: ProduceProfile, month: number): string {
   return profile.whyNow[String(month)] ?? profile.whyNow['default'] ?? ''
 }
 
-function toChange(pct: number | null): ChangeView {
-  if (pct === null) return null
-  if (Math.abs(pct) < 1) return { kind: 'similar' }
-  const rounded = Math.round(Math.abs(pct))
-  return pct < 0 ? { kind: 'fall', pct: rounded } : { kind: 'rise', pct: rounded }
+export function toChange(c: ValueComparison | null): ChangeView {
+  if (c === null) return null
+  if (Math.abs(c.pct) < 1) return { kind: 'similar', basisLabel: c.basisLabel }
+  const rounded = Math.round(Math.abs(c.pct))
+  return c.pct < 0
+    ? { kind: 'fall', pct: rounded, basisLabel: c.basisLabel }
+    : { kind: 'rise', pct: rounded, basisLabel: c.basisLabel }
 }
 
 function toSpark(v: PriceView): SparkView | null {
@@ -102,7 +109,8 @@ function toPriceCardView(v: PriceView): PriceCardView {
     wasMonthAgo: v.baseline.monthAgo,
     unit: v.unit,
     perUnit: per ? per.each : null,
-    change: toChange(v.changeVsMonthAgoPct),
+    change: toChange(v.comparison),
+    monthAgoPct: v.changeVsMonthAgoPct,
     spark: toSpark(v),
   }
 }
