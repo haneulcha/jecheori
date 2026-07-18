@@ -21,7 +21,8 @@ export type ChangeView =
   | null // 비교 기준 없음 → 칩·문구 없음
 
 export interface SparkView {
-  /** 존재하는 최근 궤적 점(1달 전→2주 전→1주 전→지금 중 결측 제외), 시간순. */
+  /** 존재하는 궤적 점(작년→1달 전→2주 전→1주 전→지금 중 결측 제외), 시간순.
+   *  작년 이맘때는 각주가 아니라 **점**으로 그린다(기존 그래프처럼 값도 점 위에 표기). */
   points: { label: string; value: number }[]
   /** points 각각의 상대 위치 (0 = 최저, 1 = 최고). 픽셀은 컴포넌트가 정한다 */
   levels: number[]
@@ -29,10 +30,8 @@ export interface SparkView {
    *  없으면 null. 컴포넌트가 따로 min/max를 재계산하면 평년이 점들의 범위 밖(주로 위)일 때
    *  스케일을 벗어나 점선이 캔버스 밖으로 사라지거나(평탄 궤적 span=0), 클리핑된다. */
   normalYearLevel: number | null
-  /** 평년 기준선(각주 + 점선). 없으면 null — 점선·각주 항목 생략 */
+  /** 평년 기준선(가로 점선 + 각주). 없으면 null — 점선·각주 생략 */
   normalYear: number | null
-  /** 작년 이맘때(각주). 없으면 null — 각주 항목 생략 */
-  yearAgo: number | null
 }
 
 export interface PriceCardView {
@@ -104,11 +103,12 @@ export function toChange(c: ValueComparison | null): ChangeView {
     : { kind: 'rise', pct: rounded, basisLabel: c.basisLabel }
 }
 
-/** 최근 궤적 [1달 전, 2주 전, 1주 전, 지금] 중 존재하는 점만 시간순으로 잇는다.
- *  결측(null)은 건너뛴다 — 점 2개 미만이면 그릴 게 없어 null.
- *  평년(normalYear)·작년(yearAgo)은 궤적 점이 아니라 기준선·각주로만 쓴다(있으면 실어보낸다). */
+/** 궤적 [작년, 1달 전, 2주 전, 1주 전, 지금] 중 존재하는 점만 시간순으로 잇는다.
+ *  작년 이맘때는 각주가 아니라 **점**으로(값도 점 위에). 결측(null)은 건너뛴다 —
+ *  점 2개 미만이면 그릴 게 없어 null. 평년(normalYear)은 궤적 점이 아니라 가로 기준선·각주로. */
 export function toSpark(price: number, b: Baseline): SparkView | null {
   const seq: { label: string; value: number | null }[] = [
+    { label: '작년', value: b.yearAgo },
     { label: '1달 전', value: b.monthAgo },
     { label: '2주 전', value: b.twoWeeksAgo },
     { label: '1주 전', value: b.weekAgo },
@@ -128,7 +128,6 @@ export function toSpark(price: number, b: Baseline): SparkView | null {
     levels: pointValues.map((v) => relativeLevel(v, min, max)),
     normalYearLevel: normalYear !== null ? relativeLevel(normalYear, min, max) : null,
     normalYear,
-    yearAgo: b.yearAgo ?? null,
   }
 }
 

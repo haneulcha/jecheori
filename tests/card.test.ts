@@ -87,11 +87,11 @@ const baseline = (o: Partial<Baseline> = {}): Baseline =>
 describe('toSpark (최근 4점)', () => {
   test('존재하는 최근 점을 시간순 [1달,2주,1주,지금]으로', () => {
     const s = toSpark(3513, baseline({ monthAgo: 3698, twoWeeksAgo: 3818, weekAgo: 3622, normalYear: 4473, yearAgo: 4622 }))!
-    expect(s.points.map((p) => p.label)).toEqual(['1달 전', '2주 전', '1주 전', '지금'])
-    expect(s.points.map((p) => p.value)).toEqual([3698, 3818, 3622, 3513])
+    // 작년 이맘때가 각주가 아니라 궤적의 첫 점으로 들어온다
+    expect(s.points.map((p) => p.label)).toEqual(['작년', '1달 전', '2주 전', '1주 전', '지금'])
+    expect(s.points.map((p) => p.value)).toEqual([4622, 3698, 3818, 3622, 3513])
     expect(s.normalYear).toBe(4473)
-    expect(s.yearAgo).toBe(4622)
-    expect(s.levels).toHaveLength(4)
+    expect(s.levels).toHaveLength(5)
   })
   test('결측 점은 건너뛴다', () => {
     const s = toSpark(100, baseline({ monthAgo: 120, weekAgo: 110 }))!
@@ -191,11 +191,12 @@ describe('toCardView', () => {
     expect(c.price?.change).toBeNull()
   })
 
-  test('최근 궤적 점이 하나(지금)뿐이면 spark null (change는 comparison 축이라 별개)', () => {
+  test('궤적 점이 하나(지금)뿐이면 spark null (change는 comparison 축이라 별개)', () => {
     const c = toCardView(
       pick({
         price: priceView({
-          baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: null, yearAgo: 13400, normalYear: null },
+          // 작년·1달·2주·1주 모두 없어 지금 한 점뿐 → 그릴 게 없다
+          baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: null, yearAgo: null, normalYear: null },
         }),
       }),
       7,
@@ -213,7 +214,7 @@ describe('toCardView', () => {
     expect(c.price?.monthAgoPct).toBeNull()
   })
 
-  test('작년 없어도 spark는 유지되고 yearAgo 각주만 null', () => {
+  test('작년(yearAgo) 없으면 궤적에서 빠지고 나머지 점으로 그린다', () => {
     const c = toCardView(
       pick({
         price: priceView({
@@ -223,7 +224,7 @@ describe('toCardView', () => {
       7,
     )
     expect(c.price?.spark).not.toBeNull()
-    expect(c.price?.spark?.yearAgo).toBeNull()
+    expect(c.price?.spark?.points.map((p) => p.label)).not.toContain('작년')
   })
 
   test('무게 단위는 perUnit null', () => {
