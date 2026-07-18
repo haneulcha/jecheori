@@ -108,9 +108,9 @@ describe('ProduceCard 레시피', () => {
 })
 
 describe('ProduceCard 제철 띠', () => {
-  test('펼치면 season 띠를 보인다', () => {
+  test('접기 전(summary)에도 season 띠를 보인다', () => {
     const { container } = render(<ProduceCard card={base} />)
+    expect(container.querySelector('.season-bar')).not.toBeNull()
     expect(container.querySelectorAll('.season-cell')).toHaveLength(12)
-    expect(container.querySelector('.season-cap')!.textContent).toBe('제철 달력 · 이번 달 7월')
   })
 })

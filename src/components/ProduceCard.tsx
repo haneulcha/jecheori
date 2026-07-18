@@ -40,23 +40,25 @@ export function ProduceCard({ card }: { card: CardView }) {
     >
       <summary>
         <div className="summary-row">
-          <span className="id">
-            <span className="emoji">{card.emoji}</span>
-            <span>
-              <span className="card-title" data-testid="card-name">
-                {card.name}
-                {card.inPeak && <PeakDot />}
+          <div className="id-wrap">
+            <span className="id">
+              <span className="emoji">{card.emoji}</span>
+              <span>
+                <span className="card-title" data-testid="card-name">
+                  {card.name}
+                  {card.inPeak && <PeakDot />}
+                </span>
+                <span className="kind">{card.kind}</span>
               </span>
-              <span className="kind">{card.kind}</span>
             </span>
-          </span>
+            <SeasonStrip strip={card.season} />
+          </div>
           {card.price && <PriceBlock price={card.price} />}
         </div>
         {card.whyNow && <p className="why">{card.whyNow}</p>}
       </summary>
       <div className="open">
         {card.price?.spark && <Sparkline spark={card.price.spark} />}
-        <SeasonStrip strip={card.season} />
         {card.nutrition && <NutritionLine nutrition={card.nutrition} />}
         <Note note={card.note} />
         {recipes && (

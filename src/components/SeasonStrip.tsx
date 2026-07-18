@@ -1,39 +1,31 @@
 import type { SeasonStripView } from '../card'
 
-/** 카드 펼침의 12칸 제철 달력 띠. 원장 프레임에 색을 채우고(제철=옅음, 절정=진함),
- *  이번 달은 ▼로 가리킨다. 표시만 — 파생은 card.ts의 toSeasonStrip. */
+/** 카드 펼침 최상단의 제철 간트 바. 12개월 축 위에 제철=연함(--tint)·절정=짙음(--accent)으로
+ *  얹고, 숫자는 제철 월과 이번 달만(이번 달은 볼드) — 나머지는 숨김.
+ *  표시만 — 파생은 card.ts의 toSeasonStrip. */
 export function SeasonStrip({ strip }: { strip: SeasonStripView }) {
   const { months, seasonLabel, peakLabel, currentMonth } = strip
   return (
     <div className="season-strip">
-      <p className="season-cap">제철 달력 · 이번 달 {currentMonth}월</p>
       <div
-        className="season-cells"
+        className="season-bar"
         role="img"
         aria-label={`제철 ${seasonLabel}, 절정 ${peakLabel}, 이번 달 ${currentMonth}월`}
       >
         {months.map((c) => (
           <span
             key={c.month}
+            aria-hidden="true"
             className={
-              'season-cell' +
-              (c.inSeason ? ' is-season' : '') +
-              (c.isPeak ? ' is-peak' : '') +
-              (c.isCurrent ? ' is-current' : '')
+              'season-cell' + (c.inSeason ? ' is-season' : '') + (c.isPeak ? ' is-peak' : '')
             }
           />
         ))}
       </div>
-      <div className="season-nums" aria-hidden="true">
+      <div className="season-labels" aria-hidden="true">
         {months.map((c) => (
-          <span
-            key={c.month}
-            className={
-              'season-num' +
-              (c.isCurrent ? ' is-current' : c.inSeason ? ' is-season' : '')
-            }
-          >
-            {c.month}
+          <span key={c.month} className={'season-label' + (c.isCurrent ? ' is-current' : '')}>
+            {c.inSeason || c.isCurrent ? c.month : ''}
           </span>
         ))}
       </div>
