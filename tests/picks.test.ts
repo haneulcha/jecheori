@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import { comingMonths, hasDrops, matchEntry, priceView, selectPicks } from '../src/picks'
-import type { PriceEntry, PriceSnapshot, ProduceProfile } from '../src/types'
+import { comingMonths, hasDrops, matchEntry, priceView, selectPicks, valueComparison } from '../src/picks'
+import type { Baseline, PriceEntry, PriceSnapshot, ProduceProfile } from '../src/types'
 import { weight } from './units'
 
 function profile(over: Partial<ProduceProfile>): ProduceProfile {
@@ -28,6 +28,17 @@ function entry(over: Partial<PriceEntry> = {}): PriceEntry {
     unit: weight(1, 'kg'),
     price: 1000,
     baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 1000, yearAgo: 1000, normalYear: null },
+    ...over,
+  }
+}
+
+function base(over: Partial<Baseline> = {}): Baseline {
+  return {
+    weekAgo: null,
+    twoWeeksAgo: null,
+    monthAgo: null,
+    yearAgo: null,
+    normalYear: null,
     ...over,
   }
 }
@@ -98,6 +109,7 @@ describe('priceView 기준선 통과', () => {
       price: 12600,
       unit: weight(1, 'kg'),
       changeVsMonthAgoPct: expect.closeTo(-25.44, 1),
+      comparison: { basis: 'yearAgo', basisLabel: '작년', pct: expect.closeTo(-5.97, 1) },
       baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 16900, yearAgo: 13400, normalYear: null },
     })
   })
@@ -112,6 +124,25 @@ describe('priceView 기준선 통과', () => {
       weekAgo: null, twoWeeksAgo: null, monthAgo: null, yearAgo: null, normalYear: null,
     })
     expect(v?.changeVsMonthAgoPct).toBeNull()
+    expect(v?.comparison).toBeNull()
+  })
+})
+
+describe('valueComparison', () => {
+  test('평년 우선', () => {
+    expect(valueComparison(80, base({ normalYear: 100, yearAgo: 90, monthAgo: 95 })))
+      .toEqual({ basis: 'normalYear', basisLabel: '평년', pct: -20 })
+  })
+  test('평년 없으면 작년', () => {
+    expect(valueComparison(88, base({ yearAgo: 100, monthAgo: 95 })))
+      .toEqual({ basis: 'yearAgo', basisLabel: '작년', pct: -12 })
+  })
+  test('평년·작년 없으면 지난달', () => {
+    expect(valueComparison(95, base({ monthAgo: 100 })))
+      .toEqual({ basis: 'monthAgo', basisLabel: '지난달', pct: -5 })
+  })
+  test('다 없으면 null', () => {
+    expect(valueComparison(100, base())).toBeNull()
   })
 })
 
@@ -178,6 +209,7 @@ describe('hasDrops', () => {
       price: 1,
       unit: weight(1, 'kg'),
       changeVsMonthAgoPct: pct,
+      comparison: { basis: 'monthAgo' as const, basisLabel: '지난달', pct: 0 },
       baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 1, yearAgo: 1, normalYear: null },
     },
   })

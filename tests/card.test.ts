@@ -24,6 +24,7 @@ const priceView = (over: Partial<PriceView> = {}): PriceView => ({
   price: 12600,
   unit: count(10),
   changeVsMonthAgoPct: -25.4,
+  comparison: { basis: 'yearAgo', basisLabel: '작년', pct: -5.97 },
   baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 16900, yearAgo: 13400, normalYear: null },
   ...over,
 })

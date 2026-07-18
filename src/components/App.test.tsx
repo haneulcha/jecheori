@@ -21,6 +21,7 @@ const pick: PickResult = {
     price: 18200,
     unit: { quantity: 10, measure: { kind: 'count', unit: '개' } },
     changeVsMonthAgoPct: -25.7,
+    comparison: { basis: 'yearAgo', basisLabel: '작년', pct: -8.08 },
     baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 24500, yearAgo: 19800, normalYear: null },
   },
 }
