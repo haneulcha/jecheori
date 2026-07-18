@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { filterCards, searchCards, searchHints, sortCards } from '../cardlist'
 import type { AppView, Filter, SortMode } from '../view-types'
-import { surveyedLabel, weekLabel } from '../week'
+import { relativeDayLabel, surveyedDateLabel, weekLabel } from '../week'
 import { FilterBar } from './FilterBar'
 import { NavIndex } from './NavIndex'
 import { ProduceCard } from './ProduceCard'
@@ -10,18 +10,19 @@ import { SeasonHint } from './SeasonHint'
 import { SortControl } from './SortControl'
 import { Sprig } from './Sprig'
 
-// 절정 dot 툴팁: 데스크톱은 CSS hover/focus, 터치는 탭 토글 (문서 위임).
-// dot 탭은 카드 펼침(<summary>)을 막고 자기 툴팁만 여닫는다.
-function usePeakDotTooltip() {
+// 탭 툴팁: 데스크톱은 CSS hover/focus, 터치는 탭 토글 (문서 위임).
+// 절정 dot(카드 펼침 방지)과 조사일 날짜(.rel-date)가 같은 패턴을 쓴다.
+const TIP_SELECTOR = '.peak-dot, .rel-date'
+function useTapTooltips() {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      const dot = (e.target as HTMLElement).closest('.peak-dot')
-      document.querySelectorAll('.peak-dot.show').forEach((d) => {
-        if (d !== dot) d.classList.remove('show')
+      const trigger = (e.target as HTMLElement).closest(TIP_SELECTOR)
+      document.querySelectorAll('.peak-dot.show, .rel-date.show').forEach((el) => {
+        if (el !== trigger) el.classList.remove('show')
       })
-      if (!dot) return
-      e.preventDefault() // 카드 펼침 토글 방지
-      dot.classList.toggle('show')
+      if (!trigger) return
+      if (trigger.classList.contains('peak-dot')) e.preventDefault() // 카드 펼침 토글 방지
+      trigger.classList.toggle('show')
     }
     document.addEventListener('click', onClick)
     return () => document.removeEventListener('click', onClick)
@@ -30,7 +31,7 @@ function usePeakDotTooltip() {
 
 export function App({ view }: { view: AppView }) {
   const { cards, noDrop, hasNutrition, hasRecipes, date, freshness, term } = view
-  usePeakDotTooltip()
+  useTapTooltips()
   const [ready, setReady] = useState(false)
   const [filters, setFilters] = useState<Set<Filter>>(new Set())
   const [sort, setSort] = useState<SortMode>('drop')
@@ -64,7 +65,15 @@ export function App({ view }: { view: AppView }) {
         <p className="week">{eyebrow}</p>
         <h1>이 계절을 맛보는 가장 알뜰한 방법</h1>
         {freshness.kind === 'dated' && (
-          <p className="surveyed">{surveyedLabel(freshness.days, freshness.surveyedOn)} · 전국 평균</p>
+          <p className="surveyed">
+            <span className="rel-date" tabIndex={0}>
+              {relativeDayLabel(freshness.days)}
+              <span className="date-tip" role="tooltip">
+                {surveyedDateLabel(freshness.surveyedOn)}
+              </span>
+            </span>
+            {' · 전국 평균'}
+          </p>
         )}
       </header>
       <main>
@@ -74,8 +83,10 @@ export function App({ view }: { view: AppView }) {
               {ready && (
                 <div className="controls">
                   <SearchBar query={query} onChange={setQuery} />
-                  <FilterBar filters={filters} onToggle={toggle} />
-                  <SortControl sort={sort} onChange={setSort} />
+                  <div className="ctrlrow">
+                    <FilterBar filters={filters} onToggle={toggle} />
+                    <SortControl sort={sort} onChange={setSort} />
+                  </div>
                 </div>
               )}
               {noDrop && (

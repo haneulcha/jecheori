@@ -115,13 +115,25 @@ describe('App', () => {
     const { container } = await renderWithRouter(<App view={base} />)
     expect(container.querySelector('.coming')).toBeNull()
   })
-  test('조사일 한 줄을 항상 보여준다 (오늘)', async () => {
+  test('조사일: 상대 표현 상시 + 절대날짜는 툴팁 + 전국 평균', async () => {
     const { container } = await renderWithRouter(<App view={base} />)
-    expect(container.querySelector('.surveyed')?.textContent).toBe('오늘 · 7월 10일 기준 · 전국 평균')
+    // 상대("오늘")만 상시, 절대날짜는 .date-tip 툴팁에 접어둔다
+    expect(container.querySelector('.rel-date')?.textContent).toContain('오늘')
+    expect(container.querySelector('.date-tip')?.textContent).toBe('7월 10일 조사')
+    expect(container.querySelector('.surveyed')?.textContent).toContain('전국 평균')
   })
   test('하단 "○월의 제철" 이름 칩 목록은 없다', async () => {
     const { container } = await renderWithRouter(<App view={base} />)
     expect(container.textContent).not.toMatch(/월의 제철/)
+  })
+  test('필터 칩 문구 갱신 + 정렬 아이콘·현재값', async () => {
+    const { container } = await renderWithRouter(<App view={viewWithCards([{ name: '오이' }])} />)
+    expect(container.textContent).toContain('가격 하락')
+    expect(container.textContent).toContain('한창 제철')
+    expect(container.textContent).not.toMatch(/내려간 것|>절정</)
+    // "정렬" 글자는 아이콘으로, 현재값은 select에 보인다
+    expect(container.querySelector('.sort-icon')).not.toBeNull()
+    expect(container.querySelector('.sort select')?.textContent).toContain('하락 큰 순')
   })
   test('조사일 줄에 전국 평균 표기', async () => {
     const view = viewWithCards([{ name: '오이' }])
