@@ -3,8 +3,8 @@ import type { Filter } from '../view-types'
 const CHIPS: { key: Filter; label: string }[] = [
   { key: 'fruit', label: '과일' },
   { key: 'vegetable', label: '채소' },
-  { key: 'drop', label: '내려간 것' },
-  { key: 'peak', label: '절정' },
+  { key: 'drop', label: '가격 하락' },
+  { key: 'peak', label: '한창 제철' },
   { key: 'priced', label: '가격 있음' },
 ]
 

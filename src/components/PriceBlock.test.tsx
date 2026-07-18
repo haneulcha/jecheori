@@ -9,15 +9,17 @@ const ten: Unit = { quantity: 10, measure: { kind: 'count', unit: '개' } }
 const onePogi: Unit = { quantity: 1, measure: { kind: 'count', unit: '포기' } }
 
 describe('PriceBlock', () => {
-  test('하락: 취소선·칩·큰가격, fall 클래스', () => {
+  test('하락: "지난달 대비" 라벨 + 칩 + 큰가격, fall 클래스 (취소선 없음)', () => {
     const { container } = render(
       <PriceBlock price={{ now: 12600, wasMonthAgo: 16900, unit: ten, perUnit: 1260, change: { kind: 'fall', pct: 25 }, spark: null }} />,
     )
     expect(container.querySelector('.price.fall')).not.toBeNull()
-    const html = container.innerHTML
-    expect(html).toContain('16,900원')
-    expect(html).toContain('12,600')
+    // 취소선 예전가는 없앴다 — 등락은 "지난달 대비" 라벨 + 칩으로 표현
+    expect(container.innerHTML).not.toContain('16,900')
+    expect(container.querySelector('.compare')?.textContent).toContain('지난달 대비')
+    expect(container.querySelector('.chip')).not.toBeNull()
     expect(container.textContent).toContain('25%')
+    expect(container.innerHTML).toContain('12,600')
   })
 
   test('상승: rise 클래스', () => {
@@ -27,20 +29,23 @@ describe('PriceBlock', () => {
     expect(container.querySelector('.price.rise')).not.toBeNull()
   })
 
-  test('similar은 칩 없이 비슷 문구·쪽빛(fall)', () => {
+  test('similar은 칩·라벨 없이 "지난달과 비슷"·쪽빛(fall)', () => {
     const { container } = render(
       <PriceBlock price={{ now: 5000, wasMonthAgo: 5010, unit: g100, perUnit: null, change: { kind: 'similar' }, spark: null }} />,
     )
     expect(container.querySelector('.price.fall')).not.toBeNull()
     expect(container.querySelector('.chip')).toBeNull()
-    expect(container.textContent).toContain('비슷')
+    expect(container.querySelector('.compare')).toBeNull()
+    expect(container.textContent).toContain('지난달과 비슷')
   })
 
-  test('change null이면 취소선 생략', () => {
+  test('change null이면 "지난달 대비" 줄 없이 가격만', () => {
     const { container } = render(
       <PriceBlock price={{ now: 5000, wasMonthAgo: null, unit: g100, perUnit: null, change: null, spark: null }} />,
     )
-    expect(container.querySelector('.was')).toBeNull()
+    expect(container.querySelector('.compare')).toBeNull()
+    expect(container.querySelector('.near')).toBeNull()
+    expect(container.querySelector('.chip')).toBeNull()
     expect(container.innerHTML).toContain('5,000')
   })
 })

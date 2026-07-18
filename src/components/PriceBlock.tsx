@@ -32,16 +32,18 @@ export function PriceBlock({ price: p }: { price: PriceCardView }) {
     ) : null
   return (
     <div className={`price ${dir}`}>
-      {p.wasMonthAgo !== null && <span className="was num">{won(p.wasMonthAgo)}</span>}
-      <span className="nowline">
-        {chip}
-        <span className="big num">
-          {p.now.toLocaleString('ko-KR')}
-          <span className="wonu">원</span>
+      {chip && (
+        <span className="compare">
+          <span className="cmp-label">지난달 대비</span>
+          {chip}
         </span>
+      )}
+      {p.change?.kind === 'similar' && <span className="near">지난달과 비슷</span>}
+      <span className="big num">
+        {p.now.toLocaleString('ko-KR')}
+        <span className="wonu">원</span>
       </span>
       <span className="basis num">{basisLine(p.unit, p.perUnit)}</span>
-      {p.change?.kind === 'similar' && <span className="near">한 달 전과 비슷해요</span>}
     </div>
   )
 }
