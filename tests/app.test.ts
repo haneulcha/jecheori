@@ -23,7 +23,9 @@ const snap = (over: Partial<PriceEntry> = {}): PriceSnapshot => ({
   entries: [{
     itemName: '복숭아', kindName: '백도(10개)', rank: '상품',
     unit: count(10),
-    price: 18200, baseline: { monthAgo: 24500, yearAgo: 19800 }, ...over,
+    price: 18200,
+    baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 24500, yearAgo: 19800, normalYear: null },
+    ...over,
   }],
 })
 
@@ -34,7 +36,11 @@ describe('buildAppView', () => {
     const v = buildAppView([peach, grape], snap(), null, null, JULY)
     expect(v.cards).toHaveLength(1) // 7월 제철은 복숭아만 (포도는 8월)
     expect(v.cards[0].name).toBe('복숭아')
-    expect(v.cards[0].price?.change).toEqual({ kind: 'fall', pct: 26 })
+    // baseline엔 monthAgo(24500)·yearAgo(19800) 둘 다 있지만, 값어치 표시(change)는
+    // 평년→작년→지난달 우선도라 normalYear가 없는 이 픽스처는 작년 기준(-8%)이 뜬다.
+    // 지난달 기준(-25.7%)은 change가 아니라 price.monthAgoPct 축으로 간다.
+    expect(v.cards[0].price?.change).toEqual({ kind: 'fall', pct: 8, basisLabel: '작년' })
+    expect(v.cards[0].price?.monthAgoPct).toBeCloseTo(-25.71, 1)
     expect(v.noDrop).toBe(false)
   })
 
@@ -57,7 +63,14 @@ describe('buildAppView', () => {
   })
 
   test('상승만이면 noDrop true', () => {
-    const v = buildAppView([peach], snap({ price: 18200, baseline: { monthAgo: 16000, yearAgo: 19800 } }), null, null, JULY)
+    const v = buildAppView(
+      [peach],
+      snap({
+        price: 18200,
+        baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 16000, yearAgo: 19800, normalYear: null },
+      }),
+      null, null, JULY,
+    )
     expect(v.noDrop).toBe(true)
   })
 
@@ -117,8 +130,8 @@ describe('buildAppView', () => {
     const snapshot: PriceSnapshot = {
       schemaVersion: 2, fetchedAt: '2026-07-15T00:00:00Z', surveyedOn: '2026-07-15',
       entries: [
-        { itemName: '작은하락', kindName: '기본', rank: '상품', unit: count(1, '개'), price: 90, baseline: { monthAgo: 100, yearAgo: 100 } },
-        { itemName: '큰하락', kindName: '기본', rank: '상품', unit: count(1, '개'), price: 50, baseline: { monthAgo: 100, yearAgo: 100 } },
+        { itemName: '작은하락', kindName: '기본', rank: '상품', unit: count(1, '개'), price: 90, baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 100, yearAgo: 100, normalYear: null } },
+        { itemName: '큰하락', kindName: '기본', rank: '상품', unit: count(1, '개'), price: 50, baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 100, yearAgo: 100, normalYear: null } },
       ],
     }
     const withKamis = (p: ProduceProfile, itemName: string) => ({ ...p, kamis: { categoryCode: '400' as const, itemName } })

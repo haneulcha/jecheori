@@ -36,7 +36,12 @@ export function App({ view }: { view: AppView }) {
   const [filters, setFilters] = useState<Set<Filter>>(new Set())
   const [sort, setSort] = useState<SortMode>('drop')
   const [query, setQuery] = useState('')
-  useEffect(() => setReady(true), [])
+  // 하이드레이션 후에야 기본 필터(한창 제철)를 켠다 — 서버 프리렌더·무JS는 전체 목록을 그대로
+  // 보여야 하므로(SSR과 초기 클라 렌더가 일치해야 하이드레이션 불일치가 없다).
+  useEffect(() => {
+    setReady(true)
+    setFilters(new Set(['peak']))
+  }, [])
 
   const toggle = (f: Filter) =>
     setFilters((prev) => {

@@ -274,7 +274,8 @@ header h1 {
 .nodrop { color: var(--muted); font-size: var(--text-sm); margin: 0 0 var(--space-lg); }
 
 footer { margin-top: var(--space-2xl); }
-footer p { color: var(--muted); font-size: var(--text-xs); }
+footer p { color: var(--muted); font-size: var(--text-xs); line-height: 1.35; margin: 0; }
+footer p + p { margin-top: var(--space-3xs); }
 .empty, .loading {
   color: var(--muted);
   font-size: var(--text-md);
@@ -289,15 +290,29 @@ footer p { color: var(--muted); font-size: var(--text-xs); }
 .peak-dot:hover .peak-tip, .peak-dot:focus .peak-tip, .peak-dot.show .peak-tip { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .peak-tip, .date-tip { transition: none; } }
 
-/* 스파크라인 */
+/* 스파크라인 — 궤적(작년·1달 전·2주 전·1주 전·지금) + 평년 점선.
+   기존 그래프처럼 점 위에 값(.val)을 표기하고, 작년 이맘때도 각주가 아니라 점으로 그린다. */
 .spark { margin: 0 0 var(--space-xl); }
 .spark svg { display: block; width: 100%; height: auto; }
 .spark .trend { fill: none; stroke: var(--muted); stroke-width: 1.1; stroke-linejoin: round; opacity: 0.65; }
-.spark .axis { stroke: var(--axis); stroke-width: 0.3; }
 .spark .pt { fill: var(--card); stroke: var(--muted); stroke-width: 0.8; }
 .spark .pt.now { fill: var(--ink); stroke: var(--ink); }
-.spark .val, .spark .lab { fill: var(--muted); font-size: 9px; }
-.spark .val.now, .spark .lab.now { fill: var(--ink); font-weight: 700; }
+.spark .val { fill: var(--muted); font-size: 8px; font-variant-numeric: tabular-nums; }
+.spark .val.now { fill: var(--ink); font-weight: 700; }
+.spark .lab { fill: var(--muted); font-size: 9px; }
+.spark .lab.now { fill: var(--ink); font-weight: 700; }
+/* 평년 기준선 — 점선, 뮤트(등락 판단은 칩·큰가격의 몫이라 여긴 방향색을 쓰지 않는다) */
+.spark .norm-line { stroke: var(--muted); stroke-width: 0.8; stroke-dasharray: 3 2; opacity: 0.8; }
+.spark .norm-lab { fill: var(--muted); font-size: 8px; }
+.spark-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-md);
+  margin: var(--space-2xs) 0 0;
+  color: var(--muted);
+  font-size: var(--text-2xs);
+}
+.spark-foot b { color: var(--ink); font-weight: 600; }
 
 /* 검색 · 필터 · 정렬 컨트롤 (JS 기반). 텍스트는 쪽빛(--ink/--muted)만,
    웜 컬러(--accent/--tint)는 켜진 칩의 배경·테두리로만 쓴다(글자엔 안 씀). */
@@ -364,7 +379,9 @@ footer p { color: var(--muted); font-size: var(--text-xs); }
 /* 영양 블록은 스탯 너비로 줄여(align-self: center) 카드 중앙에 두고,
    "100g 기준"은 그 블록 안에서 우측 정렬 → 스탯 너비 아래 오른쪽에 붙는다 */
 .nutrition { color: var(--ink); align-self: center; }
-.nutrition .stats { display: flex; flex-wrap: wrap; gap: var(--space-xl); justify-content: center; }
+/* 스탯 6개(열량·탄수화물·당류·식이섬유·단백질·지방)가 모바일 카드 폭(~325px)에 한 줄로 들어오게
+   간격을 lg로. xl(1.5rem)이면 6셀+간격이 폭을 ~10px 넘겨 지방 하나가 둘째 줄로 밀렸다. */
+.nutrition .stats { display: flex; flex-wrap: wrap; gap: var(--space-lg); justify-content: center; }
 .nutrition .cell { display: flex; flex-direction: column; align-items: center; }
 .nutrition .lab {
   font-size: var(--text-2xs);

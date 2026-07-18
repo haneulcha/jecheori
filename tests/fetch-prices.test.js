@@ -47,7 +47,7 @@ describe('buildSnapshot', () => {
     }
     const snap = await buildSnapshot({ certKey: 'k', certId: 'i', regday: '2026-07-13', fetchFn })
     expect(calls).toEqual(['100', '200', '400'])
-    expect(snap.schemaVersion).toBe(2)
+    expect(snap.schemaVersion).toBe(3)
     expect(snap.surveyedOn).toBe('2026-07-13')
     expect(snap.entries).toHaveLength(12) // 픽스처 4행 × 3부류
     expect(new Date(snap.fetchedAt).getTime()).not.toBeNaN()

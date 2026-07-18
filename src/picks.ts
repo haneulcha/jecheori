@@ -1,10 +1,20 @@
 import type { Baseline, PriceEntry, PriceSnapshot, ProduceProfile, Unit } from './types'
 
+export type CompareBasis = 'normalYear' | 'yearAgo' | 'monthAgo'
+
+export interface ValueComparison {
+  basis: CompareBasis
+  basisLabel: string
+  pct: number // (price - base)/base*100, 음수 = 기준보다 쌈
+}
+
 export interface PriceView {
   price: number
   unit: Unit
   /** 1개월 전 대비 % (음수 = 하락). 기준선이 없으면 null */
   changeVsMonthAgoPct: number | null
+  /** 평년→작년→지난달 우선도로 첫 non-null 기준 대비 비교. 표시용. */
+  comparison: ValueComparison | null
   baseline: Baseline
 }
 
@@ -12,6 +22,23 @@ export interface PickResult {
   profile: ProduceProfile
   inPeak: boolean
   price: PriceView | null
+}
+
+const BASIS_ORDER: { key: CompareBasis; label: string }[] = [
+  { key: 'normalYear', label: '평년' },
+  { key: 'yearAgo', label: '작년' },
+  { key: 'monthAgo', label: '지난달' },
+]
+
+/** 평년→작년→지난달 순 첫 non-null 기준 대비 비교. 다 없으면 null. */
+export function valueComparison(price: number, b: Baseline): ValueComparison | null {
+  for (const { key, label } of BASIS_ORDER) {
+    const ref = b[key]
+    if (ref !== null && ref !== undefined) {
+      return { basis: key, basisLabel: label, pct: ((price - ref) / ref) * 100 }
+    }
+  }
+  return null
 }
 
 export function seasonalThisMonth(profiles: ProduceProfile[], month: number): ProduceProfile[] {
@@ -36,6 +63,7 @@ export function priceView(entry: PriceEntry): PriceView | null {
     price: entry.price,
     unit: entry.unit,
     changeVsMonthAgoPct: change,
+    comparison: valueComparison(entry.price, entry.baseline),
     baseline: entry.baseline,
   }
 }

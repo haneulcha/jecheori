@@ -65,6 +65,143 @@ export const 하락없음: StoryObj = {
   ),
 }
 
+/** **값어치 헤드라인** — `picks.valueComparison`이 평년→작년→지난달 순으로 첫 non-null
+ *  기준을 골라 비교한다(`card.toChange`가 basisLabel을 실어 표시). 평년(baseline.normalYear)이
+ *  있으면 무조건 최우선이라, 지난달보다는 비싸졌어도 평년보다 싸면 "평년 대비 ↓칩"이 뜬다.
+ *  **정렬·필터는 이 값어치와 별개 축이다** — 카드 순서·"내려간 것" 칩은 항상
+ *  `card.price.monthAgoPct`(지난달)만 본다(`cardlist.ts`). 이 카드도 값어치·지난달 둘 다
+ *  하락이라 서로 갈리는 경우는 아니지만, 표시(값어치)와 정렬(지난달)이 원래 다른 숫자에서
+ *  나온다는 점은 같다(제품-동작-지도.md 6절 "축 분리"). */
+export const 값어치_평년보다쌈: StoryObj = {
+  render: () => (
+    <App
+      view={pageView({
+        cards: [
+          buildCard(
+            {
+              ...CARD_KNOBS_DEFAULT,
+              price: 280,
+              monthAgo: 310,
+              weekAgo: 295,
+              twoWeeksAgo: 300,
+              yearAgo: 260,
+              normalYear: 350,
+            },
+            7,
+          ),
+        ],
+      })}
+    />
+  ),
+}
+
+/** 값어치 상승도 색이 아니라 문구·부호로만 말한다(러스트는 배경 규율, DESIGN.md) —
+ *  "지금은 비싸요, 다음 기회에" 식 이커머스 화법 없이 "평년 대비 19%" 사실만 담백하게. */
+export const 값어치_평년보다비쌈: StoryObj = {
+  render: () => (
+    <App
+      view={pageView({
+        cards: [
+          buildCard(
+            {
+              ...CARD_KNOBS_DEFAULT,
+              price: 380,
+              monthAgo: 345,
+              weekAgo: 365,
+              twoWeeksAgo: 350,
+              yearAgo: 300,
+              normalYear: 320,
+            },
+            7,
+          ),
+        ],
+      })}
+    />
+  ),
+}
+
+/** 평년(normalYear)이 없는 픽 — KAMIS dpr7이 그 품목·그 날짜엔 결측인 경우.
+ *  `valueComparison`이 다음 순위(작년)로 넘어가 "작년 대비"로 뜬다. **오늘 커밋된
+ *  prices.json(schema 2)의 실제 카드 대부분이 이 상태다**(평년·1주·2주 자체가 없어 작년도
+ *  없으면 한 단계 더 내려가 지난달로) — CI가 schema 3로 재수집하기 전까지는 정상 동작. */
+export const 값어치_작년폴백: StoryObj = {
+  render: () => (
+    <App
+      view={pageView({
+        cards: [
+          buildCard(
+            { ...CARD_KNOBS_DEFAULT, price: 300, monthAgo: 330, yearAgo: 350, normalYear: null },
+            7,
+          ),
+        ],
+      })}
+    />
+  ),
+}
+
+/** 비교 기준이 하나도 없는 픽 — 가격은 있지만(price≠null) 평년·작년·지난달이 전부 null이면
+ *  `valueComparison`도 `changeVsMonthAgoPct`도 null이라 칩도 "비슷해요" 문구도 없이 큰
+ *  숫자만 남는다. **가격 자체가 없는 카드**(`ProduceCard` 스토리의 가격없음)와는 다른 상태다
+ *  — 이건 잴 수는 있는데 견줄 과거가 없는 경우다. */
+export const 값어치_무비교: StoryObj = {
+  render: () => (
+    <App
+      view={pageView({
+        cards: [
+          buildCard(
+            { ...CARD_KNOBS_DEFAULT, price: 280, monthAgo: null, yearAgo: null, normalYear: null },
+            7,
+          ),
+        ],
+      })}
+    />
+  ),
+}
+
+/** 펼침 그래프 — 최근 궤적 4점(1달 전→2주 전→1주 전→지금) + 평년 점선 + 각주(평년·작년).
+ *  평년(4,473원)이 네 점 전부보다 높아 점선이 궤적 위쪽에 뜬다 — `card.ts`가 평년을 점들과
+ *  **같은 스케일**로 계산해 넘기므로(`normalYearLevel`) 캔버스 밖으로 잘리지 않는다(1063f3b가
+ *  고친 버그). 카드는 `<details>`라 펼쳐야(open) 그래프가 보이므로, play에서 직접 연다 —
+ *  React 상태가 아니라 네이티브 `open` 프로퍼티라 클릭 이벤트 대신 `ProduceCard.test.tsx`와
+ *  같은 방식(`.open = true`)으로 연다. */
+export const 값어치_그래프: StoryObj = {
+  render: () => (
+    <App
+      view={pageView({
+        cards: [
+          buildCard(
+            {
+              ...CARD_KNOBS_DEFAULT,
+              name: '배추',
+              emoji: '🥬',
+              kindName: '',
+              category: 'vegetable',
+              price: 3513,
+              weekAgo: 3622,
+              twoWeeksAgo: 3818,
+              monthAgo: 3698,
+              yearAgo: 4622,
+              normalYear: 4473,
+              unitQuantity: 1,
+              unitMeasure: '포기',
+              whyNow: '물량이 늘며 시세가 출렁이는 시기예요',
+            },
+            7,
+          ),
+        ],
+      })}
+    />
+  ),
+  play: async ({ canvasElement }) => {
+    canvasElement.querySelector<HTMLDetailsElement>('details')!.open = true
+    await waitFor(() => {
+      expect(canvasElement.querySelector('.norm-line')).not.toBeNull()
+      expect(canvasElement.textContent).toContain('4,473')
+      expect(canvasElement.textContent).toContain('4,622')
+    })
+  },
+}
+
 /** 이번 달 제철 프로필이 아예 없는 달. 카드도 필터도 없이 문구 한 줄. */
 export const 빈상태: StoryObj = {
   render: () => <App view={pageView({ cards: [], hasRecipes: false })} />,

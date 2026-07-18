@@ -21,7 +21,8 @@ const pick: PickResult = {
     price: 18200,
     unit: { quantity: 10, measure: { kind: 'count', unit: '개' } },
     changeVsMonthAgoPct: -25.7,
-    baseline: { monthAgo: 24500, yearAgo: 19800 },
+    comparison: { basis: 'yearAgo', basisLabel: '작년', pct: -8.08 },
+    baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 24500, yearAgo: 19800, normalYear: null },
   },
 }
 const base: AppView = {
@@ -30,10 +31,12 @@ const base: AppView = {
   date: new Date('2026-07-10'), freshness: { kind: 'dated', surveyedOn: '2026-07-10', days: 0 },
 }
 
-/** 필터/정렬 테스트용 최소 CardView. 가격·영양·레시피 없이 이름·카테고리만 지정. */
+/** 필터/정렬 테스트용 최소 CardView. 가격·영양·레시피 없이 이름·카테고리만 지정.
+ *  기본 inPeak: true — 앱의 기본 필터가 "한창 제철"이라, 이 필터를 안 다루는 테스트는
+ *  픽스처가 절정이어야 기본 필터에 안 걸러진다. */
 function makeCard(overrides: Partial<CardView> = {}): CardView {
   return {
-    emoji: '🥕', name: '당근', kind: '', category: 'fruit', inPeak: false,
+    emoji: '🥕', name: '당근', kind: '', category: 'fruit', inPeak: true,
     whyNow: '', note: { pick: '', store: '', use: '' },
     price: null, nutrition: null, recipes: null,
     ...overrides,
@@ -80,7 +83,8 @@ describe('App', () => {
     const view = viewWithCards([{ name: '수박' }, { name: '가지' }])
     const { getByLabelText, getAllByTestId } = await renderWithRouter(<App view={view} />)
     fireEvent.change(getByLabelText('정렬'), { target: { value: 'name' } })
-    const names = getAllByTestId('card-name').map((n) => n.textContent)
+    // card-title에는 이름 + 절정 dot(툴팁 텍스트 포함)이 함께 있어 첫 텍스트 노드(이름)만 본다
+    const names = getAllByTestId('card-name').map((n) => n.firstChild?.textContent)
     expect(names).toEqual(['가지', '수박'])
   })
   test('조건에 맞는 카드가 없으면 빈 상태 문구를 보인다', async () => {

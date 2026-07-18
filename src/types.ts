@@ -55,8 +55,11 @@ export interface Unit {
 /** 비교용 과거 가격. KAMIS가 **날짜를 주지 않고 라벨만 준다** — 그래서 관측이 아니다.
  *  관측과 같은 칸·같은 타입에 두면 컬럼을 바꿔 꽂아도 아무도 모른다 (실제로 그랬다). */
 export interface Baseline {
-  monthAgo: number | null
-  yearAgo: number | null
+  weekAgo: number | null // dpr3
+  twoWeeksAgo: number | null // dpr4
+  monthAgo: number | null // dpr5
+  yearAgo: number | null // dpr6
+  normalYear: number | null // dpr7 평년 — 그 날짜의 역대 평균가
 }
 
 export interface PriceEntry {
