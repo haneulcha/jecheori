@@ -125,4 +125,21 @@ describe('App', () => {
     const { container } = await renderWithRouter(<App view={view} />)
     expect(container.querySelector('.surveyed')).toBeNull()
   })
+  test('검색: 제철 매치는 카드로, 비제철 매치는 힌트로', async () => {
+    const view: AppView = {
+      ...viewWithCards([{ name: '오이' }]),
+      searchIndex: [{ emoji: '🍓', name: '딸기', seasonLabel: '12~4월', comingSoon: false }],
+    }
+    const { container } = await renderWithRouter(<App view={view} />)
+    fireEvent.change(container.querySelector('input[type="search"]')!, { target: { value: '딸' } })
+    expect(container.textContent).not.toContain('오이')
+    expect(container.textContent).toContain('딸기')
+    expect(container.textContent).toContain('12~4월 제철')
+  })
+  test('검색 무매치면 담백한 안내', async () => {
+    const view = viewWithCards([{ name: '오이' }])
+    const { container } = await renderWithRouter(<App view={view} />)
+    fireEvent.change(container.querySelector('input[type="search"]')!, { target: { value: 'zzz' } })
+    expect(container.textContent).toContain("찾지 못했어요")
+  })
 })

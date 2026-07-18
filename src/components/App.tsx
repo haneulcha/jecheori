@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
-import { filterCards, sortCards } from '../cardlist'
+import { filterCards, searchCards, searchHints, sortCards } from '../cardlist'
 import type { AppView, Filter, SortMode } from '../view-types'
 import { surveyedLabel, weekLabel } from '../week'
 import { FilterBar } from './FilterBar'
 import { NavIndex } from './NavIndex'
 import { ProduceCard } from './ProduceCard'
+import { SearchBar } from './SearchBar'
+import { SeasonHint } from './SeasonHint'
 import { SortControl } from './SortControl'
 import { Sprig } from './Sprig'
 
@@ -32,6 +34,7 @@ export function App({ view }: { view: AppView }) {
   const [ready, setReady] = useState(false)
   const [filters, setFilters] = useState<Set<Filter>>(new Set())
   const [sort, setSort] = useState<SortMode>('drop')
+  const [query, setQuery] = useState('')
   useEffect(() => setReady(true), [])
 
   const toggle = (f: Filter) =>
@@ -46,7 +49,11 @@ export function App({ view }: { view: AppView }) {
       return next
     })
 
-  const shown = sortCards(filterCards(cards, filters), sort)
+  const q = query.trim()
+  const searching = q.length > 0
+  const base = searchCards(cards, q)
+  const shown = sortCards(filterCards(base, filters), sort)
+  const hints = searchHints(view.searchIndex, q)
   const month = date.getMonth() + 1
   const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
 
@@ -67,6 +74,7 @@ export function App({ view }: { view: AppView }) {
             <>
               {ready && (
                 <div className="controls">
+                  <SearchBar query={query} onChange={setQuery} />
                   <FilterBar filters={filters} onToggle={toggle} />
                   <SortControl sort={sort} onChange={setSort} />
                 </div>
@@ -74,13 +82,27 @@ export function App({ view }: { view: AppView }) {
               {noDrop && (
                 <p className="nodrop">이번 주는 크게 내려온 게 없어요. 제철은 그대로 곁에 있어요.</p>
               )}
-              {shown.length > 0 ? (
+              {shown.length > 0 && (
                 <div className="list">
                   {shown.map((c, i) => (
                     <ProduceCard key={c.name + i} card={c} />
                   ))}
                 </div>
-              ) : (
+              )}
+              {searching && hints.length > 0 && (
+                <div className="off-season">
+                  <p className="off-divider">지금은 제철이 아니에요</p>
+                  <ul className="hint-list">
+                    {hints.map((h, i) => (
+                      <SeasonHint key={i} hint={h} />
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {searching && shown.length === 0 && hints.length === 0 && (
+                <p className="empty">'{q}' 제철 품목을 찾지 못했어요</p>
+              )}
+              {!searching && shown.length === 0 && (
                 <p className="empty">조건에 맞는 제철 품목이 없어요</p>
               )}
             </>
