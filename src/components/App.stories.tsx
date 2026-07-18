@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, fireEvent, waitFor, within } from 'storybook/test'
 import { App } from './App'
 import { buildAppView } from '../app'
 import { currentTerm, seasonOf } from '../season'
@@ -104,7 +105,8 @@ export const 영양푸터: StoryObj = {
 }
 
 /** **진짜 데이터로 그 달의 앱을 본다.** 월 노브를 1~12로 돌려보라 —
- *  1월엔 딸기·감귤·시금치가, 10월엔 사과·단감이 뜬다. "칩은 19개인데 카드는 5개"도 여기서 보인다.
+ *  1월엔 딸기·감귤·시금치가, 10월엔 사과·단감이 뜬다. 상한(cap)은 없다 — 그 달 제철
+ *  전체가 카드로 뜨고, 기본 정렬은 하락 큰 순이다(절정은 마커·필터일 뿐 정렬 키가 아니다).
  *
  *  한계 둘:
  *  1. prices.json은 2026-07-13 조사분 한 장뿐이다.
@@ -122,5 +124,103 @@ export const 그달의진짜앱: StoryObj<{ month: number }> = {
     const view = buildAppView(REAL.profiles, snapshot, REAL.nutrition, REAL.recipes, now)
     document.body.dataset.season = seasonOf(month) // 그 달의 계절로 팔레트를 맞춘다
     return <App view={view} />
+  },
+}
+
+/** 7월 실측 스냅샷(2026-07-13, 19종) 그대로, 노브 없이 고정. 아무 인터랙션도 없는
+ *  기본 진입 상태가 "제철 전체 + 하락 큰 순"임을 그대로 보여준다 — 위 칸을 5장에서
+ *  끊던 상한이 없어졌으니, 여기엔 19장이 통째로 뜬다. */
+export const 전체목록_하락순: StoryObj = {
+  render: () => {
+    const now = new Date('2026-07-13T09:00:00+09:00')
+    const view = buildAppView(REAL.profiles, REAL.prices, REAL.nutrition, REAL.recipes, now)
+    document.body.dataset.season = seasonOf(7)
+    return <App view={view} />
+  },
+}
+
+/** 검색은 40개 프로필 전체를 본다 — 이번 달 제철이면 카드로, 아니면 "지금은 제철이 아니에요"
+ *  힌트로. "감"을 치면 제철인 **감자**(카드)와 비제철인 **감귤·단감**(힌트)이 한 화면에 같이
+ *  뜬다 — 검색이 카드 목록보다 넓은 범위(40종)를 본다는 걸 눈으로 확인하는 자리. */
+export const 검색결과: StoryObj = {
+  render: () => {
+    const now = new Date('2026-07-13T09:00:00+09:00')
+    const view = buildAppView(REAL.profiles, REAL.prices, REAL.nutrition, REAL.recipes, now)
+    document.body.dataset.season = seasonOf(7)
+    return <App view={view} />
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    // controls는 마운트 후 useEffect로 켜진다(App.tsx의 ready) — findBy로 그 틈을 기다린다.
+    const search = await canvas.findByRole('searchbox')
+    fireEvent.change(search, { target: { value: '감' } })
+    // React 커밋은 fireEvent 직후 한 틱 늦을 수 있다 — getBy 즉시 단언 대신 waitFor로 기다린다.
+    await waitFor(() => {
+      expect(canvas.getByText('감자')).toBeInTheDocument()
+      expect(canvas.getByText('지금은 제철이 아니에요')).toBeInTheDocument()
+      expect(canvas.getByText('감귤')).toBeInTheDocument()
+    })
+  },
+}
+
+/** 필터 칩("과일")을 눌러 걸러진 상태. 7월 제철 과일(복숭아·수박·참외·멜론)만 남고
+ *  채소는 사라진다 — FilterBar·cardlist.filterCards가 실제로 하는 일 그대로. */
+export const 필터적용: StoryObj = {
+  render: () => {
+    const now = new Date('2026-07-13T09:00:00+09:00')
+    const view = buildAppView(REAL.profiles, REAL.prices, REAL.nutrition, REAL.recipes, now)
+    document.body.dataset.season = seasonOf(7)
+    return <App view={view} />
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const fruitChip = await canvas.findByRole('button', { name: '과일' })
+    fireEvent.click(fruitChip)
+    await waitFor(() => {
+      expect(canvas.getByText('수박')).toBeInTheDocument()
+      expect(canvas.queryByText('오이')).not.toBeInTheDocument()
+    })
+  },
+}
+
+/** 검색 무매치 — 제철 카드도, 비제철 힌트도 하나도 안 걸리면 담백한 안내 한 줄만. */
+export const 검색_무매치: StoryObj = {
+  render: () => {
+    const now = new Date('2026-07-13T09:00:00+09:00')
+    const view = buildAppView(REAL.profiles, REAL.prices, REAL.nutrition, REAL.recipes, now)
+    document.body.dataset.season = seasonOf(7)
+    return <App view={view} />
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const search = await canvas.findByRole('searchbox')
+    fireEvent.change(search, { target: { value: 'zzz' } })
+    await waitFor(() => {
+      expect(canvas.getByText("'zzz' 제철 품목을 찾지 못했어요")).toBeInTheDocument()
+    })
+  },
+}
+
+/** 필터 무매치 — 채소만 있는 목록에서 "과일" 칩을 누르면(상호배타로 채소 필터는 자동 해제)
+ *  검색어 없이도 조건에 맞는 카드가 0장이 된다. 검색 무매치와 문구가 다르다
+ *  ("찾지 못했어요" vs "조건에 맞는 제철 품목이 없어요") — 검색 여부로 갈리는 별개의 슬롯. */
+export const 필터_무매치: StoryObj = {
+  render: () => (
+    <App
+      view={pageView({
+        cards: [
+          buildCard({ ...CARD_KNOBS_DEFAULT, name: '오이', category: 'vegetable' }, 7),
+          buildCard({ ...CARD_KNOBS_DEFAULT, name: '애호박', category: 'vegetable' }, 7),
+        ],
+      })}
+    />
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const fruitChip = await canvas.findByRole('button', { name: '과일' })
+    fireEvent.click(fruitChip)
+    await waitFor(() => {
+      expect(canvas.getByText('조건에 맞는 제철 품목이 없어요')).toBeInTheDocument()
+    })
   },
 }
