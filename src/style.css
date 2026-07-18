@@ -150,10 +150,11 @@ header h1 {
 .card::before {
   content: '';
   position: absolute;
-  top: -0.62rem;
+  /* 19장으로 늘어난 목록에서 큰 테이프가 반복돼 시끄러워 살짝 줄인다 */
+  top: -0.5rem;
   left: 50%;
-  width: 4.6rem;
-  height: 1.3rem;
+  width: 3.4rem;
+  height: 1rem;
   transform: translateX(-50%) rotate(-2deg);
   background: color-mix(in srgb, var(--accent) 40%, transparent);
   border-radius: 1px;
@@ -215,28 +216,21 @@ header h1 {
 .nrow:last-child { border-bottom: none; }
 .nrow .lbl { color: var(--ink); font-weight: 700; letter-spacing: 0.02em; }
 
-/* 이번 달 제철 리스트 */
-.seasonal { margin-top: var(--space-2xl); }
-.seasonal h2 {
-  font-size: var(--text-md);
+/* 오프시즌 힌트 — 검색했지만 이번 달 제철이 아닌 품목을 알려주는 목록.
+   텍스트는 쪽빛 규율(--ink/--muted)만, 웜 컬러 없음(배경 블록이 아니라 목록이라 tint도 안 씀). */
+.off-season { margin-top: var(--space-xl); }
+.off-divider {
   color: var(--muted);
-  font-weight: 600;
+  font-size: var(--text-sm);
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-md);
   margin: 0 0 var(--space-sm);
 }
-.seasonal ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-}
-.seasonal li {
-  background: var(--tint);
-  border-radius: 999px;
-  padding: var(--space-2xs) var(--space-md);
-  font-size: var(--text-sm);
-}
+.hint-list { list-style: none; margin: 0; padding: 0; }
+.season-hint { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm) 0; color: var(--muted); }
+.season-hint .hint-name { color: var(--ink); font-weight: 600; }
+.hint-when { font-size: var(--text-sm); }
+.hint-coming { margin-left: auto; font-size: var(--text-sm); color: var(--ink); text-decoration: none; }
 
 .nodrop { color: var(--muted); font-size: var(--text-sm); margin: 0 0 var(--space-lg); }
 
@@ -266,15 +260,41 @@ footer p { color: var(--muted); font-size: var(--text-xs); }
 .spark .val, .spark .lab { fill: var(--muted); font-size: 9px; }
 .spark .val.now, .spark .lab.now { fill: var(--ink); font-weight: 700; }
 
-/* 과일/채소 필터 (CSS-only) */
-.picks input[name='cat-filter'] { position: absolute; opacity: 0; pointer-events: none; }
-.filter { display: flex; gap: var(--space-xs); margin-bottom: var(--space-lg); }
-.filter label { font-size: var(--text-sm); padding: var(--space-2xs) var(--space-md); border-radius: var(--radius-pill); cursor: pointer; border: 1px solid var(--line); color: var(--muted); user-select: none; }
-#f-all:checked ~ .filter label[for='f-all'],
-#f-fruit:checked ~ .filter label[for='f-fruit'],
-#f-veg:checked ~ .filter label[for='f-veg'] { background: var(--tint); color: var(--ink); border-color: var(--tint); font-weight: 600; }
-#f-fruit:checked ~ .list .card[data-cat='vegetable'],
-#f-veg:checked ~ .list .card[data-cat='fruit'] { display: none; }
+/* 검색 · 필터 · 정렬 컨트롤 (JS 기반). 텍스트는 쪽빛(--ink/--muted)만,
+   웜 컬러(--accent/--tint)는 켜진 칩의 배경·테두리로만 쓴다(글자엔 안 씀). */
+.controls { display: flex; flex-direction: column; gap: var(--space-sm); margin-bottom: var(--space-lg); }
+.search {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: var(--radius-crisp);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-md);
+}
+.search::placeholder { color: var(--muted); }
+.search:focus-visible { outline: 2px solid var(--ink); outline-offset: 0; border-color: transparent; }
+.filter { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.fchip {
+  font-size: var(--text-sm);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  cursor: pointer;
+}
+.fchip.on { background: var(--tint); border-color: var(--accent); }
+.fchip:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+.sort { display: inline-flex; align-items: center; gap: var(--space-xs); color: var(--muted); font-size: var(--text-sm); }
+.sort select {
+  background: var(--card);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: var(--radius-crisp);
+  padding: var(--space-2xs) var(--space-sm);
+  font-size: var(--text-sm);
+}
 
 /* 접근성 */
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
