@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { perUnitPrice, sparklineLevels, whyNowLine, toCardView, toChange } from '../src/card'
+import { perUnitPrice, sparklineLevels, whyNowLine, toCardView, toChange, toSpark } from '../src/card'
 import type { PickResult, PriceView } from '../src/picks'
-import type { ProduceProfile } from '../src/types'
+import type { Baseline, ProduceProfile } from '../src/types'
 import { nutritionView } from '../src/nutrition'
 import { recipeView } from '../src/recipe'
 import { count, weight } from './units'
@@ -58,7 +58,7 @@ describe('perUnitPrice', () => {
 describe('sparklineLevels', () => {
   test('최솟값 0, 최댓값 1, 중간은 그 사이', () => {
     // 픽셀이 아니라 상대 위치를 낸다 — viewBox는 컴포넌트 소관
-    const lv = sparklineLevels({ yearAgo: 13400, monthAgo: 16900, now: 12600 })
+    const lv = sparklineLevels([13400, 16900, 12600])
     expect(lv[1]).toBeCloseTo(1, 5) // 한 달 전이 최고
     expect(lv[2]).toBeCloseTo(0, 5) // 지금이 최저
     expect(lv[0]).toBeGreaterThan(0)
@@ -66,12 +66,39 @@ describe('sparklineLevels', () => {
   })
 
   test('모두 같으면 0.5 (중앙)', () => {
-    expect(sparklineLevels({ yearAgo: 100, monthAgo: 100, now: 100 })).toEqual([0.5, 0.5, 0.5])
+    expect(sparklineLevels([100, 100, 100])).toEqual([0.5, 0.5, 0.5])
   })
 
   test('픽셀 좌표를 내지 않는다', () => {
-    const lv = sparklineLevels({ yearAgo: 13400, monthAgo: 16900, now: 12600 })
+    const lv = sparklineLevels([13400, 16900, 12600])
     expect(lv.every((v) => v >= 0 && v <= 1)).toBe(true)
+  })
+
+  test('임의 길이 배열도 받는다(최근 4점 궤적용)', () => {
+    const lv = sparklineLevels([3698, 3818, 3622, 3513])
+    expect(lv).toHaveLength(4)
+    expect(lv.every((v) => v >= 0 && v <= 1)).toBe(true)
+  })
+})
+
+const baseline = (o: Partial<Baseline> = {}): Baseline =>
+  ({ weekAgo: null, twoWeeksAgo: null, monthAgo: null, yearAgo: null, normalYear: null, ...o })
+
+describe('toSpark (최근 4점)', () => {
+  test('존재하는 최근 점을 시간순 [1달,2주,1주,지금]으로', () => {
+    const s = toSpark(3513, baseline({ monthAgo: 3698, twoWeeksAgo: 3818, weekAgo: 3622, normalYear: 4473, yearAgo: 4622 }))!
+    expect(s.points.map((p) => p.label)).toEqual(['1달 전', '2주 전', '1주 전', '지금'])
+    expect(s.points.map((p) => p.value)).toEqual([3698, 3818, 3622, 3513])
+    expect(s.normalYear).toBe(4473)
+    expect(s.yearAgo).toBe(4622)
+    expect(s.levels).toHaveLength(4)
+  })
+  test('결측 점은 건너뛴다', () => {
+    const s = toSpark(100, baseline({ monthAgo: 120, weekAgo: 110 }))!
+    expect(s.points.map((p) => p.label)).toEqual(['1달 전', '1주 전', '지금'])
+  })
+  test('점 2개 미만이면 null', () => {
+    expect(toSpark(100, baseline())).toBeNull()
   })
 })
 
@@ -145,7 +172,7 @@ describe('toCardView', () => {
     expect(c.price?.change).toBeNull()
   })
 
-  test('지난달 없으면 spark null (change는 comparison 축이라 별개)', () => {
+  test('최근 궤적 점이 하나(지금)뿐이면 spark null (change는 comparison 축이라 별개)', () => {
     const c = toCardView(
       pick({
         price: priceView({
@@ -167,7 +194,7 @@ describe('toCardView', () => {
     expect(c.price?.monthAgoPct).toBeNull()
   })
 
-  test('작년 없으면 spark null', () => {
+  test('작년 없어도 spark는 유지되고 yearAgo 각주만 null', () => {
     const c = toCardView(
       pick({
         price: priceView({
@@ -176,7 +203,8 @@ describe('toCardView', () => {
       }),
       7,
     )
-    expect(c.price?.spark).toBeNull()
+    expect(c.price?.spark).not.toBeNull()
+    expect(c.price?.spark?.yearAgo).toBeNull()
   })
 
   test('무게 단위는 perUnit null', () => {

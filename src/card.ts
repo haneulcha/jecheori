@@ -1,5 +1,5 @@
 import type { PickResult, PriceView, ValueComparison } from './picks'
-import type { Category, ProduceProfile, Unit } from './types'
+import type { Baseline, Category, ProduceProfile, Unit } from './types'
 import type { NutritionView } from './nutrition'
 import type { RecipeView } from './recipe'
 
@@ -21,11 +21,14 @@ export type ChangeView =
   | null // 비교 기준 없음 → 칩·문구 없음
 
 export interface SparkView {
-  /** 세 값(작년/한달전/지금)의 상대 위치 (0 = 최저, 1 = 최고). 픽셀은 컴포넌트가 정한다 */
+  /** 존재하는 최근 궤적 점(1달 전→2주 전→1주 전→지금 중 결측 제외), 시간순. */
+  points: { label: string; value: number }[]
+  /** points 각각의 상대 위치 (0 = 최저, 1 = 최고). 픽셀은 컴포넌트가 정한다 */
   levels: number[]
-  yearAgo: number
-  monthAgo: number
-  now: number
+  /** 평년 기준선(각주 + 점선). 없으면 null — 점선·각주 항목 생략 */
+  normalYear: number | null
+  /** 작년 이맘때(각주). 없으면 null — 각주 항목 생략 */
+  yearAgo: number | null
 }
 
 export interface PriceCardView {
@@ -64,13 +67,13 @@ export function perUnitPrice(price: number, unit: Unit): { each: number } | null
   return { each: Math.round(price / unit.quantity) }
 }
 
-/** 세 값(작년/한달전/지금)의 **상대 위치**. 0 = 최솟값, 1 = 최댓값, 모두 같으면 0.5.
+/** 값들의 **상대 위치**. 0 = 최솟값, 1 = 최댓값, 모두 같으면 0.5.
  *
  *  픽셀도 viewBox도 여기선 모른다 — 그건 컴포넌트 소관이다. 예전엔 이 함수가
  *  x=[45,150,255]·y=24~44라는 SVG 좌표를 그대로 뱉어서, 스파크라인 크기를 바꾸면
- *  "순수 파생" 레이어가 따라 바뀌었다. 도메인 사실은 "어디쯤인가"지 "x가 몇"이 아니다. */
-export function sparklineLevels(v: { yearAgo: number; monthAgo: number; now: number }): number[] {
-  const vals = [v.yearAgo, v.monthAgo, v.now]
+ *  "순수 파생" 레이어가 따라 바뀌었다. 도메인 사실은 "어디쯤인가"지 "x가 몇"이 아니다.
+ *  점 개수는 고정하지 않는다 — 최근 궤적은 2~4점으로 가변이다. */
+export function sparklineLevels(vals: number[]): number[] {
   const min = Math.min(...vals)
   const max = Math.max(...vals)
   const span = max - min
@@ -91,14 +94,23 @@ export function toChange(c: ValueComparison | null): ChangeView {
     : { kind: 'rise', pct: rounded, basisLabel: c.basisLabel }
 }
 
-function toSpark(v: PriceView): SparkView | null {
-  const { monthAgo, yearAgo } = v.baseline
-  if (monthAgo === null || yearAgo === null) return null
+/** 최근 궤적 [1달 전, 2주 전, 1주 전, 지금] 중 존재하는 점만 시간순으로 잇는다.
+ *  결측(null)은 건너뛴다 — 점 2개 미만이면 그릴 게 없어 null.
+ *  평년(normalYear)·작년(yearAgo)은 궤적 점이 아니라 기준선·각주로만 쓴다(있으면 실어보낸다). */
+export function toSpark(price: number, b: Baseline): SparkView | null {
+  const seq: { label: string; value: number | null }[] = [
+    { label: '1달 전', value: b.monthAgo },
+    { label: '2주 전', value: b.twoWeeksAgo },
+    { label: '1주 전', value: b.weekAgo },
+    { label: '지금', value: price },
+  ]
+  const points = seq.filter((p): p is { label: string; value: number } => p.value !== null && p.value !== undefined)
+  if (points.length < 2) return null
   return {
-    levels: sparklineLevels({ yearAgo, monthAgo, now: v.price }),
-    yearAgo,
-    monthAgo,
-    now: v.price,
+    points,
+    levels: sparklineLevels(points.map((p) => p.value)),
+    normalYear: b.normalYear ?? null,
+    yearAgo: b.yearAgo ?? null,
   }
 }
 
@@ -111,7 +123,7 @@ function toPriceCardView(v: PriceView): PriceCardView {
     perUnit: per ? per.each : null,
     change: toChange(v.comparison),
     monthAgoPct: v.changeVsMonthAgoPct,
-    spark: toSpark(v),
+    spark: toSpark(v.price, v.baseline),
   }
 }
 
