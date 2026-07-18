@@ -26,7 +26,6 @@ const pick: PickResult = {
 }
 const base: AppView = {
   cards: [toCardView(pick, 7)], noDrop: false, hasNutrition: false, hasRecipes: false,
-  seasonal: [{ emoji: '🍑', name: '복숭아' }],
   searchIndex: [],
   date: new Date('2026-07-10'), freshness: { kind: 'dated', surveyedOn: '2026-07-10', days: 0 },
 }
@@ -95,7 +94,7 @@ describe('App', () => {
     expect(container.textContent).toContain('크게 내려온 게 없어요')
   })
   test('절기가 있으면 아이브로에 함께', async () => {
-    const { container } = await renderWithRouter(<App view={{ ...base, cards: [], seasonal: [], term: '소서' }} />)
+    const { container } = await renderWithRouter(<App view={{ ...base, cards: [], term: '소서' }} />)
     expect(container.textContent).toContain('소서 · 7월 둘째 주')
   })
   test('hasRecipes면 레시피 출처를 페이지 하단에 한 번 보인다', async () => {

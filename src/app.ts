@@ -8,8 +8,6 @@ import { matchNutrition, nutritionView } from './nutrition'
 import { matchRecipes, recipeView } from './recipe'
 import type { AppView, ComingView, Freshness, OffSeasonHint } from './view-types'
 
-const label = (p: ProduceProfile) => ({ emoji: p.emoji, name: p.name })
-
 function freshnessOf(snapshot: PriceSnapshot | null, now: Date): Freshness {
   // 스냅샷이 없으면 지어낼 조사일이 없다 — 줄을 그리지 않는다.
   if (!snapshot) return { kind: 'none' }
@@ -53,7 +51,6 @@ export function buildAppView(
     noDrop: picks.length > 0 && !hasDrops(picks),
     hasNutrition: cards.some((c) => c.nutrition !== null),
     hasRecipes: cards.some((c) => c.recipes !== null),
-    seasonal: seasonalThisMonth(profiles, month).map(label),
     searchIndex,
     date: now,
     freshness: freshnessOf(snapshot, now),

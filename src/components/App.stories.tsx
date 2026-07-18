@@ -23,9 +23,6 @@ function pageView(over: Partial<AppView>): AppView {
     noDrop: false,
     hasNutrition: false,
     hasRecipes: true,
-    seasonal: REAL.profiles
-      .filter((p) => p.seasonMonths.includes(7))
-      .map((p) => ({ emoji: p.emoji, name: p.name })),
     searchIndex: [],
     date,
     freshness: { kind: 'dated', surveyedOn: '2026-07-14', days: 0 },
@@ -69,7 +66,7 @@ export const 하락없음: StoryObj = {
 
 /** 이번 달 제철 프로필이 아예 없는 달. 카드도 필터도 없이 문구 한 줄. */
 export const 빈상태: StoryObj = {
-  render: () => <App view={pageView({ cards: [], seasonal: [], hasRecipes: false })} />,
+  render: () => <App view={pageView({ cards: [], hasRecipes: false })} />,
 }
 
 /** **가장 은밀한 슬롯.** 영양이 있는 카드가 하나라도 렌더되면 푸터에 출처 줄이 생긴다.

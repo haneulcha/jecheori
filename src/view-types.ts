@@ -1,12 +1,6 @@
 import type { CardView } from './card'
 import type { Season } from './season'
 
-/** 이모지+이름 칩 하나 (이번 달 제철 리스트용) */
-export interface Chip {
-  emoji: string
-  name: string
-}
-
 /** 가격 조사일. 스냅샷이 있으면 신선도와 무관하게 날짜를 항상 싣는다(상시 표시).
  *  임계·경고는 없앴다 — 상대 문구("3일 전")가 신선도를 말한다. 케이스를 타입으로
  *  갈라 뷰가 빠뜨릴 수 없게 한다(스냅샷 없음 vs 날짜 있음). */
@@ -35,7 +29,6 @@ export interface AppView {
   hasNutrition: boolean
   /** 카드 중 하나라도 레시피가 있으면 페이지 하단에 출처를 한 번 표기한다 */
   hasRecipes: boolean
-  seasonal: Chip[]
   /** 이번 달 비제철 프로필 전체 — 검색이 제철 밖 품목을 찾았을 때 힌트로 보여준다 */
   searchIndex: OffSeasonHint[]
   date: Date
