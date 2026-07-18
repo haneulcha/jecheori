@@ -545,8 +545,8 @@ footer p + p { margin-top: var(--space-3xs); }
   }
 }
 
-/* 제철 월 띠 — 원장 프레임 + 색 채우기(명도 차이). 색은 카드 상속 계절색.
-   웜색은 배경만, 잉크는 프레임·▼·숫자에만 (색 규율). */
+/* 제철 월 띠 — 간트 바. 12개월 축 위에 제철=연함·절정=짙음(색은 카드 상속 계절색).
+   웜색은 배경만, 잉크는 숫자에만 (색 규율). */
 /* 왼쪽 열: 이모지·이름 위, 그 아래 제철 띠. 오른쪽 가격 블록 높이와 무관하게 이름에 붙는다. */
 .card .id-wrap { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: var(--space-sm); }
 .season-strip { width: 60%; }
