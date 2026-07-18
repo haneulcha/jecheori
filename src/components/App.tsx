@@ -29,7 +29,7 @@ function usePeakDotTooltip() {
 }
 
 export function App({ view }: { view: AppView }) {
-  const { cards, noDrop, hasNutrition, hasRecipes, seasonal, date, freshness, term } = view
+  const { cards, noDrop, hasNutrition, hasRecipes, date, freshness, term } = view
   usePeakDotTooltip()
   const [ready, setReady] = useState(false)
   const [filters, setFilters] = useState<Set<Filter>>(new Set())
@@ -54,7 +54,6 @@ export function App({ view }: { view: AppView }) {
   const base = searchCards(cards, q)
   const shown = sortCards(filterCards(base, filters), sort)
   const hints = searchHints(view.searchIndex, q)
-  const month = date.getMonth() + 1
   const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
 
   return (
@@ -65,7 +64,7 @@ export function App({ view }: { view: AppView }) {
         <p className="week">{eyebrow}</p>
         <h1>이 계절을 맛보는 가장 알뜰한 방법</h1>
         {freshness.kind === 'dated' && (
-          <p className="surveyed">{surveyedLabel(freshness.days, freshness.surveyedOn)}</p>
+          <p className="surveyed">{surveyedLabel(freshness.days, freshness.surveyedOn)} · 전국 평균</p>
         )}
       </header>
       <main>
@@ -109,14 +108,6 @@ export function App({ view }: { view: AppView }) {
           ) : (
             <p className="empty">이번 달 제철 정보가 아직 없어요</p>
           )}
-        </section>
-        <section className="seasonal">
-          <h2>{month}월의 제철</h2>
-          <ul>
-            {seasonal.map((c, i) => (
-              <li key={i}>{c.emoji} {c.name}</li>
-            ))}
-          </ul>
         </section>
       </main>
       <footer>

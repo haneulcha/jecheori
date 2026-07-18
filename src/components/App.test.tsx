@@ -118,7 +118,16 @@ describe('App', () => {
   })
   test('조사일 한 줄을 항상 보여준다 (오늘)', async () => {
     const { container } = await renderWithRouter(<App view={base} />)
-    expect(container.querySelector('.surveyed')?.textContent).toBe('오늘 · 7월 10일 기준')
+    expect(container.querySelector('.surveyed')?.textContent).toBe('오늘 · 7월 10일 기준 · 전국 평균')
+  })
+  test('하단 "○월의 제철" 이름 칩 목록은 없다', async () => {
+    const { container } = await renderWithRouter(<App view={base} />)
+    expect(container.textContent).not.toMatch(/월의 제철/)
+  })
+  test('조사일 줄에 전국 평균 표기', async () => {
+    const view = viewWithCards([{ name: '오이' }])
+    const { container } = await renderWithRouter(<App view={view} />)
+    expect(container.querySelector('.surveyed')?.textContent).toContain('전국 평균')
   })
   test('스냅샷 없으면(none) 조사일 줄이 없다', async () => {
     const view: AppView = { ...base, freshness: { kind: 'none' } }
