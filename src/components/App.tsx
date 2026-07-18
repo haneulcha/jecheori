@@ -83,8 +83,8 @@ export function App({ view }: { view: AppView }) {
               )}
               {shown.length > 0 && (
                 <div className="list">
-                  {shown.map((c, i) => (
-                    <ProduceCard key={c.name + i} card={c} />
+                  {shown.map((c) => (
+                    <ProduceCard key={c.name} card={c} />
                   ))}
                 </div>
               )}

@@ -1,5 +1,5 @@
 import type { NutritionSnapshot, PriceSnapshot, ProduceProfile, RecipeSnapshot } from './types'
-import { comingMonths, hasDrops, seasonalThisMonth, selectPicks } from './picks'
+import { comingMonths, hasDrops, selectPicks } from './picks'
 import { toCardView, whyNowLine } from './card'
 import { sortCards } from './cardlist'
 import { currentTerm, seasonLabel, seasonOf } from './season'
