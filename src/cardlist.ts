@@ -6,6 +6,14 @@ export type SortMode = 'drop' | 'name' | 'priceLow'
 // Task 6에서 view-types.ts로 옮긴다. 그때 이 로컬 정의를 import로 교체.
 export type Filter = 'fruit' | 'vegetable' | 'drop' | 'peak' | 'priced'
 
+// OffSeasonHint는 Task 6에서 view-types.ts로 옮긴다. 그때 이 로컬 정의를 import로 교체.
+export interface OffSeasonHint {
+  emoji: string
+  name: string
+  seasonLabel: string
+  comingSoon: boolean
+}
+
 /** CardView의 부호 있는 등락률(하락 음수). 무가격·기준선없음이면 null. */
 export function signedChange(card: CardView): number | null {
   const ch = card.price?.change
@@ -47,4 +55,16 @@ const PRED: Record<Filter, (c: CardView) => boolean> = {
 /** 필터 술어 AND (순수). 과일/채소 상호배타는 UI(FilterBar)가 관장. */
 export function filterCards(cards: CardView[], filters: Set<Filter>): CardView[] {
   return cards.filter((c) => [...filters].every((f) => PRED[f](c)))
+}
+
+/** 이름 부분일치로 제철 카드 검색 (순수). 빈 쿼리면 전체. */
+export function searchCards(cards: CardView[], query: string): CardView[] {
+  const q = query.trim()
+  return q ? cards.filter((c) => c.name.includes(q)) : cards
+}
+
+/** 이름 부분일치로 비제철 힌트 검색 (순수). */
+export function searchHints(index: OffSeasonHint[], query: string): OffSeasonHint[] {
+  const q = query.trim()
+  return q ? index.filter((h) => h.name.includes(q)) : []
 }

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { signedChange, sortCards, filterCards } from '../src/cardlist'
+import { signedChange, sortCards, filterCards, searchCards, searchHints } from '../src/cardlist'
 import type { CardView } from '../src/card'
 import { count } from './units'
 
@@ -62,4 +62,17 @@ describe('filterCards', () => {
   test('절정만', () => expect(filterCards(all, new Set(['peak'])).map((c) => c.name)).toEqual(['수박', '토마토']))
   test('가격 있는 것만', () => expect(filterCards(all, new Set(['priced'])).map((c) => c.name)).toEqual(['수박', '토마토']))
   test('AND: 채소 + 가격있음', () => expect(filterCards(all, new Set(['vegetable', 'priced'])).map((c) => c.name)).toEqual(['토마토']))
+})
+
+describe('searchCards / searchHints', () => {
+  const cards = [card({ name: '오이' }), card({ name: '참외' }), card({ name: '수박' })]
+  test('이름 부분일치', () => expect(searchCards(cards, '외').map((c) => c.name)).toEqual(['참외']))
+  test('공백 트림', () => expect(searchCards(cards, ' 오이 ').map((c) => c.name)).toEqual(['오이']))
+  test('빈 쿼리는 전체', () => expect(searchCards(cards, '  ')).toHaveLength(3))
+
+  const index = [
+    { emoji: '🍓', name: '딸기', seasonLabel: '12~4월', comingSoon: false },
+    { emoji: '🍇', name: '포도', seasonLabel: '8~9월', comingSoon: true },
+  ]
+  test('힌트 부분일치', () => expect(searchHints(index, '딸').map((h) => h.name)).toEqual(['딸기']))
 })
