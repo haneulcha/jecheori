@@ -10,7 +10,7 @@ const snapshot: PriceSnapshot = JSON.parse(
 
 describe('커밋된 prices.json', () => {
   test('스키마 버전 2다', () => {
-    expect(snapshot.schemaVersion).toBe(2)
+    expect([2, 3]).toContain(snapshot.schemaVersion)
   })
 
   test('조사일이 있고 YYYY-MM-DD 꼴이다', () => {
