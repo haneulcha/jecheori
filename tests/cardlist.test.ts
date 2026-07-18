@@ -1,13 +1,20 @@
 import { describe, expect, test } from 'vitest'
 import { signedChange, sortCards, filterCards, searchCards, searchHints } from '../src/cardlist'
-import type { CardView } from '../src/card'
+import type { CardView, SeasonStripView } from '../src/card'
 import { count } from './units'
+
+const emptyStrip: SeasonStripView = {
+  months: Array.from({ length: 12 }, (_, i) => ({
+    month: i + 1, inSeason: false, isPeak: false, isCurrent: false,
+  })),
+  seasonLabel: '', peakLabel: '', currentMonth: 7,
+}
 
 function card(over: Partial<CardView>): CardView {
   return {
     emoji: '🥬', name: '품목', kind: '', category: 'vegetable', inPeak: false,
     whyNow: '', note: { pick: 'p', store: 's', use: 'u' },
-    price: null, nutrition: null, recipes: null, ...over,
+    price: null, nutrition: null, recipes: null, season: emptyStrip, ...over,
   }
 }
 

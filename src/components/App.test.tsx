@@ -2,7 +2,7 @@
 import { cleanup, fireEvent } from '@testing-library/react'
 import { afterEach, describe, expect, test } from 'vitest'
 import { App } from './App'
-import type { CardView } from '../card'
+import type { CardView, SeasonStripView } from '../card'
 import { toCardView } from '../card'
 import { renderWithRouter } from '../test-utils'
 import type { PickResult } from '../picks'
@@ -34,11 +34,18 @@ const base: AppView = {
 /** 필터/정렬 테스트용 최소 CardView. 가격·영양·레시피 없이 이름·카테고리만 지정.
  *  기본 inPeak: true — 앱의 기본 필터가 "한창 제철"이라, 이 필터를 안 다루는 테스트는
  *  픽스처가 절정이어야 기본 필터에 안 걸러진다. */
+const emptyStrip: SeasonStripView = {
+  months: Array.from({ length: 12 }, (_, i) => ({
+    month: i + 1, inSeason: false, isPeak: false, isCurrent: false,
+  })),
+  seasonLabel: '', peakLabel: '', currentMonth: 7,
+}
+
 function makeCard(overrides: Partial<CardView> = {}): CardView {
   return {
     emoji: '🥕', name: '당근', kind: '', category: 'fruit', inPeak: true,
     whyNow: '', note: { pick: '', store: '', use: '' },
-    price: null, nutrition: null, recipes: null,
+    price: null, nutrition: null, recipes: null, season: emptyStrip,
     ...overrides,
   }
 }

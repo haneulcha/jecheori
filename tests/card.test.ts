@@ -275,4 +275,12 @@ describe('toCardView', () => {
     } as any
     expect(toCardView(pick, 7).recipes).toBeNull()
   })
+
+  test('season 스트립을 CardView에 얹는다', () => {
+    const c = toCardView(pick(), 7)
+    expect(c.season.currentMonth).toBe(7)
+    expect(c.season.months).toHaveLength(12)
+    expect(c.season.months[6]).toEqual({ month: 7, inSeason: true, isPeak: true, isCurrent: true })
+    expect(c.season.seasonLabel).toBe('7~8월')
+  })
 })

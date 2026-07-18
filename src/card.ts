@@ -61,6 +61,7 @@ export interface CardView {
   price: PriceCardView | null
   nutrition: NutritionView | null
   recipes: RecipeView | null
+  season: SeasonStripView
 }
 
 /** 개당값 — **셀 수 있는 단위이고 수량이 1보다 클 때만** 성립한다.
@@ -196,5 +197,6 @@ export function toCardView(
     price: price ? toPriceCardView(price) : null,
     nutrition,
     recipes,
+    season: toSeasonStrip(profile, month),
   }
 }
