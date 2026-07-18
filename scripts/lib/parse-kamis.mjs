@@ -57,8 +57,11 @@ export function parseCategoryResponse(json) {
     unit: parseUnit(it.unit),
     price: parseNum(it.dpr1),
     baseline: {
+      weekAgo: parseNum(it.dpr3),
+      twoWeeksAgo: parseNum(it.dpr4),
       monthAgo: parseNum(it.dpr5),
       yearAgo: parseNum(it.dpr6),
+      normalYear: parseNum(it.dpr7),
     },
   }))
 }

@@ -23,7 +23,9 @@ const snap = (over: Partial<PriceEntry> = {}): PriceSnapshot => ({
   entries: [{
     itemName: '복숭아', kindName: '백도(10개)', rank: '상품',
     unit: count(10),
-    price: 18200, baseline: { monthAgo: 24500, yearAgo: 19800 }, ...over,
+    price: 18200,
+    baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 24500, yearAgo: 19800, normalYear: null },
+    ...over,
   }],
 })
 
@@ -57,7 +59,14 @@ describe('buildAppView', () => {
   })
 
   test('상승만이면 noDrop true', () => {
-    const v = buildAppView([peach], snap({ price: 18200, baseline: { monthAgo: 16000, yearAgo: 19800 } }), null, null, JULY)
+    const v = buildAppView(
+      [peach],
+      snap({
+        price: 18200,
+        baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 16000, yearAgo: 19800, normalYear: null },
+      }),
+      null, null, JULY,
+    )
     expect(v.noDrop).toBe(true)
   })
 
@@ -117,8 +126,8 @@ describe('buildAppView', () => {
     const snapshot: PriceSnapshot = {
       schemaVersion: 2, fetchedAt: '2026-07-15T00:00:00Z', surveyedOn: '2026-07-15',
       entries: [
-        { itemName: '작은하락', kindName: '기본', rank: '상품', unit: count(1, '개'), price: 90, baseline: { monthAgo: 100, yearAgo: 100 } },
-        { itemName: '큰하락', kindName: '기본', rank: '상품', unit: count(1, '개'), price: 50, baseline: { monthAgo: 100, yearAgo: 100 } },
+        { itemName: '작은하락', kindName: '기본', rank: '상품', unit: count(1, '개'), price: 90, baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 100, yearAgo: 100, normalYear: null } },
+        { itemName: '큰하락', kindName: '기본', rank: '상품', unit: count(1, '개'), price: 50, baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 100, yearAgo: 100, normalYear: null } },
       ],
     }
     const withKamis = (p: ProduceProfile, itemName: string) => ({ ...p, kamis: { categoryCode: '400' as const, itemName } })

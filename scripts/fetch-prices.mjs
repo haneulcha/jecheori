@@ -7,8 +7,9 @@ const API_BASE = 'https://www.kamis.or.kr/service/price/xml.do'
 // 식량작물(감자·고구마·옥수수), 채소류, 과일류
 const CATEGORY_CODES = ['100', '200', '400']
 
-/** 스냅샷 shape 버전. 2 = 조사일(surveyedOn)·관측/기준선 분리·구조화된 단위 */
-const SCHEMA_VERSION = 2
+/** 스냅샷 shape 버전. 2 = 조사일(surveyedOn)·관측/기준선 분리·구조화된 단위.
+ *  3 = 기준선에 1주·2주전(dpr3·4)·평년(dpr7) 추가 */
+const SCHEMA_VERSION = 3
 
 /** 유효한 스냅샷으로 인정하는 최소 가격 보유 비율.
  *  정상 조사일이면 95% 이상이 값을 갖고, 공표 전·휴장일이면 0%다 — 둘은 확실히 갈린다. */

@@ -24,7 +24,7 @@ const priceView = (over: Partial<PriceView> = {}): PriceView => ({
   price: 12600,
   unit: count(10),
   changeVsMonthAgoPct: -25.4,
-  baseline: { monthAgo: 16900, yearAgo: 13400 },
+  baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 16900, yearAgo: 13400, normalYear: null },
   ...over,
 })
 
@@ -119,7 +119,12 @@ describe('toCardView', () => {
 
   test('지난달 없으면 change null · spark null', () => {
     const c = toCardView(
-      pick({ price: priceView({ changeVsMonthAgoPct: null, baseline: { monthAgo: null, yearAgo: 13400 } }) }),
+      pick({
+        price: priceView({
+          changeVsMonthAgoPct: null,
+          baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: null, yearAgo: 13400, normalYear: null },
+        }),
+      }),
       7,
     )
     expect(c.price?.change).toBeNull()
@@ -127,7 +132,14 @@ describe('toCardView', () => {
   })
 
   test('작년 없으면 spark null', () => {
-    const c = toCardView(pick({ price: priceView({ baseline: { monthAgo: 16900, yearAgo: null } }) }), 7)
+    const c = toCardView(
+      pick({
+        price: priceView({
+          baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 16900, yearAgo: null, normalYear: null },
+        }),
+      }),
+      7,
+    )
     expect(c.price?.spark).toBeNull()
   })
 

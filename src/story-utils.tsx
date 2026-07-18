@@ -132,7 +132,14 @@ function toEntry(k: CardKnobs): PriceEntry | null {
     rank: '상품',
     unit: { quantity: k.unitQuantity, measure: MEASURES[k.unitMeasure] },
     price: k.price,
-    baseline: { monthAgo: k.monthAgo, yearAgo: k.yearAgo },
+    // 스토리 노브는 아직 1주·2주·평년을 조절하지 않는다 — 기존 두 축(월전·년전)만 노출.
+    baseline: {
+      weekAgo: null,
+      twoWeeksAgo: null,
+      monthAgo: k.monthAgo,
+      yearAgo: k.yearAgo,
+      normalYear: null,
+    },
   }
 }
 

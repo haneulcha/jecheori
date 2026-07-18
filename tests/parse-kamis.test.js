@@ -56,8 +56,11 @@ describe('parseCategoryResponse', () => {
       unit: { quantity: 1, measure: { kind: 'count', unit: '포기' } },
       price: 3513, // dpr1 (당일 = 조사일의 관측)
       baseline: {
+        weekAgo: 3608, // dpr3
+        twoWeeksAgo: 3818, // dpr4
         monthAgo: 3692, // dpr5 — dpr3(1주일전)이 아니다
         yearAgo: 4642, // dpr6 — dpr4(2주일전)이 아니다
+        normalYear: 4473, // dpr7
       },
     })
   })
@@ -67,6 +70,13 @@ describe('parseCategoryResponse', () => {
     // 같은 행의 1주일전(3,608)·2주일전(3,818)을 잘못 집으면 실패한다
     expect(cabbage.baseline.monthAgo).not.toBe(3608)
     expect(cabbage.baseline.yearAgo).not.toBe(3818)
+  })
+
+  test('기준선에 1주·2주·평년(dpr3·4·7)도 담는다', () => {
+    const cabbage = entries[0]
+    expect(cabbage.baseline.weekAgo).toBe(3608) // dpr3
+    expect(cabbage.baseline.twoWeeksAgo).toBe(3818) // dpr4
+    expect(cabbage.baseline.normalYear).toBe(4473) // dpr7
   })
 
   test('당일(dpr1)이 결측이면 1일전으로 메우지 않고 null이다', () => {
@@ -124,7 +134,7 @@ describe('parseCategoryResponse', () => {
         rank: '상품',
         unit: { quantity: 10, measure: { kind: 'count', unit: '개' } },
         price: 8540,
-        baseline: { monthAgo: 10120, yearAgo: 9050 },
+        baseline: { weekAgo: 9000, twoWeeksAgo: 9010, monthAgo: 10120, yearAgo: 9050, normalYear: null },
       },
     ])
   })
