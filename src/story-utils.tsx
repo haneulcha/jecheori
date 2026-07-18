@@ -56,10 +56,16 @@ export interface CardKnobs {
   whyNow: string
   /** null이면 KAMIS 매칭 실패/결측 — 가격 블록 전체가 사라진다 */
   price: number | null
-  /** null이면 취소선 예전가·등락 칩·스파크라인이 전부 사라진다 */
+  /** 정렬·필터(지난달 축)와 값어치 폴백 3순위. null이면 그 축의 등락을 모른다. */
   monthAgo: number | null
-  /** null이면 스파크라인만 사라진다 (등락 칩은 남는다) */
+  /** 값어치 폴백 2순위(평년 없을 때). null이면 그 축은 건너뛴다. */
   yearAgo: number | null
+  /** 값어치 헤드라인 1순위(있으면 항상 우선) + 스파크 점선·각주. null이면 작년→지난달로 폴백. */
+  normalYear: number | null
+  /** 최근 궤적 점(1주 전). null이면 스파크에서 이 점만 빠진다(궤적 2점 미만이면 스파크 자체가 사라진다). */
+  weekAgo: number | null
+  /** 최근 궤적 점(2주 전). weekAgo와 같은 규칙. */
+  twoWeeksAgo: number | null
   unitQuantity: number
   unitMeasure: MeasureKey
   /** 영양은 프로필에 foodDb 참조가 있어야 성립한다 — 40개 중 3개(복숭아·토마토·사과)뿐이다.
@@ -83,6 +89,11 @@ export const CARD_KNOBS_DEFAULT: CardKnobs = {
   price: 315,
   monthAgo: 371,
   yearAgo: 340,
+  // 평년·1주·2주는 기본값에서 비워둔다 — 기존 스토리(하락·상승·비슷 등)가 "지난달/작년"
+  // 폴백 단만 본다는 전제를 그대로 유지한다. 평년·궤적을 보려면 노브를 명시적으로 켠다.
+  normalYear: null,
+  weekAgo: null,
+  twoWeeksAgo: null,
   unitQuantity: 100,
   unitMeasure: 'g',
   hasNutrition: false,
@@ -96,6 +107,9 @@ export const CARD_ARG_TYPES = {
   price: { control: 'number' },
   monthAgo: { control: 'number' },
   yearAgo: { control: 'number' },
+  normalYear: { control: 'number' },
+  weekAgo: { control: 'number' },
+  twoWeeksAgo: { control: 'number' },
   recipeCount: { control: { type: 'range', min: 0, max: 5, step: 1 } },
 } as const
 
@@ -132,13 +146,12 @@ function toEntry(k: CardKnobs): PriceEntry | null {
     rank: '상품',
     unit: { quantity: k.unitQuantity, measure: MEASURES[k.unitMeasure] },
     price: k.price,
-    // 스토리 노브는 아직 1주·2주·평년을 조절하지 않는다 — 기존 두 축(월전·년전)만 노출.
     baseline: {
-      weekAgo: null,
-      twoWeeksAgo: null,
+      weekAgo: k.weekAgo,
+      twoWeeksAgo: k.twoWeeksAgo,
       monthAgo: k.monthAgo,
       yearAgo: k.yearAgo,
-      normalYear: null,
+      normalYear: k.normalYear,
     },
   }
 }
