@@ -38,11 +38,6 @@ describe('buildAppView', () => {
     expect(v.noDrop).toBe(false)
   })
 
-  test('seasonal은 이번 달 제철만', () => {
-    const v = buildAppView([peach, grape], snap(), null, null, JULY)
-    expect(v.seasonal).toEqual([{ emoji: '🍑', name: '복숭아' }])
-  })
-
   test('term·date를 채운다', () => {
     const v = buildAppView([peach], snap(), null, null, JULY)
     expect(typeof v.term).toBe('string')
@@ -114,6 +109,29 @@ describe('buildAppView', () => {
     const view = buildAppView(profiles, null, null, null, new Date('2026-07-11T00:00:00Z'))
     expect(view.cards[0].recipes).toBeNull()
     expect(view.hasRecipes).toBe(false)
+  })
+
+  test('buildAppView: 카드는 하락 큰 순으로 정렬된다', () => {
+    const a = { ...peach, id: 'a', name: '작은하락', seasonMonths: [7], peakMonths: [] }
+    const b = { ...peach, id: 'b', name: '큰하락', seasonMonths: [7], peakMonths: [] }
+    const snapshot: PriceSnapshot = {
+      schemaVersion: 2, fetchedAt: '2026-07-15T00:00:00Z', surveyedOn: '2026-07-15',
+      entries: [
+        { itemName: '작은하락', kindName: '기본', rank: '상품', unit: count(1, '개'), price: 90, baseline: { monthAgo: 100, yearAgo: 100 } },
+        { itemName: '큰하락', kindName: '기본', rank: '상품', unit: count(1, '개'), price: 50, baseline: { monthAgo: 100, yearAgo: 100 } },
+      ],
+    }
+    const withKamis = (p: ProduceProfile, itemName: string) => ({ ...p, kamis: { categoryCode: '400' as const, itemName } })
+    const view = buildAppView([withKamis(a, '작은하락'), withKamis(b, '큰하락')], snapshot, null, null, new Date('2026-07-15'))
+    expect(view.cards.map((c) => c.name)).toEqual(['큰하락', '작은하락'])
+  })
+
+  test('buildAppView: 비제철 프로필이 searchIndex에 든다', () => {
+    const view = buildAppView([peach, grape], snap(), null, null, new Date('2026-07-15'))
+    // 7월: peach 제철(cards), grape 비제철(searchIndex)
+    expect(view.cards.map((c) => c.name)).toContain('복숭아')
+    expect(view.searchIndex.map((h) => h.name)).toEqual(['포도'])
+    expect(view.searchIndex[0].seasonLabel).toBe('8~9월')
   })
 })
 

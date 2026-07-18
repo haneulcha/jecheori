@@ -49,3 +49,23 @@ export function seasonOf(month: number): Season {
   if (month >= 9 && month <= 11) return 'autumn'
   return 'winter'
 }
+
+/** 제철 월 배열 → "12~4월" 같은 구간 라벨 (표시용, 순수).
+ *  연속 정수를 구간으로 묶고, 12→1로 이어지면(랩어라운드) 병합한다. */
+export function seasonLabel(months: number[]): string {
+  const uniq = [...new Set(months)].sort((a, b) => a - b)
+  if (uniq.length === 0) return ''
+  // 연속 구간(runs) 나누기
+  const runs: [number, number][] = []
+  for (const m of uniq) {
+    const last = runs[runs.length - 1]
+    if (last && m === last[1] + 1) last[1] = m
+    else runs.push([m, m])
+  }
+  // 랩어라운드: 1로 시작하는 첫 구간과 12로 끝나는 마지막 구간을 하나로
+  if (runs.length > 1 && runs[0][0] === 1 && runs[runs.length - 1][1] === 12) {
+    const first = runs.shift()!
+    runs[runs.length - 1][1] = first[1] // [12,12] → [12,4]
+  }
+  return runs.map(([a, b]) => (a === b ? `${a}월` : `${a}~${b}월`)).join(', ')
+}

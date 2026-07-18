@@ -80,15 +80,14 @@ export function hasDrops(picks: PickResult[]): boolean {
   return picks.some((p) => p.price != null && p.price.changeVsMonthAgoPct != null && p.price.changeVsMonthAgoPct < 0)
 }
 
-/** 정렬: 절정 그룹 먼저 → 그룹 안에서 하락률 큰 순 → 가격 결측은 그룹 맨 뒤 */
+/** 이번 달 제철 전체를 픽으로. cap·정렬 없음 — 정렬은 cardlist.sortCards, 표시 조립은 app.ts. */
 export function selectPicks(
   profiles: ProduceProfile[],
   snapshot: PriceSnapshot | null,
   today: Date,
-  limit = 5,
 ): PickResult[] {
   const month = today.getMonth() + 1
-  const results: PickResult[] = seasonalThisMonth(profiles, month).map((profile) => {
+  return seasonalThisMonth(profiles, month).map((profile) => {
     const entry = snapshot ? matchEntry(profile, snapshot.entries) : null
     return {
       profile,
@@ -96,14 +95,4 @@ export function selectPicks(
       price: entry ? priceView(entry) : null,
     }
   })
-  const groupOf = (r: PickResult) => (r.price === null ? 2 : r.price.changeVsMonthAgoPct === null ? 1 : 0)
-  results.sort((a, b) => {
-    if (a.inPeak !== b.inPeak) return a.inPeak ? -1 : 1
-    const ga = groupOf(a)
-    const gb = groupOf(b)
-    if (ga !== gb) return ga - gb
-    if (ga === 0) return a.price!.changeVsMonthAgoPct! - b.price!.changeVsMonthAgoPct!
-    return 0
-  })
-  return results.slice(0, limit)
 }
