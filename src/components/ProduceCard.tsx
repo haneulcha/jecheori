@@ -5,6 +5,7 @@ import { Sparkline } from './Sparkline'
 import { NutritionLine } from './NutritionLine'
 import { Note } from './Note'
 import { PeakDot } from './PeakDot'
+import { SeasonStrip } from './SeasonStrip'
 import { RecipeChips } from './RecipeChips'
 import { RecipeMemo } from './RecipeMemo'
 
@@ -55,6 +56,7 @@ export function ProduceCard({ card }: { card: CardView }) {
       </summary>
       <div className="open">
         {card.price?.spark && <Sparkline spark={card.price.spark} />}
+        <SeasonStrip strip={card.season} />
         {card.nutrition && <NutritionLine nutrition={card.nutrition} />}
         <Note note={card.note} />
         {recipes && (
