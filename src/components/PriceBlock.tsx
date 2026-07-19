@@ -39,6 +39,7 @@ export function PriceBlock({ price: p }: { price: PriceCardView }) {
         </span>
       )}
       {p.change?.kind === 'similar' && p.change && <span className="near">{p.change.basisLabel}과 비슷</span>}
+      {p.change?.kind === 'basis' && <span className="near">{p.change.basisLabel} 기준</span>}
       <span className="big num">
         {p.now.toLocaleString('ko-KR')}
         <span className="wonu">원</span>

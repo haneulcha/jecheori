@@ -14,6 +14,7 @@ import { matchNutrition, nutritionView } from './nutrition'
 import { matchRecipes, recipeView } from './recipe'
 import type {
   Category,
+  ComingPriceSeed,
   Measure,
   NutritionSnapshot,
   PriceEntry,
@@ -24,6 +25,7 @@ import type {
 
 import produceJson from '../public/data/produce.json'
 import pricesJson from '../public/data/prices.json'
+import comingPricesJson from '../public/data/coming-prices.json'
 import nutritionJson from '../public/data/nutrition.json'
 import recipesJson from '../public/data/recipes.json'
 
@@ -31,6 +33,7 @@ import recipesJson from '../public/data/recipes.json'
 export const REAL = {
   profiles: produceJson as unknown as ProduceProfile[],
   prices: pricesJson as unknown as PriceSnapshot,
+  comingPrices: comingPricesJson as unknown as ComingPriceSeed,
   nutrition: nutritionJson as unknown as NutritionSnapshot,
   recipes: recipesJson as unknown as RecipeSnapshot,
 }

@@ -522,10 +522,13 @@ footer p + p { margin-top: var(--space-3xs); }
 .nav-index[data-open] .nav-panel { grid-template-rows: 1fr; }
 .nav-panel-clip { overflow: hidden; }                    /* 접힘 전용 — 패딩 없음이라 0으로 완전 접힘 */
 .nav-panel-inner { padding: var(--space-md) var(--space-lg); }
-.nav-panel-title { font-size: var(--text-xs); letter-spacing: 0.08em; color: var(--muted); margin-bottom: var(--space-sm); }
 .nav-panel a {
-  display: block; padding: var(--space-md) 0; color: var(--ink); text-decoration: none;
-  border-bottom: 1px solid var(--line); font-size: var(--text-md);
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm) var(--space-lg);
+  min-height: 44px;               /* 터치타깃 */
+  color: var(--ink);
+  text-decoration: none;
 }
 .nav-panel a[aria-current='page'] { font-weight: 600; }
 @media (prefers-reduced-motion: reduce) {

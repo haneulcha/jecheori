@@ -26,12 +26,11 @@ export function NavIndex({ current }: { current: 'now' | 'coming' }) {
       <div className="nav-panel">
         <div className="nav-panel-clip">
           <div className="nav-panel-inner">
-            <p className="nav-panel-title">목차</p>
             <Link to="/" viewTransition aria-current={current === 'now' ? 'page' : undefined} onClick={close}>
-              지금 담기 좋은 것
+              지금 제철인 품목
             </Link>
             <Link to="/coming" viewTransition aria-current={current === 'coming' ? 'page' : undefined} onClick={close}>
-              다가오는 제철
+              다가오는 제철 품목
             </Link>
           </div>
         </div>

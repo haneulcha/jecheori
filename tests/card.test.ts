@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { perUnitPrice, sparklineLevels, whyNowLine, toCardView, toChange, toSpark } from '../src/card'
+import { perUnitPrice, sparklineLevels, whyNowLine, toCardView, toChange, toSpark, toComingCardView, toComingPriceCardView } from '../src/card'
 import type { PickResult, PriceView } from '../src/picks'
-import type { Baseline, ProduceProfile } from '../src/types'
+import type { Baseline, ProduceProfile, PriceEntry } from '../src/types'
 import { nutritionView } from '../src/nutrition'
 import { recipeView } from '../src/recipe'
 import { count, weight } from './units'
@@ -282,5 +282,42 @@ describe('toCardView', () => {
     expect(c.season.months).toHaveLength(12)
     expect(c.season.months[6]).toEqual({ month: 7, inSeason: true, isPeak: true, isCurrent: true })
     expect(c.season.seasonLabel).toBe('7~8월')
+  })
+})
+
+const comingProfile: ProduceProfile = {
+  id: 'grape', name: '포도', emoji: '🍇', category: 'fruit',
+  kamis: { categoryCode: '400', itemName: '포도' },
+  seasonMonths: [8, 9], peakMonths: [8],
+  whyNow: { '8': '8월이 절정이에요', default: '가을 포도' },
+  howToPick: 'p', howToStore: 's', howToUse: 'u',
+}
+const grapeEntry: PriceEntry = {
+  itemName: '포도', kindName: '캠벨', rank: '상품',
+  unit: { quantity: 1, measure: { kind: 'count', unit: '개' } },
+  price: 3200,
+  baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: null, yearAgo: null, normalYear: null },
+}
+
+describe('toComingCardView', () => {
+  test('가격은 작년 기준 단일값 — 등락·스파크 없음', () => {
+    const card = toComingCardView(comingProfile, 8, 7, grapeEntry)
+    expect(card.price?.now).toBe(3200)
+    expect(card.price?.change).toEqual({ kind: 'basis', basisLabel: '작년' })
+    expect(card.price?.monthAgoPct).toBeNull()
+    expect(card.price?.spark).toBeNull()
+  })
+
+  test('간트 현재월은 오늘 달(7), whyNow는 대상월(8) 기준', () => {
+    const card = toComingCardView(comingProfile, 8, 7, grapeEntry)
+    expect(card.season.currentMonth).toBe(7)
+    expect(card.whyNow).toBe('8월이 절정이에요')
+    expect(card.inPeak).toBe(true) // 8월이 절정
+  })
+
+  test('가격 엔트리가 없으면 price는 null(무가격 카드)', () => {
+    const card = toComingCardView(comingProfile, 8, 7, null)
+    expect(card.price).toBeNull()
+    expect(card.name).toBe('포도')
   })
 })

@@ -1,5 +1,5 @@
 import type { PickResult, PriceView, ValueComparison } from './picks'
-import type { Baseline, Category, ProduceProfile, Unit } from './types'
+import type { Baseline, Category, PriceEntry, ProduceProfile, Unit } from './types'
 import type { NutritionView } from './nutrition'
 import type { RecipeView } from './recipe'
 import { seasonLabel } from './season'
@@ -19,6 +19,7 @@ export type ChangeView =
   | { kind: 'fall'; pct: number; basisLabel: string } // 칩 ↓, 큰가격 쪽빛
   | { kind: 'rise'; pct: number; basisLabel: string } // 칩 ↑, 큰가격 러스트
   | { kind: 'similar'; basisLabel: string } // "비슷" 문구, 칩 없음
+  | { kind: 'basis'; basisLabel: string } // "작년 기준" 출처만(다가오는 예고) — 칩·%·화살표 없음
   | null // 비교 기준 없음 → 칩·문구 없음
 
 export interface SparkView {
@@ -198,5 +199,46 @@ export function toCardView(
     nutrition,
     recipes,
     season: toSeasonStrip(profile, month),
+  }
+}
+
+/** 다가오는 품목의 가격 — 작년 같은 시기 단일값. 등락·궤적 없음(예고용 참고치). */
+export function toComingPriceCardView(entry: PriceEntry): PriceCardView | null {
+  if (entry.price === null) return null
+  const per = perUnitPrice(entry.price, entry.unit)
+  return {
+    now: entry.price,
+    wasMonthAgo: null,
+    unit: entry.unit,
+    perUnit: per ? per.each : null,
+    change: { kind: 'basis', basisLabel: '작년' },
+    monthAgoPct: null,
+    spark: null,
+  }
+}
+
+/** 다가오는 품목 → 풀 CardView. 메인과 같은 카드지만 두 시계가 갈린다:
+ *  간트 현재월은 **오늘 달**(currentMonth, "지금은 비었고 대상월부터 제철"),
+ *  whyNow·절정은 **대상월**(targetMonth) 기준. 가격은 작년 씨앗(entry)에서. */
+export function toComingCardView(
+  profile: ProduceProfile,
+  targetMonth: number,
+  currentMonth: number,
+  entry: PriceEntry | null,
+  nutrition: NutritionView | null = null,
+  recipes: RecipeView | null = null,
+): CardView {
+  return {
+    emoji: profile.emoji,
+    name: profile.name,
+    kind: profile.kamis?.kindName ?? '',
+    category: profile.category,
+    inPeak: profile.peakMonths.includes(targetMonth),
+    whyNow: whyNowLine(profile, targetMonth),
+    note: { pick: profile.howToPick, store: profile.howToStore, use: profile.howToUse },
+    price: entry ? toComingPriceCardView(entry) : null,
+    nutrition,
+    recipes,
+    season: toSeasonStrip(profile, currentMonth),
   }
 }

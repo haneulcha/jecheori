@@ -119,7 +119,7 @@ describe('App', () => {
   test('목차(NavIndex)로 다가오는 제철에 갈 수 있다', async () => {
     const { container, getByText } = await renderWithRouter(<App view={base} />)
     expect(container.querySelector('.nav-index')).not.toBeNull()
-    const coming = getByText('다가오는 제철') as HTMLAnchorElement
+    const coming = getByText('다가오는 제철 품목') as HTMLAnchorElement
     expect(coming.getAttribute('href')).toContain('coming')
   })
   test('맨 아래 옛 "곧 제철" 한 줄은 없다', async () => {

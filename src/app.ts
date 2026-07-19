@@ -1,6 +1,6 @@
-import type { NutritionSnapshot, PriceSnapshot, ProduceProfile, RecipeSnapshot } from './types'
-import { comingMonths, hasDrops, selectPicks } from './picks'
-import { toCardView, whyNowLine } from './card'
+import type { ComingPriceSeed, NutritionSnapshot, PriceSnapshot, ProduceProfile, RecipeSnapshot } from './types'
+import { comingMonths, hasDrops, matchEntry, selectPicks } from './picks'
+import { toCardView, toComingCardView } from './card'
 import { sortCards } from './cardlist'
 import { currentTerm, seasonLabel, seasonOf } from './season'
 import { snapshotAgeDays } from './data'
@@ -58,18 +58,30 @@ export function buildAppView(
   }
 }
 
-/** 원시 프로필+시계 → 다가오는 제철 뷰. 순수. 가격·영양·레시피 안 씀. */
-export function buildComingView(profiles: ProduceProfile[], now: Date): ComingView {
+/** 원시 프로필+씨앗+시계 → 다가오는 제철 뷰. 순수. 메인과 같은 풀 카드,
+ *  가격은 작년 같은 시기 씨앗에서(있으면), 영양·레시피는 계절 무관 씨앗에서. */
+export function buildComingView(
+  profiles: ProduceProfile[],
+  comingSeed: ComingPriceSeed,
+  nutrition: NutritionSnapshot | null,
+  recipes: RecipeSnapshot | null,
+  now: Date,
+): ComingView {
   const month = now.getMonth() + 1
   const months = comingMonths(profiles, month).map((g) => ({
     month: g.month,
     season: seasonOf(g.month),
-    items: g.items.map((it) => ({
-      emoji: it.profile.emoji,
-      name: it.profile.name,
-      peak: it.peak,
-      whyNow: whyNowLine(it.profile, g.month),
-    })),
+    items: g.items.map((it) => {
+      const entry = matchEntry(it.profile, comingSeed.months[String(g.month)] ?? [])
+      return toComingCardView(
+        it.profile,
+        g.month,
+        month,
+        entry,
+        nutritionView(matchNutrition(it.profile, nutrition)),
+        recipeView(matchRecipes(it.profile, recipes)),
+      )
+    }),
   }))
   return { months, date: now, term: currentTerm(now) }
 }

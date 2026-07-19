@@ -3,6 +3,7 @@ import { render } from '@testing-library/react'
 import { describe, expect, test } from 'vitest'
 import { PriceBlock } from './PriceBlock'
 import type { Unit } from '../types'
+import type { PriceCardView } from '../card'
 
 const g100: Unit = { quantity: 100, measure: { kind: 'weight', unit: 'g' } }
 const ten: Unit = { quantity: 10, measure: { kind: 'count', unit: '개' } }
@@ -85,4 +86,21 @@ describe('PriceBlock 기준선(단위) 줄', () => {
     expect(container.querySelector('.chip')).toBeNull()
     expect(container.querySelector('.basis')?.textContent).toBe('10개 기준 · 개당 1,914원')
   })
+})
+
+test('change.kind가 basis면 "작년 기준"만 그리고 등락 칩·화살표는 없다', () => {
+  const price: PriceCardView = {
+    now: 3200,
+    wasMonthAgo: null,
+    unit: { quantity: 1, measure: { kind: 'count', unit: '개' } },
+    perUnit: null,
+    change: { kind: 'basis', basisLabel: '작년' },
+    monthAgoPct: null,
+    spark: null,
+  }
+  const { container } = render(<PriceBlock price={price} />)
+  expect(container.textContent).toContain('작년 기준')
+  expect(container.textContent).toContain('3,200')
+  expect(container.querySelector('.chip')).toBeNull()
+  expect(container.querySelector('.arrow')).toBeNull()
 })
