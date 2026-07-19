@@ -10,7 +10,7 @@ const CHIPS: { key: Filter; label: string }[] = [
 
 export function FilterBar({ filters, onToggle }: { filters: Set<Filter>; onToggle: (f: Filter) => void }) {
   return (
-    <div className="filter">
+    <div className="filter" data-testid="filter">
       {CHIPS.map(({ key, label }) => (
         <button
           key={key}

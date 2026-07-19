@@ -28,6 +28,7 @@ export function Sparkline({ spark: s }: { spark: SparkView }) {
           <>
             <line
               className="norm-line"
+              data-testid="norm-line"
               x1={PAD_X}
               y1={y(s.normalYearLevel).toFixed(1)}
               x2={VW - PAD_X}

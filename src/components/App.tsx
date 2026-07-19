@@ -70,10 +70,10 @@ export function App({ view }: { view: AppView }) {
         <p className="week">{eyebrow}</p>
         <h1>이 계절을 맛보는 가장 알뜰한 방법</h1>
         {freshness.kind === 'dated' && (
-          <p className="surveyed">
-            <span className="rel-date" tabIndex={0}>
+          <p className="surveyed" data-testid="surveyed">
+            <span className="rel-date" data-testid="rel-date" tabIndex={0}>
               {relativeDayLabel(freshness.days)}
-              <span className="date-tip" role="tooltip">
+              <span className="date-tip" data-testid="date-tip" role="tooltip">
                 {surveyedDateLabel(freshness.surveyedOn)}
               </span>
             </span>

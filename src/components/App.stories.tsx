@@ -195,7 +195,7 @@ export const 값어치_그래프: StoryObj = {
   play: async ({ canvasElement }) => {
     canvasElement.querySelector<HTMLDetailsElement>('details')!.open = true
     await waitFor(() => {
-      expect(canvasElement.querySelector('.norm-line')).not.toBeNull()
+      expect(canvasElement.querySelector('[data-testid="norm-line"]')).not.toBeNull()
       expect(canvasElement.textContent).toContain('4,473')
       expect(canvasElement.textContent).toContain('4,622')
     })

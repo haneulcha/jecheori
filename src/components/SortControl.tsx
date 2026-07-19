@@ -10,6 +10,7 @@ const OPTS: { value: SortMode; label: string }[] = [
 const SortIcon = () => (
   <svg
     className="sort-icon"
+    data-testid="sort-icon"
     width="15"
     height="15"
     viewBox="0 0 15 15"

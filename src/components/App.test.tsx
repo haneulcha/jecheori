@@ -58,23 +58,27 @@ describe('App', () => {
   afterEach(() => cleanup())
 
   test('카드·필터·whyNow·절정 dot 렌더', async () => {
-    const { container } = await renderWithRouter(<App view={base} />)
+    const { container, getByText, queryByTestId, queryByRole } = await renderWithRouter(
+      <App view={base} />,
+    )
     const html = container.innerHTML
     expect(html).toContain('data-cat="fruit"')
     // 옛 CSS 라디오(#f-fruit) 대신 JS FilterBar 칩이 마운트 후 보인다
-    expect(container.querySelector('.fchip')).not.toBeNull()
+    expect(queryByTestId('filter')).not.toBeNull()
     expect(container.textContent).toContain('과일')
     expect(container.textContent).toContain('여름이 절정이에요')
     // 한마디는 펼치기 전에도 보이도록 summary 안에 산다 (손글씨 메모)
-    expect(container.querySelector('summary .why')?.textContent).toBe('여름이 절정이에요')
+    expect(getByText('여름이 절정이에요')).toBeTruthy()
     expect(html).toContain('18,200')
-    expect(container.querySelector('.peak-dot')).not.toBeNull()
-    expect(container.querySelector('.sprig')).not.toBeNull()
+    expect(queryByRole('button', { name: '지금이 제철 절정' })).not.toBeNull()
+    expect(queryByTestId('sprig')).not.toBeNull()
   })
   test('카드 없으면 안내·필터 없음', async () => {
-    const { container } = await renderWithRouter(<App view={{ ...base, cards: [] }} />)
+    const { container, queryByTestId } = await renderWithRouter(
+      <App view={{ ...base, cards: [] }} />,
+    )
     expect(container.textContent).toContain('이번 달 제철 정보가 아직 없어요')
-    expect(container.querySelector('.fchip')).toBeNull()
+    expect(queryByTestId('filter')).toBeNull()
   })
   test('필터 칩 토글로 카드가 걸러진다', async () => {
     const view = viewWithCards([
@@ -117,44 +121,46 @@ describe('App', () => {
     expect(container.textContent).not.toContain('조리식품 레시피 DB')
   })
   test('목차(NavIndex)로 다가오는 제철에 갈 수 있다', async () => {
-    const { container, getByText } = await renderWithRouter(<App view={base} />)
-    expect(container.querySelector('.nav-index')).not.toBeNull()
+    const { getByText, getByRole } = await renderWithRouter(<App view={base} />)
+    expect(getByRole('button', { name: '목차' })).toBeTruthy()
     const coming = getByText('다가오는 제철 품목') as HTMLAnchorElement
     expect(coming.getAttribute('href')).toContain('coming')
   })
   test('맨 아래 옛 "곧 제철" 한 줄은 없다', async () => {
-    const { container } = await renderWithRouter(<App view={base} />)
-    expect(container.querySelector('.coming')).toBeNull()
+    const { queryByText } = await renderWithRouter(<App view={base} />)
+    expect(queryByText(/곧 제철/)).toBeNull()
   })
   test('조사일: 상대 표현 상시 + 절대날짜는 툴팁 + 전국 평균', async () => {
-    const { container } = await renderWithRouter(<App view={base} />)
+    const { getByTestId } = await renderWithRouter(<App view={base} />)
     // 상대("오늘")만 상시, 절대날짜는 .date-tip 툴팁에 접어둔다
-    expect(container.querySelector('.rel-date')?.textContent).toContain('오늘')
-    expect(container.querySelector('.date-tip')?.textContent).toBe('7월 10일 조사')
-    expect(container.querySelector('.surveyed')?.textContent).toContain('전국 평균')
+    expect(getByTestId('rel-date').textContent).toContain('오늘')
+    expect(getByTestId('date-tip').textContent).toBe('7월 10일 조사')
+    expect(getByTestId('surveyed').textContent).toContain('전국 평균')
   })
   test('하단 "○월의 제철" 이름 칩 목록은 없다', async () => {
     const { container } = await renderWithRouter(<App view={base} />)
     expect(container.textContent).not.toMatch(/월의 제철/)
   })
   test('필터 칩 문구 갱신 + 정렬 아이콘·현재값', async () => {
-    const { container } = await renderWithRouter(<App view={viewWithCards([{ name: '오이' }])} />)
+    const { container, queryByTestId, getByRole } = await renderWithRouter(
+      <App view={viewWithCards([{ name: '오이' }])} />,
+    )
     expect(container.textContent).toContain('가격 하락')
     expect(container.textContent).toContain('한창 제철')
     expect(container.textContent).not.toMatch(/내려간 것|>절정</)
     // "정렬" 글자는 아이콘으로, 현재값은 select에 보인다
-    expect(container.querySelector('.sort-icon')).not.toBeNull()
-    expect(container.querySelector('.sort select')?.textContent).toContain('하락 큰 순')
+    expect(queryByTestId('sort-icon')).not.toBeNull()
+    expect(getByRole('combobox', { name: '정렬' }).textContent).toContain('하락 큰 순')
   })
   test('조사일 줄에 전국 평균 표기', async () => {
     const view = viewWithCards([{ name: '오이' }])
-    const { container } = await renderWithRouter(<App view={view} />)
-    expect(container.querySelector('.surveyed')?.textContent).toContain('전국 평균')
+    const { getByTestId } = await renderWithRouter(<App view={view} />)
+    expect(getByTestId('surveyed').textContent).toContain('전국 평균')
   })
   test('스냅샷 없으면(none) 조사일 줄이 없다', async () => {
     const view: AppView = { ...base, freshness: { kind: 'none' } }
-    const { container } = await renderWithRouter(<App view={view} />)
-    expect(container.querySelector('.surveyed')).toBeNull()
+    const { queryByTestId } = await renderWithRouter(<App view={view} />)
+    expect(queryByTestId('surveyed')).toBeNull()
   })
   test('검색: 제철 매치는 카드로, 비제철 매치는 힌트로', async () => {
     const view: AppView = {
