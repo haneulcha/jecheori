@@ -1,5 +1,7 @@
 import type { PriceCardView } from '../card'
 import type { Unit } from '../types'
+import styles from './PriceBlock.module.css'
+import { cx } from '../cx'
 
 const won = (n: number) => `${n.toLocaleString('ko-KR')}원`
 
@@ -11,12 +13,12 @@ function basisLine(unit: Unit, perUnit: number | null): string {
 }
 
 const ArrowDown = () => (
-  <svg className="arrow" width="11" height="12" viewBox="0 0 11 12" aria-hidden="true">
+  <svg className={styles.arrow} width="11" height="12" viewBox="0 0 11 12" aria-hidden="true">
     <path d="M5.5 1 V10 M2 6.5 L5.5 10 L9 6.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
 const ArrowUp = () => (
-  <svg className="arrow" width="11" height="12" viewBox="0 0 11 12" aria-hidden="true">
+  <svg className={styles.arrow} width="11" height="12" viewBox="0 0 11 12" aria-hidden="true">
     <path d="M5.5 11 V2 M2 5.5 L5.5 2 L9 5.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
@@ -25,26 +27,26 @@ export function PriceBlock({ price: p }: { price: PriceCardView }) {
   const dir = p.change?.kind === 'rise' ? 'rise' : 'fall'
   const chip =
     p.change?.kind === 'fall' || p.change?.kind === 'rise' ? (
-      <span className="chip" data-testid="chip">
+      <span className={styles.chip} data-testid="chip">
         {p.change.kind === 'fall' ? <ArrowDown /> : <ArrowUp />}
         {p.change.pct}%
       </span>
     ) : null
   return (
-    <div className={`price ${dir}`} data-testid="price" data-dir={dir}>
+    <div className={cx(styles.price, styles[dir])} data-testid="price" data-dir={dir}>
       {chip && p.change && (p.change.kind === 'fall' || p.change.kind === 'rise') && (
-        <span className="compare" data-testid="compare">
-          <span className="cmp-label">{p.change.basisLabel} 대비</span>
+        <span className={styles.compare} data-testid="compare">
+          <span className={styles.cmpLabel}>{p.change.basisLabel} 대비</span>
           {chip}
         </span>
       )}
-      {p.change?.kind === 'similar' && p.change && <span className="near">{p.change.basisLabel}과 비슷</span>}
-      {p.change?.kind === 'basis' && <span className="near">{p.change.basisLabel} 기준</span>}
-      <span className="big num">
+      {p.change?.kind === 'similar' && p.change && <span className={styles.near}>{p.change.basisLabel}과 비슷</span>}
+      {p.change?.kind === 'basis' && <span className={styles.near}>{p.change.basisLabel} 기준</span>}
+      <span className={cx(styles.big, 'num')}>
         {p.now.toLocaleString('ko-KR')}
-        <span className="wonu">원</span>
+        <span className={styles.wonu}>원</span>
       </span>
-      <span className="basis num" data-testid="basis">{basisLine(p.unit, p.perUnit)}</span>
+      <span className={cx(styles.basis, 'num')} data-testid="basis">{basisLine(p.unit, p.perUnit)}</span>
     </div>
   )
 }
