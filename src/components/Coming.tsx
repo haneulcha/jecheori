@@ -2,9 +2,9 @@ import type { ComingView } from '../view-types'
 import { weekLabel } from '../week'
 import { Sprig } from './Sprig'
 import { NavIndex } from './NavIndex'
-import { ComingCard } from './ComingCard'
+import { ProduceCard } from './ProduceCard'
 
-/** 다가오는 제철 전용 페이지. 카드형(껍데기 재활용), 예고는 가볍게. 표시 전용. */
+/** 다가오는 제철 페이지. 메인과 같은 풀 카드(ProduceCard). 표시 전용. */
 export function Coming({ view }: { view: ComingView }) {
   const { months, date, term } = view
   const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
@@ -19,11 +19,11 @@ export function Coming({ view }: { view: ComingView }) {
       <main>
         {months.length > 0 ? (
           months.map((m) => (
-            <section className="coming-month" key={m.month}>
+            <section className="coming-month" key={m.month} data-season={m.season}>
               <h2>{m.month}월</h2>
               <div className="list">
-                {m.items.map((it, i) => (
-                  <ComingCard key={i} item={it} season={m.season} />
+                {m.items.map((card, i) => (
+                  <ProduceCard key={i} card={card} />
                 ))}
               </div>
             </section>
