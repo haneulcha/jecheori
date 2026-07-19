@@ -1,4 +1,6 @@
 import type { Filter } from '../view-types'
+import { cx } from '../cx'
+import styles from './FilterBar.module.css'
 
 const CHIPS: { key: Filter; label: string }[] = [
   { key: 'peak', label: '한창 제철' },
@@ -10,12 +12,12 @@ const CHIPS: { key: Filter; label: string }[] = [
 
 export function FilterBar({ filters, onToggle }: { filters: Set<Filter>; onToggle: (f: Filter) => void }) {
   return (
-    <div className="filter" data-testid="filter">
+    <div className={styles.filter} data-testid="filter">
       {CHIPS.map(({ key, label }) => (
         <button
           key={key}
           type="button"
-          className={`fchip${filters.has(key) ? ' on' : ''}`}
+          className={cx(styles.fchip, filters.has(key) && styles.on)}
           aria-pressed={filters.has(key)}
           onClick={() => onToggle(key)}
         >

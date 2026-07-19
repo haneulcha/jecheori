@@ -1,0 +1,25 @@
+.filter {
+  display: flex;
+  gap: var(--space-xs);
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: var(--space-3xs);
+  /* 넘칠 때 우측 페이드로 "더 있다"를 알린다. 칩이 다 들어오면 빈 공간에 걸려 안 보인다. */
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 14px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 14px), transparent);
+}
+.filter::-webkit-scrollbar { display: none; }
+.fchip {
+  flex: 0 0 auto;
+  font-size: var(--text-sm);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  cursor: pointer;
+}
+.fchip.on { background: var(--tint); border-color: var(--accent); }
+.fchip:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
