@@ -95,7 +95,8 @@ export interface ComingPriceSeed {
 /** 식약처 영양DB에서 원물 하나를 집기 위한 수기 참조 (KamisRef와 같은 패턴).
  *  FOOD_CAT1_NM 필터 + 대표 엔트리명(FOOD_NM_KR 정확일치)으로 매칭. */
 export interface FoodDbRef {
-  /** FOOD_CAT1_NM 필터값: '과일류' | '채소류' */
+  /** FOOD_CAT1_NM 필터값 (원물류 카테고리, 정확일치): '과일류' | '채소류' | '감자 및 전분류' | '곡류'.
+   *  이 API는 원물+가공+조리 통합 DB라, 이 카테고리 필터가 요리·가공 노이즈를 서버측에서 거른다. */
   category1: string
   /** 대표 원물 엔트리명 (예: "사과_부사_생것") */
   foodName: string

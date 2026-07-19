@@ -46,6 +46,10 @@
       "categoryCode": "200",
       "itemName": "수박"
     },
+    "foodDb": {
+      "category1": "과일류",
+      "foodName": "수박_적육질_생것"
+    },
     "recipeRef": {
       "names": [
         "수박 화채",
@@ -78,6 +82,10 @@
     "kamis": {
       "categoryCode": "200",
       "itemName": "참외"
+    },
+    "foodDb": {
+      "category1": "과일류",
+      "foodName": "참외_씨 제거_생것"
     },
     "recipeRef": {
       "names": [
@@ -151,6 +159,10 @@
       "categoryCode": "200",
       "itemName": "오이"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "오이_취청_생것"
+    },
     "recipeRef": {
       "names": [
         "오이초절임",
@@ -187,6 +199,10 @@
       "itemName": "호박",
       "kindName": "애호박"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "호박_애호박_생것"
+    },
     "recipeRef": {
       "names": [
         "애호박들깨볶음",
@@ -222,6 +238,10 @@
       "categoryCode": "100",
       "itemName": "감자"
     },
+    "foodDb": {
+      "category1": "감자 및 전분류",
+      "foodName": "감자_수미_생것"
+    },
     "recipeRef": {
       "names": [
         "감자냉채",
@@ -252,6 +272,10 @@
     "name": "옥수수",
     "emoji": "🌽",
     "category": "vegetable",
+    "foodDb": {
+      "category1": "곡류",
+      "foodName": "옥수수_단옥수수_생것"
+    },
     "recipeRef": {
       "names": [
         "모듬옥수수",
@@ -322,6 +346,10 @@
       "categoryCode": "200",
       "itemName": "시금치"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "시금치_생것"
+    },
     "seasonMonths": [
       11,
       12,
@@ -350,6 +378,10 @@
       "categoryCode": "400",
       "itemName": "배"
     },
+    "foodDb": {
+      "category1": "과일류",
+      "foodName": "배_생것"
+    },
     "seasonMonths": [
       9,
       10,
@@ -377,6 +409,10 @@
       "itemName": "포도",
       "kindName": "캠벨"
     },
+    "foodDb": {
+      "category1": "과일류",
+      "foodName": "포도_거봉_생것"
+    },
     "seasonMonths": [
       8,
       9,
@@ -403,6 +439,10 @@
       "itemName": "포도",
       "kindName": "샤인"
     },
+    "foodDb": {
+      "category1": "과일류",
+      "foodName": "포도_청포도(샤인머스켓)_껍질 포함_생것"
+    },
     "seasonMonths": [
       9,
       10,
@@ -428,6 +468,10 @@
     "kamis": {
       "categoryCode": "400",
       "itemName": "감귤"
+    },
+    "foodDb": {
+      "category1": "과일류",
+      "foodName": "귤_온주밀감_생것"
     },
     "seasonMonths": [
       11,
@@ -456,6 +500,10 @@
       "categoryCode": "400",
       "itemName": "단감"
     },
+    "foodDb": {
+      "category1": "과일류",
+      "foodName": "감_단감_생것"
+    },
     "seasonMonths": [
       10,
       11,
@@ -482,6 +530,10 @@
       "categoryCode": "400",
       "itemName": "참다래"
     },
+    "foodDb": {
+      "category1": "과일류",
+      "foodName": "키위_그린_생것"
+    },
     "seasonMonths": [
       10,
       11,
@@ -505,6 +557,10 @@
     "kamis": {
       "categoryCode": "200",
       "itemName": "딸기"
+    },
+    "foodDb": {
+      "category1": "과일류",
+      "foodName": "딸기_설향_생것"
     },
     "seasonMonths": [
       12,
@@ -534,6 +590,10 @@
     "kamis": {
       "categoryCode": "200",
       "itemName": "멜론"
+    },
+    "foodDb": {
+      "category1": "과일류",
+      "foodName": "멜론_머스크_생것"
     },
     "recipeRef": {
       "names": [
@@ -566,6 +626,10 @@
       "categoryCode": "200",
       "itemName": "배추"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "배추_생것"
+    },
     "seasonMonths": [
       4,
       5,
@@ -592,6 +656,10 @@
     "kamis": {
       "categoryCode": "200",
       "itemName": "양배추"
+    },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "양배추_생것"
     },
     "recipeRef": {
       "names": [
@@ -626,6 +694,10 @@
       "categoryCode": "200",
       "itemName": "상추"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "상추_치마상추_청상추_생것"
+    },
     "seasonMonths": [
       4,
       5,
@@ -652,6 +724,10 @@
       "categoryCode": "200",
       "itemName": "얼갈이배추"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "얼갈이배추_생것"
+    },
     "seasonMonths": [
       4,
       5,
@@ -672,6 +748,10 @@
     "name": "부추",
     "emoji": "🌿",
     "category": "vegetable",
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "부추_호부추_생것"
+    },
     "seasonMonths": [
       3,
       4,
@@ -727,6 +807,10 @@
     "name": "단호박",
     "emoji": "🎃",
     "category": "vegetable",
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "호박_단호박_생것"
+    },
     "recipeRef": {
       "names": [
         "단호박전",
@@ -760,6 +844,10 @@
       "categoryCode": "200",
       "itemName": "방울토마토"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "토마토_방울토마토_생것"
+    },
     "recipeRef": {
       "names": [
         "방울토마토 소박이",
@@ -786,6 +874,10 @@
     "name": "가지",
     "emoji": "🍆",
     "category": "vegetable",
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "가지_생것"
+    },
     "recipeRef": {
       "names": [
         "가지볶음",
@@ -821,6 +913,10 @@
       "categoryCode": "200",
       "itemName": "풋고추"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "고추_풋고추_생것"
+    },
     "recipeRef": {
       "names": [
         "수박껍질풋고추볶음"
@@ -850,6 +946,10 @@
     "kamis": {
       "categoryCode": "200",
       "itemName": "파프리카"
+    },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "파프리카(착색단고추)_빨간색_생것"
     },
     "recipeRef": {
       "names": [
@@ -886,6 +986,10 @@
       "categoryCode": "200",
       "itemName": "무"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "무_조선무_뿌리_생것"
+    },
     "seasonMonths": [
       10,
       11,
@@ -909,6 +1013,10 @@
     "kamis": {
       "categoryCode": "200",
       "itemName": "열무"
+    },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "열무_생것"
     },
     "recipeRef": {
       "names": [
@@ -943,6 +1051,10 @@
       "categoryCode": "200",
       "itemName": "당근"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "당근_뿌리_생것"
+    },
     "seasonMonths": [
       11,
       12,
@@ -966,6 +1078,10 @@
     "kamis": {
       "categoryCode": "200",
       "itemName": "브로콜리"
+    },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "브로콜리_생것"
     },
     "seasonMonths": [
       11,
@@ -994,6 +1110,10 @@
       "itemName": "파",
       "kindName": "대파"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "파_대파_생것"
+    },
     "seasonMonths": [
       11,
       12,
@@ -1019,6 +1139,10 @@
       "itemName": "파",
       "kindName": "쪽파"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "파_쪽파_생것"
+    },
     "seasonMonths": [
       9,
       10,
@@ -1042,6 +1166,10 @@
     "kamis": {
       "categoryCode": "200",
       "itemName": "양파"
+    },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "양파_생것"
     },
     "recipeRef": {
       "names": [
@@ -1073,6 +1201,10 @@
     "kamis": {
       "categoryCode": "200",
       "itemName": "깐마늘(국산)"
+    },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "마늘_구근_생것"
     },
     "recipeRef": {
       "names": [
@@ -1106,6 +1238,10 @@
       "categoryCode": "200",
       "itemName": "생강"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "생강_뿌리줄기_생것"
+    },
     "seasonMonths": [
       10,
       11
@@ -1128,6 +1264,10 @@
     "kamis": {
       "categoryCode": "100",
       "itemName": "고구마"
+    },
+    "foodDb": {
+      "category1": "감자 및 전분류",
+      "foodName": "고구마_생것"
     },
     "seasonMonths": [
       9,
@@ -1153,6 +1293,10 @@
     "kamis": {
       "categoryCode": "200",
       "itemName": "미나리"
+    },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "미나리_물미나리_생것"
     },
     "seasonMonths": [
       3,
