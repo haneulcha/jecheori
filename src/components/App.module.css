@@ -1,0 +1,67 @@
+/* 조사일 상시 줄 — 경고가 아니라 메타. 아이브로(.week)보다 한 단계 조용하게. */
+.surveyed {
+  color: var(--muted);
+  font-size: var(--text-xs);
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+/* 상대 표현("5일 전")만 상시. 절대날짜는 호버(데스크톱)/탭(모바일) 툴팁으로 접어둔다. */
+.relDate {
+  position: relative;
+  border-bottom: 1px dotted var(--axis);
+  cursor: help;
+}
+.dateTip {
+  position: absolute;
+  left: 0;
+  top: 150%;
+  z-index: var(--z-tooltip, 60);
+  background: var(--ink);
+  color: var(--card);
+  font-size: var(--text-2xs);
+  letter-spacing: 0;
+  padding: var(--space-3xs) var(--space-xs);
+  border-radius: var(--radius-crisp);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(-2px);
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.dateTip::before {
+  content: '';
+  position: absolute;
+  left: var(--space-sm);
+  top: -4px;
+  border: 4px solid transparent;
+  border-bottom-color: var(--ink);
+  border-top: 0;
+}
+.relDate:hover .dateTip,
+.relDate:focus .dateTip,
+.relDate[data-show] .dateTip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) { .dateTip { transition: none; } }
+
+/* 오프시즌 힌트 — 검색했지만 이번 달 제철이 아닌 품목을 알려주는 목록.
+   텍스트는 쪽빛 규율(--ink/--muted)만, 웜 컬러 없음(배경 블록이 아니라 목록이라 tint도 안 씀). */
+.offSeason { margin-top: var(--space-xl); }
+.offDivider {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-md);
+  margin: 0 0 var(--space-sm);
+}
+.hintList { list-style: none; margin: 0; padding: 0; }
+
+.nodrop { color: var(--muted); font-size: var(--text-sm); margin: 0 0 var(--space-lg); }
+
+/* 검색 · 필터 · 정렬 컨트롤 (JS 기반). 텍스트는 쪽빛(--ink/--muted)만,
+   웜 컬러(--accent/--tint)는 켜진 칩의 배경·테두리로만 쓴다(글자엔 안 씀). */
+.controls { display: flex; flex-direction: column; gap: var(--space-sm); margin-bottom: var(--space-lg); }
+/* 필터 칩(좌·넘치면 횡스크롤) + 정렬(우측 고정) 한 줄 */
+.ctrlrow { display: flex; align-items: center; gap: var(--space-sm); }
