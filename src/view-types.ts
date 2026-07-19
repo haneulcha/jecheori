@@ -37,19 +37,11 @@ export interface AppView {
   term?: string
 }
 
-export interface ComingItem {
-  emoji: string
-  name: string
-  peak: boolean
-  /** 배정된(미래) 월 기준 한마디 */
-  whyNow: string
-}
-
 export interface ComingMonth {
   month: number
-  /** 그 달의 계절 — 카드 마스킹테이프 색 */
+  /** 그 달의 계절 — 카드 마스킹테이프 색(섹션 data-season) */
   season: Season
-  items: ComingItem[]
+  items: CardView[]
 }
 
 export interface ComingView {

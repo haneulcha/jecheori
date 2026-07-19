@@ -159,26 +159,47 @@ const cp = (
   howToPick: 'p', howToStore: 's', howToUse: 'u',
 })
 
+const EMPTY_SEED = { collectedYear: null, months: {} }
+
+const priceEntry = (itemName: string, price: number): PriceEntry => ({
+  itemName, kindName: '', rank: '상품',
+  unit: { quantity: 1, measure: { kind: 'count', unit: '개' } },
+  price,
+  baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: null, yearAgo: null, normalYear: null },
+})
+
 describe('buildComingView', () => {
-  test('달별 계절과 품목별 미래월 한마디를 싣는다', () => {
+  test('달별 계절과 품목별 미래월 한마디를 풀 카드로 싣는다', () => {
     const grape = cp('grape', '포도', '🍇', [8, 9], [8], { '8': '8월이 절정이에요', default: '가을' })
-    const view = buildComingView([grape], new Date('2026-07-15T00:00:00'))
+    const view = buildComingView([grape], EMPTY_SEED, null, null, new Date('2026-07-15T00:00:00'))
     expect(view.months).toHaveLength(1)
     expect(view.months[0].month).toBe(8)
     expect(view.months[0].season).toBe('summer')
-    expect(view.months[0].items[0]).toEqual({ emoji: '🍇', name: '포도', peak: true, whyNow: '8월이 절정이에요' })
+    const card = view.months[0].items[0]
+    expect(card.name).toBe('포도')
+    expect(card.whyNow).toBe('8월이 절정이에요')
+    expect(card.inPeak).toBe(true)
+    expect(card.season.currentMonth).toBe(7) // 간트 현재월 = 오늘 달
     expect(view.term).toBe('소서')
   })
 
-  test('9월 그룹은 가을, 미래월 한마디를 뽑는다', () => {
-    const chestnut = cp('chestnut', '밤', '🌰', [9], [9], { '9': '9월이 절정이에요', default: '가을' })
-    const view = buildComingView([chestnut], new Date('2026-07-15T00:00:00'))
-    expect(view.months[0].season).toBe('autumn')
-    expect(view.months[0].items[0].whyNow).toBe('9월이 절정이에요')
+  test('씨앗에 그 달·그 품목이 있으면 작년 기준 가격이 붙는다', () => {
+    const grape = cp('grape', '포도', '🍇', [8], [8], { default: '가을' })
+    const seed = { collectedYear: 2025, months: { '8': [priceEntry('grape', 3200)] } }
+    const view = buildComingView([grape], seed, null, null, new Date('2026-07-15T00:00:00'))
+    const card = view.months[0].items[0]
+    expect(card.price?.now).toBe(3200)
+    expect(card.price?.change).toEqual({ kind: 'basis', basisLabel: '작년' })
+  })
+
+  test('씨앗이 비면 무가격 카드', () => {
+    const grape = cp('grape', '포도', '🍇', [8], [8], { default: '가을' })
+    const view = buildComingView([grape], EMPTY_SEED, null, null, new Date('2026-07-15T00:00:00'))
+    expect(view.months[0].items[0].price).toBeNull()
   })
 
   test('다가오는 게 없으면 months는 빈 배열', () => {
     const peach = cp('peach', '복숭아', '🍑', [7], [], { default: '여름' })
-    expect(buildComingView([peach], new Date('2026-07-15T00:00:00')).months).toEqual([])
+    expect(buildComingView([peach], EMPTY_SEED, null, null, new Date('2026-07-15T00:00:00')).months).toEqual([])
   })
 })

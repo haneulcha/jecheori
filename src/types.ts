@@ -83,6 +83,15 @@ export interface PriceSnapshot {
   entries: PriceEntry[]
 }
 
+/** 다가오는 제철 카드용 작년 같은 시기 가격 씨앗. 월(1~12)별 작년 미니 스냅샷.
+ *  씨앗형 — 상시 CI 없이 로컬 1회 수집해 커밋(영양·레시피와 동급). 비면 다가오는 카드는 무가격. */
+export interface ComingPriceSeed {
+  /** 이 값들을 수집한 연도. 아직 미수집이면 null(전부 무가격). */
+  collectedYear: number | null
+  /** "1"~"12" → 그 달 작년 조사 엔트리들 */
+  months: Record<string, PriceEntry[]>
+}
+
 /** 식약처 영양DB에서 원물 하나를 집기 위한 수기 참조 (KamisRef와 같은 패턴).
  *  FOOD_CAT1_NM 필터 + 대표 엔트리명(FOOD_NM_KR 정확일치)으로 매칭. */
 export interface FoodDbRef {
