@@ -1,39 +1,32 @@
-// Naver Cloud Functions 핸들러 — 서울 리전(한국 egress)에서 KAMIS 일일 소매가를
+// AWS Lambda 핸들러 — 서울 리전(ap-northeast-2, 한국 egress)에서 KAMIS 일일 소매가를
 // 수집해 GitHub Contents API로 public/data/prices.json에 직접 커밋한다.
 //
-// 왜 NCF인가: KAMIS가 GitHub Actions 러너(해외/데이터센터 IP)를 HTTP 406으로 막아
-// update-prices.yml이 못 돈다. NCF는 한국 IP라 정상 수집된다. (docs/naver-cloud-functions.md)
+// 왜 Lambda 서울인가: KAMIS가 GitHub Actions 러너(해외/데이터센터 IP)를 HTTP 406으로
+// 막아 update-prices.yml이 못 돈다. 서울 리전 Lambda는 한국 egress라 정상 수집된다.
+// (단 AWS 서울도 "데이터센터 IP"라 KAMIS가 지역이 아닌 ASN 기준으로 막으면 406일 수 있다 —
+//  EventBridge 연결 전 수동 test invoke로 200을 먼저 확인한다. docs/aws-lambda.md)
 //
-// 데드맨 스위치(healthchecks.io): 시작 시 /start, 성공 시 base ping, 실패 시 /fail.
-// - 아예 안 돎  → ping 미도착 → grace 초과 시 healthchecks가 알림
-// - 406·빈값·에러 → /fail → 즉시 알림  (buildLatestSnapshot이 유효가격<50%면 throw)
-// - 성공        → base ping → 타이머 리셋
+// 침묵 실패 감지 = CloudWatch(서드파티 없음): handler가 실패 시 throw하므로
+// - 406·빈값·커밋 실패 → Lambda Errors 지표 → 알람          ("돌았는데 실패")
+// - 스케줄 미발화 등   → Invocations<1/24h 지표 → 알람       ("아예 안 돎")
+// buildLatestSnapshot은 유효가격<50%면 throw하고, 핸들러는 0건도 방어적으로 실패 처리한다 —
+// "돌았지만 값이 비었다"가 조용히 성공으로 넘어가지 않는다.
 //
-// 시크릿은 NCF 액션 파라미터(바인딩)나 환경변수로 주입: KAMIS_CERT_KEY/ID,
-// GITHUB_TOKEN(Contents read/write), GITHUB_REPO("owner/repo"), HEALTHCHECK_URL.
+// 시크릿은 Lambda 환경변수로 주입: KAMIS_CERT_KEY/ID, GITHUB_TOKEN(Contents read/write),
+// GITHUB_REPO("owner/repo").
 import { buildLatestSnapshot as realBuild, kstDateString } from '../fetch-prices.mjs'
 
 const GH = 'https://api.github.com'
 const PRICES_PATH = 'public/data/prices.json'
 
-/** healthchecks ping. 절대 실패를 던지지 않는다 — ping 자체가 수집을 깨면 안 된다. */
-async function ping(base, suffix, fetchFn) {
-  if (!base) return
-  try {
-    await fetchFn(base + suffix, { method: 'POST' })
-  } catch {
-    /* 무시 */
-  }
-}
-
 /** GitHub Contents API로 obj(JSON)를 path에 커밋. 내용이 같으면 커밋 생략.
- *  반환: 'committed' | 'unchanged'. 실패는 throw(→ 호출부가 /fail). */
+ *  반환: 'committed' | 'unchanged'. 실패는 throw(→ 호출부가 실패 반환). */
 export async function commitJson({ repo, token, path, obj, message, fetchFn = fetch }) {
   const url = `${GH}/repos/${repo}/contents/${path}`
   const headers = {
     Authorization: `Bearer ${token}`,
     Accept: 'application/vnd.github+json',
-    'User-Agent': 'jecheori-ncf',
+    'User-Agent': 'jecheori-lambda',
   }
   const body = JSON.stringify(obj, null, 2) + '\n'
   const b64 = Buffer.from(body, 'utf-8').toString('base64')
@@ -58,14 +51,14 @@ export async function commitJson({ repo, token, path, obj, message, fetchFn = fe
   return 'committed'
 }
 
-/** NCF 진입점. params = 바인딩 시크릿 + 트리거 페이로드. deps는 테스트 주입용. */
+/** 수집 진입점. params = 오버라이드(주로 테스트). deps는 테스트 주입용.
+ *  실행 시크릿은 process.env(Lambda 환경변수)에서 읽는다. */
 export async function main(params = {}, deps = {}) {
   const cfg = { ...process.env, ...params }
   const buildLatestSnapshot = deps.buildLatestSnapshot ?? realBuild
   const fetchFn = deps.fetch ?? fetch
-  const { KAMIS_CERT_KEY, KAMIS_CERT_ID, GITHUB_TOKEN, GITHUB_REPO, HEALTHCHECK_URL } = cfg
+  const { KAMIS_CERT_KEY, KAMIS_CERT_ID, GITHUB_TOKEN, GITHUB_REPO } = cfg
 
-  await ping(HEALTHCHECK_URL, '/start', fetchFn)
   try {
     if (!KAMIS_CERT_KEY || !KAMIS_CERT_ID) throw new Error('KAMIS 키가 없습니다')
     if (!GITHUB_TOKEN || !GITHUB_REPO) throw new Error('GITHUB_TOKEN/GITHUB_REPO가 없습니다')
@@ -78,7 +71,7 @@ export async function main(params = {}, deps = {}) {
     })
     const priced = snapshot.entries.filter((e) => e.price !== null).length
     // buildLatestSnapshot이 유효가격<50%면 이미 throw하지만, "돌았는데 값이 없다"를
-    // 실패로 확실히 잡기 위해 0건도 방어적으로 실패 처리한다(→ /fail).
+    // 실패로 확실히 잡기 위해 0건도 방어적으로 실패 처리한다.
     if (priced === 0) throw new Error('유효 가격 0건 — 수집 실패로 간주')
 
     const result = await commitJson({
@@ -90,12 +83,20 @@ export async function main(params = {}, deps = {}) {
       fetchFn,
     })
 
-    await ping(HEALTHCHECK_URL, '', fetchFn) // 성공(커밋 or 변경없음 모두 정상 실행)
     return { ok: true, result, priced, surveyedOn: snapshot.surveyedOn }
   } catch (err) {
-    await ping(HEALTHCHECK_URL, '/fail', fetchFn)
     const error = String(err?.message ?? err)
     console.error('일일 가격 수집 실패:', error)
     return { ok: false, error }
   }
+}
+
+/** AWS Lambda 진입점 — EventBridge Scheduler가 매일 호출한다. event 페이로드는 쓰지 않고
+ *  (시크릿은 Lambda 환경변수 → process.env), main()에 위임한다. 실패 시 throw해 Lambda
+ *  호출 자체를 실패로 기록한다 — CloudWatch Errors 알람이 이걸로 뜬다(침묵 실패 감지).
+ *  EventBridge 재시도는 안전하다: commitJson이 내용 동일 시 커밋을 생략해 중복 커밋을 안 만든다. */
+export async function handler() {
+  const result = await main()
+  if (!result.ok) throw new Error(result.error ?? '가격 수집 실패')
+  return result
 }
