@@ -132,16 +132,6 @@ footer p + p { margin-top: var(--space-3xs); }
 /* 접근성 */
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
-/* 다가오는 제철 — 달별 섹션. 절정 배지는 peak-dot의 점 비주얼 재사용(카드 로컬 계절색) */
-.peak-badge { display: inline-flex; }
-.peak-badge b {
-  display: block;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 3px var(--tint);
-}
 /* 선택적 향상 — MPA View Transitions (지원 브라우저에서만). */
 @view-transition {
   navigation: auto;
