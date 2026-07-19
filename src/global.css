@@ -295,10 +295,6 @@ footer p + p { margin-top: var(--space-3xs); }
   background: var(--accent);
   box-shadow: 0 0 0 3px var(--tint);
 }
-/* 달 섹션 간 여백(카드 목록은 기존 .list 재사용) */
-.coming-month { margin-top: var(--space-xl); }
-.coming-month h2 { font-size: var(--text-md); letter-spacing: 0.04em; margin-bottom: var(--space-md); }
-
 /* 선택적 향상 — MPA View Transitions (지원 브라우저에서만). */
 @view-transition {
   navigation: auto;
