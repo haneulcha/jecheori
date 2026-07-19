@@ -22,7 +22,9 @@ const SEARCH_TERMS = {
   garlic: ['마늘'], ginger: ['생강'], 'sweet-potato': ['고구마'], minari: ['미나리'],
 }
 
-/** foodDb 없는 프로필을 식약처 API로 조회해 변형 후보 + 순위를 만든다. fetchFn 주입으로 테스트. */
+const RAW_CATEGORIES = ['과일류', '채소류', '감자 및 전분류', '곡류']
+
+/** foodDb 없는 프로필을 원물류 카테고리별로 조회해 후보 + 순위를 만든다. fetchFn 주입으로 테스트. */
 export async function buildNutritionCandidates({ key, profiles, fetchFn = fetch }) {
   const results = []
   for (const p of profiles) {
@@ -30,31 +32,33 @@ export async function buildNutritionCandidates({ key, profiles, fetchFn = fetch 
     const terms = SEARCH_TERMS[p.id] ?? [p.name]
     const byName = new Map()
     for (const term of terms) {
-      const url = new URL(API)
-      url.searchParams.set('serviceKey', key)
-      url.searchParams.set('type', 'json')
-      url.searchParams.set('numOfRows', '100')
-      url.searchParams.set('FOOD_NM_KR', term)
-      const res = await fetchFn(url.toString())
-      if (!res.ok) throw new Error(`FoodNtr HTTP ${res.status} (${p.name}/${term})`)
-      const json = await res.json()
-      const raw = json?.body?.items
-      if (raw === undefined || raw === null) {
+      for (const category1 of RAW_CATEGORIES) {
+        const url = new URL(API)
+        url.searchParams.set('serviceKey', key)
+        url.searchParams.set('type', 'json')
+        url.searchParams.set('numOfRows', '500')
+        url.searchParams.set('pageNo', '1')
+        url.searchParams.set('FOOD_NM_KR', term)
+        url.searchParams.set('FOOD_CAT1_NM', category1)
+        const res = await fetchFn(url.toString())
+        if (!res.ok) throw new Error(`FoodNtr HTTP ${res.status} (${p.name}/${term}/${category1})`)
+        const json = await res.json()
         const header = json?.header
-        if (!header) throw new Error(`FoodNtr 응답 이상: header 없음 (${term})`)
+        if (!header) throw new Error(`FoodNtr 응답 이상: header 없음 (${term}/${category1})`)
         if (header.resultCode !== '00') {
-          throw new Error(`FoodNtr 오류: ${header.resultMsg ?? header.resultCode} (${term})`)
+          throw new Error(`FoodNtr 오류: ${header.resultMsg ?? header.resultCode} (${term}/${category1})`)
         }
-        continue // 정상 무결과 (resultCode '00', items 없음)
-      }
-      const items = Array.isArray(raw) ? raw : [raw]
-      for (const it of items) {
-        if (!byName.has(it.FOOD_NM_KR)) {
-          byName.set(it.FOOD_NM_KR, {
-            foodName: it.FOOD_NM_KR,
-            category1: it.FOOD_CAT1_NM ?? '',
-            ...nutritionFieldsOf(it),
-          })
+        const raw = json?.body?.items
+        if (raw === undefined || raw === null) continue // 그 카테고리에 결과 없음
+        const items = Array.isArray(raw) ? raw : [raw]
+        for (const it of items) {
+          if (!byName.has(it.FOOD_NM_KR)) {
+            byName.set(it.FOOD_NM_KR, {
+              foodName: it.FOOD_NM_KR,
+              category1: it.FOOD_CAT1_NM ?? '',
+              ...nutritionFieldsOf(it),
+            })
+          }
         }
       }
     }

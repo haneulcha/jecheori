@@ -1,15 +1,18 @@
 /** 식약처 원물명의 상태 접미(마지막 토큰류)로 조리 상태를 분류.
- *  이름에 상태 토큰이 없으면 생것(raw)으로 본다. */
-const COOKED = ['데친것', '삶은것', '찐것', '구운것', '볶은것', '조림', '튀김', '부침', '삶은']
+ *  원물 항목은 실데이터상 항상 '생것'을 명시한다("감자_수미_생것"). '감자 및 전분류' 등엔
+ *  상태표시 없는 가공품(감자전분 등)이 섞여 있어, '생것' 명시가 있어야 raw, 없으면
+ *  (cooked 토큰도 없으면) 원물이 아닌 것으로 보고 제외한다. */
 const PROCESSED = [
-  '통조림', '주스', '말린것', '건조', '냉동', '당절임', '설탕', '시럽',
-  '분말', '가루', '잼', '농축', '절임', '장아찌', '액상',
+  '말린것', '건조', '통조림', '주스', '냉동', '당절임', '설탕', '시럽',
+  '분말', '가루', '잼', '농축', '절임', '장아찌', '액상', '전분', '플레이크', '칩',
 ]
+const COOKED = ['삶은것', '데친것', '찐것', '구운것', '볶은것', '조림', '부침', '튀김', '구이']
 
 export function classifyPrep(foodName) {
   if (PROCESSED.some((t) => foodName.includes(t))) return 'processed'
+  if (foodName.includes('생것')) return 'raw'
   if (COOKED.some((t) => foodName.includes(t))) return 'cooked'
-  return 'raw'
+  return 'processed' // 상태표시 없는 이름(감자전분·감자국·오이지)은 원물 아님 → 제외
 }
 
 const PREP_RANK = { raw: 0, cooked: 1 }

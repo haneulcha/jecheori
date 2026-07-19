@@ -4,37 +4,49 @@ import { classifyPrep, rankNutritionCandidates } from '../scripts/lib/rank-nutri
 const c = (foodName, extra = {}) => ({ foodName, category1: '채소류', kcal: 1, ...extra })
 
 describe('classifyPrep', () => {
-  test('상태 접미가 없으면 생것으로 본다', () => expect(classifyPrep('오이')).toBe('raw'))
-  test('생것 명시는 raw', () => expect(classifyPrep('사과_부사_생것')).toBe('raw'))
-  test('데친것·삶은것은 cooked', () => {
-    expect(classifyPrep('시금치_데친것')).toBe('cooked')
-    expect(classifyPrep('감자_삶은것')).toBe('cooked')
+  test('생것 명시는 raw', () => {
+    expect(classifyPrep('오이_취청_생것')).toBe('raw')
+    expect(classifyPrep('감자_수미_생것')).toBe('raw')
+    expect(classifyPrep('생강_생것')).toBe('raw')
   })
-  test('통조림·주스·말린것은 processed', () => {
-    expect(classifyPrep('사과잼')).toBe('processed')
+  test('삶은것·데친것·찐것은 cooked', () => {
+    expect(classifyPrep('감자_수미_삶은것')).toBe('cooked')
+    expect(classifyPrep('옥수수_단옥수수_찐것')).toBe('cooked')
+    expect(classifyPrep('고구마_잎_데친것')).toBe('cooked')
+  })
+  test('말린것·전분·칩·통조림은 processed', () => {
+    expect(classifyPrep('고구마_말린것')).toBe('processed')
+    expect(classifyPrep('감자전분')).toBe('processed')
+    expect(classifyPrep('감자칩')).toBe('processed')
     expect(classifyPrep('복숭아_통조림')).toBe('processed')
-    expect(classifyPrep('포도_주스')).toBe('processed')
   })
-  test('생강처럼 이름에 생이 들어가도 상태 토큰이 아니면 raw', () =>
-    expect(classifyPrep('생강_생것')).toBe('raw'))
+  test('상태표시 없는 요리·가공명은 processed(원물 아님)', () => {
+    expect(classifyPrep('감자국')).toBe('processed')
+    expect(classifyPrep('오이지')).toBe('processed')
+    expect(classifyPrep('시금치나물')).toBe('processed')
+  })
 })
 
 describe('rankNutritionCandidates', () => {
-  test('생것을 조리보다 먼저 고른다', () => {
-    const r = rankNutritionCandidates([c('사과_구운것'), c('사과_부사_생것')])
-    expect(r.pick.foodName).toBe('사과_부사_생것')
+  test('생것을 삶은것보다 먼저', () => {
+    const r = rankNutritionCandidates([c('감자_수미_삶은것'), c('감자_수미_생것')])
+    expect(r.pick.foodName).toBe('감자_수미_생것')
     expect(r.flag).toBe('ok')
   })
-  test('생것이 없으면 조리를 고르고 cooked 플래그', () => {
-    const r = rankNutritionCandidates([c('시금치_데친것')])
-    expect(r.pick.foodName).toBe('시금치_데친것')
+  test('전분·요리명은 제외하고 생것을 고른다', () => {
+    const r = rankNutritionCandidates([c('감자전분'), c('감자국'), c('감자_수미_생것')])
+    expect(r.pick.foodName).toBe('감자_수미_생것')
+    expect(r.flag).toBe('ok')
+  })
+  test('생것 없이 삶은것만이면 cooked 플래그', () => {
+    const r = rankNutritionCandidates([c('감자_수미_삶은것')])
+    expect(r.pick.foodName).toBe('감자_수미_삶은것')
     expect(r.flag).toBe('cooked')
   })
-  test('중가공만 있으면 no-match (pick null)', () => {
-    const r = rankNutritionCandidates([c('사과잼'), c('복숭아_통조림')])
+  test('원물 후보가 전부 제외되면 no-match', () => {
+    const r = rankNutritionCandidates([c('감자전분'), c('감자국')])
     expect(r.pick).toBeNull()
     expect(r.flag).toBe('no-match')
-    expect(r.ranked).toHaveLength(0)
   })
   test('빈 후보는 no-match', () => {
     expect(rankNutritionCandidates([]).flag).toBe('no-match')
