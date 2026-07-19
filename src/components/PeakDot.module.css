@@ -1,0 +1,5 @@
+/* 절정 도트 + 툴팁 */
+.peakDot { position: relative; width: 0.75rem; height: 0.75rem; padding: 0; border: 0; background: none; cursor: pointer; vertical-align: 0.1rem; }
+.peakDot b { display: block; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--tint); }
+.peakTip { position: absolute; left: 50%; top: 150%; transform: translateX(-50%); background: var(--ink); color: #fff; font-size: var(--text-2xs); white-space: nowrap; padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-soft); opacity: 0; pointer-events: none; transition: opacity 0.12s; z-index: 5; }
+.peakDot:hover .peakTip, .peakDot:focus .peakTip, .peakDot[data-show] .peakTip { opacity: 1; }
