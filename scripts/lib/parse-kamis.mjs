@@ -42,9 +42,17 @@ export function parseUnit(s) {
  */
 export function parseCategoryResponse(json) {
   const data = json?.data
-  if (!data || Array.isArray(data)) {
-    // KAMIS는 인증 실패 등 오류 시 data가 ["200"] 같은 코드 배열로 온다
-    throw new Error(`KAMIS 오류 응답: ${JSON.stringify(data ?? json)}`)
+  if (Array.isArray(data)) {
+    // KAMIS는 item 목록 대신 코드 배열로 응답하기도 한다:
+    //   001=결과 없음(그날 조사 없음), 200=파라미터 오류, 900=인증 실패.
+    // 001은 "이 날짜엔 조사가 없다"일 뿐이니 빈 배열로 돌려 상위(buildLatestSnapshot)의
+    // 소급 탐색이 직전 조사일로 넘어가게 한다 — 일요일·공휴일이 여기 해당한다.
+    // 그 외 코드(200·900 등)는 진짜 실패이므로 조용히 뭉개지 않고 throw한다.
+    if (data.length === 1 && data[0] === '001') return []
+    throw new Error(`KAMIS 오류 응답: ${JSON.stringify(data)}`)
+  }
+  if (!data) {
+    throw new Error(`KAMIS 오류 응답: ${JSON.stringify(json)}`)
   }
   if (data.error_code && data.error_code !== '000') {
     throw new Error(`KAMIS error_code=${data.error_code}`)
