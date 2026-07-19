@@ -22,8 +22,8 @@ export function Coming({ view }: { view: ComingView }) {
             <section className="coming-month" key={m.month} data-season={m.season}>
               <h2>{m.month}월</h2>
               <div className="list">
-                {m.items.map((card, i) => (
-                  <ProduceCard key={i} card={card} />
+                {m.items.map((card) => (
+                  <ProduceCard key={card.name} card={card} />
                 ))}
               </div>
             </section>
