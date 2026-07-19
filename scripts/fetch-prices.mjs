@@ -7,6 +7,14 @@ const API_BASE = 'https://www.kamis.or.kr/service/price/xml.do'
 // 식량작물(감자·고구마·옥수수), 채소류, 과일류
 const CATEGORY_CODES = ['100', '200', '400']
 
+/** KAMIS가 UA·Accept 없는 요청을 최근 HTTP 406으로 막는다(WAF 봇 차단으로 추정).
+ *  브라우저 호환 UA + JSON Accept를 실어 보낸다. p_returntype=json과 짝. */
+const REQUEST_HEADERS = {
+  'User-Agent':
+    'Mozilla/5.0 (compatible; jecheori/1.0; +https://github.com/haneulcha/jecheori)',
+  Accept: 'application/json, text/javascript, */*; q=0.01',
+}
+
 /** 스냅샷 shape 버전. 2 = 조사일(surveyedOn)·관측/기준선 분리·구조화된 단위.
  *  3 = 기준선에 1주·2주전(dpr3·4)·평년(dpr7) 추가 */
 const SCHEMA_VERSION = 3
@@ -48,7 +56,7 @@ export async function buildSnapshot({ certKey, certId, regday, fetchFn = fetch }
     url.searchParams.set('p_cert_key', certKey)
     url.searchParams.set('p_cert_id', certId)
     url.searchParams.set('p_returntype', 'json')
-    const res = await fetchFn(url.toString())
+    const res = await fetchFn(url.toString(), { headers: REQUEST_HEADERS })
     if (!res.ok) throw new Error(`KAMIS HTTP ${res.status} (부류 ${categoryCode})`)
     entries.push(...parseCategoryResponse(await res.json()))
   }

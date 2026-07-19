@@ -68,6 +68,17 @@ describe('buildSnapshot', () => {
     expect(captured.get('p_returntype')).toBe('json')
   })
 
+  test('요청에 User-Agent·Accept 헤더를 실어 보낸다 (KAMIS 406 방지)', async () => {
+    let opts
+    const fetchFn = async (_url, options) => {
+      opts = options
+      return { ok: true, json: async () => fixture }
+    }
+    await buildSnapshot({ certKey: 'k', certId: 'i', regday: '2026-07-13', fetchFn })
+    expect(opts?.headers?.['User-Agent']).toMatch(/Mozilla/)
+    expect(opts?.headers?.Accept).toMatch(/json/)
+  })
+
   test('HTTP 오류면 throw한다', async () => {
     const fetchFn = async () => ({ ok: false, status: 500 })
     await expect(
