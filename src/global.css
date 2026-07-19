@@ -235,10 +235,6 @@ header h1 {
   margin: 0 0 var(--space-sm);
 }
 .hint-list { list-style: none; margin: 0; padding: 0; }
-.season-hint { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm) 0; color: var(--muted); }
-.season-hint .hint-name { color: var(--ink); font-weight: 600; }
-.hint-when { font-size: var(--text-sm); }
-.hint-coming { margin-left: auto; font-size: var(--text-sm); color: var(--ink); text-decoration: none; }
 
 .nodrop { color: var(--muted); font-size: var(--text-sm); margin: 0 0 var(--space-lg); }
 
