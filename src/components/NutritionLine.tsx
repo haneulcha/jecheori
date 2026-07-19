@@ -1,4 +1,5 @@
 import type { NutritionView } from '../nutrition'
+import styles from './NutritionLine.module.css'
 
 /** 소수 첫째 자리까지, 정수면 정수로 (11.13 → "11.1", 53 → "53"). */
 function fmt(n: number): string {
@@ -19,19 +20,19 @@ export function NutritionLine({ nutrition }: { nutrition: NutritionView }) {
   if (nutrition.fat !== null) cells.push({ label: '지방', num: fmt(nutrition.fat), unit: 'g' })
   if (cells.length === 0) return null
   return (
-    <div className="nutrition">
-      <div className="stats">
+    <div className={styles.nutrition}>
+      <div className={styles.stats}>
         {cells.map((c) => (
-          <span className="cell" key={c.label}>
-            <span className="lab">{c.label}</span>
-            <span className="val">
+          <span className={styles.cell} key={c.label}>
+            <span className={styles.lab}>{c.label}</span>
+            <span className={styles.val}>
               {c.num}
-              <span className="u">{c.unit}</span>
+              <span className={styles.u}>{c.unit}</span>
             </span>
           </span>
         ))}
       </div>
-      <p className="serv">{nutrition.serving} 기준</p>
+      <p className={styles.serv}>{nutrition.serving} 기준</p>
     </div>
   )
 }

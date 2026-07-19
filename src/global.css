@@ -320,30 +320,6 @@ footer p + p { margin-top: var(--space-3xs); }
   .card[open] { border-color: var(--accent); }
 }
 
-/* 영양 스탯 — 열량·당류·식이섬유를 라벨-값으로. 가격 블록처럼 정보 그래픽.
-   출처는 페이지 하단에 한 번만 표기(카드마다 반복하지 않음). */
-/* 영양 블록은 스탯 너비로 줄여(align-self: center) 카드 중앙에 두고,
-   "100g 기준"은 그 블록 안에서 우측 정렬 → 스탯 너비 아래 오른쪽에 붙는다 */
-.nutrition { color: var(--ink); align-self: center; }
-/* 스탯 6개(열량·탄수화물·당류·식이섬유·단백질·지방)가 모바일 카드 폭(~325px)에 한 줄로 들어오게
-   간격을 lg로. xl(1.5rem)이면 6셀+간격이 폭을 ~10px 넘겨 지방 하나가 둘째 줄로 밀렸다. */
-.nutrition .stats { display: flex; flex-wrap: wrap; gap: var(--space-lg); justify-content: center; }
-.nutrition .cell { display: flex; flex-direction: column; align-items: center; }
-.nutrition .lab {
-  font-size: var(--text-2xs);
-  letter-spacing: 0.06em;
-  color: var(--muted);
-}
-.nutrition .val {
-  font-size: var(--text-md);
-  font-weight: 700;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-  margin-top: var(--space-3xs);
-}
-.nutrition .val .u { font-size: var(--text-2xs); font-weight: 600; margin-left: var(--space-3xs); }
-.nutrition .serv { font-size: var(--text-2xs); color: var(--muted); text-align: right; margin-top: var(--space-2xs); }
-
 /* 레시피 진입 칩 + 카드 위 핀 메모 */
 /* 라벨+칩은 한 묶음(.recipe-section) — .open의 flex gap이 둘 사이에 끼지 않게, 간격은 라벨 margin만 */
 .recipe-label { font-size: var(--text-2xs); letter-spacing: 0.08em; color: var(--muted); margin: 0 0 var(--space-2xs); }
