@@ -248,7 +248,7 @@ footer p + p { margin-top: var(--space-3xs); }
   margin-top: var(--space-3xl);
 }
 
-@media (prefers-reduced-motion: reduce) { .peak-tip, .date-tip { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .date-tip { transition: none; } }
 
 /* 검색 · 필터 · 정렬 컨트롤 (JS 기반). 텍스트는 쪽빛(--ink/--muted)만,
    웜 컬러(--accent/--tint)는 켜진 칩의 배경·테두리로만 쓴다(글자엔 안 씀). */
