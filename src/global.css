@@ -295,18 +295,6 @@ footer p + p { margin-top: var(--space-3xs); }
 /* 검색 · 필터 · 정렬 컨트롤 (JS 기반). 텍스트는 쪽빛(--ink/--muted)만,
    웜 컬러(--accent/--tint)는 켜진 칩의 배경·테두리로만 쓴다(글자엔 안 씀). */
 .controls { display: flex; flex-direction: column; gap: var(--space-sm); margin-bottom: var(--space-lg); }
-.search {
-  width: 100%;
-  background: var(--card);
-  border: 1px solid var(--line);
-  color: var(--ink);
-  border-radius: var(--radius-crisp);
-  padding: var(--space-sm) var(--space-md);
-  font-size: var(--text-md);
-}
-/* 플레이스홀더는 입력값보다 한 단계 작게 — 채워지면 큰 글씨로 또렷해진다 */
-.search::placeholder { color: var(--muted); font-size: var(--text-sm); }
-.search:focus-visible { outline: 2px solid var(--ink); outline-offset: 0; border-color: transparent; }
 /* 필터 칩(좌·넘치면 횡스크롤) + 정렬(우측 고정) 한 줄 */
 .ctrlrow { display: flex; align-items: center; gap: var(--space-sm); }
 .filter {
