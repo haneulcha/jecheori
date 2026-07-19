@@ -1,4 +1,6 @@
 import type { SparkView } from '../card'
+import { cx } from '../cx'
+import styles from './Sparkline.module.css'
 
 const won = (x: number) => x.toLocaleString('ko-KR')
 
@@ -22,28 +24,28 @@ export function Sparkline({ spark: s }: { spark: SparkView }) {
   const label = '가격 추이: ' + s.points.map((p) => `${p.label} ${won(p.value)}`).join(' · ')
 
   return (
-    <div className="spark num">
+    <div className={cx(styles.spark, 'num')}>
       <svg viewBox={`0 0 ${VW} ${VH}`} role="img" aria-label={label}>
         {s.normalYearLevel !== null && (
           <>
             <line
-              className="norm-line"
+              className={styles.normLine}
               data-testid="norm-line"
               x1={PAD_X}
               y1={y(s.normalYearLevel).toFixed(1)}
               x2={VW - PAD_X}
               y2={y(s.normalYearLevel).toFixed(1)}
             />
-            <text className="norm-lab" x={VW - PAD_X} y={(y(s.normalYearLevel) - 3).toFixed(1)} textAnchor="end">
+            <text className={styles.normLab} x={VW - PAD_X} y={(y(s.normalYearLevel) - 3).toFixed(1)} textAnchor="end">
               평년
             </text>
           </>
         )}
-        <polyline className="trend" points={pts} />
+        <polyline className={styles.trend} points={pts} />
         {s.points.map((p, i) => (
           <text
             key={`val-${p.label}`}
-            className={`val${i === n - 1 ? ' now' : ''}`}
+            className={cx(styles.val, i === n - 1 && styles.now)}
             x={x(i)}
             y={(y(s.levels[i]) - 6).toFixed(1)}
             textAnchor="middle"
@@ -54,20 +56,20 @@ export function Sparkline({ spark: s }: { spark: SparkView }) {
         {s.points.map((p, i) => (
           <circle
             key={`pt-${p.label}`}
-            className={`pt${i === n - 1 ? ' now' : ''}`}
+            className={cx(styles.pt, i === n - 1 && styles.now)}
             cx={x(i)}
             cy={y(s.levels[i]).toFixed(1)}
             r={i === n - 1 ? 2.3 : 1.9}
           />
         ))}
         {s.points.map((p, i) => (
-          <text key={`lab-${p.label}`} className={`lab${i === n - 1 ? ' now' : ''}`} x={x(i)} y={VH - 4} textAnchor="middle">
+          <text key={`lab-${p.label}`} className={cx(styles.lab, i === n - 1 && styles.now)} x={x(i)} y={VH - 4} textAnchor="middle">
             {p.label}
           </text>
         ))}
       </svg>
       {s.normalYear !== null && (
-        <p className="spark-foot">
+        <p className={styles.sparkFoot}>
           <span>
             평년 <b>{won(s.normalYear)}원</b>
           </span>

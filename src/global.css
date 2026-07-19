@@ -259,30 +259,6 @@ footer p + p { margin-top: var(--space-3xs); }
 .peak-dot:hover .peak-tip, .peak-dot:focus .peak-tip, .peak-dot[data-show] .peak-tip { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .peak-tip, .date-tip { transition: none; } }
 
-/* 스파크라인 — 궤적(작년·1달 전·2주 전·1주 전·지금) + 평년 점선.
-   기존 그래프처럼 점 위에 값(.val)을 표기하고, 작년 이맘때도 각주가 아니라 점으로 그린다. */
-.spark { margin: 0 0 var(--space-xl); }
-.spark svg { display: block; width: 100%; height: auto; }
-.spark .trend { fill: none; stroke: var(--muted); stroke-width: 1.1; stroke-linejoin: round; opacity: 0.65; }
-.spark .pt { fill: var(--card); stroke: var(--muted); stroke-width: 0.8; }
-.spark .pt.now { fill: var(--ink); stroke: var(--ink); }
-.spark .val { fill: var(--muted); font-size: 8px; font-variant-numeric: tabular-nums; }
-.spark .val.now { fill: var(--ink); font-weight: 700; }
-.spark .lab { fill: var(--muted); font-size: 9px; }
-.spark .lab.now { fill: var(--ink); font-weight: 700; }
-/* 평년 기준선 — 점선, 뮤트(등락 판단은 칩·큰가격의 몫이라 여긴 방향색을 쓰지 않는다) */
-.spark .norm-line { stroke: var(--muted); stroke-width: 0.8; stroke-dasharray: 3 2; opacity: 0.8; }
-.spark .norm-lab { fill: var(--muted); font-size: 8px; }
-.spark-foot {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs) var(--space-md);
-  margin: var(--space-2xs) 0 0;
-  color: var(--muted);
-  font-size: var(--text-2xs);
-}
-.spark-foot b { color: var(--ink); font-weight: 600; }
-
 /* 검색 · 필터 · 정렬 컨트롤 (JS 기반). 텍스트는 쪽빛(--ink/--muted)만,
    웜 컬러(--accent/--tint)는 켜진 칩의 배경·테두리로만 쓴다(글자엔 안 씀). */
 .controls { display: flex; flex-direction: column; gap: var(--space-sm); margin-bottom: var(--space-lg); }
