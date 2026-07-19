@@ -86,10 +86,17 @@ describe('buildSnapshot', () => {
     ).rejects.toThrow(/500/)
   })
 
-  test('KAMIS 오류 응답이면 throw한다', async () => {
+  test('KAMIS 오류 응답(200 파라미터 오류)이면 throw한다', async () => {
     await expect(
       buildSnapshot({ certKey: 'k', certId: 'i', regday: '2026-07-10', fetchFn: okFetch(errorFixture) }),
     ).rejects.toThrow(/KAMIS/)
+  })
+
+  test('조사 없는 날(001)은 throw가 아니라 빈 엔트리로 돌려준다', async () => {
+    // KAMIS는 일요일·공휴일처럼 조사가 없는 날 { data: ["001"] }로 응답한다.
+    const noData = { condition: [{ p_returntype: 'json' }], data: ['001'] }
+    const snap = await buildSnapshot({ certKey: 'k', certId: 'i', regday: '2026-07-19', fetchFn: okFetch(noData) })
+    expect(snap.entries).toEqual([])
   })
 })
 
@@ -117,6 +124,23 @@ describe('buildLatestSnapshot', () => {
     expect(snap.surveyedOn).toBe('2026-07-12')
     expect(asked).toContain('2026-07-13')
     expect(snap.entries.every((e) => e.price !== null || e.itemName === '당근')).toBe(true)
+  })
+
+  test('조사 없는 날(001)은 건너뛰고 직전 조사일로 물러난다 (일요일 시나리오)', async () => {
+    // 2026-07-19(일)·07-18(토)은 조사 없음(001), 07-17(금)부터 정상. Lambda가 실제로 이 케이스에서
+    // 죽었다 — parseCategoryResponse가 001을 throw해 소급 탐색이 첫날에 멈췄던 회귀를 잡는다.
+    const noData = { condition: [{ p_returntype: 'json' }], data: ['001'] }
+    const asked = new Set()
+    const fetchFn = async (url) => {
+      const regday = new URL(url).searchParams.get('p_regday')
+      asked.add(regday)
+      return { ok: true, json: async () => (regday >= '2026-07-18' ? noData : fixture) }
+    }
+    const snap = await buildLatestSnapshot({ certKey: 'k', certId: 'i', from: '2026-07-19', fetchFn })
+    expect(snap.surveyedOn).toBe('2026-07-17')
+    expect(asked.has('2026-07-19')).toBe(true)
+    expect(asked.has('2026-07-18')).toBe(true)
+    expect(snap.entries.filter((e) => e.price !== null).length).toBeGreaterThan(0)
   })
 
   test('연휴처럼 조회 구간이 통째로 비면 throw한다 (all-null을 커밋하지 않는다)', async () => {

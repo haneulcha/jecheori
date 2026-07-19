@@ -99,8 +99,12 @@ export function writeSnapshot(snapshot, outPath) {
   renameSync(tmp, outPath)
 }
 
-// CLI 본문은 async IIFE로 감싼다 — top-level await를 없애 NCF 번들(esbuild CJS)이 깨지지 않게.
-const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+// CLI 본문은 async IIFE로 감싼다 — top-level await를 없애 Lambda 번들(esbuild CJS)이 깨지지 않게.
+// `import.meta.url &&` 가드가 핵심: esbuild가 CJS로 번들하면 import.meta.url이 undefined라
+// fileURLToPath(undefined)가 require 시점에 throw한다(Lambda 로드 실패). 번들에선 CLI 블록을
+// 아예 건너뛴다 — 실제 `node scripts/fetch-prices.mjs` 실행(진짜 ESM)에서만 isMain이 참.
+const isMain =
+  import.meta.url && process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 if (isMain) {
   ;(async () => {
     const certKey = process.env.KAMIS_CERT_KEY
