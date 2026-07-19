@@ -5,6 +5,14 @@ import { cx } from '../cx'
 
 const won = (n: number) => `${n.toLocaleString('ko-KR')}원`
 
+/** 받침 유무로 조사 과/와를 고른다 ("지난 주와", "지난달과"). 라벨이 한글이 아니면 '과'. */
+function gwaWa(word: string): string {
+  const last = word.charCodeAt(word.length - 1)
+  const isHangul = last >= 0xac00 && last <= 0xd7a3
+  const hasFinal = isHangul && (last - 0xac00) % 28 !== 0
+  return `${word}${hasFinal ? '과' : '와'}`
+}
+
 /** "10개 기준 · 개당 704원" — 이 숫자를 무엇으로 재었나.
  *  개당값과 같은 계층이다: 둘 다 큰 숫자를 어떻게 읽는지 말하는 각주다. */
 function basisLine(unit: Unit, perUnit: number | null): string {
@@ -40,7 +48,7 @@ export function PriceBlock({ price: p }: { price: PriceCardView }) {
           {chip}
         </span>
       )}
-      {p.change?.kind === 'similar' && p.change && <span className={styles.near}>{p.change.basisLabel}과 비슷</span>}
+      {p.change?.kind === 'similar' && p.change && <span className={styles.near}>{gwaWa(p.change.basisLabel)} 비슷</span>}
       {p.change?.kind === 'basis' && <span className={styles.near}>{p.change.basisLabel} 기준</span>}
       <span className={cx(styles.big, 'num')}>
         {p.now.toLocaleString('ko-KR')}

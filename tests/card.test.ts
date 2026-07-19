@@ -24,8 +24,8 @@ const priceView = (over: Partial<PriceView> = {}): PriceView => ({
   price: 12600,
   unit: count(10),
   changeVsMonthAgoPct: -25.4,
-  comparison: { basis: 'yearAgo', basisLabel: '작년', pct: -5.97 },
-  baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 16900, yearAgo: 13400, normalYear: null },
+  comparison: { basis: 'weekAgo', basisLabel: '지난 주', pct: -5.97 },
+  baseline: { weekAgo: 13400, twoWeeksAgo: null, monthAgo: 16900, yearAgo: 13400, normalYear: null },
   ...over,
 })
 
@@ -123,11 +123,11 @@ describe('toSpark (최근 4점)', () => {
 
 describe('toChange (값어치)', () => {
   test('아래면 fall + basisLabel', () =>
-    expect(toChange({ basis: 'normalYear', basisLabel: '평년', pct: -20 }))
-      .toEqual({ kind: 'fall', pct: 20, basisLabel: '평년' }))
+    expect(toChange({ basis: 'weekAgo', basisLabel: '지난 주', pct: -20 }))
+      .toEqual({ kind: 'fall', pct: 20, basisLabel: '지난 주' }))
   test('위면 rise', () =>
-    expect(toChange({ basis: 'yearAgo', basisLabel: '작년', pct: 9 }))
-      .toEqual({ kind: 'rise', pct: 9, basisLabel: '작년' }))
+    expect(toChange({ basis: 'twoWeeksAgo', basisLabel: '2주전', pct: 9 }))
+      .toEqual({ kind: 'rise', pct: 9, basisLabel: '2주전' }))
   test('±1% 미만은 similar', () =>
     expect(toChange({ basis: 'monthAgo', basisLabel: '지난달', pct: 0.4 }))
       .toEqual({ kind: 'similar', basisLabel: '지난달' }))
@@ -160,10 +160,10 @@ describe('toCardView', () => {
 
   test('하락: change fall + 반올림된 pct·basisLabel, 개당값·스파크 계산', () => {
     const c = toCardView(
-      pick({ price: priceView({ comparison: { basis: 'yearAgo', basisLabel: '작년', pct: -25.4 } }) }),
+      pick({ price: priceView({ comparison: { basis: 'weekAgo', basisLabel: '지난 주', pct: -25.4 } }) }),
       7,
     )
-    expect(c.price?.change).toEqual({ kind: 'fall', pct: 25, basisLabel: '작년' })
+    expect(c.price?.change).toEqual({ kind: 'fall', pct: 25, basisLabel: '지난 주' })
     expect(c.price?.now).toBe(12600)
     expect(c.price?.wasMonthAgo).toBe(16900)
     expect(c.price?.perUnit).toBe(1260)
@@ -172,10 +172,10 @@ describe('toCardView', () => {
 
   test('상승: change rise', () => {
     const c = toCardView(
-      pick({ price: priceView({ comparison: { basis: 'yearAgo', basisLabel: '작년', pct: 13.6 } }) }),
+      pick({ price: priceView({ comparison: { basis: 'weekAgo', basisLabel: '지난 주', pct: 13.6 } }) }),
       7,
     )
-    expect(c.price?.change).toEqual({ kind: 'rise', pct: 14, basisLabel: '작년' })
+    expect(c.price?.change).toEqual({ kind: 'rise', pct: 14, basisLabel: '지난 주' })
   })
 
   test('변동 미미(<1%)는 similar', () => {

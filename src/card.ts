@@ -43,7 +43,7 @@ export interface PriceCardView {
    *  같은 저울 위에 있는 것처럼 읽힌다. 문자열 조립은 컴포넌트 소관이라 구조체로 넘긴다. */
   unit: Unit
   perUnit: number | null
-  /** 값어치 비교(평년→작년→지난달 폴백) — 표시용 등락. */
+  /** 값어치 비교(지난 주→2주 전→지난달 폴백) — 표시용 등락. */
   change: ChangeView
   /** 지난달 대비 %(음수=하락). change와 별도 축 — 정렬·필터(하락순, "하락" 필터)는
    *  항상 이 값을 쓴다. 표시 기준(change.basisLabel)이 평년이어도 정렬은 지난달로 고정. */
