@@ -25,15 +25,15 @@ export function PriceBlock({ price: p }: { price: PriceCardView }) {
   const dir = p.change?.kind === 'rise' ? 'rise' : 'fall'
   const chip =
     p.change?.kind === 'fall' || p.change?.kind === 'rise' ? (
-      <span className="chip">
+      <span className="chip" data-testid="chip">
         {p.change.kind === 'fall' ? <ArrowDown /> : <ArrowUp />}
         {p.change.pct}%
       </span>
     ) : null
   return (
-    <div className={`price ${dir}`}>
+    <div className={`price ${dir}`} data-testid="price" data-dir={dir}>
       {chip && p.change && (p.change.kind === 'fall' || p.change.kind === 'rise') && (
-        <span className="compare">
+        <span className="compare" data-testid="compare">
           <span className="cmp-label">{p.change.basisLabel} 대비</span>
           {chip}
         </span>
@@ -44,7 +44,7 @@ export function PriceBlock({ price: p }: { price: PriceCardView }) {
         {p.now.toLocaleString('ko-KR')}
         <span className="wonu">원</span>
       </span>
-      <span className="basis num">{basisLine(p.unit, p.perUnit)}</span>
+      <span className="basis num" data-testid="basis">{basisLine(p.unit, p.perUnit)}</span>
     </div>
   )
 }
