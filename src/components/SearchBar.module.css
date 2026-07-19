@@ -1,0 +1,12 @@
+.search {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: var(--radius-crisp);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--text-md);
+}
+/* 플레이스홀더는 입력값보다 한 단계 작게 — 채워지면 큰 글씨로 또렷해진다 */
+.search::placeholder { color: var(--muted); font-size: var(--text-sm); }
+.search:focus-visible { outline: 2px solid var(--ink); outline-offset: 0; border-color: transparent; }

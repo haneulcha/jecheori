@@ -1,0 +1,145 @@
+@font-face {
+  font-family: 'MaruBuri';
+  src: url('./fonts/MaruBuri-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'MaruBuri';
+  src: url('./fonts/MaruBuri-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+/* 손글씨 — 카드 하단 "제철이의 한마디"에만. produce.json 사용 글자로 서브셋
+   (scripts/subset-handwriting-font.sh). 학교안심 받아쓰기 L, OFL. */
+@font-face {
+  font-family: 'Hakgyoansim';
+  src: url('./fonts/HakgyoansimBadasseugi-L.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* DESIGN.md "절기 스케치북" 토큰 — 텍스트는 오직 쪽빛(--ink)이 소유한다.
+   계절 웜 컬러는 글자를 싣지 않고 배경(배지·블롭·칩)으로만 쓴다. */
+:root {
+  --paper: #fbf9f6;
+  --card: #ffffff;
+  --ink: #2b4586;
+  --muted: #7b84a3;
+  --line: #e7e2d6;
+  --axis: #cbc2b0;
+  --margin: #e3c4b8;
+  --rise: #c0392b;      /* 상승 마커 (구 밤색 #8c6a5d에서 개정: 칩 내부 채도 대비) */
+  --rise-lo: #efeae3;   /* 상승 칩 저채도 배경 */
+  --tint: #fff4ce;
+  /* 메모 고정 한정 옅은 부양(그림자 1단계). DESIGN.md 규율 예외 — 카드에만 쓴다. */
+  --lift: 0 2px 6px rgba(43, 69, 134, 0.06);
+  --memo: #FFFCF3;                   /* 메모 낱장 — 순백 카드와 구분되는 살짝 따뜻한 종이 */
+  /* 계절 기본값 (여름) — main.ts가 body[data-season]으로 덮어쓴다 */
+  --accent: #ffc400;
+  /* 간격 스케일 — 리듬 보존(앱의 0.4rem 계열). 1.0(lg)이 최대 클러스터. impeccable 감사. */
+  --space-3xs: 0.2rem;
+  --space-2xs: 0.3rem;
+  --space-xs: 0.4rem;
+  --space-sm: 0.6rem;
+  --space-md: 0.8rem;
+  --space-lg: 1rem;
+  --space-xl: 1.5rem;
+  --space-2xl: 2.5rem;
+  --space-3xl: 3rem;
+  /* 폰트 패밀리 — @font-face가 정의한 별칭 그대로. DESIGN.md: 못 구하면 serif 폴백. */
+  --font-display: 'MaruBuri', serif;
+  --font-hand: 'Hakgyoansim', 'MaruBuri', serif;
+  --font-body: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  --font-mono: 'SF Mono', 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+  /* 라운드 — 역할별. crisp=메모 낱장 카드, soft=칩·배지, pill=알약 */
+  --radius-crisp: 0.2rem;
+  --radius-soft: 0.4rem;
+  --radius-pill: 1rem;
+  /* 타입 스케일 — 리듬 보존 6단계. 시그니처(아이브로 0.9·h1 1.5·디스플레이 1.7) 무이동. impeccable 감사. */
+  --text-2xs: 0.7rem;  /* 마이크로 라벨·캡션 */
+  --text-xs: 0.8rem;   /* 소형 라벨 */
+  --text-sm: 0.9rem;   /* 보조 텍스트·절기 아이브로 */
+  --text-md: 1rem;     /* 본문·카드/섹션 제목 */
+  --text-lg: 1.5rem;   /* 디스플레이 헤딩 — h1 (+ ‹ › 넘김 셰브론 1.3→1.5 흡수) */
+  --text-xl: 1.7rem;   /* 최대 디스플레이 — 카드 이모지·큰 가격 */
+}
+[data-season='spring'] { --accent: #a2d3a6; --tint: #eaf4e9; }
+[data-season='summer'] { --accent: #ffc400; --tint: #fff4ce; }
+[data-season='autumn'] { --accent: #ed7328; --tint: #fbe7d6; }
+[data-season='winter'] { --accent: #bc6e79; --tint: #f6e7ea; }
+
+* { box-sizing: border-box; }
+
+/* 스크롤바 전역 숨김 — 스크롤 기능은 유지, 바만 감춘다 (페이지·메모 단계 목록·칩 행 모두) */
+* { scrollbar-width: none; -ms-overflow-style: none; }
+*::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app { max-width: 28rem; margin: 0 auto; padding: var(--space-xl) var(--space-lg) var(--space-3xl); }
+
+/* 헤더 — 시그니처: 쪽빛 스케치 + 계절 틴트 블롭 */
+header { position: relative; margin-bottom: var(--space-xl); }
+header::before {
+  content: '';
+  position: absolute;
+  top: -0.6rem;
+  right: -0.4rem;
+  width: 9rem;
+  height: 7rem;
+  background: var(--tint);
+  border-radius: 48% 52% 61% 39% / 55% 44% 56% 45%;
+  z-index: -1;
+}
+.week {
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-size: var(--text-sm);
+  letter-spacing: 0.02em;
+  margin: var(--space-xs) 0 0;
+}
+header h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  line-height: 1.45;
+  margin: var(--space-3xs) 0 var(--space-xs);
+  word-break: keep-all;   /* 한글은 어절 단위로만 줄바꿈 ("방법"이 방/법으로 안 쪼개지게) */
+  text-wrap: balance;     /* 두 줄 길이 균형 */
+}
+.list { display: flex; flex-direction: column; gap: var(--space-xl); }
+
+.num { font-variant-numeric: tabular-nums; }
+
+footer { margin-top: var(--space-2xl); }
+footer p { color: var(--muted); font-size: var(--text-xs); line-height: 1.35; margin: 0; }
+footer p + p { margin-top: var(--space-3xs); }
+.empty, .loading {
+  color: var(--muted);
+  font-size: var(--text-md);
+  text-align: center;
+  margin-top: var(--space-3xl);
+}
+
+/* 접근성 */
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* 선택적 향상 — MPA View Transitions (지원 브라우저에서만). */
+@view-transition {
+  navigation: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

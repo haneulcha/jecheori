@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { RecipeView } from '../recipe'
+import { cx } from '../cx'
+import styles from './RecipeMemo.module.css'
 
 /** 닫힘 전환 길이(ms) — CSS memo-out과 맞춘다. reduced-motion이면 전환은 안 보이지만
  *  이 타이머로 제거는 그대로 일어난다. */
@@ -97,15 +99,16 @@ export function RecipeMemo({
     <article
       ref={rootRef}
       id={id}
-      className={closing ? 'memo memo-closing' : 'memo'}
+      className={cx(styles.memo, closing && styles.memoClosing)}
+      data-closing={closing ? '' : undefined}
       role="group"
       aria-label={r.name}
       tabIndex={-1}
     >
-      <button type="button" className="pin" onClick={beginClose} aria-label="레시피 떼기" />
+      <button type="button" className={styles.pin} onClick={beginClose} aria-label="레시피 떼기" />
       <button
         type="button"
-        className="nav nav-prev"
+        className={cx(styles.nav, styles.navPrev)}
         onClick={() => goStep(-1)}
         disabled={index === 0}
         aria-label="이전 레시피"
@@ -114,7 +117,7 @@ export function RecipeMemo({
       </button>
       <button
         type="button"
-        className="nav nav-next"
+        className={cx(styles.nav, styles.navNext)}
         onClick={() => goStep(1)}
         disabled={index === recipes.length - 1}
         aria-label="다음 레시피"
@@ -122,11 +125,11 @@ export function RecipeMemo({
         ›
       </button>
       <h3>{r.name}</h3>
-      {r.ingredients && <p className="ing">{r.ingredients}</p>}
+      {r.ingredients && <p className={styles.ing}>{r.ingredients}</p>}
       {r.steps.length > 0 && (
         <ol
           ref={stepsRef}
-          className={stepsFade ? 'steps steps-fade' : 'steps'}
+          className={cx(styles.steps, stepsFade && styles.stepsFade)}
           onScroll={syncStepsFade}
         >
           {r.steps.map((s, i) => (
@@ -134,7 +137,7 @@ export function RecipeMemo({
           ))}
         </ol>
       )}
-      <p className="count">
+      <p className={styles.count} data-testid="count">
         {index + 1} / {recipes.length}
       </p>
     </article>

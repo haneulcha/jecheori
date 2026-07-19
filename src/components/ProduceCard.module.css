@@ -1,0 +1,72 @@
+/* 카드 — 달력 낱장 */
+.card {
+  position: relative;                /* Task 2 테이프(::before)의 기준 */
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-crisp); /* 종이처럼 crisp (기존 0.9rem) */
+  padding: var(--space-lg) var(--space-lg);
+  box-shadow: var(--lift);           /* 아주 옅은 부양 */
+  /* 기울기 회전 기준점을 상단으로 — 펼칠 때 상단이 고정되고 아래만 늘어난다
+     (center면 카드가 길어질 때 윗부분이 옆으로 밀린다) */
+  transform-origin: top center;
+}
+/* 마스킹테이프 한 조각 — 냉장고에 붙인 시그니처. 반투명 계절색(배경 도형이라 규율 OK).
+   그라데이션 아님(단일 반투명 평면). pseudo-element라 접근성 트리에서 자동 제외. */
+.card::before {
+  content: '';
+  position: absolute;
+  /* 19장으로 늘어난 목록에서 큰 테이프가 반복돼 시끄러워 살짝 줄인다 */
+  top: -0.5rem;
+  left: 50%;
+  width: 3.4rem;
+  height: 1rem;
+  transform: translateX(-50%) rotate(-2deg);
+  background: color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: 1px;
+}
+/* 손으로 붙인 듯 아주 살짝, 홀짝 교대로. 정적 transform이라 모션 아님(reduced-motion 무관). */
+.card:nth-child(odd) { transform: rotate(0.4deg); }
+.card:nth-child(even) { transform: rotate(-0.4deg); }
+.card summary { cursor: pointer; list-style: none; }
+.card summary::-webkit-details-marker { display: none; }
+.card .summaryRow { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-lg); }
+.card .id { display: flex; align-items: center; gap: var(--space-sm); }
+.card .emoji { font-size: var(--text-xl); line-height: 1; }
+.cardTitle { font-size: var(--text-md); font-weight: 600; display: inline-flex; align-items: center; gap: var(--space-xs); }
+.card .kind { display: block; color: var(--muted); font-size: var(--text-xs); margin-top: var(--space-3xs); }
+/* 펼침 영역 — 점선 디바이더로 표지와 나누고, 섹션(스파크·영양·노트) 사이는
+   넉넉한 간격으로 빽빽하지 않게 */
+.open {
+  border-top: 1px dashed var(--line);
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+/* 제철이의 한마디 — 종이에 연필로 적어준 듯한 손글씨. 펼치기 전에도 늘 보이는,
+   카드 표지 하단의 한 줄. 쪽빛의 뮤트(--muted)로 연필 흑연처럼, 살짝 기울여. */
+.card .why {
+  font-family: var(--font-hand);
+  color: var(--muted);
+  font-size: var(--text-md);
+  line-height: 1.3;
+  margin: var(--space-lg) 0 0;
+  transform: rotate(-0.5deg);
+  transform-origin: left center;
+  /* body의 antialiased가 L 웨이트를 너무 가늘게 만든다 — 여기선 꺼서 살짝 두툼하게 */
+  -webkit-font-smoothing: auto;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .card { transition: border-color 0.15s ease; }
+  .card[open] { border-color: var(--accent); }
+}
+
+/* 레시피 진입 칩 + 카드 위 핀 메모 */
+/* 라벨+칩은 한 묶음(.recipe-section) — .open의 flex gap이 둘 사이에 끼지 않게, 간격은 라벨 margin만 */
+.recipeLabel { font-size: var(--text-2xs); letter-spacing: 0.08em; color: var(--muted); margin: 0 0 var(--space-2xs); }
+
+.memoLayer { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+
+/* 왼쪽 열: 이모지·이름 위, 그 아래 제철 띠. 오른쪽 가격 블록 높이와 무관하게 이름에 붙는다. */
+.card .idWrap { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: var(--space-sm); }

@@ -1,0 +1,9 @@
+.sprig {
+  position: absolute;
+  top: 0;
+  right: 0.2rem;
+  width: 6.5rem;
+  height: auto;
+  color: var(--ink);
+  opacity: 0.35;
+}

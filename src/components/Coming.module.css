@@ -1,0 +1,3 @@
+/* 달 섹션 간 여백(카드 목록은 기존 .list 재사용) */
+.comingMonth { margin-top: var(--space-xl); }
+.comingMonth h2 { font-size: var(--text-md); letter-spacing: 0.04em; margin-bottom: var(--space-md); }

@@ -3,6 +3,7 @@ import { weekLabel } from '../week'
 import { Sprig } from './Sprig'
 import { NavIndex } from './NavIndex'
 import { ProduceCard } from './ProduceCard'
+import styles from './Coming.module.css'
 
 /** 다가오는 제철 페이지. 메인과 같은 풀 카드(ProduceCard). 표시 전용. */
 export function Coming({ view }: { view: ComingView }) {
@@ -19,7 +20,7 @@ export function Coming({ view }: { view: ComingView }) {
       <main>
         {months.length > 0 ? (
           months.map((m) => (
-            <section className="coming-month" key={m.month} data-season={m.season}>
+            <section className={styles.comingMonth} key={m.month} data-season={m.season}>
               <h2>{m.month}월</h2>
               <div className="list">
                 {m.items.map((card) => (

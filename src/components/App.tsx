@@ -9,20 +9,23 @@ import { SearchBar } from './SearchBar'
 import { SeasonHint } from './SeasonHint'
 import { SortControl } from './SortControl'
 import { Sprig } from './Sprig'
+import styles from './App.module.css'
 
 // 탭 툴팁: 데스크톱은 CSS hover/focus, 터치는 탭 토글 (문서 위임).
 // 절정 dot(카드 펼침 방지)과 조사일 날짜(.rel-date)가 같은 패턴을 쓴다.
-const TIP_SELECTOR = '.peak-dot, .rel-date'
+// 토글 신호는 클래스가 아니라 data-tip/data-show 속성 — 클래스는 곧 CSS Module로 해시된다.
+const TIP_SELECTOR = '[data-tip]'
 function useTapTooltips() {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      const trigger = (e.target as HTMLElement).closest(TIP_SELECTOR)
-      document.querySelectorAll('.peak-dot.show, .rel-date.show').forEach((el) => {
-        if (el !== trigger) el.classList.remove('show')
+      const trigger = (e.target as HTMLElement).closest<HTMLElement>(TIP_SELECTOR)
+      document.querySelectorAll('[data-tip][data-show]').forEach((el) => {
+        if (el !== trigger) el.removeAttribute('data-show')
       })
       if (!trigger) return
-      if (trigger.classList.contains('peak-dot')) e.preventDefault() // 카드 펼침 토글 방지
-      trigger.classList.toggle('show')
+      if (trigger.dataset.tip === 'peak') e.preventDefault() // 카드 펼침 토글 방지
+      if (trigger.hasAttribute('data-show')) trigger.removeAttribute('data-show')
+      else trigger.setAttribute('data-show', '')
     }
     document.addEventListener('click', onClick)
     return () => document.removeEventListener('click', onClick)
@@ -70,10 +73,10 @@ export function App({ view }: { view: AppView }) {
         <p className="week">{eyebrow}</p>
         <h1>이 계절을 맛보는 가장 알뜰한 방법</h1>
         {freshness.kind === 'dated' && (
-          <p className="surveyed">
-            <span className="rel-date" tabIndex={0}>
+          <p className={styles.surveyed} data-testid="surveyed">
+            <span className={styles.relDate} data-testid="rel-date" data-tip="date" tabIndex={0}>
               {relativeDayLabel(freshness.days)}
-              <span className="date-tip" role="tooltip">
+              <span className={styles.dateTip} data-testid="date-tip" role="tooltip">
                 {surveyedDateLabel(freshness.surveyedOn)}
               </span>
             </span>
@@ -86,16 +89,16 @@ export function App({ view }: { view: AppView }) {
           {cards.length > 0 ? (
             <>
               {ready && (
-                <div className="controls">
+                <div className={styles.controls}>
                   <SearchBar query={query} onChange={setQuery} />
-                  <div className="ctrlrow">
+                  <div className={styles.ctrlrow}>
                     <FilterBar filters={filters} onToggle={toggle} />
                     <SortControl sort={sort} onChange={setSort} />
                   </div>
                 </div>
               )}
               {noDrop && (
-                <p className="nodrop">이번 주는 크게 내려온 게 없어요. 제철은 그대로 곁에 있어요.</p>
+                <p className={styles.nodrop}>이번 주는 크게 내려온 게 없어요. 제철은 그대로 곁에 있어요.</p>
               )}
               {shown.length > 0 && (
                 <div className="list">
@@ -105,9 +108,9 @@ export function App({ view }: { view: AppView }) {
                 </div>
               )}
               {searching && hints.length > 0 && (
-                <div className="off-season">
-                  <p className="off-divider">지금은 제철이 아니에요</p>
-                  <ul className="hint-list">
+                <div className={styles.offSeason}>
+                  <p className={styles.offDivider}>지금은 제철이 아니에요</p>
+                  <ul className={styles.hintList}>
                     {hints.map((h, i) => (
                       <SeasonHint key={i} hint={h} />
                     ))}

@@ -8,6 +8,7 @@ import { PeakDot } from './PeakDot'
 import { SeasonStrip } from './SeasonStrip'
 import { RecipeChips } from './RecipeChips'
 import { RecipeMemo } from './RecipeMemo'
+import styles from './ProduceCard.module.css'
 
 export function ProduceCard({ card }: { card: CardView }) {
   const [current, setCurrent] = useState<number | null>(null)
@@ -24,7 +25,7 @@ export function ProduceCard({ card }: { card: CardView }) {
   // 닫기: 아직 붙어 있는 해당 칩으로 포커스를 돌리고 상태를 지운다.
   const close = () => {
     if (current !== null) {
-      rootRef.current?.querySelectorAll<HTMLButtonElement>('.chip-btn')[current]?.focus()
+      rootRef.current?.querySelectorAll<HTMLButtonElement>('[aria-pressed]')[current]?.focus()
     }
     setCurrent(null)
   }
@@ -32,44 +33,44 @@ export function ProduceCard({ card }: { card: CardView }) {
   return (
     <details
       ref={rootRef}
-      className="card"
+      className={styles.card}
       data-cat={card.category}
       onToggle={(e) => {
         if (!e.currentTarget.open) setCurrent(null)
       }}
     >
       <summary>
-        <div className="summary-row">
-          <div className="id-wrap">
-            <span className="id">
-              <span className="emoji">{card.emoji}</span>
+        <div className={styles.summaryRow}>
+          <div className={styles.idWrap}>
+            <span className={styles.id}>
+              <span className={styles.emoji}>{card.emoji}</span>
               <span>
-                <span className="card-title" data-testid="card-name">
+                <span className={styles.cardTitle} data-testid="card-name">
                   {card.name}
                   {card.inPeak && <PeakDot />}
                 </span>
-                <span className="kind">{card.kind}</span>
+                <span className={styles.kind}>{card.kind}</span>
               </span>
             </span>
             <SeasonStrip strip={card.season} />
           </div>
           {card.price && <PriceBlock price={card.price} />}
         </div>
-        {card.whyNow && <p className="why">{card.whyNow}</p>}
+        {card.whyNow && <p className={styles.why}>{card.whyNow}</p>}
       </summary>
-      <div className="open">
+      <div className={styles.open}>
         {card.price?.spark && <Sparkline spark={card.price.spark} />}
         {card.nutrition && <NutritionLine nutrition={card.nutrition} />}
         <Note note={card.note} />
         {recipes && (
           <div className="recipe-section">
-            <p className="recipe-label">레시피</p>
+            <p className={styles.recipeLabel}>레시피</p>
             <RecipeChips recipes={recipes} current={current} onSelect={select} memoId={memoId} />
           </div>
         )}
       </div>
       {recipes && current !== null && (
-        <div className="memo-layer">
+        <div className={styles.memoLayer}>
           <RecipeMemo
             recipes={recipes}
             index={current}

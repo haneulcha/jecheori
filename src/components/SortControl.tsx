@@ -1,4 +1,5 @@
 import type { SortMode } from '../view-types'
+import styles from './SortControl.module.css'
 
 const OPTS: { value: SortMode; label: string }[] = [
   { value: 'drop', label: '하락 큰 순' },
@@ -9,7 +10,8 @@ const OPTS: { value: SortMode; label: string }[] = [
 // 내림차순 어휘의 계단 막대 — "정렬" 글자를 대신한다. 현재값은 옆 <select>가 그대로 보인다.
 const SortIcon = () => (
   <svg
-    className="sort-icon"
+    className={styles.sortIcon}
+    data-testid="sort-icon"
     width="15"
     height="15"
     viewBox="0 0 15 15"
@@ -25,7 +27,7 @@ const SortIcon = () => (
 
 export function SortControl({ sort, onChange }: { sort: SortMode; onChange: (s: SortMode) => void }) {
   return (
-    <label className="sort">
+    <label className={styles.sort}>
       <SortIcon />
       <select aria-label="정렬" value={sort} onChange={(e) => onChange(e.target.value as SortMode)}>
         {OPTS.map((o) => (
