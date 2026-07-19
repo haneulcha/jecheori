@@ -99,15 +99,6 @@ header::before {
   border-radius: 48% 52% 61% 39% / 55% 44% 56% 45%;
   z-index: -1;
 }
-.sprig {
-  position: absolute;
-  top: 0;
-  right: 0.2rem;
-  width: 6.5rem;
-  height: auto;
-  color: var(--ink);
-  opacity: 0.35;
-}
 .week {
   font-family: var(--font-display);
   color: var(--ink);
