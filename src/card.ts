@@ -19,6 +19,7 @@ export type ChangeView =
   | { kind: 'fall'; pct: number; basisLabel: string } // 칩 ↓, 큰가격 쪽빛
   | { kind: 'rise'; pct: number; basisLabel: string } // 칩 ↑, 큰가격 러스트
   | { kind: 'similar'; basisLabel: string } // "비슷" 문구, 칩 없음
+  | { kind: 'basis'; basisLabel: string } // "작년 기준" 출처만(다가오는 예고) — 칩·%·화살표 없음
   | null // 비교 기준 없음 → 칩·문구 없음
 
 export interface SparkView {
