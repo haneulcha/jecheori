@@ -49,6 +49,7 @@ test('FOOD_NM_KR과 FOOD_CAT1_NM이 요청에 들어간다', async () => {
   expect(sp.get('serviceKey')).toBe('MYKEY')
   expect(sp.get('numOfRows')).toBe('500')
   expect(sp.get('FOOD_NM_KR')).toBe('오이')
+  expect(sp.get('FOOD_CAT1_NM')).toBe('곡류') // 루프 마지막 카테고리
 })
 
 test('오류 헤더면 throw', async () => {
@@ -73,4 +74,45 @@ test('HTTP 오류면 throw', async () => {
   await expect(
     buildNutritionCandidates({ key: 'K', profiles: [{ id: 'cucumber', name: '오이' }], fetchFn }),
   ).rejects.toThrow(/500/)
+})
+
+test('body.items가 단일 객체로 와도 후보로 모은다', async () => {
+  const fetchFn = async (url) => {
+    const cat = new URL(url).searchParams.get('FOOD_CAT1_NM')
+    if (cat === '채소류') {
+      return {
+        ok: true,
+        json: async () => ({
+          header: { resultCode: '00' },
+          body: {
+            items: {
+              FOOD_NM_KR: '오이_취청_생것',
+              FOOD_CAT1_NM: '채소류',
+              SERVING_SIZE: '100g',
+              AMT_NUM1: '9.00',
+            },
+          },
+        }),
+      }
+    }
+    return ok(undefined)
+  }
+  const out = await buildNutritionCandidates({
+    key: 'K',
+    profiles: [{ id: 'cucumber', name: '오이' }],
+    fetchFn,
+  })
+  expect(out[0].pick.foodName).toBe('오이_취청_생것')
+  expect(out[0].flag).toBe('ok')
+})
+
+test('전 카테고리 결과 없으면 no-match (pick null, throw 아님)', async () => {
+  const fetchFn = async () => ok(undefined)
+  const out = await buildNutritionCandidates({
+    key: 'K',
+    profiles: [{ id: 'cucumber', name: '오이' }],
+    fetchFn,
+  })
+  expect(out[0].flag).toBe('no-match')
+  expect(out[0].pick).toBeNull()
 })
