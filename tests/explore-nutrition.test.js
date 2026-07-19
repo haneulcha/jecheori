@@ -8,7 +8,7 @@ const respOf = (items) => ({
 
 const cucumberItems = [
   { FOOD_NM_KR: '오이_취청_생것', FOOD_CAT1_NM: '채소류', SERVING_SIZE: '100g', AMT_NUM1: '9.00' },
-  { FOOD_NM_KR: '오이지', FOOD_CAT1_NM: '채소류', SERVING_SIZE: '100g', AMT_NUM1: '11.00' },
+  { FOOD_NM_KR: '오이_장아찌', FOOD_CAT1_NM: '채소류', SERVING_SIZE: '100g', AMT_NUM1: '11.00' },
 ]
 
 test('foodDb 없는 프로필만 조회하고 생것을 pick 한다', async () => {
@@ -46,4 +46,32 @@ test('HTTP 오류면 throw', async () => {
   await expect(
     buildNutritionCandidates({ key: 'K', profiles: [{ id: 'cucumber', name: '오이' }], fetchFn }),
   ).rejects.toThrow(/500/)
+})
+
+test('body.items가 배열이 아니라 단일 객체면 그 한 건을 후보로 수집한다', async () => {
+  const singleItem = {
+    FOOD_NM_KR: '오이_취청_생것', FOOD_CAT1_NM: '채소류', SERVING_SIZE: '100g', AMT_NUM1: '9.00',
+  }
+  const fetchFn = async () => ({
+    ok: true,
+    json: async () => ({ header: { resultCode: '00' }, body: { items: singleItem } }),
+  })
+  const out = await buildNutritionCandidates({
+    key: 'K', profiles: [{ id: 'cucumber', name: '오이' }], fetchFn,
+  })
+  expect(out[0].pick.foodName).toBe('오이_취청_생것')
+  expect(out[0].flag).toBe('ok')
+})
+
+test('정상 무결과(resultCode 00, items 없음)면 no-match로 표시되고 throw하지 않는다', async () => {
+  const fetchFn = async () => ({
+    ok: true,
+    json: async () => ({ header: { resultCode: '00' }, body: {} }),
+  })
+  const out = await buildNutritionCandidates({
+    key: 'K', profiles: [{ id: 'cucumber', name: '오이' }], fetchFn,
+  })
+  expect(out).toHaveLength(1)
+  expect(out[0].flag).toBe('no-match')
+  expect(out[0].pick).toBeNull()
 })

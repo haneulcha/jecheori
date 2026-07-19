@@ -40,11 +40,12 @@ export async function buildNutritionCandidates({ key, profiles, fetchFn = fetch 
       const json = await res.json()
       const raw = json?.body?.items
       if (raw === undefined || raw === null) {
-        const code = json?.header?.resultCode
-        if (code && code !== '00') {
-          throw new Error(`FoodNtr 오류: ${json?.header?.resultMsg ?? code} (${term})`)
+        const header = json?.header
+        if (!header) throw new Error(`FoodNtr 응답 이상: header 없음 (${term})`)
+        if (header.resultCode !== '00') {
+          throw new Error(`FoodNtr 오류: ${header.resultMsg ?? header.resultCode} (${term})`)
         }
-        continue // 정상 무결과
+        continue // 정상 무결과 (resultCode '00', items 없음)
       }
       const items = Array.isArray(raw) ? raw : [raw]
       for (const it of items) {
