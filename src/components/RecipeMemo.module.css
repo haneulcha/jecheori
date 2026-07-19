@@ -1,0 +1,60 @@
+.memo {
+  position: absolute; left: 50%; top: 50%; width: min(21rem, 94%);
+  transform: translate(-50%, -50%) rotate(-0.7deg);        /* 카드 정중앙 */
+  background: var(--memo); border: 1px solid var(--line); border-radius: var(--radius-crisp);
+  padding: var(--space-xl) var(--space-2xl) var(--space-lg); /* 좌우 여백 = ‹ › 자리 */
+  box-shadow: 0 6px 16px -10px rgba(43, 69, 134, 0.20);   /* 예외: 메모 부양(옅게) */
+  pointer-events: auto; outline: none;
+  animation: memo-in 0.2s ease-out;                        /* 오버슈트 없음 */
+}
+.memoClosing { animation: memo-out 0.18s ease-in forwards; }  /* 열기와 대칭 */
+@keyframes memo-in {
+  from { opacity: 0; transform: translate(-50%, calc(-50% - 8px)) scale(0.98) rotate(-0.7deg); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-0.7deg); }
+}
+@keyframes memo-out {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-0.7deg); }
+  to   { opacity: 0; transform: translate(-50%, calc(-50% - 8px)) scale(0.98) rotate(-0.7deg); }
+}
+.memo h3 { font-size: var(--text-md); margin: 0 0 var(--space-sm); color: var(--ink); text-align: center; }
+.memo .ing { font-size: var(--text-xs); color: var(--muted); margin: 0 0 var(--space-md); line-height: 1.55; }
+.memo .steps { margin: 0; padding-left: var(--space-lg); font-size: var(--text-sm); color: #5a5140; line-height: 1.7; max-height: 15rem; overflow-y: auto; }
+.memo .steps li { margin-bottom: var(--space-2xs); }
+.memo .steps li::marker { color: var(--muted); }
+/* 단계가 넘쳐 스크롤이 생기고 아직 바닥이 아닐 때만, 하단 경계를 페이드로 부드럽게 (JS로 클래스 토글) */
+.memo .stepsFade {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 1.6rem), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 1.6rem), transparent);
+}
+.memo .count { text-align: center; font-size: var(--text-2xs); color: var(--muted); margin: var(--space-md) 0 0; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+
+/* 압정 = 닫기. 단색 러스트 + 흰 하이라이트(그라데이션 금지). 히트 영역 ~44px. */
+.pin {
+  position: absolute; top: -0.62rem; left: 50%; transform: translateX(-50%);
+  width: 1.15rem; height: 1.15rem; border-radius: 50%; border: none; cursor: pointer;
+  background: var(--rise); padding: 0; z-index: 2;
+  box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.35);
+}
+.pin::after { content: ""; position: absolute; top: 30%; left: 30%; width: 0.3rem; height: 0.3rem; border-radius: 50%; background: rgba(255, 255, 255, 0.8); }
+.pin::before { content: ""; position: absolute; inset: -0.75rem; }   /* 투명 히트 패딩 */
+.pin:hover { filter: brightness(1.06); }
+
+/* ‹ › 넘김 — 테두리·배경 없이 쪽빛 셰브론만. 평소 옅게, hover에 진해진다. 히트 영역 ~44px. */
+.nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 1.6rem; height: 1.6rem;
+  border: none; background: none; color: var(--ink);
+  font-size: var(--text-lg); line-height: 1; cursor: pointer; padding: 0 0 var(--space-3xs);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0.5; transition: opacity 0.15s;
+}
+.nav::before { content: ""; position: absolute; inset: -0.7rem; }   /* 투명 히트 패딩 */
+.navPrev { left: 0.1rem; }
+.navNext { right: 0.1rem; }
+.nav:hover:not(:disabled) { opacity: 1; }
+.nav:disabled { opacity: 0.18; cursor: default; }
+.pin:focus-visible, .nav:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .memo, .memoClosing { animation: none; }
+}
