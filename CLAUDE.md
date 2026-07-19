@@ -27,6 +27,7 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
 - `npm run storybook` — 뷰 상태 탐색기 (데이터→UI 인과를 노브로 확인, 스펙: `docs/superpowers/specs/2026-07-14-storybook-view-states-design.md`)
 - `npm run build` — 프리렌더 정적 빌드 (`dist/client/`)
 - `npm run fetch:prices` — KAMIS 가격 수집 (env: `KAMIS_CERT_KEY`, `KAMIS_CERT_ID`)
+- `npm run fetch:coming-prices` — 다가오는 제철용 작년 같은 시기 가격 씨앗 수집 (env: `KAMIS_CERT_KEY`, `KAMIS_CERT_ID`)
 - `npm run fetch:nutrition` — 식약처 영양성분DB 수집 (env: `DATA_GO_KR_KEY`)
 - `npm run fetch:recipes` — 식약처 조리식품 레시피DB 수집 (env: `FOODSAFETY_API_KEY`)
 - `npm run report:coverage` — 제철 프로필 ↔ 가격 스냅샷 매칭 리포트
@@ -48,7 +49,8 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
 - 식약처 키도 코드·저장소에 절대 넣지 않는다 (CI 시크릿 `DATA_GO_KR_KEY`).
 - 식품안전나라(레시피) 키도 코드·저장소에 절대 넣지 않는다 (env `FOODSAFETY_API_KEY`).
   레시피·영양은 **씨앗형**(거의 안 변함) — 상시 CI 없이 확장 시 로컬에서 1회 수집해 커밋.
-  가격만 매일 변해 CI cron 상주(`update-prices.yml`).
+  가격만 매일 변해 CI cron 상주(`update-prices.yml`). 다가오는-가격(작년 이맘때)도
+  씨앗형 — 상시 CI 없이 로컬 1회 수집해 커밋.
 - KAMIS 매칭은 품목 코드가 아니라 `item_name` 문자열로 한다 (스펙 참고).
 - 식약처 영양 매칭도 품목 코드가 아니라 `foodName` 문자열로 한다 (`produce.json`의 `foodDb`).
 - 레시피 매칭은 품목 코드가 아니라 `RCP_NM` 문자열로 한다 (`produce.json`의 `recipeRef.names`).
