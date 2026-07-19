@@ -17,6 +17,7 @@
     "fetch:nutrition": "node scripts/fetch-nutrition.mjs",
     "fetch:recipes": "node scripts/fetch-recipes.mjs",
     "report:coverage": "node scripts/report-coverage.mjs",
+    "build:ncf": "esbuild scripts/ncf/index.mjs --bundle --platform=node --target=node20 --format=cjs --outfile=dist/ncf/index.js && node -e \"require('fs').writeFileSync('dist/ncf/package.json', JSON.stringify({name:'jecheori-fetch-prices',version:'1.0.0',main:'index.js'},null,2))\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
