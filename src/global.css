@@ -322,17 +322,6 @@ footer p + p { margin-top: var(--space-3xs); }
 }
 .fchip.on { background: var(--tint); border-color: var(--accent); }
 .fchip:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
-.sort { flex: 0 0 auto; display: inline-flex; align-items: center; gap: var(--space-2xs); color: var(--muted); font-size: var(--text-sm); }
-.sort-icon { display: block; color: var(--ink); }
-.sort select {
-  background: var(--card);
-  border: 1px solid var(--line);
-  color: var(--ink);
-  border-radius: var(--radius-crisp);
-  padding: var(--space-2xs) var(--space-sm);
-  font-size: var(--text-sm);
-}
-
 /* 접근성 */
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 @media (prefers-reduced-motion: no-preference) {
