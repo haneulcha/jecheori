@@ -13,8 +13,8 @@ describe('NavIndex', () => {
     expect(container.querySelector('.nav-index[data-open]')).toBeNull()
     fireEvent.click(cord)
     expect(container.querySelector('.nav-index[data-open]')).not.toBeNull()
-    const now = getByText('지금 담기 좋은 것')
-    const coming = getByText('다가오는 제철')
+    const now = getByText('지금 제철인 품목')
+    const coming = getByText('다가오는 제철 품목')
     expect(now.getAttribute('href')).toBe('/')
     expect(coming.getAttribute('href')).toBe('/coming')
     expect(now.getAttribute('aria-current')).toBe('page')
@@ -26,14 +26,24 @@ describe('NavIndex', () => {
     fireEvent.click(getByRole('button', { name: '목차' }))
     expect(container.querySelector('.nav-index[data-open]')).not.toBeNull()
     await act(async () => {
-      fireEvent.click(getByText('지금 담기 좋은 것'))
+      fireEvent.click(getByText('지금 제철인 품목'))
     })
     expect(container.querySelector('.nav-index[data-open]')).toBeNull()
   })
 
   test('current="coming"이면 다가오는 링크가 현재', async () => {
     const { getByText } = await renderWithRouter(<NavIndex current="coming" />, '/coming')
-    expect(getByText('다가오는 제철').getAttribute('aria-current')).toBe('page')
-    expect(getByText('지금 담기 좋은 것').getAttribute('aria-current')).toBeNull()
+    expect(getByText('다가오는 제철 품목').getAttribute('aria-current')).toBe('page')
+    expect(getByText('지금 제철인 품목').getAttribute('aria-current')).toBeNull()
+  })
+
+  test('제목 없이 두 링크를 라벨대로 그린다', async () => {
+    const { container, getByText } = await renderWithRouter(<NavIndex current="now" />)
+    // 목차 제목 제거
+    expect(container.querySelector('.nav-panel-title')).toBeNull()
+    expect(container.textContent).not.toContain('목차')
+    // 새 라벨
+    expect(getByText('지금 제철인 품목')).toBeTruthy()
+    expect(getByText('다가오는 제철 품목')).toBeTruthy()
   })
 })
