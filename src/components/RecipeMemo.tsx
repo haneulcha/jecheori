@@ -98,6 +98,7 @@ export function RecipeMemo({
       ref={rootRef}
       id={id}
       className={closing ? 'memo memo-closing' : 'memo'}
+      data-closing={closing ? '' : undefined}
       role="group"
       aria-label={r.name}
       tabIndex={-1}
@@ -134,7 +135,7 @@ export function RecipeMemo({
           ))}
         </ol>
       )}
-      <p className="count">
+      <p className="count" data-testid="count">
         {index + 1} / {recipes.length}
       </p>
     </article>
