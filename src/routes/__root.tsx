@@ -1,6 +1,6 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
-import appCss from '../style.css?url'
+import appCss from '../global.css?url'
 import { seasonOf } from '../season'
 
 export const Route = createRootRoute({
