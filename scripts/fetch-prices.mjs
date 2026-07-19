@@ -99,26 +99,29 @@ export function writeSnapshot(snapshot, outPath) {
   renameSync(tmp, outPath)
 }
 
+// CLI 본문은 async IIFE로 감싼다 — top-level await를 없애 NCF 번들(esbuild CJS)이 깨지지 않게.
 const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 if (isMain) {
-  const certKey = process.env.KAMIS_CERT_KEY
-  const certId = process.env.KAMIS_CERT_ID
-  if (!certKey || !certId) {
-    console.error('KAMIS_CERT_KEY / KAMIS_CERT_ID 환경변수가 필요합니다')
-    process.exit(1)
-  }
-  const dateArg = process.argv.find((a) => a.startsWith('--date='))?.slice('--date='.length)
-  const from = dateArg ?? kstDateString()
-  const outPath = fileURLToPath(new URL('../public/data/prices.json', import.meta.url))
-  try {
-    const snapshot = await buildLatestSnapshot({ certKey, certId, from })
-    const priced = snapshot.entries.filter((e) => e.price !== null).length
-    writeSnapshot(snapshot, outPath)
-    console.log(
-      `prices.json 갱신: ${priced}/${snapshot.entries.length}개 항목에 가격 (조사일 ${snapshot.surveyedOn})`,
-    )
-  } catch (err) {
-    console.error('가격 수집 실패 — prices.json은 변경하지 않음:', err.message)
-    process.exit(1)
-  }
+  ;(async () => {
+    const certKey = process.env.KAMIS_CERT_KEY
+    const certId = process.env.KAMIS_CERT_ID
+    if (!certKey || !certId) {
+      console.error('KAMIS_CERT_KEY / KAMIS_CERT_ID 환경변수가 필요합니다')
+      process.exit(1)
+    }
+    const dateArg = process.argv.find((a) => a.startsWith('--date='))?.slice('--date='.length)
+    const from = dateArg ?? kstDateString()
+    const outPath = fileURLToPath(new URL('../public/data/prices.json', import.meta.url))
+    try {
+      const snapshot = await buildLatestSnapshot({ certKey, certId, from })
+      const priced = snapshot.entries.filter((e) => e.price !== null).length
+      writeSnapshot(snapshot, outPath)
+      console.log(
+        `prices.json 갱신: ${priced}/${snapshot.entries.length}개 항목에 가격 (조사일 ${snapshot.surveyedOn})`,
+      )
+    } catch (err) {
+      console.error('가격 수집 실패 — prices.json은 변경하지 않음:', err.message)
+      process.exit(1)
+    }
+  })()
 }
