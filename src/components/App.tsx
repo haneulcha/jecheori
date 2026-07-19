@@ -12,17 +12,19 @@ import { Sprig } from './Sprig'
 
 // 탭 툴팁: 데스크톱은 CSS hover/focus, 터치는 탭 토글 (문서 위임).
 // 절정 dot(카드 펼침 방지)과 조사일 날짜(.rel-date)가 같은 패턴을 쓴다.
-const TIP_SELECTOR = '.peak-dot, .rel-date'
+// 토글 신호는 클래스가 아니라 data-tip/data-show 속성 — 클래스는 곧 CSS Module로 해시된다.
+const TIP_SELECTOR = '[data-tip]'
 function useTapTooltips() {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      const trigger = (e.target as HTMLElement).closest(TIP_SELECTOR)
-      document.querySelectorAll('.peak-dot.show, .rel-date.show').forEach((el) => {
-        if (el !== trigger) el.classList.remove('show')
+      const trigger = (e.target as HTMLElement).closest<HTMLElement>(TIP_SELECTOR)
+      document.querySelectorAll('[data-tip][data-show]').forEach((el) => {
+        if (el !== trigger) el.removeAttribute('data-show')
       })
       if (!trigger) return
-      if (trigger.classList.contains('peak-dot')) e.preventDefault() // 카드 펼침 토글 방지
-      trigger.classList.toggle('show')
+      if (trigger.dataset.tip === 'peak') e.preventDefault() // 카드 펼침 토글 방지
+      if (trigger.hasAttribute('data-show')) trigger.removeAttribute('data-show')
+      else trigger.setAttribute('data-show', '')
     }
     document.addEventListener('click', onClick)
     return () => document.removeEventListener('click', onClick)
@@ -71,7 +73,7 @@ export function App({ view }: { view: AppView }) {
         <h1>이 계절을 맛보는 가장 알뜰한 방법</h1>
         {freshness.kind === 'dated' && (
           <p className="surveyed" data-testid="surveyed">
-            <span className="rel-date" data-testid="rel-date" tabIndex={0}>
+            <span className="rel-date" data-testid="rel-date" data-tip="date" tabIndex={0}>
               {relativeDayLabel(freshness.days)}
               <span className="date-tip" data-testid="date-tip" role="tooltip">
                 {surveyedDateLabel(freshness.surveyedOn)}

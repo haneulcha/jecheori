@@ -165,7 +165,7 @@ header h1 {
 }
 .rel-date:hover .date-tip,
 .rel-date:focus .date-tip,
-.rel-date.show .date-tip {
+.rel-date[data-show] .date-tip {
   opacity: 1;
   transform: translateY(0);
 }
@@ -271,7 +271,7 @@ footer p + p { margin-top: var(--space-3xs); }
 .peak-dot { position: relative; width: 0.75rem; height: 0.75rem; padding: 0; border: 0; background: none; cursor: pointer; vertical-align: 0.1rem; }
 .peak-dot b { display: block; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--tint); }
 .peak-tip { position: absolute; left: 50%; top: 150%; transform: translateX(-50%); background: var(--ink); color: #fff; font-size: var(--text-2xs); white-space: nowrap; padding: var(--space-2xs) var(--space-sm); border-radius: var(--radius-soft); opacity: 0; pointer-events: none; transition: opacity 0.12s; z-index: 5; }
-.peak-dot:hover .peak-tip, .peak-dot:focus .peak-tip, .peak-dot.show .peak-tip { opacity: 1; }
+.peak-dot:hover .peak-tip, .peak-dot:focus .peak-tip, .peak-dot[data-show] .peak-tip { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .peak-tip, .date-tip { transition: none; } }
 
 /* 스파크라인 — 궤적(작년·1달 전·2주 전·1주 전·지금) + 평년 점선.
