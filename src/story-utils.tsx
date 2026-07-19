@@ -59,15 +59,15 @@ export interface CardKnobs {
   whyNow: string
   /** null이면 KAMIS 매칭 실패/결측 — 가격 블록 전체가 사라진다 */
   price: number | null
-  /** 정렬·필터(지난달 축)와 값어치 폴백 3순위. null이면 그 축의 등락을 모른다. */
+  /** 정렬·필터(지난달 축)와 값어치 폴백 3순위(지난 주·2주 전 없을 때). null이면 그 축의 등락을 모른다. */
   monthAgo: number | null
-  /** 값어치 폴백 2순위(평년 없을 때). null이면 그 축은 건너뛴다. */
+  /** 스파크 궤적의 첫 점(작년 이맘때). 값어치 비교엔 안 들어간다. null이면 그 점만 빠진다. */
   yearAgo: number | null
-  /** 값어치 헤드라인 1순위(있으면 항상 우선) + 스파크 점선·각주. null이면 작년→지난달로 폴백. */
+  /** 스파크 평년 점선 + 하단 범례. 값어치 비교엔 안 들어간다(헤드라인은 최근 움직임). null이면 점선·범례 생략. */
   normalYear: number | null
-  /** 최근 궤적 점(1주 전). null이면 스파크에서 이 점만 빠진다(궤적 2점 미만이면 스파크 자체가 사라진다). */
+  /** 값어치 헤드라인 1순위(지난 주 대비) + 스파크 궤적 점. null이면 2주 전으로 폴백하고 스파크에선 이 점이 빠진다(궤적 2점 미만이면 스파크 자체가 사라진다). */
   weekAgo: number | null
-  /** 최근 궤적 점(2주 전). weekAgo와 같은 규칙. */
+  /** 값어치 폴백 2순위(지난 주 없을 때) + 스파크 궤적 점. null이면 지난달로. */
   twoWeeksAgo: number | null
   unitQuantity: number
   unitMeasure: MeasureKey
@@ -92,8 +92,9 @@ export const CARD_KNOBS_DEFAULT: CardKnobs = {
   price: 315,
   monthAgo: 371,
   yearAgo: 340,
-  // 평년·1주·2주는 기본값에서 비워둔다 — 기존 스토리(하락·상승·비슷 등)가 "지난달/작년"
-  // 폴백 단만 본다는 전제를 그대로 유지한다. 평년·궤적을 보려면 노브를 명시적으로 켠다.
+  // 평년·1주·2주는 기본값에서 비워둔다 — 그러면 값어치 비교가 마지막 폴백 지난달(monthAgo)로
+  // 떨어져 기본 카드가 "지난달 대비"를 보인다. 실물 데이터엔 대개 1주 전이 있어 "지난 주 대비"가
+  // 뜨지만(schema 3), 스토리 기본값은 폴백 단을 단순하게 둔다. 지난 주·평년·궤적은 노브로 켠다.
   normalYear: null,
   weekAgo: null,
   twoWeeksAgo: null,

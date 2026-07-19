@@ -109,7 +109,7 @@ describe('priceView 기준선 통과', () => {
       price: 12600,
       unit: weight(1, 'kg'),
       changeVsMonthAgoPct: expect.closeTo(-25.44, 1),
-      comparison: { basis: 'yearAgo', basisLabel: '작년', pct: expect.closeTo(-5.97, 1) },
+      comparison: { basis: 'monthAgo', basisLabel: '지난달', pct: expect.closeTo(-25.44, 1) },
       baseline: { weekAgo: null, twoWeeksAgo: null, monthAgo: 16900, yearAgo: 13400, normalYear: null },
     })
   })
@@ -129,17 +129,20 @@ describe('priceView 기준선 통과', () => {
 })
 
 describe('valueComparison', () => {
-  test('평년 우선', () => {
-    expect(valueComparison(80, base({ normalYear: 100, yearAgo: 90, monthAgo: 95 })))
-      .toEqual({ basis: 'normalYear', basisLabel: '평년', pct: -20 })
+  test('1주전 우선', () => {
+    expect(valueComparison(80, base({ weekAgo: 100, twoWeeksAgo: 90, monthAgo: 95 })))
+      .toEqual({ basis: 'weekAgo', basisLabel: '지난 주', pct: -20 })
   })
-  test('평년 없으면 작년', () => {
-    expect(valueComparison(88, base({ yearAgo: 100, monthAgo: 95 })))
-      .toEqual({ basis: 'yearAgo', basisLabel: '작년', pct: -12 })
+  test('1주전 없으면 2주전', () => {
+    expect(valueComparison(88, base({ twoWeeksAgo: 100, monthAgo: 95 })))
+      .toEqual({ basis: 'twoWeeksAgo', basisLabel: '2주전', pct: -12 })
   })
-  test('평년·작년 없으면 지난달', () => {
+  test('1주전·2주전 없으면 지난달', () => {
     expect(valueComparison(95, base({ monthAgo: 100 })))
       .toEqual({ basis: 'monthAgo', basisLabel: '지난달', pct: -5 })
+  })
+  test('평년·작년만 있으면 비교 없음(궤적·기준선으로만 보임)', () => {
+    expect(valueComparison(80, base({ normalYear: 100, yearAgo: 90 }))).toBeNull()
   })
   test('다 없으면 null', () => {
     expect(valueComparison(100, base())).toBeNull()

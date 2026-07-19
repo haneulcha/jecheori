@@ -27,19 +27,14 @@ export function Sparkline({ spark: s }: { spark: SparkView }) {
     <div className={cx(styles.spark, 'num')}>
       <svg viewBox={`0 0 ${VW} ${VH}`} role="img" aria-label={label}>
         {s.normalYearLevel !== null && (
-          <>
-            <line
-              className={styles.normLine}
-              data-testid="norm-line"
-              x1={PAD_X}
-              y1={y(s.normalYearLevel).toFixed(1)}
-              x2={VW - PAD_X}
-              y2={y(s.normalYearLevel).toFixed(1)}
-            />
-            <text className={styles.normLab} x={VW - PAD_X} y={(y(s.normalYearLevel) - 3).toFixed(1)} textAnchor="end">
-              평년
-            </text>
-          </>
+          <line
+            className={styles.normLine}
+            data-testid="norm-line"
+            x1={PAD_X}
+            y1={y(s.normalYearLevel).toFixed(1)}
+            x2={VW - PAD_X}
+            y2={y(s.normalYearLevel).toFixed(1)}
+          />
         )}
         <polyline className={styles.trend} points={pts} />
         {s.points.map((p, i) => (
@@ -70,7 +65,10 @@ export function Sparkline({ spark: s }: { spark: SparkView }) {
       </svg>
       {s.normalYear !== null && (
         <p className={styles.sparkFoot}>
-          <span>
+          <span className={styles.legendItem}>
+            <svg className={styles.legendSwatch} viewBox="0 0 16 4" width="16" height="4" aria-hidden="true">
+              <line x1="0" y1="2" x2="16" y2="2" />
+            </svg>
             평년 <b>{won(s.normalYear)}원</b>
           </span>
         </p>

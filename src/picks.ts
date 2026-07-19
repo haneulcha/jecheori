@@ -1,6 +1,6 @@
 import type { Baseline, PriceEntry, PriceSnapshot, ProduceProfile, Unit } from './types'
 
-export type CompareBasis = 'normalYear' | 'yearAgo' | 'monthAgo'
+export type CompareBasis = 'weekAgo' | 'twoWeeksAgo' | 'monthAgo'
 
 export interface ValueComparison {
   basis: CompareBasis
@@ -13,7 +13,8 @@ export interface PriceView {
   unit: Unit
   /** 1개월 전 대비 % (음수 = 하락). 기준선이 없으면 null */
   changeVsMonthAgoPct: number | null
-  /** 평년→작년→지난달 우선도로 첫 non-null 기준 대비 비교. 표시용. */
+  /** 1주전→2주전→지난달 우선도로 첫 non-null 기준 대비 비교. 표시용(칩·큰가격).
+   *  평년·작년은 궤적/기준선으로만 보이고 이 비교엔 들어가지 않는다 — 헤드라인은 최근 움직임. */
   comparison: ValueComparison | null
   baseline: Baseline
 }
@@ -25,12 +26,12 @@ export interface PickResult {
 }
 
 const BASIS_ORDER: { key: CompareBasis; label: string }[] = [
-  { key: 'normalYear', label: '평년' },
-  { key: 'yearAgo', label: '작년' },
+  { key: 'weekAgo', label: '지난 주' },
+  { key: 'twoWeeksAgo', label: '2주전' },
   { key: 'monthAgo', label: '지난달' },
 ]
 
-/** 평년→작년→지난달 순 첫 non-null 기준 대비 비교. 다 없으면 null. */
+/** 1주전→2주전→지난달 순 첫 non-null 기준 대비 비교. 다 없으면 null. */
 export function valueComparison(price: number, b: Baseline): ValueComparison | null {
   for (const { key, label } of BASIS_ORDER) {
     const ref = b[key]

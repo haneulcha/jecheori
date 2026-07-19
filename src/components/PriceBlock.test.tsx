@@ -12,26 +12,32 @@ const ten: Unit = { quantity: 10, measure: { kind: 'count', unit: '개' } }
 const onePogi: Unit = { quantity: 1, measure: { kind: 'count', unit: '포기' } }
 
 describe('PriceBlock', () => {
-  test('평년 기준이면 "평년 대비" 라벨 + 칩', () => {
+  test('지난 주 기준이면 "지난 주 대비" 라벨 + 칩', () => {
     const { container, getByTestId } = render(
-      <PriceBlock price={{ now: 3513, wasMonthAgo: null, unit: g100, perUnit: null, monthAgoPct: -5, change: { kind: 'fall', pct: 21, basisLabel: '평년' }, spark: null }} />,
+      <PriceBlock price={{ now: 3513, wasMonthAgo: null, unit: g100, perUnit: null, monthAgoPct: -5, change: { kind: 'fall', pct: 21, basisLabel: '지난 주' }, spark: null }} />,
     )
-    expect(getByTestId('compare').textContent).toContain('평년 대비')
+    expect(getByTestId('compare').textContent).toContain('지난 주 대비')
     expect(container.textContent).toContain('21%')
   })
 
-  test('작년 폴백이면 "작년 대비"', () => {
+  test('2주 전 폴백이면 "2주전 대비"', () => {
     const { getByTestId } = render(
-      <PriceBlock price={{ now: 100, wasMonthAgo: null, unit: g100, perUnit: null, monthAgoPct: null, change: { kind: 'fall', pct: 12, basisLabel: '작년' }, spark: null }} />,
+      <PriceBlock price={{ now: 100, wasMonthAgo: null, unit: g100, perUnit: null, monthAgoPct: null, change: { kind: 'fall', pct: 12, basisLabel: '2주전' }, spark: null }} />,
     )
-    expect(getByTestId('compare').textContent).toContain('작년 대비')
+    expect(getByTestId('compare').textContent).toContain('2주전 대비')
   })
 
-  test('similar이면 "{기준}과 비슷"', () => {
-    const { container } = render(
-      <PriceBlock price={{ now: 100, wasMonthAgo: null, unit: g100, perUnit: null, monthAgoPct: 0, change: { kind: 'similar', basisLabel: '평년' }, spark: null }} />,
+  test('similar이면 받침에 맞는 조사 — "지난 주와 비슷"(모음), "지난달과 비슷"(받침)', () => {
+    const { container: vowel } = render(
+      <PriceBlock price={{ now: 100, wasMonthAgo: null, unit: g100, perUnit: null, monthAgoPct: 0, change: { kind: 'similar', basisLabel: '지난 주' }, spark: null }} />,
     )
-    expect(container.textContent).toContain('평년과 비슷')
+    expect(vowel.textContent).toContain('지난 주와 비슷')
+    expect(vowel.textContent).not.toContain('지난 주과')
+    cleanup()
+    const { container: consonant } = render(
+      <PriceBlock price={{ now: 100, wasMonthAgo: null, unit: g100, perUnit: null, monthAgoPct: 0, change: { kind: 'similar', basisLabel: '지난달' }, spark: null }} />,
+    )
+    expect(consonant.textContent).toContain('지난달과 비슷')
   })
 
   test('상승: rise 클래스', () => {

@@ -11,13 +11,19 @@
 .spark .lab.now { fill: var(--ink); font-weight: 700; }
 /* 평년 기준선 — 점선, 뮤트(등락 판단은 칩·큰가격의 몫이라 여긴 방향색을 쓰지 않는다) */
 .spark .normLine { stroke: var(--muted); stroke-width: 0.8; stroke-dasharray: 3 2; opacity: 0.8; }
-.spark .normLab { fill: var(--muted); font-size: 8px; }
+/* 하단 범례 — 가운데 정렬, 그래프와 숨 쉬는 여백. 점선 스와치로 그래프 속 기준선과 잇는다. */
 .sparkFoot {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: var(--space-2xs) var(--space-md);
-  margin: var(--space-2xs) 0 0;
+  margin: var(--space-md) 0 0;
   color: var(--muted);
   font-size: var(--text-2xs);
 }
 .sparkFoot b { color: var(--ink); font-weight: 600; }
+.legendItem { display: inline-flex; align-items: center; gap: var(--space-2xs); white-space: nowrap; }
+/* 범례 점선 — 그래프 기준선(.normLine)과 같은 뮤트·대시로 맞춘다.
+   `.spark svg { width:100% }`(특이도 0,1,1)를 이기려면 `.spark .legendSwatch`(0,2,0)로 폭을 고정. */
+.spark .legendSwatch { flex: none; width: 18px; height: 4px; overflow: visible; }
+.legendSwatch line { stroke: var(--muted); stroke-width: 0.8; stroke-dasharray: 3 2; opacity: 0.8; }
