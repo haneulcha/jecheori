@@ -299,46 +299,6 @@ footer p + p { margin-top: var(--space-3xs); }
 .coming-month { margin-top: var(--space-xl); }
 .coming-month h2 { font-size: var(--text-md); letter-spacing: 0.04em; margin-bottom: var(--space-md); }
 
-/* 램프줄(A) + 인덱스 서랍 — 상태기반(React state, 최소 JS) */
-.nav-index { position: fixed; top: -8px; right: 1rem; z-index: 20; } /* 위로 오버슈트 — 당겨도 틈 없음 */
-.nav-cord {
-  display: block; background: none; border: 0; padding: 0; cursor: pointer;
-  color: var(--ink); transition: transform 160ms ease;
-  position: relative; z-index: 22;   /* 차양(21)·백드롭(20) 앞에 — 열려도 줄로 다시 당겨 닫는다 */
-}
-.nav-cord svg { display: block; width: 12px; height: 72px; }
-.nav-cord::after {
-  content: ''; position: absolute; inset: 0 -16px;
-}
-.nav-cord:hover, .nav-cord:focus-visible { transform: translateY(4px); } /* 당김 (오버슈트 8 > 4라 위쪽 틈 없음) */
-.nav-backdrop { position: fixed; inset: 0; z-index: 20; background: transparent; border: 0; padding: 0; cursor: default; }
-.nav-panel {
-  position: fixed; top: 0; right: 0.8rem; z-index: 21;
-  width: 11rem;
-  background: var(--card); border: 1px solid var(--line);
-  border-top: 0;                          /* 천장에 붙음 — 위 테두리 없음 */
-  border-radius: 0 0 0.3rem 0.3rem;      /* 위에서 늘어지는 차양 */
-  box-shadow: var(--lift);
-  display: grid; grid-template-rows: 0fr;
-  transition: grid-template-rows 300ms cubic-bezier(0.2, 0.75, 0.2, 1);
-}
-.nav-index[data-open] .nav-panel { grid-template-rows: 1fr; }
-.nav-panel-clip { overflow: hidden; }                    /* 접힘 전용 — 패딩 없음이라 0으로 완전 접힘 */
-.nav-panel-inner { padding: var(--space-md) var(--space-lg); }
-.nav-panel a {
-  display: flex;
-  align-items: center;
-  padding: var(--space-sm) var(--space-lg);
-  min-height: 44px;               /* 터치타깃 */
-  color: var(--ink);
-  text-decoration: none;
-}
-.nav-panel a[aria-current='page'] { font-weight: 600; }
-@media (prefers-reduced-motion: reduce) {
-  .nav-cord, .nav-panel { transition: none; }
-  .nav-cord:hover, .nav-cord:focus-visible { transform: none; }
-}
-
 /* 선택적 향상 — MPA View Transitions (지원 브라우저에서만). */
 @view-transition {
   navigation: auto;

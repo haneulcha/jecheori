@@ -1,0 +1,39 @@
+/* 램프줄(A) + 인덱스 서랍 — 상태기반(React state, 최소 JS) */
+.navIndex { position: fixed; top: -8px; right: 1rem; z-index: 20; } /* 위로 오버슈트 — 당겨도 틈 없음 */
+.navCord {
+  display: block; background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--ink); transition: transform 160ms ease;
+  position: relative; z-index: 22;   /* 차양(21)·백드롭(20) 앞에 — 열려도 줄로 다시 당겨 닫는다 */
+}
+.navCord svg { display: block; width: 12px; height: 72px; }
+.navCord::after {
+  content: ''; position: absolute; inset: 0 -16px;
+}
+.navCord:hover, .navCord:focus-visible { transform: translateY(4px); } /* 당김 (오버슈트 8 > 4라 위쪽 틈 없음) */
+.navBackdrop { position: fixed; inset: 0; z-index: 20; background: transparent; border: 0; padding: 0; cursor: default; }
+.navPanel {
+  position: fixed; top: 0; right: 0.8rem; z-index: 21;
+  width: 11rem;
+  background: var(--card); border: 1px solid var(--line);
+  border-top: 0;                          /* 천장에 붙음 — 위 테두리 없음 */
+  border-radius: 0 0 0.3rem 0.3rem;      /* 위에서 늘어지는 차양 */
+  box-shadow: var(--lift);
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+.navIndex[data-open] .navPanel { grid-template-rows: 1fr; }
+.navPanelClip { overflow: hidden; }                    /* 접힘 전용 — 패딩 없음이라 0으로 완전 접힘 */
+.navPanelInner { padding: var(--space-md) var(--space-lg); }
+.navPanel a {
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm) var(--space-lg);
+  min-height: 44px;               /* 터치타깃 */
+  color: var(--ink);
+  text-decoration: none;
+}
+.navPanel a[aria-current='page'] { font-weight: 600; }
+@media (prefers-reduced-motion: reduce) {
+  .navCord, .navPanel { transition: none; }
+  .navCord:hover, .navCord:focus-visible { transform: none; }
+}
