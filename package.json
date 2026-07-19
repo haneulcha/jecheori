@@ -15,6 +15,7 @@
     "fetch:prices": "node scripts/fetch-prices.mjs",
     "fetch:coming-prices": "node scripts/fetch-coming-prices.mjs",
     "fetch:nutrition": "node scripts/fetch-nutrition.mjs",
+    "explore:nutrition": "node scripts/explore-nutrition.mjs",
     "fetch:recipes": "node scripts/fetch-recipes.mjs",
     "report:coverage": "node scripts/report-coverage.mjs",
     "build:lambda": "esbuild scripts/lambda/index.mjs --bundle --platform=node --target=node22 --format=cjs --outfile=dist/lambda/index.js && node -e \"require('fs').writeFileSync('dist/lambda/package.json', JSON.stringify({name:'jecheori-fetch-prices',version:'1.0.0',main:'index.js'},null,2))\"",
