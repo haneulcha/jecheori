@@ -24,7 +24,7 @@ export function ProduceCard({ card }: { card: CardView }) {
   // 닫기: 아직 붙어 있는 해당 칩으로 포커스를 돌리고 상태를 지운다.
   const close = () => {
     if (current !== null) {
-      rootRef.current?.querySelectorAll<HTMLButtonElement>('.chip-btn')[current]?.focus()
+      rootRef.current?.querySelectorAll<HTMLButtonElement>('[aria-pressed]')[current]?.focus()
     }
     setCurrent(null)
   }
