@@ -1,4 +1,5 @@
 import type { RecipeView } from '../recipe'
+import styles from './RecipeChips.module.css'
 
 /** 카드 펼침 영역의 레시피 진입점 — 레시피별 칩, 횡스크롤. 표시 전용. */
 export function RecipeChips({
@@ -13,12 +14,12 @@ export function RecipeChips({
   memoId: string
 }) {
   return (
-    <div className="chips">
+    <div className={styles.chips}>
       {recipes.map((r, i) => (
         <button
           key={r.name}
           type="button"
-          className="chip-btn"
+          className={styles.chipBtn}
           aria-pressed={current === i}
           aria-controls={current === i ? memoId : undefined}
           onClick={() => onSelect(i)}

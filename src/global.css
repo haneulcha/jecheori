@@ -266,23 +266,6 @@ footer p + p { margin-top: var(--space-3xs); }
 /* 라벨+칩은 한 묶음(.recipe-section) — .open의 flex gap이 둘 사이에 끼지 않게, 간격은 라벨 margin만 */
 .recipe-label { font-size: var(--text-2xs); letter-spacing: 0.08em; color: var(--muted); margin: 0 0 var(--space-2xs); }
 
-.chips {
-  display: flex; gap: var(--space-xs); overflow-x: auto;
-  margin: 0 calc(-1 * var(--space-lg));  /* 카드 안쪽 패딩 상쇄 — 횡스크롤 풀블리드(양옆 여백 제거) */
-  padding: 0 var(--space-lg) var(--space-2xs); /* 첫/끝 칩은 콘텐츠에 정렬, 스크롤은 가장자리까지 */
-  -webkit-overflow-scrolling: touch;   /* 스크롤바는 전역 규칙에서 숨김 */
-}
-.chip-btn {
-  flex: 0 0 auto; font: inherit; font-size: var(--text-xs);
-  background: none; border: 1px dashed var(--line); border-radius: var(--radius-soft);
-  padding: var(--space-2xs) var(--space-md); color: var(--ink); cursor: pointer; white-space: nowrap;
-  transition: border-color 0.15s, background 0.15s;
-}
-.chip-btn:hover { border-color: var(--ink); }
-/* 누름 피드백은 활성(tint+실선)으로 충분 — scale 변형은 텍스트가 들썩여 쓰지 않는다 */
-.chip-btn[aria-pressed="true"] { border-style: solid; border-color: var(--ink); background: var(--tint); }
-.chip-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-
 .memo-layer { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
 
 /* 다가오는 제철 — 달별 섹션. 절정 배지는 peak-dot의 점 비주얼 재사용(카드 로컬 계절색) */
