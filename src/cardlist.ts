@@ -36,7 +36,7 @@ const PRED: Record<Filter, (c: CardView) => boolean> = {
   priced: (c) => c.price != null,
 }
 
-/** 필터 술어 AND (순수). 과일/채소 상호배타는 UI(FilterBar)가 관장. */
+/** 필터 술어 AND (순수). 과일/채소/수산 상호배타는 UI(App.tsx toggle)가 관장. */
 export function filterCards(cards: CardView[], filters: Set<Filter>): CardView[] {
   return cards.filter((c) => [...filters].every((f) => PRED[f](c)))
 }

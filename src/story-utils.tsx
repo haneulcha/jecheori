@@ -45,6 +45,10 @@ const MEASURES = {
   kg: { kind: 'weight', unit: 'kg' },
   개: { kind: 'count', unit: '개' },
   포기: { kind: 'count', unit: '포기' },
+  마리: { kind: 'count', unit: '마리' },
+  근: { kind: 'weight', unit: '근' },
+  손: { kind: 'count', unit: '손' },
+  장: { kind: 'count', unit: '장' },
 } as const satisfies Record<string, Measure>
 
 export type MeasureKey = keyof typeof MEASURES
@@ -105,7 +109,7 @@ export const CARD_KNOBS_DEFAULT: CardKnobs = {
 }
 
 export const CARD_ARG_TYPES = {
-  category: { control: 'inline-radio', options: ['fruit', 'vegetable'] },
+  category: { control: 'inline-radio', options: ['fruit', 'vegetable', 'seafood'] },
   unitMeasure: { control: 'inline-radio', options: Object.keys(MEASURES) },
   unitQuantity: { control: { type: 'number', min: 1 } },
   price: { control: 'number' },

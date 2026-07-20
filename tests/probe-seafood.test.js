@@ -2,7 +2,6 @@ import { describe, expect, test } from 'vitest'
 import { probeSeafood, summarizeSeafood } from '../scripts/probe-seafood.mjs'
 
 const item = (item_name, kind_name, unit, dpr1 = '1000') => ({ item_name, kind_name, unit, rank: '상', dpr1 })
-const ok = (json) => async () => ({ ok: true, json: async () => json })
 
 describe('summarizeSeafood', () => {
   test('원시 단위를 중복 제거·정렬해 열거한다 (parseUnit 없이)', () => {
