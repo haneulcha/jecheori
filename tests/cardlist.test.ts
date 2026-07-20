@@ -112,9 +112,9 @@ describe('filterCards', () => {
 
   test('seafood 필터는 수산 카드만 남긴다', () => {
     const cards = [
-      { name: '굴', category: 'seafood' },
-      { name: '수박', category: 'fruit' },
-    ] as unknown as CardView[]
+      card({ name: '굴', category: 'seafood' }),
+      card({ name: '수박', category: 'fruit' }),
+    ]
     const out = filterCards(cards, new Set(['seafood']))
     expect(out.map((c) => c.name)).toEqual(['굴'])
   })
