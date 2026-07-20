@@ -14,7 +14,7 @@ const SEARCH_TERMS = {
   pear: ['배'], grape: ['포도'], 'shine-muscat': ['샤인', '포도'], mandarin: ['감귤', '귤'],
   'sweet-persimmon': ['단감', '감'], kiwi: ['참다래', '키위'], strawberry: ['딸기'],
   melon: ['멜론'], 'napa-cabbage': ['배추'], cabbage: ['양배추'], lettuce: ['상추'],
-  'eolgari-cabbage': ['얼갈이'], 'garlic-chives': ['부추'], 'perilla-leaf': ['깻잎'],
+  'eolgari-cabbage': ['얼갈이'], 'garlic-chives': ['부추'], 'perilla-leaf': ['깻잎', '들깨'],
   'sweet-pumpkin': ['단호박', '호박'], 'cherry-tomato': ['방울토마토', '토마토'],
   eggplant: ['가지'], 'green-chili': ['풋고추', '고추'], paprika: ['파프리카'],
   radish: ['무'], 'young-radish': ['열무'], carrot: ['당근'], broccoli: ['브로콜리'],

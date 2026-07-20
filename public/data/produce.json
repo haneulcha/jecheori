@@ -776,6 +776,10 @@
       "categoryCode": "200",
       "itemName": "깻잎"
     },
+    "foodDb": {
+      "category1": "채소류",
+      "foodName": "들깨_잎_생것"
+    },
     "recipeRef": {
       "names": [
         "깻잎장아찌롤",
