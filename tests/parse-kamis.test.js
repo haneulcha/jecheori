@@ -50,6 +50,12 @@ describe('parseUnit', () => {
   test('여전히 모르는 단위엔 throw', () => {
     expect(() => parseUnit('2상자')).toThrow(/모르겠습니다/)
   })
+  test('손은 count로 파싱 (고등어 한 손)', () => {
+    expect(parseUnit('1손')).toEqual({ quantity: 1, measure: { kind: 'count', unit: '손' } })
+  })
+  test('장은 count로 파싱 (김 10장)', () => {
+    expect(parseUnit('10장')).toEqual({ quantity: 10, measure: { kind: 'count', unit: '장' } })
+  })
 })
 
 // 픽스처는 실제 KAMIS 응답 캡처 (2026-07-13, 부류 200).
