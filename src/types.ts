@@ -42,8 +42,8 @@ export interface ProduceProfile {
  *  포기도 셀 수 있다. 예전엔 `measure !== '개'`로 걸렀는데, KAMIS가 우연히 1포기만
  *  주기 때문에 안 틀렸을 뿐이다. 응답의 우연을 규칙으로 굳히지 않는다. */
 export type Measure =
-  | { kind: 'weight'; unit: 'kg' | 'g' }
-  | { kind: 'count'; unit: '개' | '포기' }
+  | { kind: 'weight'; unit: 'kg' | 'g' | '근' }
+  | { kind: 'count'; unit: '개' | '포기' | '마리' }
 
 /** "10개" = { quantity: 10, measure: { kind: 'count', unit: '개' } }.
  *  KAMIS 표기를 그대로 보존하고 환산하지 않는다 — 환산이 없으면 오차도 없다. */

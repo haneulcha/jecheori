@@ -53,6 +53,11 @@ describe('perUnitPrice', () => {
 
   test('1포기(단수)는 여전히 null', () =>
     expect(perUnitPrice(2997, count(1, '포기'))).toBeNull())
+
+  test('마리(count)는 수량>1이면 마리당값, 근(weight)은 개당값 없음', () => {
+    expect(perUnitPrice(9000, { quantity: 3, measure: { kind: 'count', unit: '마리' } })).toEqual({ each: 3000 })
+    expect(perUnitPrice(9000, { quantity: 1, measure: { kind: 'weight', unit: '근' } })).toBeNull()
+  })
 })
 
 describe('sparklineLevels', () => {

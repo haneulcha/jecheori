@@ -40,6 +40,16 @@ describe('parseUnit', () => {
     expect(() => parseUnit('')).toThrow(/단위/)
     expect(() => parseUnit(null)).toThrow(/단위/)
   })
+
+  test('마리는 count로 파싱', () => {
+    expect(parseUnit('3마리')).toEqual({ quantity: 3, measure: { kind: 'count', unit: '마리' } })
+  })
+  test('근은 weight로 파싱 (환산 없음)', () => {
+    expect(parseUnit('1근')).toEqual({ quantity: 1, measure: { kind: 'weight', unit: '근' } })
+  })
+  test('여전히 모르는 단위엔 throw', () => {
+    expect(() => parseUnit('2상자')).toThrow(/모르겠습니다/)
+  })
 })
 
 // 픽스처는 실제 KAMIS 응답 캡처 (2026-07-13, 부류 200).
