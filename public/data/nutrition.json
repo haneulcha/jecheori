@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "fetchedAt": "2026-07-20T00:28:59.371Z",
+  "fetchedAt": "2026-07-20T00:44:39.108Z",
   "entries": [
     {
       "foodName": "복숭아_백도_생것",
@@ -231,6 +231,16 @@
       "fat": 0.33,
       "sugar": 2.86,
       "fiber": 4.8
+    },
+    {
+      "foodName": "들깨_잎_생것",
+      "serving": "100g",
+      "kcal": 47,
+      "carbs": 8.89,
+      "protein": 4.46,
+      "fat": 0.5,
+      "sugar": 0,
+      "fiber": 5.7
     },
     {
       "foodName": "호박_단호박_생것",
