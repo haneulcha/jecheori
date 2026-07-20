@@ -8,7 +8,7 @@ export type Freshness =
   | { kind: 'none' }
   | { kind: 'dated'; surveyedOn: string; days: number }
 
-export type Filter = 'fruit' | 'vegetable' | 'drop' | 'peak' | 'priced'
+export type Filter = 'fruit' | 'vegetable' | 'seafood' | 'drop' | 'peak' | 'priced'
 export type SortMode = 'drop' | 'name' | 'priceLow'
 
 /** 검색이 이번 달 제철 밖의 품목을 찾았을 때 보여줄 힌트 (가격 없음). */

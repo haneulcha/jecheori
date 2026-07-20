@@ -15,6 +15,8 @@ import styles from './App.module.css'
 // 절정 dot(카드 펼침 방지)과 조사일 날짜(.rel-date)가 같은 패턴을 쓴다.
 // 토글 신호는 클래스가 아니라 data-tip/data-show 속성 — 클래스는 곧 CSS Module로 해시된다.
 const TIP_SELECTOR = '[data-tip]'
+// 카테고리 칩(과일·채소·수산)은 상호배타 — 하나 켜면 나머지 해제
+const EXCLUSIVE_FILTERS: Filter[] = ['fruit', 'vegetable', 'seafood']
 function useTapTooltips() {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -52,8 +54,10 @@ export function App({ view }: { view: AppView }) {
       if (next.has(f)) next.delete(f)
       else {
         next.add(f)
-        if (f === 'fruit') next.delete('vegetable') // 상호배타
-        if (f === 'vegetable') next.delete('fruit')
+        // 카테고리 칩(과일·채소·수산)은 상호배타 — 하나 켜면 나머지 해제
+        if (EXCLUSIVE_FILTERS.includes(f)) {
+          for (const other of EXCLUSIVE_FILTERS) if (other !== f) next.delete(other)
+        }
       }
       return next
     })

@@ -1,4 +1,4 @@
-export type Category = 'fruit' | 'vegetable'
+export type Category = 'fruit' | 'vegetable' | 'seafood'
 
 /** KAMIS 응답과 프로필을 잇는 참조. 코드가 아니라 품목명으로 매칭한다
  *  (KAMIS 품목 코드는 문서마다 편차가 있어 이름 매칭이 더 안전). */

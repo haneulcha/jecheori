@@ -30,6 +30,7 @@ export function sortCards(cards: CardView[], mode: SortMode): CardView[] {
 const PRED: Record<Filter, (c: CardView) => boolean> = {
   fruit: (c) => c.category === 'fruit',
   vegetable: (c) => c.category === 'vegetable',
+  seafood: (c) => c.category === 'seafood',
   drop: (c) => (c.price?.monthAgoPct ?? 0) < 0,
   peak: (c) => c.inPeak,
   priced: (c) => c.price != null,
