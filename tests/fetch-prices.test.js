@@ -39,17 +39,17 @@ describe('shiftDateString', () => {
 })
 
 describe('buildSnapshot', () => {
-  test('부류 3개(100/200/400)를 호출해 엔트리를 합친다', async () => {
+  test('부류 4개(100/200/400/600)를 호출해 엔트리를 합친다', async () => {
     const calls = []
     const fetchFn = async (url) => {
       calls.push(new URL(url).searchParams.get('p_item_category_code'))
       return { ok: true, json: async () => fixture }
     }
     const snap = await buildSnapshot({ certKey: 'k', certId: 'i', regday: '2026-07-13', fetchFn })
-    expect(calls).toEqual(['100', '200', '400'])
+    expect(calls).toEqual(['100', '200', '400', '600'])
     expect(snap.schemaVersion).toBe(3)
     expect(snap.surveyedOn).toBe('2026-07-13')
-    expect(snap.entries).toHaveLength(12) // 픽스처 4행 × 3부류
+    expect(snap.entries).toHaveLength(16) // 픽스처 4행 × 4부류
     expect(new Date(snap.fetchedAt).getTime()).not.toBeNaN()
   })
 
@@ -97,6 +97,16 @@ describe('buildSnapshot', () => {
     const noData = { condition: [{ p_returntype: 'json' }], data: ['001'] }
     const snap = await buildSnapshot({ certKey: 'k', certId: 'i', regday: '2026-07-19', fetchFn: okFetch(noData) })
     expect(snap.entries).toEqual([])
+  })
+
+  test('buildSnapshot은 부류 100·200·400·600을 모두 조회한다', async () => {
+    const seen = []
+    const fetchFn = async (url) => {
+      seen.push(new URL(url).searchParams.get('p_item_category_code'))
+      return { ok: true, json: async () => ({ data: ['001'] }) } // 빈 결과(그날 조사 없음)
+    }
+    await buildSnapshot({ certKey: 'K', certId: 'I', regday: '2026-07-20', fetchFn })
+    expect(seen).toEqual(['100', '200', '400', '600'])
   })
 })
 
