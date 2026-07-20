@@ -1,10 +1,10 @@
-export type Category = 'fruit' | 'vegetable' | 'seafood'
+export type Category = 'fruit' | 'vegetable' | 'seafood' | 'livestock'
 
 /** KAMIS 응답과 프로필을 잇는 참조. 코드가 아니라 품목명으로 매칭한다
  *  (KAMIS 품목 코드는 문서마다 편차가 있어 이름 매칭이 더 안전). */
 export interface KamisRef {
-  /** 100 식량작물 | 200 채소류 | 400 과일류 | 600 수산물 */
-  categoryCode: '100' | '200' | '400' | '600'
+  /** 100 식량작물 | 200 채소류 | 400 과일류 | 500 축산물 | 600 수산물 */
+  categoryCode: '100' | '200' | '400' | '500' | '600'
   /** KAMIS item_name과 정확히 일치해야 함 (예: "사과") */
   itemName: string
   /** 선호 품종 — KAMIS kind_name에 부분 일치 (예: "샤인") */
