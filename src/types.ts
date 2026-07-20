@@ -95,8 +95,10 @@ export interface ComingPriceSeed {
 /** 식약처 영양DB에서 원물 하나를 집기 위한 수기 참조 (KamisRef와 같은 패턴).
  *  FOOD_CAT1_NM 필터 + 대표 엔트리명(FOOD_NM_KR 정확일치)으로 매칭. */
 export interface FoodDbRef {
-  /** FOOD_CAT1_NM 필터값: '과일류' | '채소류' */
-  category1: string
+  /** FOOD_CAT1_NM 필터값 (원물류 카테고리, 정확일치). 이 API는 원물+가공+조리 통합 DB라,
+   *  이 카테고리 필터가 요리·가공 노이즈를 서버측에서 거른다. 감자·고구마는 '감자 및 전분류',
+   *  옥수수는 '곡류'에 있다(채소류 아님). KamisRef.categoryCode처럼 유니온으로 오타를 tsc가 잡는다. */
+  category1: '과일류' | '채소류' | '감자 및 전분류' | '곡류'
   /** 대표 원물 엔트리명 (예: "사과_부사_생것") */
   foodName: string
 }

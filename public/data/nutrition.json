@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "fetchedAt": "2026-07-11T11:03:44.998Z",
+  "fetchedAt": "2026-07-20T00:44:39.108Z",
   "entries": [
     {
       "foodName": "복숭아_백도_생것",
@@ -13,6 +13,26 @@
       "fiber": 2.6
     },
     {
+      "foodName": "수박_적육질_생것",
+      "serving": "100g",
+      "kcal": 31,
+      "carbs": 7.83,
+      "protein": 0.79,
+      "fat": 0.05,
+      "sugar": 5.06,
+      "fiber": 0.2
+    },
+    {
+      "foodName": "참외_씨 제거_생것",
+      "serving": "100g",
+      "kcal": 40,
+      "carbs": 10.49,
+      "protein": 0.59,
+      "fat": 0.04,
+      "sugar": 8.82,
+      "fiber": 1.1
+    },
+    {
       "foodName": "토마토_생것",
       "serving": "100g",
       "kcal": 19,
@@ -23,6 +43,46 @@
       "fiber": 2.6
     },
     {
+      "foodName": "오이_취청_생것",
+      "serving": "100g",
+      "kcal": 12,
+      "carbs": 2.55,
+      "protein": 0.95,
+      "fat": 0.04,
+      "sugar": 1.77,
+      "fiber": 0.8
+    },
+    {
+      "foodName": "호박_애호박_생것",
+      "serving": "100g",
+      "kcal": 22,
+      "carbs": 5.14,
+      "protein": 1.07,
+      "fat": 0.09,
+      "sugar": 2.43,
+      "fiber": 2.2
+    },
+    {
+      "foodName": "감자_수미_생것",
+      "serving": "100g",
+      "kcal": 70,
+      "carbs": 16.07,
+      "protein": 1.93,
+      "fat": 0.03,
+      "sugar": 0,
+      "fiber": 1.7
+    },
+    {
+      "foodName": "옥수수_단옥수수_생것",
+      "serving": "100g",
+      "kcal": 118,
+      "carbs": 23.39,
+      "protein": 4.01,
+      "fat": 1.5,
+      "sugar": 4.91,
+      "fiber": 3.1
+    },
+    {
       "foodName": "사과_부사_생것",
       "serving": "100g",
       "kcal": 53,
@@ -31,6 +91,316 @@
       "fat": 0.07,
       "sugar": 11.13,
       "fiber": 1.7
+    },
+    {
+      "foodName": "시금치_생것",
+      "serving": "100g",
+      "kcal": 29,
+      "carbs": 4.86,
+      "protein": 3.35,
+      "fat": 0.39,
+      "sugar": 0.4,
+      "fiber": 3.1
+    },
+    {
+      "foodName": "배_생것",
+      "serving": "100g",
+      "kcal": 45,
+      "carbs": 12.24,
+      "protein": 0.29,
+      "fat": 0.04,
+      "sugar": 8.3,
+      "fiber": 1.1
+    },
+    {
+      "foodName": "포도_거봉_생것",
+      "serving": "100g",
+      "kcal": 60,
+      "carbs": 15.73,
+      "protein": 0.4,
+      "fat": 0.27,
+      "sugar": 13.74,
+      "fiber": 1.6
+    },
+    {
+      "foodName": "포도_청포도(샤인머스켓)_껍질 포함_생것",
+      "serving": "100g",
+      "kcal": 66,
+      "carbs": 17.66,
+      "protein": 0.38,
+      "fat": 0.1,
+      "sugar": 15.29,
+      "fiber": 2.4
+    },
+    {
+      "foodName": "귤_온주밀감_생것",
+      "serving": "100g",
+      "kcal": 39,
+      "carbs": 10.04,
+      "protein": 0.53,
+      "fat": 0.1,
+      "sugar": 7.99,
+      "fiber": 1.6
+    },
+    {
+      "foodName": "감_단감_생것",
+      "serving": "100g",
+      "kcal": 57,
+      "carbs": 15.13,
+      "protein": 0.38,
+      "fat": 0.12,
+      "sugar": 11.42,
+      "fiber": 1.9
+    },
+    {
+      "foodName": "키위_그린_생것",
+      "serving": "100g",
+      "kcal": 66,
+      "carbs": 16.08,
+      "protein": 0.93,
+      "fat": 0.63,
+      "sugar": 6.73,
+      "fiber": 2.6
+    },
+    {
+      "foodName": "딸기_설향_생것",
+      "serving": "100g",
+      "kcal": 34,
+      "carbs": 8.33,
+      "protein": 0.74,
+      "fat": 0.14,
+      "sugar": 6.61,
+      "fiber": 1.5
+    },
+    {
+      "foodName": "멜론_머스크_생것",
+      "serving": "100g",
+      "kcal": 40,
+      "carbs": 9.64,
+      "protein": 1.5,
+      "fat": 0.04,
+      "sugar": 8.08,
+      "fiber": 2
+    },
+    {
+      "foodName": "배추_생것",
+      "serving": "100g",
+      "kcal": 15,
+      "carbs": 3.32,
+      "protein": 1.25,
+      "fat": 0.06,
+      "sugar": 1.71,
+      "fiber": 1.3
+    },
+    {
+      "foodName": "양배추_생것",
+      "serving": "100g",
+      "kcal": 29,
+      "carbs": 6.98,
+      "protein": 1.36,
+      "fat": 0.12,
+      "sugar": 4.4,
+      "fiber": 2.5
+    },
+    {
+      "foodName": "상추_치마상추_청상추_생것",
+      "serving": "100g",
+      "kcal": 20,
+      "carbs": 3.48,
+      "protein": 1.88,
+      "fat": 0.36,
+      "sugar": 1.22,
+      "fiber": 2.4
+    },
+    {
+      "foodName": "얼갈이배추_생것",
+      "serving": "100g",
+      "kcal": 14,
+      "carbs": 2.62,
+      "protein": 1.22,
+      "fat": 0.18,
+      "sugar": 0.58,
+      "fiber": 2
+    },
+    {
+      "foodName": "부추_호부추_생것",
+      "serving": "100g",
+      "kcal": 30,
+      "carbs": 6.23,
+      "protein": 2.06,
+      "fat": 0.33,
+      "sugar": 2.86,
+      "fiber": 4.8
+    },
+    {
+      "foodName": "들깨_잎_생것",
+      "serving": "100g",
+      "kcal": 47,
+      "carbs": 8.89,
+      "protein": 4.46,
+      "fat": 0.5,
+      "sugar": 0,
+      "fiber": 5.7
+    },
+    {
+      "foodName": "호박_단호박_생것",
+      "serving": "100g",
+      "kcal": 57,
+      "carbs": 13.63,
+      "protein": 1.19,
+      "fat": 0.65,
+      "sugar": 4.74,
+      "fiber": 5
+    },
+    {
+      "foodName": "토마토_방울토마토_생것",
+      "serving": "100g",
+      "kcal": 25,
+      "carbs": 6.02,
+      "protein": 1,
+      "fat": 0.13,
+      "sugar": 3.89,
+      "fiber": 2.1
+    },
+    {
+      "foodName": "가지_생것",
+      "serving": "100g",
+      "kcal": 19,
+      "carbs": 4.36,
+      "protein": 1.13,
+      "fat": 0.03,
+      "sugar": 2.32,
+      "fiber": 2.7
+    },
+    {
+      "foodName": "고추_풋고추_생것",
+      "serving": "100g",
+      "kcal": 29,
+      "carbs": 6.42,
+      "protein": 1.71,
+      "fat": 0.19,
+      "sugar": 1.8,
+      "fiber": 4.4
+    },
+    {
+      "foodName": "파프리카(착색단고추)_빨간색_생것",
+      "serving": "100g",
+      "kcal": 26,
+      "carbs": 6.42,
+      "protein": 0.91,
+      "fat": 0.13,
+      "sugar": 2.65,
+      "fiber": 1.6
+    },
+    {
+      "foodName": "무_조선무_뿌리_생것",
+      "serving": "100g",
+      "kcal": 21,
+      "carbs": 4.72,
+      "protein": 0.77,
+      "fat": 0.15,
+      "sugar": 2.96,
+      "fiber": 1.1
+    },
+    {
+      "foodName": "열무_생것",
+      "serving": "100g",
+      "kcal": 14,
+      "carbs": 2.18,
+      "protein": 1.86,
+      "fat": 0.22,
+      "sugar": 0.38,
+      "fiber": 1.8
+    },
+    {
+      "foodName": "당근_뿌리_생것",
+      "serving": "100g",
+      "kcal": 31,
+      "carbs": 7.03,
+      "protein": 1.02,
+      "fat": 0.13,
+      "sugar": 6.23,
+      "fiber": 3.1
+    },
+    {
+      "foodName": "브로콜리_생것",
+      "serving": "100g",
+      "kcal": 32,
+      "carbs": 6.32,
+      "protein": 3.08,
+      "fat": 0.2,
+      "sugar": 0.79,
+      "fiber": 3.1
+    },
+    {
+      "foodName": "파_대파_생것",
+      "serving": "100g",
+      "kcal": 23,
+      "carbs": 4.8,
+      "protein": 1.78,
+      "fat": 0.15,
+      "sugar": 2.63,
+      "fiber": 1.6
+    },
+    {
+      "foodName": "파_쪽파_생것",
+      "serving": "100g",
+      "kcal": 26,
+      "carbs": 5.8,
+      "protein": 1.69,
+      "fat": 0.17,
+      "sugar": 3.32,
+      "fiber": 2.4
+    },
+    {
+      "foodName": "양파_생것",
+      "serving": "100g",
+      "kcal": 29,
+      "carbs": 6.52,
+      "protein": 0.96,
+      "fat": 0.17,
+      "sugar": 4.71,
+      "fiber": 1.6
+    },
+    {
+      "foodName": "마늘_구근_생것",
+      "serving": "100g",
+      "kcal": 128,
+      "carbs": 26.42,
+      "protein": 7.45,
+      "fat": 0.16,
+      "sugar": 0.23,
+      "fiber": 3.8
+    },
+    {
+      "foodName": "생강_뿌리줄기_생것",
+      "serving": "100g",
+      "kcal": 42,
+      "carbs": 9.82,
+      "protein": 0.97,
+      "fat": 0.15,
+      "sugar": 0.45,
+      "fiber": 2.6
+    },
+    {
+      "foodName": "고구마_생것",
+      "serving": "100g",
+      "kcal": 147,
+      "carbs": 35.52,
+      "protein": 1.09,
+      "fat": 0.15,
+      "sugar": 9.83,
+      "fiber": 2.4
+    },
+    {
+      "foodName": "미나리_물미나리_생것",
+      "serving": "100g",
+      "kcal": 18,
+      "carbs": 3.5,
+      "protein": 1.69,
+      "fat": 0.22,
+      "sugar": 1.14,
+      "fiber": 2.4
     }
   ]
 }

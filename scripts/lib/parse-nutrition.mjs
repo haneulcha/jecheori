@@ -7,6 +7,19 @@ export function parseNum(s) {
   return Number.isNaN(n) ? null : n
 }
 
+/** 식약처 원물 raw 항목에서 영양 6필드 + serving 추출 (parse/explore 공용). */
+export function nutritionFieldsOf(it) {
+  return {
+    serving: it.SERVING_SIZE ?? '',
+    kcal: parseNum(it.AMT_NUM1),
+    carbs: parseNum(it.AMT_NUM6),
+    protein: parseNum(it.AMT_NUM3),
+    fat: parseNum(it.AMT_NUM4),
+    sugar: parseNum(it.AMT_NUM7),
+    fiber: parseNum(it.AMT_NUM8),
+  }
+}
+
 /** FoodNtrCpntDbInfo02 응답에서 FOOD_NM_KR === foodName 원물 하나를 NutritionEntry로.
  *  없으면 null, 오류 응답(body.items 없음)이면 throw. */
 export function parseNutritionEntry(json, foodName) {
@@ -19,14 +32,5 @@ export function parseNutritionEntry(json, foodName) {
   const items = Array.isArray(rawItems) ? rawItems : [rawItems]
   const it = items.find((x) => x.FOOD_NM_KR === foodName)
   if (!it) return null
-  return {
-    foodName: it.FOOD_NM_KR,
-    serving: it.SERVING_SIZE ?? '',
-    kcal: parseNum(it.AMT_NUM1),
-    carbs: parseNum(it.AMT_NUM6),
-    protein: parseNum(it.AMT_NUM3),
-    fat: parseNum(it.AMT_NUM4),
-    sugar: parseNum(it.AMT_NUM7),
-    fiber: parseNum(it.AMT_NUM8),
-  }
+  return { foodName: it.FOOD_NM_KR, ...nutritionFieldsOf(it) }
 }
