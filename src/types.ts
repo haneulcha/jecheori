@@ -1,10 +1,10 @@
-export type Category = 'fruit' | 'vegetable'
+export type Category = 'fruit' | 'vegetable' | 'seafood'
 
 /** KAMIS 응답과 프로필을 잇는 참조. 코드가 아니라 품목명으로 매칭한다
  *  (KAMIS 품목 코드는 문서마다 편차가 있어 이름 매칭이 더 안전). */
 export interface KamisRef {
-  /** 100 식량작물 | 200 채소류 | 400 과일류 */
-  categoryCode: '100' | '200' | '400'
+  /** 100 식량작물 | 200 채소류 | 400 과일류 | 600 수산물 */
+  categoryCode: '100' | '200' | '400' | '600'
   /** KAMIS item_name과 정확히 일치해야 함 (예: "사과") */
   itemName: string
   /** 선호 품종 — KAMIS kind_name에 부분 일치 (예: "샤인") */
@@ -35,15 +35,15 @@ export interface ProduceProfile {
   howToUse: string
 }
 
-/** 계량의 종류. KAMIS 표기(kg·g·개·포기)는 이 둘 중 하나로 떨어진다.
+/** 계량의 종류. KAMIS 표기(kg·g·근·개·포기·마리·손·장)는 이 둘 중 하나로 떨어진다.
  *
  *  **무게냐 개수냐가 도메인 구분이고, KAMIS의 글자는 그 안의 라벨일 뿐이다.**
  *  개당값은 "셀 수 있는 단위이고 수량이 1보다 클 때" 성립한다 — '개'인지 아닌지가 아니다.
  *  포기도 셀 수 있다. 예전엔 `measure !== '개'`로 걸렀는데, KAMIS가 우연히 1포기만
  *  주기 때문에 안 틀렸을 뿐이다. 응답의 우연을 규칙으로 굳히지 않는다. */
 export type Measure =
-  | { kind: 'weight'; unit: 'kg' | 'g' }
-  | { kind: 'count'; unit: '개' | '포기' }
+  | { kind: 'weight'; unit: 'kg' | 'g' | '근' }
+  | { kind: 'count'; unit: '개' | '포기' | '마리' | '손' | '장' }
 
 /** "10개" = { quantity: 10, measure: { kind: 'count', unit: '개' } }.
  *  KAMIS 표기를 그대로 보존하고 환산하지 않는다 — 환산이 없으면 오차도 없다. */

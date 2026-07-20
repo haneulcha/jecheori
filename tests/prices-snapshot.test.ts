@@ -36,8 +36,9 @@ describe('커밋된 prices.json', () => {
       expect(typeof e.unit.quantity).toBe('number')
       expect(e.unit.quantity).toBeGreaterThan(0)
       expect(['weight', 'count']).toContain(e.unit.measure.kind)
-      if (e.unit.measure.kind === 'weight') expect(['kg', 'g']).toContain(e.unit.measure.unit)
-      else expect(['개', '포기']).toContain(e.unit.measure.unit)
+      // Measure 유니온(types.ts)과 일치: 수산물이 근·마리·손·장을 몰고 왔다
+      if (e.unit.measure.kind === 'weight') expect(['kg', 'g', '근']).toContain(e.unit.measure.unit)
+      else expect(['개', '포기', '마리', '손', '장']).toContain(e.unit.measure.unit)
     }
   })
 

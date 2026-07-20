@@ -109,6 +109,15 @@ describe('filterCards', () => {
     // 지난달 기준으로 필터: -12만 하락(< 0)
     expect(filterCards(cards, new Set(['drop'])).map((c) => c.name)).toEqual(['평년비쌈-지난달하락'])
   })
+
+  test('seafood 필터는 수산 카드만 남긴다', () => {
+    const cards = [
+      card({ name: '굴', category: 'seafood' }),
+      card({ name: '수박', category: 'fruit' }),
+    ]
+    const out = filterCards(cards, new Set(['seafood']))
+    expect(out.map((c) => c.name)).toEqual(['굴'])
+  })
 })
 
 describe('searchCards / searchHints', () => {

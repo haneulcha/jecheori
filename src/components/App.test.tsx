@@ -90,6 +90,21 @@ describe('App', () => {
     expect(container.textContent).toContain('수박')
     expect(container.textContent).not.toContain('오이')
   })
+  test('과일·채소·수산 칩은 3자 상호배타 (하나 켜면 나머지 해제)', async () => {
+    const view = viewWithCards([
+      { name: '수박', category: 'fruit' },
+      { name: '오이', category: 'vegetable' },
+      { name: '굴', category: 'seafood' },
+    ])
+    const { container, getByRole } = await renderWithRouter(<App view={view} />)
+    fireEvent.click(getByRole('button', { name: '과일' }))
+    expect(container.textContent).toContain('수박')
+    expect(container.textContent).not.toContain('굴')
+    fireEvent.click(getByRole('button', { name: '수산물' })) // 과일 해제되고 수산만
+    expect(container.textContent).toContain('굴')
+    expect(container.textContent).not.toContain('수박')
+    expect(getByRole('button', { name: '과일' }).getAttribute('aria-pressed')).toBe('false')
+  })
   test('정렬 변경이 순서를 바꾼다 (이름)', async () => {
     const view = viewWithCards([{ name: '수박' }, { name: '가지' }])
     const { getByLabelText, getAllByTestId } = await renderWithRouter(<App view={view} />)
