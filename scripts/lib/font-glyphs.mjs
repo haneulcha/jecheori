@@ -29,7 +29,7 @@ export function bodyGlyphs() {
   const chars = new Set()
   for (const p of loadProduce()) {
     for (const c of p.name ?? '') chars.add(c)
-    for (const c of p.kind ?? '') chars.add(c)
+    for (const c of p.kamis?.kindName ?? '') chars.add(c)
     for (const k of ['howToPick', 'howToStore', 'howToUse']) for (const c of p[k] ?? '') chars.add(c)
     for (const line of Object.values(p.whyNow ?? {})) for (const c of line) chars.add(c)
   }
@@ -42,7 +42,7 @@ export function handGlyphs() {
   const chars = new Set()
   for (const p of loadProduce()) {
     for (const c of p.name ?? '') chars.add(c)
-    for (const c of p.kind ?? '') chars.add(c)
+    for (const c of p.kamis?.kindName ?? '') chars.add(c)
     for (const line of Object.values(p.whyNow ?? {})) for (const c of line) chars.add(c)
   }
   for (const c of HAND_PUNCT) chars.add(c)
