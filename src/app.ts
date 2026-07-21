@@ -1,12 +1,12 @@
 import type { ComingPriceSeed, NutritionSnapshot, PriceSnapshot, ProduceProfile, RecipeSnapshot } from './types'
-import { comingMonths, hasDrops, matchEntry, selectPicks } from './picks'
+import { comingMonths, hasDrops, matchEntry, priceView, selectPicks } from './picks'
 import { toCardView, toComingCardView } from './card'
 import { sortCards } from './cardlist'
 import { currentTerm, seasonLabel, seasonOf } from './season'
 import { snapshotAgeDays } from './data'
 import { matchNutrition, nutritionView } from './nutrition'
 import { matchRecipes, recipeView } from './recipe'
-import type { AppView, ComingView, Freshness, OffSeasonHint } from './view-types'
+import type { AppView, ComingView, Freshness, LivestockView, OffSeasonHint } from './view-types'
 
 function freshnessOf(snapshot: PriceSnapshot | null, now: Date): Freshness {
   // 스냅샷이 없으면 지어낼 조사일이 없다 — 줄을 그리지 않는다.
@@ -84,4 +84,31 @@ export function buildComingView(
     }),
   }))
   return { months, date: now, term: currentTerm(now) }
+}
+
+/** 축산물 값 페이지. 제철 없음 — category==='livestock' 전체를 후보로,
+ *  하락순 정렬(무가격은 sortCards가 뒤로). 순수 함수. */
+export function buildLivestockView(
+  profiles: ProduceProfile[],
+  snapshot: PriceSnapshot | null,
+  nutrition: NutritionSnapshot | null,
+  recipes: RecipeSnapshot | null,
+  now: Date,
+): LivestockView {
+  const month = now.getMonth() + 1
+  const livestock = profiles.filter((p) => p.category === 'livestock')
+  const cards = sortCards(
+    livestock.map((profile) => {
+      const entry = snapshot ? matchEntry(profile, snapshot.entries) : null
+      const price = entry ? priceView(entry) : null
+      return toCardView(
+        { profile, inPeak: false, price },
+        month,
+        nutritionView(matchNutrition(profile, nutrition)),
+        recipeView(matchRecipes(profile, recipes)),
+      )
+    }),
+    'drop',
+  )
+  return { cards, date: now, term: currentTerm(now), freshness: freshnessOf(snapshot, now) }
 }
