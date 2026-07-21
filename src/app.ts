@@ -23,7 +23,9 @@ export function buildAppView(
   now: Date,
 ): AppView {
   const month = now.getMonth() + 1
-  const picks = selectPicks(profiles, snapshot, now)
+  // 축산물은 제철이 없다 — 제철 달력·검색 인덱스에서 제외(전용 /livestock 탭에서만 보인다).
+  const seasonal = profiles.filter((p) => p.category !== 'livestock')
+  const picks = selectPicks(seasonal, snapshot, now)
   const cards = sortCards(
     picks.map((p) =>
       toCardView(
@@ -36,9 +38,9 @@ export function buildAppView(
     'drop',
   )
   const comingIds = new Set(
-    comingMonths(profiles, month).flatMap((g) => g.items.map((it) => it.profile.id)),
+    comingMonths(seasonal, month).flatMap((g) => g.items.map((it) => it.profile.id)),
   )
-  const searchIndex: OffSeasonHint[] = profiles
+  const searchIndex: OffSeasonHint[] = seasonal
     .filter((p) => !p.seasonMonths.includes(month))
     .map((p) => ({
       emoji: p.emoji,
@@ -68,7 +70,8 @@ export function buildComingView(
   now: Date,
 ): ComingView {
   const month = now.getMonth() + 1
-  const months = comingMonths(profiles, month).map((g) => ({
+  const seasonal = profiles.filter((p) => p.category !== 'livestock')
+  const months = comingMonths(seasonal, month).map((g) => ({
     month: g.month,
     season: seasonOf(g.month),
     items: g.items.map((it) => {

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { buildLivestockView } from '../src/app'
+import { buildAppView, buildLivestockView } from '../src/app'
 import type { PriceSnapshot, ProduceProfile } from '../src/types'
 
 function profile(over: Partial<ProduceProfile>): ProduceProfile {
@@ -56,5 +56,16 @@ describe('buildLivestockView', () => {
     const profiles = [profile({ id: 'egg', name: '계란', kamis: { categoryCode: '500', itemName: '계란' }, peakMonths: [7] })]
     const view = buildLivestockView(profiles, snapshot([entry('계란', 6000)]), null, null, now)
     expect(view.cards[0].inPeak).toBe(false)
+  })
+})
+
+describe('제철 라우트 누수 방지', () => {
+  test('buildAppView.searchIndex에 축산물이 들어가지 않는다', () => {
+    const profiles = [
+      profile({ id: 'beef', name: '한우 1등급', kamis: { categoryCode: '500', itemName: '쇠고기' } }),
+      profile({ id: 'apple', name: '사과', category: 'fruit', kamis: { categoryCode: '400', itemName: '사과' }, seasonMonths: [9] }),
+    ]
+    const view = buildAppView(profiles, null, null, null, now)
+    expect(view.searchIndex.map((h) => h.name)).not.toContain('한우 1등급')
   })
 })
