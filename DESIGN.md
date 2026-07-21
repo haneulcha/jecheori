@@ -69,7 +69,8 @@
 못 구하면 시스템 고딕(`Apple SD Gothic Neo` …)으로 폴백.
 
 **콘텐츠 서브셋:** 본문·손글씨 모두 전체 한글이 무거워, 콘텐츠(`produce.json`·`season.ts`·
-정적 UI 문구)에 실제 쓰인 글자만 서브셋한다(본문 4벌 ~216KB, 손글씨 ~30KB). 가격이 CI
+`recipes.json`·`nutrition.json`·정적 UI 문구)에 실제 쓰인 글자만 서브셋한다(본문 4벌 ~240KB,
+손글씨 ~30KB). 가격이 CI
 JSON에서 오듯 폰트도 콘텐츠를 진실의 원천으로 삼는다. 문구를 고쳐 새 음절이 들어오면
 `npm run subset:fonts`로 재생성한다 — 안 하면 `tests/font-coverage.test.ts`가 실패한다
 (조용한 폴백 대신 시끄러운 실패).

@@ -34,7 +34,7 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
 - `npm run subset:fonts` — 본문(Wanted Sans)·손글씨 폰트 콘텐츠 서브셋 재생성
   (produce.json·문구 변경 시. 사전요구: python3 + fonttools + brotli)
 
-## 아키텍처 경계 (변경 시 여기만 바뀨게)
+## 아키텍처 경계 (변경 시 여기만 바뀌게)
 
 - **`src/picks.ts`** — 선정·매칭·정렬 (순수, "무엇을 고르나")
 - **`src/card.ts`** — 픽 → `CardView` 파생 (개당값·스파크 좌표·등락 판별 유니온; "어떻게 표시하나")
