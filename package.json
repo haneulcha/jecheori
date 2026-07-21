@@ -19,6 +19,7 @@
     "explore:nutrition": "node scripts/explore-nutrition.mjs",
     "fetch:recipes": "node scripts/fetch-recipes.mjs",
     "report:coverage": "node scripts/report-coverage.mjs",
+    "subset:fonts": "node scripts/subset-fonts.mjs",
     "build:lambda": "esbuild scripts/lambda/index.mjs --bundle --platform=node --target=node22 --format=cjs --outfile=dist/lambda/index.js && node -e \"require('fs').writeFileSync('dist/lambda/package.json', JSON.stringify({name:'jecheori-fetch-prices',version:'1.0.0',main:'index.js'},null,2))\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
