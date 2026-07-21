@@ -54,8 +54,6 @@ export interface ComingView {
 export interface LivestockView {
   cards: CardView[]
   date: Date
-  /** 현재 절기 이름 — 아이브로용 */
-  term?: string
   /** 가격 조사일 신선도 (제철 페이지와 동일한 "N일 전 조사 · 전국 평균" 줄) */
   freshness: Freshness
 }

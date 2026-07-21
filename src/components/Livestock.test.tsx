@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
-import { describe, expect, test } from 'vitest'
-import { screen } from '@testing-library/react'
+import { afterEach, describe, expect, test } from 'vitest'
+import { cleanup, screen } from '@testing-library/react'
 import { Livestock } from './Livestock'
 import { renderWithRouter } from '../test-utils'
 import type { LivestockView } from '../view-types'
@@ -14,11 +14,13 @@ const card = (name: string): CardView => ({
 })
 
 const view = (cards: CardView[]): LivestockView => ({
-  cards, date: new Date('2026-07-21T09:00:00+09:00'), term: undefined,
+  cards, date: new Date('2026-07-21T09:00:00+09:00'),
   freshness: { kind: 'dated', surveyedOn: '2026-07-21', days: 0 },
 })
 
 describe('Livestock', () => {
+  afterEach(() => cleanup())
+
   test('카드 이름을 렌더한다', async () => {
     await renderWithRouter(<Livestock view={view([card('삼겹살'), card('계란')])} />)
     expect(screen.getByText('삼겹살')).toBeTruthy()
@@ -28,6 +30,11 @@ describe('Livestock', () => {
   test('빈 목록이면 담백한 안내', async () => {
     await renderWithRouter(<Livestock view={view([])} />)
     expect(screen.getByText(/축산물 값 정보가 아직 없어요/)).toBeTruthy()
+  })
+
+  test('아이브로에 주차 라벨만 보이고 절기는 없다', async () => {
+    await renderWithRouter(<Livestock view={view([card('삼겹살')])} />)
+    expect(screen.getByText('7월 셋째 주')).toBeTruthy()
   })
 
   test('제목에 "제철"을 쓰지 않는다', async () => {

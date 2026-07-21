@@ -113,5 +113,5 @@ export function buildLivestockView(
     }),
     'drop',
   )
-  return { cards, date: now, term: currentTerm(now), freshness: freshnessOf(snapshot, now) }
+  return { cards, date: now, freshness: freshnessOf(snapshot, now) }
 }

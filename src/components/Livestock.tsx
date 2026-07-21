@@ -7,8 +7,8 @@ import styles from './Livestock.module.css'
 
 /** 축산물 값 페이지. 제철이 아니라 "값이 내려온 순". 표시 전용. */
 export function Livestock({ view }: { view: LivestockView }) {
-  const { cards, date, term, freshness } = view
-  const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
+  const { cards, date, freshness } = view
+  const eyebrow = weekLabel(date)
   return (
     <>
       <NavIndex current="livestock" />
