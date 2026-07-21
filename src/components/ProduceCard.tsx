@@ -52,7 +52,7 @@ export function ProduceCard({ card }: { card: CardView }) {
                 <span className={styles.kind}>{card.kind}</span>
               </span>
             </span>
-            <SeasonStrip strip={card.season} />
+            {card.category !== 'livestock' && <SeasonStrip strip={card.season} />}
           </div>
           {card.price && <PriceBlock price={card.price} />}
         </div>

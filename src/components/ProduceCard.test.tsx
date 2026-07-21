@@ -122,4 +122,15 @@ describe('ProduceCard 제철 띠', () => {
     expect(getByRole('img')).toBeTruthy()
     expect(getByRole('img').children).toHaveLength(12)
   })
+
+  test('제철 카테고리(fruit/vegetable/seafood) 카드는 SeasonStrip이 있다', () => {
+    const { queryByRole } = render(<ProduceCard card={{ ...base, category: 'fruit' }} />)
+    expect(queryByRole('img', { name: /제철/ })).toBeTruthy()
+  })
+
+  test('축산물 카드는 SeasonStrip이 없다(제철이 없다)', () => {
+    const livestock: CardView = { ...base, category: 'livestock' }
+    const { queryByRole } = render(<ProduceCard card={livestock} />)
+    expect(queryByRole('img', { name: /제철/ })).toBeNull()
+  })
 })
