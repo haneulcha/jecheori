@@ -2,4 +2,4 @@
 .note::before { content: ''; position: absolute; left: 0.3rem; top: 0.1rem; bottom: 0.1rem; width: 1px; background: var(--margin); }
 .nrow { display: grid; grid-template-columns: 4rem 1fr; gap: var(--space-sm); align-items: baseline; border-bottom: 1px dotted var(--line); padding: var(--space-xs) 0; font-size: var(--text-xs); color: #5a5140; line-height: 1.5; }
 .nrow:last-child { border-bottom: none; }
-.nrow .lbl { color: var(--ink); font-weight: 700; letter-spacing: 0.02em; }
+.nrow .lbl { color: var(--ink); font-weight: 600; letter-spacing: 0.08em; }
