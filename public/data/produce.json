@@ -1770,5 +1770,556 @@
     "howToPick": "은빛이 고르고 부서짐이 적으며 배가 터지지 않은 것. 짠내보다 고소한 향이 나는 것이 좋아요.",
     "howToStore": "밀봉해 냉동하면 눅눅해지지 않고 비린내도 덜해요.",
     "howToUse": "국물용은 내장 떼고 우려서, 작은 것은 볶음이나 조림 반찬으로."
+  },
+  {
+    "id": "hanwoo-tenderloin-1pp",
+    "name": "한우 안심 1++등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "안심",
+      "rank": "1++등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "운동량이 적은 부위라 살이 가장 연해요. 1++는 근내지방(마블링)이 가장 촘촘한 등급이에요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "지방이 적어 담백해요. 스테이크·구이에 좋습니다."
+  },
+  {
+    "id": "hanwoo-tenderloin-1p",
+    "name": "한우 안심 1+등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "안심",
+      "rank": "1+등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "운동량이 적은 부위라 살이 가장 연해요. 1+는 마블링이 상급이에요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "지방이 적어 담백해요. 스테이크·구이에 좋습니다."
+  },
+  {
+    "id": "hanwoo-tenderloin-1",
+    "name": "한우 안심 1등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "안심",
+      "rank": "1등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "운동량이 적은 부위라 살이 가장 연해요. 1등급은 마블링이 적당해 담백해요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "지방이 적어 담백해요. 스테이크·구이에 좋습니다."
+  },
+  {
+    "id": "hanwoo-sirloin-1pp",
+    "name": "한우 등심 1++등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "등심",
+      "rank": "1++등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "등쪽 살로 마블링이 좋아 구이에 두루 써요. 1++는 근내지방(마블링)이 가장 촘촘한 등급이에요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "마블링이 좋아 구이 대표예요. 스테이크·불고기에 씁니다."
+  },
+  {
+    "id": "hanwoo-sirloin-1p",
+    "name": "한우 등심 1+등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "등심",
+      "rank": "1+등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "등쪽 살로 마블링이 좋아 구이에 두루 써요. 1+는 마블링이 상급이에요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "마블링이 좋아 구이 대표예요. 스테이크·불고기에 씁니다."
+  },
+  {
+    "id": "hanwoo-sirloin-1",
+    "name": "한우 등심 1등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "등심",
+      "rank": "1등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "등쪽 살로 마블링이 좋아 구이에 두루 써요. 1등급은 마블링이 적당해 담백해요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "마블링이 좋아 구이 대표예요. 스테이크·불고기에 씁니다."
+  },
+  {
+    "id": "hanwoo-round-1pp",
+    "name": "한우 설도 1++등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "설도",
+      "rank": "1++등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "뒷다리 우둔 계열이라 기름기가 적고 결이 굵어요. 1++는 근내지방(마블링)이 가장 촘촘한 등급이에요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "기름기가 적어 불고기·장조림·육회에 좋습니다."
+  },
+  {
+    "id": "hanwoo-round-1p",
+    "name": "한우 설도 1+등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "설도",
+      "rank": "1+등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "뒷다리 우둔 계열이라 기름기가 적고 결이 굵어요. 1+는 마블링이 상급이에요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "기름기가 적어 불고기·장조림·육회에 좋습니다."
+  },
+  {
+    "id": "hanwoo-round-1",
+    "name": "한우 설도 1등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "설도",
+      "rank": "1등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "뒷다리 우둔 계열이라 기름기가 적고 결이 굵어요. 1등급은 마블링이 적당해 담백해요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "기름기가 적어 불고기·장조림·육회에 좋습니다."
+  },
+  {
+    "id": "hanwoo-brisket-1pp",
+    "name": "한우 양지 1++등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "양지",
+      "rank": "1++등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "가슴·배 부위라 결은 질겨도 국물 맛이 진해요. 1++는 근내지방(마블링)이 가장 촘촘한 등급이에요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "국·탕·수육에. 푹 끓이면 국물이 깊어요."
+  },
+  {
+    "id": "hanwoo-brisket-1p",
+    "name": "한우 양지 1+등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "양지",
+      "rank": "1+등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "가슴·배 부위라 결은 질겨도 국물 맛이 진해요. 1+는 마블링이 상급이에요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "국·탕·수육에. 푹 끓이면 국물이 깊어요."
+  },
+  {
+    "id": "hanwoo-brisket-1",
+    "name": "한우 양지 1등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "양지",
+      "rank": "1등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "가슴·배 부위라 결은 질겨도 국물 맛이 진해요. 1등급은 마블링이 적당해 담백해요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "국·탕·수육에. 푹 끓이면 국물이 깊어요."
+  },
+  {
+    "id": "hanwoo-rib-1pp",
+    "name": "한우 갈비 1++등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "갈비",
+      "rank": "1++등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "갈비뼈에 붙은 살로 구이와 찜에 써요. 1++는 근내지방(마블링)이 가장 촘촘한 등급이에요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "구이·찜에. 핏물을 빼고 조리하면 잡내가 덜해요."
+  },
+  {
+    "id": "hanwoo-rib-1p",
+    "name": "한우 갈비 1+등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "갈비",
+      "rank": "1+등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "갈비뼈에 붙은 살로 구이와 찜에 써요. 1+는 마블링이 상급이에요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "구이·찜에. 핏물을 빼고 조리하면 잡내가 덜해요."
+  },
+  {
+    "id": "hanwoo-rib-1",
+    "name": "한우 갈비 1등급",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "소",
+      "kindName": "갈비",
+      "rank": "1등급"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "갈비뼈에 붙은 살로 구이와 찜에 써요. 1등급은 마블링이 적당해 담백해요."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "구이·찜에. 핏물을 빼고 조리하면 잡내가 덜해요."
+  },
+  {
+    "id": "imported-beef-rib-us",
+    "name": "수입 소갈비 (미국산)",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "수입 소고기",
+      "kindName": "갈비",
+      "rank": "미국산"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "한우 갈비보다 저렴한 구이·찜감이에요. 미국산입니다."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "양념구이·찜에. 핏물을 빼고 조리하세요."
+  },
+  {
+    "id": "imported-beef-rib-au",
+    "name": "수입 소갈비 (호주산)",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "수입 소고기",
+      "kindName": "갈비",
+      "rank": "호주산"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "한우 갈비보다 저렴한 구이·찜감이에요. 호주산입니다."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "양념구이·찜에. 핏물을 빼고 조리하세요."
+  },
+  {
+    "id": "imported-beef-ribmeat-us",
+    "name": "수입 소갈비살 (미국산)",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "수입 소고기",
+      "kindName": "갈비살",
+      "rank": "미국산"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "갈빗대 사이 살로 구이에 좋아요. 미국산입니다."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "구이에. 도톰하게 썰어 센 불에 구우세요."
+  },
+  {
+    "id": "imported-beef-ribmeat-au",
+    "name": "수입 소갈비살 (호주산)",
+    "emoji": "🐂",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "수입 소고기",
+      "kindName": "갈비살",
+      "rank": "호주산"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "갈빗대 사이 살로 구이에 좋아요. 호주산입니다."
+    },
+    "howToPick": "선홍색이 선명하고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 2~3일 안에, 오래 둘 거면 한 끼씩 나눠 냉동하세요.",
+    "howToUse": "구이에. 도톰하게 썰어 센 불에 구우세요."
+  },
+  {
+    "id": "pork-front-leg",
+    "name": "돼지 앞다리살",
+    "emoji": "🐖",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "돼지",
+      "kindName": "앞다리"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "기름기가 적당한 실속 부위예요. 수육·불고기·찌개에 두루 씁니다."
+    },
+    "howToPick": "살이 연분홍이고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 3~4일 안에, 오래 둘 거면 한 끼씩 냉동하세요.",
+    "howToUse": "수육·제육볶음·찌개에 씁니다."
+  },
+  {
+    "id": "pork-belly",
+    "name": "돼지 삼겹살",
+    "emoji": "🐖",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "돼지",
+      "kindName": "삼겹살"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "지방과 살이 층층인 구이 대표 부위예요."
+    },
+    "howToPick": "살이 연분홍이고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 3~4일 안에, 오래 둘 거면 한 끼씩 냉동하세요.",
+    "howToUse": "구이·수육에 씁니다."
+  },
+  {
+    "id": "pork-rib",
+    "name": "돼지 갈비",
+    "emoji": "🐖",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "돼지",
+      "kindName": "갈비"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "양념구이나 찜에 좋은 갈비예요."
+    },
+    "howToPick": "살이 연분홍이고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 3~4일 안에, 오래 둘 거면 한 끼씩 냉동하세요.",
+    "howToUse": "양념구이·찜에 씁니다."
+  },
+  {
+    "id": "pork-neck",
+    "name": "돼지 목살",
+    "emoji": "🐖",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "돼지",
+      "kindName": "목심"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "지방이 적당히 박혀 구이에 좋은 목살이에요."
+    },
+    "howToPick": "살이 연분홍이고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 3~4일 안에, 오래 둘 거면 한 끼씩 냉동하세요.",
+    "howToUse": "구이·보쌈에 씁니다."
+  },
+  {
+    "id": "imported-pork-belly",
+    "name": "수입 삼겹살",
+    "emoji": "🐖",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "수입 돼지고기",
+      "kindName": "삼겹살"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "국산보다 저렴한 삼겹살이에요."
+    },
+    "howToPick": "살이 연분홍이고 지방이 희며 눌렀을 때 탄력 있는 것을 고르세요.",
+    "howToStore": "냉장은 3~4일 안에, 오래 둘 거면 한 끼씩 냉동하세요.",
+    "howToUse": "구이·수육에 씁니다."
+  },
+  {
+    "id": "chicken-broiler",
+    "name": "닭 (육계)",
+    "emoji": "🐔",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "닭",
+      "kindName": "육계(kg)"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "한 마리 통닭이에요. 백숙·볶음탕·구이에 두루 씁니다."
+    },
+    "howToPick": "살이 통통하고 껍질에 윤기가 도는 것을 고르세요.",
+    "howToStore": "냉장은 1~2일 안에, 오래 둘 거면 냉동하세요.",
+    "howToUse": "백숙·볶음탕·구이에 씁니다."
+  },
+  {
+    "id": "egg-10",
+    "name": "계란 (특란 10구)",
+    "emoji": "🥚",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "계란",
+      "kindName": "특란10구"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "특란 10알이에요. 삶기·부침·요리에 두루 씁니다."
+    },
+    "howToPick": "껍질이 매끈하고 금이 없는 것을 고르세요.",
+    "howToStore": "냉장에 뾰족한 쪽을 아래로 두고 보관하세요.",
+    "howToUse": "삶기·부침·각종 요리에 씁니다."
+  },
+  {
+    "id": "egg-30",
+    "name": "계란 (특란 30구)",
+    "emoji": "🥚",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "계란",
+      "kindName": "특란30구"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "특란 한 판(30알)이에요. 자주 쓰면 한 판이 편해요."
+    },
+    "howToPick": "껍질이 매끈하고 금이 없는 것을 고르세요.",
+    "howToStore": "냉장에 뾰족한 쪽을 아래로 두고 보관하세요.",
+    "howToUse": "삶기·부침·각종 요리에 씁니다."
+  },
+  {
+    "id": "milk-white",
+    "name": "흰우유 (1L)",
+    "emoji": "🥛",
+    "category": "livestock",
+    "kamis": {
+      "categoryCode": "500",
+      "itemName": "우유",
+      "kindName": "흰우유"
+    },
+    "seasonMonths": [],
+    "peakMonths": [],
+    "whyNow": {
+      "default": "일반 흰우유 1L예요."
+    },
+    "howToPick": "유통기한과 개봉 흔적을 확인하세요.",
+    "howToStore": "냉장 보관하고 개봉 후엔 빨리 드세요.",
+    "howToUse": "그대로 마시거나 요리·베이킹에 씁니다."
   }
 ]

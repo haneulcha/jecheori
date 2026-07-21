@@ -15,7 +15,7 @@ describe('produce.json 스키마', () => {
     expect(p.id).toMatch(/^[a-z0-9-]+$/)
     expect(p.name.length).toBeGreaterThan(0)
     expect(p.emoji.length).toBeGreaterThan(0)
-    expect(['fruit', 'vegetable', 'seafood']).toContain(p.category)
+    expect(['fruit', 'vegetable', 'seafood', 'livestock']).toContain(p.category)
     // kamis는 선택 — KAMIS가 조사하지 않는 품목(가지·옥수수·부추·단호박)은 참조가 없다.
     // 있다면 유효해야 한다. (500 = 축산물, 600 = 수산물)
     if (p.kamis) {
