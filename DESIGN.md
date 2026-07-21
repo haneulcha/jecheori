@@ -60,20 +60,19 @@
 
 | 역할 | 폰트 | 사용처 |
 |---|---|---|
-| 디스플레이 | **마루 부리** (self-host woff2, OFL) | h1, 절기 아이브로만 |
-| 손글씨 | **학교안심 받아쓰기 L** (self-host woff2, OFL) | 카드 표지 하단 "제철이의 한마디"(`.why`) 한 줄만 |
-| 본문 | 시스템 한글 스택: `'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif` | 나머지 전부 |
-| 라벨 | 본문 스택 + `letter-spacing: 0.08em` | "고르는 법" 같은 소제목 — Pa'lais의 넓은 자간을 한글 소형 라벨로 번안 |
+| 본문·헤딩 | **Wanted Sans** (self-host woff2, 콘텐츠 서브셋, OFL) | 아이브로·h1·품목명·소제목·본문·가격 등 거의 전부. 웨이트 400/600/700/800 |
+| 손글씨 | **학교안심 받아쓰기 L** (self-host woff2, 서브셋, OFL) | 카드 표지 하단 "제철이의 한마디"(`.why`) 한 줄만 — 유일한 캐릭터 폰트 |
+| 라벨 | 본문 스택 + `letter-spacing: 0.08em` | "고르는 법"·"레시피" 같은 소형 라벨 |
 | 숫자 | 본문 스택 + `font-variant-numeric: tabular-nums` | 가격 |
 
 폰트 파일은 `src/fonts/`, CSS 상대 경로 참조 (Vite가 base 처리). CDN 금지.
-마루 부리를 못 구하면 `serif` 폴백으로 동작해야 한다.
+못 구하면 시스템 고딕(`Apple SD Gothic Neo` …)으로 폴백.
 
-**손글씨 서브셋:** 학교안심 받아쓰기 L은 전체 한글이 무거워, `produce.json`에
-실제 쓰인 글자만 골라 서브셋한다(~24KB). 가격이 CI JSON에서 오듯 이 폰트도 콘텐츠를
-진실의 원천으로 삼는다. `whyNow`·품목명 문구를 고쳐 새 음절이 들어오면
-`bash scripts/subset-handwriting-font.sh`로 재생성한다(안 하면 그 글자만 시스템
-폰트로 폴백돼 손글씨 사이에 튄다). 못 구하면 `serif` 폴백.
+**콘텐츠 서브셋:** 본문·손글씨 모두 전체 한글이 무거워, 콘텐츠(`produce.json`·`season.ts`·
+정적 UI 문구)에 실제 쓰인 글자만 서브셋한다(본문 4벌 ~216KB, 손글씨 ~30KB). 가격이 CI
+JSON에서 오듯 폰트도 콘텐츠를 진실의 원천으로 삼는다. 문구를 고쳐 새 음절이 들어오면
+`npm run subset:fonts`로 재생성한다 — 안 하면 `tests/font-coverage.test.ts`가 실패한다
+(조용한 폴백 대신 시끄러운 실패).
 
 ## 절기
 
@@ -171,3 +170,10 @@ CLAUDE.md의 규칙(한국어, 담백, 이커머스 화법 금지)에 더해:
   나머지는 숨겨 조용히. 색 규율 준수(웜=배경, 잉크는 숫자에만, 그라데이션 없음). 파생은
   `src/card.ts` `toSeasonStrip`(순수), 표시는 `SeasonStrip`. 브라우저 시안 반복(색채움→모노
   해치→도트→색채움→간트)으로 확정. 스펙: `docs/superpowers/specs/2026-07-18-season-strip-on-card-design.md`
+- 타이포를 **Wanted Sans 하나로 통일**하고 마루부리(세리프)를 완전히 제거했다 (2026-07-21).
+  세리프는 h1·아이브로 헤더에만 갇혀 카드에선 증발했고, 카드 콘텐츠에 얹으면 소제목이 튀었다.
+  시안 3라운드(세리프 세 얼굴 → 손글씨만 빼고 고딕 → 캐릭터 고딕 세 후보 앱 전반) 끝에,
+  Pretendard급 완성도에 온기를 더한 Wanted Sans로 확정. 손글씨는 유일한 캐릭터 폰트로 승격.
+  콘텐츠 서브셋(마루부리 865KB보다 648KB 가벼움) + 커버리지 빌드 가드. 이때 손글씨 서브셋
+  121자 드리프트(수산물·축산물 whyNow 미재생성)도 발견·수정. 스펙:
+  `docs/superpowers/specs/2026-07-21-body-font-wanted-sans-design.md`
