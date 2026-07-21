@@ -4,7 +4,7 @@ import styles from './NavIndex.module.css'
 
 /** 램프줄(A) + 인덱스 서랍. 목차 링크는 클라이언트 라우팅(viewTransition·부드러운 전환) +
  *  선택 시 서랍 닫힘. 열고/닫기는 상태(최소 JS). 양쪽 페이지 공유. */
-export function NavIndex({ current }: { current: 'now' | 'coming' }) {
+export function NavIndex({ current }: { current: 'now' | 'coming' | 'livestock' }) {
   const [open, setOpen] = useState(false)
   const close = () => setOpen(false)
   return (
@@ -32,6 +32,9 @@ export function NavIndex({ current }: { current: 'now' | 'coming' }) {
             </Link>
             <Link to="/coming" viewTransition aria-current={current === 'coming' ? 'page' : undefined} onClick={close}>
               다가오는 제철 품목
+            </Link>
+            <Link to="/livestock" viewTransition aria-current={current === 'livestock' ? 'page' : undefined} onClick={close}>
+              축산물 값
             </Link>
           </div>
         </div>
