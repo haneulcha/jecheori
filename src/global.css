@@ -1,17 +1,29 @@
 @font-face {
-  font-family: 'MaruBuri';
-  src: url('./fonts/MaruBuri-Regular.woff2') format('woff2');
+  font-family: 'Wanted Sans';
+  src: url('./fonts/WantedSans-400.woff2') format('woff2');
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
-  font-family: 'MaruBuri';
-  src: url('./fonts/MaruBuri-Bold.woff2') format('woff2');
+  font-family: 'Wanted Sans';
+  src: url('./fonts/WantedSans-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Wanted Sans';
+  src: url('./fonts/WantedSans-700.woff2') format('woff2');
   font-weight: 700;
   font-display: swap;
 }
+@font-face {
+  font-family: 'Wanted Sans';
+  src: url('./fonts/WantedSans-800.woff2') format('woff2');
+  font-weight: 800;
+  font-display: swap;
+}
 /* 손글씨 — 카드 하단 "제철이의 한마디"에만. produce.json 사용 글자로 서브셋
-   (scripts/subset-handwriting-font.sh). 학교안심 받아쓰기 L, OFL. */
+   (npm run subset:fonts). 학교안심 받아쓰기 L, OFL. */
 @font-face {
   font-family: 'Hakgyoansim';
   src: url('./fonts/HakgyoansimBadasseugi-L.woff2') format('woff2');
@@ -47,10 +59,9 @@
   --space-xl: 1.5rem;
   --space-2xl: 2.5rem;
   --space-3xl: 3rem;
-  /* 폰트 패밀리 — @font-face가 정의한 별칭 그대로. DESIGN.md: 못 구하면 serif 폴백. */
-  --font-display: 'MaruBuri', serif;
-  --font-hand: 'Hakgyoansim', 'MaruBuri', serif;
-  --font-body: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  /* 폰트 패밀리 — @font-face 별칭 그대로. 못 구하면 시스템 고딕 폴백. */
+  --font-body: 'Wanted Sans', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  --font-hand: 'Hakgyoansim', 'Wanted Sans', 'Apple SD Gothic Neo', sans-serif;
   --font-mono: 'SF Mono', 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
   /* 라운드 — 역할별. crisp=메모 낱장 카드, soft=칩·배지, pill=알약 */
   --radius-crisp: 0.2rem;
@@ -100,14 +111,12 @@ header::before {
   z-index: -1;
 }
 .week {
-  font-family: var(--font-display);
   color: var(--ink);
   font-size: var(--text-sm);
   letter-spacing: 0.02em;
   margin: var(--space-xs) 0 0;
 }
 header h1 {
-  font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--text-lg);
   line-height: 1.45;
