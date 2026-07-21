@@ -9,6 +9,9 @@ export interface KamisRef {
   itemName: string
   /** 선호 품종 — KAMIS kind_name에 부분 일치 (예: "샤인") */
   kindName?: string
+  /** KAMIS rank(등급/원산지) 문자열. kindName만으론 못 가르는 행을 집을 때만 지정한다.
+   *  예: 한우 등급 "1++등급"·"1등급", 수입육 "미국산"·"호주산". 없으면 rank 무시(기존 동작). */
+  rank?: string
 }
 
 export interface ProduceProfile {

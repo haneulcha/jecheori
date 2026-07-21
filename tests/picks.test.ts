@@ -89,6 +89,42 @@ describe('matchEntry', () => {
     expect(matchEntry(p, [entry({ itemName: '오이' })])).toBeNull()
     expect(matchEntry(p, [entry({ itemName: '멜론', price: null })])).toBeNull()
   })
+
+  test('정확일치 kindName을 부분일치보다 우선한다 (갈비 vs 갈비살)', () => {
+    const entries = [
+      entry({ itemName: '수입 소고기', kindName: '갈비살', rank: '미국산', price: 5204 }),
+      entry({ itemName: '수입 소고기', kindName: '갈비', rank: '미국산', price: 4587 }),
+    ]
+    const p = profile({ kamis: { categoryCode: '500', itemName: '수입 소고기', kindName: '갈비', rank: '미국산' } })
+    expect(matchEntry(p, entries)?.kindName).toBe('갈비')
+    expect(matchEntry(p, entries)?.price).toBe(4587)
+  })
+
+  test('정확일치가 없으면 부분일치로 폴백한다', () => {
+    const entries = [entry({ itemName: '고등어', kindName: '신선냉장', price: 4000 })]
+    const p = profile({ kamis: { categoryCode: '600', itemName: '고등어', kindName: '신선' } })
+    expect(matchEntry(p, entries)?.kindName).toBe('신선냉장')
+  })
+
+  test('rank로 특정 등급을 집는다 (한우 1등급)', () => {
+    const entries = [
+      entry({ itemName: '소', kindName: '등심', rank: '1++등급', price: 15666 }),
+      entry({ itemName: '소', kindName: '등심', rank: '1+등급', price: 12720 }),
+      entry({ itemName: '소', kindName: '등심', rank: '1등급', price: 10984 }),
+    ]
+    const p = profile({ kamis: { categoryCode: '500', itemName: '소', kindName: '등심', rank: '1등급' } })
+    expect(matchEntry(p, entries)?.rank).toBe('1등급')
+    expect(matchEntry(p, entries)?.price).toBe(10984)
+  })
+
+  test('rank 미지정이면 기존대로 상품 등급 우선', () => {
+    const entries = [
+      entry({ itemName: '오이', rank: '중품', price: 700 }),
+      entry({ itemName: '오이', rank: '상품', price: 900 }),
+    ]
+    const p = profile({ kamis: { categoryCode: '200', itemName: '오이' } })
+    expect(matchEntry(p, entries)?.rank).toBe('상품')
+  })
 })
 
 describe('priceView', () => {
