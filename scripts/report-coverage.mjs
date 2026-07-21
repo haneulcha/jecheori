@@ -31,6 +31,7 @@ for (const p of profiles) {
   }
   const { hit, reason } = match(p)
   if (hit) matched.push(p)
+  else if (p.category === 'livestock') broken.push({ profile: p, reason }) // 축산물은 제철 없음 — 미스는 진짜 문제
   else if (!p.seasonMonths.includes(month)) offSeason.push(p)
   else broken.push({ profile: p, reason })
 }
