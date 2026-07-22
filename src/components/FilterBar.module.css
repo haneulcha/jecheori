@@ -20,6 +20,13 @@
   background: var(--card);
   color: var(--ink);
   cursor: pointer;
+  /* 켜짐/꺼짐 상태 전환을 부드럽게 — RecipeChips .chipBtn과 동일한 선언(칩 일관성).
+     색만 트랜지션(transform 없음): 필터칩은 스케일이 텍스트를 들썩이게 하지 않는다. */
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 .fchip.on { background: var(--tint); border-color: var(--accent); }
 .fchip:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fchip { transition: none; }
+}
