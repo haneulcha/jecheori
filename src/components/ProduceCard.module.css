@@ -37,12 +37,18 @@
 /* 펼침 영역 — 점선 디바이더로 표지와 나누고, 섹션(스파크·영양·노트) 사이는
    넉넉한 간격으로 빽빽하지 않게 */
 .open {
-  border-top: 1px dashed var(--line);
-  margin-top: var(--space-lg);
+  /* 구분선을 border-top이 아니라 ::before로 둔다: border-top이면 선이 .open 최상단에 붙어
+     whyNow와의 위 간격을 줄 자리가 없다(padding은 선 아래로만 간다). ::before 선이면
+     위는 padding-top, 아래는 flex gap이 감싼다. 간격을 margin으로 주면 ::details-content
+     높이 밖으로 새어(마진 병합) 닫힘 끝에 16px "덜거덕"이 되므로 padding·gap으로만. */
   padding-top: var(--space-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
+}
+.open::before {
+  content: '';
+  border-top: 1px dashed var(--line);
 }
 /* 제철이의 한마디 — 종이에 연필로 적어준 듯한 손글씨. 펼치기 전에도 늘 보이는,
    카드 표지 하단의 한 줄. 쪽빛의 뮤트(--muted)로 연필 흑연처럼, 살짝 기울여. */
@@ -58,8 +64,29 @@
   -webkit-font-smoothing: auto;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .card { transition: border-color 0.15s ease; }
+  .card { transition: border-color 0.15s ease; interpolate-size: allow-keywords; }
   .card[open] { border-color: var(--accent); }
+  /* 펼침 내용 리빌 — 냉장고 메모가 펴지듯 높이가 자라고 내용이 옅게 든다. DESIGN.md가
+     "모션은 카드 펼침 전환 하나"로 예정한 그 모션. ::details-content + interpolate-size는
+     무JS 아코디언(Chrome 131+); 미지원 브라우저는 즉시 펼침으로 폴백(뷰 트랜지션과 같은
+     선택적 향상 결). 절대배치 레시피 메모(.memoLayer)는 containing block이 details라
+     이 overflow에 잘리지 않는다. 이징·시간은 NavIndex 차양(열림 표면)과 라임. */
+  .card::details-content {
+    height: 0;
+    opacity: 0;
+    overflow: clip;
+    /* 표준 이징(0.4,0,0.2,1) — 모션이 전 구간에 고루 퍼져 큰 리빌이 눈에 보인다.
+       차양(NavIndex) 곡선(0.2,0.75,0.2,1)은 앞부분에 몰려 560px 카드에선 "순간에 펼쳐짐"
+       으로 읽혔다. 작은 차양은 그 스냅감이 맞고, 큰 카드만 크기에 맞춰 다른 곡선을 쓴다. */
+    transition:
+      height 240ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 240ms cubic-bezier(0.4, 0, 0.2, 1),
+      content-visibility 240ms allow-discrete;
+  }
+  .card[open]::details-content {
+    height: auto;
+    opacity: 1;
+  }
 }
 
 /* 레시피 진입 칩 + 카드 위 핀 메모 */

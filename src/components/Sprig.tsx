@@ -4,11 +4,12 @@ import styles from './Sprig.module.css'
 export function Sprig() {
   return (
     <svg className={styles.sprig} data-testid="sprig" viewBox="0 0 120 120" fill="none" aria-hidden="true">
-      <path d="M20 110 C 45 85, 70 55, 98 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M46 82 C 38 68, 40 58, 52 50 C 56 62, 54 72, 46 82 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <path d="M64 60 C 74 46, 86 42, 98 46 C 92 58, 80 64, 64 60 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <path d="M34 96 C 26 88, 24 78, 30 70 C 38 76, 40 88, 34 96 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <circle cx="98" cy="18" r="4" stroke="currentColor" strokeWidth="1.5" />
+      {/* pathLength="1"로 획 길이를 정규화 — CSS가 dasharray/offset 1로 균일하게 그려낸다 */}
+      <path d="M20 110 C 45 85, 70 55, 98 18" pathLength={1} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M46 82 C 38 68, 40 58, 52 50 C 56 62, 54 72, 46 82 Z" pathLength={1} stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M64 60 C 74 46, 86 42, 98 46 C 92 58, 80 64, 64 60 Z" pathLength={1} stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M34 96 C 26 88, 24 78, 30 70 C 38 76, 40 88, 34 96 Z" pathLength={1} stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <circle cx="98" cy="18" r="4" pathLength={1} stroke="currentColor" strokeWidth="1.5" />
     </svg>
   )
 }

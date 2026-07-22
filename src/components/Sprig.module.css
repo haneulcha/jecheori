@@ -7,3 +7,22 @@
   color: var(--ink);
   opacity: 0.35;
 }
+
+/* 첫 로드 때 스케치가 그려지는 시그니처 리빌 — DESIGN.md "과감함은 여기(머리말)에만".
+   가지가 먼저, 잎 셋이 순서대로, 열매 끝점이 마지막. 이징은 NavIndex 차양과 라임.
+   페이지 로드마다 재생된다(1회 한정 아님) — 조용한 0.35 획이라 과하지 않다. */
+@media (prefers-reduced-motion: no-preference) {
+  .sprig :is(path, circle) {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: sprig-draw 0.7s cubic-bezier(0.2, 0.75, 0.2, 1) forwards;
+  }
+  .sprig path:nth-of-type(1) { animation-delay: 0s; }
+  .sprig path:nth-of-type(2) { animation-delay: 0.28s; }
+  .sprig path:nth-of-type(3) { animation-delay: 0.36s; }
+  .sprig path:nth-of-type(4) { animation-delay: 0.44s; }
+  .sprig circle { animation-delay: 0.62s; }
+}
+@keyframes sprig-draw {
+  to { stroke-dashoffset: 0; }
+}
