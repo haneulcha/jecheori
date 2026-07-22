@@ -4,8 +4,8 @@ import { fileURLToPath } from 'node:url'
 import { parseCategoryResponse } from './lib/parse-kamis.mjs'
 
 const API_BASE = 'https://www.kamis.or.kr/service/price/xml.do'
-// 식량작물(감자·고구마·옥수수), 채소류, 과일류, 수산물
-const CATEGORY_CODES = ['100', '200', '400', '600']
+// 식량작물(감자·고구마·옥수수), 채소류, 과일류, 축산물, 수산물
+const CATEGORY_CODES = ['100', '200', '400', '500', '600']
 
 /** KAMIS가 UA·Accept 없는 요청을 최근 HTTP 406으로 막는다(WAF 봇 차단으로 추정).
  *  브라우저 호환 UA + JSON Accept를 실어 보낸다. p_returntype=json과 짝. */

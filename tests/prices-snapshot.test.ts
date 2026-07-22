@@ -35,10 +35,11 @@ describe('커밋된 prices.json', () => {
     for (const e of snapshot.entries) {
       expect(typeof e.unit.quantity).toBe('number')
       expect(e.unit.quantity).toBeGreaterThan(0)
-      expect(['weight', 'count']).toContain(e.unit.measure.kind)
-      // Measure 유니온(types.ts)과 일치: 수산물이 근·마리·손·장을 몰고 왔다
+      expect(['weight', 'count', 'volume']).toContain(e.unit.measure.kind)
+      // Measure 유니온(types.ts)과 일치: 축산물이 구(계란)·L(우유) 추가
       if (e.unit.measure.kind === 'weight') expect(['kg', 'g', '근']).toContain(e.unit.measure.unit)
-      else expect(['개', '포기', '마리', '손', '장']).toContain(e.unit.measure.unit)
+      else if (e.unit.measure.kind === 'count') expect(['개', '포기', '마리', '손', '장', '구']).toContain(e.unit.measure.unit)
+      else expect(['L']).toContain(e.unit.measure.unit)
     }
   })
 

@@ -26,10 +26,12 @@ const MEASURES = {
   근: { kind: 'weight', unit: '근' }, // 근≈600g이지만 환산 안 함 — KAMIS 표기 보존
   손: { kind: 'count', unit: '손' }, // 고등어 한 손 등
   장: { kind: 'count', unit: '장' }, // 김 10장 등
+  구: { kind: 'count', unit: '구' }, // 계란 10구·30구 — 낱개 계량
+  L: { kind: 'volume', unit: 'L' }, // 우유 1L — 부피(개당값 없음)
 }
 
 export function parseUnit(s) {
-  const m = /^(\d+)\s*(kg|g|개|포기|마리|근|손|장)$/.exec(String(s ?? '').trim())
+  const m = /^(\d+)\s*(kg|g|개|포기|마리|근|손|장|구|L)$/.exec(String(s ?? '').trim())
   if (!m) throw new Error(`KAMIS 단위 표기를 모르겠습니다: ${JSON.stringify(s)}`)
   return { quantity: Number(m[1]), measure: { ...MEASURES[m[2]] } }
 }

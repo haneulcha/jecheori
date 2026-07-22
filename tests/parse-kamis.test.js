@@ -56,6 +56,12 @@ describe('parseUnit', () => {
   test('장은 count로 파싱 (김 10장)', () => {
     expect(parseUnit('10장')).toEqual({ quantity: 10, measure: { kind: 'count', unit: '장' } })
   })
+  test('구는 count로 파싱 (계란 10구)', () => {
+    expect(parseUnit('10구')).toEqual({ quantity: 10, measure: { kind: 'count', unit: '구' } })
+  })
+  test('L은 volume으로 파싱 (우유 1L, 개당값 없음)', () => {
+    expect(parseUnit('1L')).toEqual({ quantity: 1, measure: { kind: 'volume', unit: 'L' } })
+  })
 })
 
 // 픽스처는 실제 KAMIS 응답 캡처 (2026-07-13, 부류 200).

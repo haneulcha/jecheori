@@ -33,6 +33,8 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
 - `npm run report:coverage` — 제철 프로필 ↔ 가격 스냅샷 매칭 리포트
 - `npm run subset:fonts` — 본문(Wanted Sans)·손글씨 폰트 콘텐츠 서브셋 재생성
   (produce.json·문구 변경 시. 사전요구: python3 + fonttools + brotli)
+- `npm run build:lambda` — 가격 수집 Lambda 번들 생성 (esbuild → `dist/lambda/index.js`).
+  이어 `cd dist/lambda && zip -r ../lambda-fetch-prices.zip . && cd -`로 압축 → Lambda 업로드 (아래 "배포").
 
 ## 아키텍처 경계 (변경 시 여기만 바뀌게)
 
@@ -52,10 +54,9 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
 - 식품안전나라(레시피) 키도 코드·저장소에 절대 넣지 않는다 (env `FOODSAFETY_API_KEY`).
   레시피·영양은 **씨앗형**(거의 안 변함) — 상시 CI 없이 확장 시 로컬에서 1회 수집해 커밋.
   가격만 매일 변해 상주 크론이 필요하다. **KAMIS가 해외/데이터센터 IP를 406으로 막아
-  GitHub Actions 러너로는 못 돈다** → 서울 리전 **AWS Lambda**(ap-northeast-2)에서 수집해
-  GitHub Contents API로 `prices.json`을 직접 커밋한다(`scripts/lambda/index.mjs`,
-  EventBridge Scheduler cron, `docs/aws-lambda.md`; 침묵 실패는 CloudWatch 알람(Errors + Invocations<1/24h)으로 감지).
-  단 AWS 서울도 데이터센터 IP라 ASN 차단이면 406일 수 있어 **EventBridge 붙이기 전 수동 invoke로 200 확인**이 게이트.
+  GitHub Actions 러너로는 못 돈다** → 서울 리전 **AWS Lambda**(ap-northeast-2)가 수집해
+  GitHub Contents API로 `prices.json`을 직접 커밋한다. 번들·재배포·EventBridge·수동 invoke 게이트는
+  **"배포 > 가격 수집 Lambda"** 참고 (`scripts/lambda/index.mjs`, `docs/aws-lambda.md`).
   다가오는-가격(작년 이맘때)도 씨앗형 — 상시 CI 없이 로컬 1회 수집해 커밋.
 - KAMIS 매칭은 품목 코드가 아니라 `item_name` 문자열로 한다 (스펙 참고).
 - 식약처 영양 매칭도 품목 코드가 아니라 `foodName` 문자열로 한다 (`produce.json`의 `foodDb`).
@@ -119,9 +120,36 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
 
 ## 배포
 
+### 공개 사이트 (정적)
+
 `npm run build` → `dist/client/` 정적 산출물을 정적 호스트에 서빙 (`deploy.yml`).
 
 - **루트 서빙**(Cloudflare Pages 등): 기본값 `base: '/'`. 추가 설정 없음.
 - **하위경로**(GitHub Pages 프로젝트 사이트 `/jecheori/`): `BASE_PATH=/jecheori/`로 빌드.
   `vite.config.ts`의 `base`와 `router.tsx`의 `basepath: import.meta.env.BASE_URL`이
   자산 URL·라우팅을 하위경로로 다시 쓴다. **브라우저 실측 검증됨**(자산 200·렌더·하이드레이션).
+
+### 가격 수집 Lambda (서울 리전, 상주 크론)
+
+가격만 매일 변해 상주 수집이 필요하고, KAMIS가 해외/데이터센터 IP를 406으로 막아
+GitHub Actions로는 못 돈다 → 서울 리전 **AWS Lambda**(ap-northeast-2)가 수집해 GitHub
+Contents API로 `prices.json`을 직접 커밋한다. **EventBridge Scheduler** cron이 트리거하고,
+침묵 실패는 CloudWatch 알람(Errors + Invocations<1/24h)으로 감지한다. 상세: `docs/aws-lambda.md`.
+
+번들·업로드:
+
+```bash
+npm run build:lambda                                   # esbuild → dist/lambda/index.js (+package.json)
+cd dist/lambda && zip -r ../lambda-fetch-prices.zip . && cd -   # → dist/lambda-fetch-prices.zip
+```
+
+Lambda 콘솔 **Upload from → .zip file**로 올린다. 진입점 `scripts/lambda/index.mjs`는
+`fetch-prices.mjs`(→ `parse-kamis.mjs`)를 import하고 esbuild가 통째로 번들하므로,
+**`CATEGORY_CODES`·단위 파서 등 수집 코드 변경은 이 번들에만 담긴다.**
+
+- ⚠️ **수집 범위·단위를 바꾸면(부류 추가·`parseUnit` 단위 추가) 반드시 번들을 재배포한다.**
+  안 하면 크론은 **옛 번들**로 계속 돌아 새 부류를 안 받거나(예: 500 미수집), 옛 코드가 새 부류의
+  모르는 단위(예: `구`·`L`)에 `parseUnit` throw로 **전체 수집이 중단**된다. 코드·저장소가 새 부류를
+  가리켜도 러닝 번들이 옛것이면 화면엔 무가격으로만 나타난다 — 수산물·축산물 확장에서 반복해 샌 지점.
+- **게이트**: EventBridge에 맡기기 전 **수동 invoke로 200 + 기대 엔트리(새 부류·새 단위 파싱 통과)를
+  눈으로 확인**한다. AWS 서울도 데이터센터 IP라 ASN 차단이면 406일 수 있어 이 확인이 필수 관문이다.
