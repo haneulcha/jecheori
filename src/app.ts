@@ -1,12 +1,12 @@
 import type { ComingPriceSeed, NutritionSnapshot, PriceSnapshot, ProduceProfile, RecipeSnapshot } from './types'
-import { comingMonths, hasDrops, matchEntry, selectPicks } from './picks'
+import { comingMonths, hasDrops, matchEntry, priceView, selectPicks } from './picks'
 import { toCardView, toComingCardView } from './card'
 import { sortCards } from './cardlist'
 import { currentTerm, seasonLabel, seasonOf } from './season'
 import { snapshotAgeDays } from './data'
 import { matchNutrition, nutritionView } from './nutrition'
 import { matchRecipes, recipeView } from './recipe'
-import type { AppView, ComingView, Freshness, OffSeasonHint } from './view-types'
+import type { AppView, ComingView, Freshness, LivestockView, OffSeasonHint } from './view-types'
 
 function freshnessOf(snapshot: PriceSnapshot | null, now: Date): Freshness {
   // 스냅샷이 없으면 지어낼 조사일이 없다 — 줄을 그리지 않는다.
@@ -23,7 +23,9 @@ export function buildAppView(
   now: Date,
 ): AppView {
   const month = now.getMonth() + 1
-  const picks = selectPicks(profiles, snapshot, now)
+  // 축산물은 제철이 없다 — 제철 달력·검색 인덱스에서 제외(전용 /livestock 탭에서만 보인다).
+  const seasonal = profiles.filter((p) => p.category !== 'livestock')
+  const picks = selectPicks(seasonal, snapshot, now)
   const cards = sortCards(
     picks.map((p) =>
       toCardView(
@@ -36,9 +38,9 @@ export function buildAppView(
     'drop',
   )
   const comingIds = new Set(
-    comingMonths(profiles, month).flatMap((g) => g.items.map((it) => it.profile.id)),
+    comingMonths(seasonal, month).flatMap((g) => g.items.map((it) => it.profile.id)),
   )
-  const searchIndex: OffSeasonHint[] = profiles
+  const searchIndex: OffSeasonHint[] = seasonal
     .filter((p) => !p.seasonMonths.includes(month))
     .map((p) => ({
       emoji: p.emoji,
@@ -68,7 +70,8 @@ export function buildComingView(
   now: Date,
 ): ComingView {
   const month = now.getMonth() + 1
-  const months = comingMonths(profiles, month).map((g) => ({
+  const seasonal = profiles.filter((p) => p.category !== 'livestock')
+  const months = comingMonths(seasonal, month).map((g) => ({
     month: g.month,
     season: seasonOf(g.month),
     items: g.items.map((it) => {
@@ -84,4 +87,31 @@ export function buildComingView(
     }),
   }))
   return { months, date: now, term: currentTerm(now) }
+}
+
+/** 축산물 값 페이지. 제철 없음 — category==='livestock' 전체를 후보로,
+ *  하락순 정렬(무가격은 sortCards가 뒤로). 순수 함수. */
+export function buildLivestockView(
+  profiles: ProduceProfile[],
+  snapshot: PriceSnapshot | null,
+  nutrition: NutritionSnapshot | null,
+  recipes: RecipeSnapshot | null,
+  now: Date,
+): LivestockView {
+  const month = now.getMonth() + 1
+  const livestock = profiles.filter((p) => p.category === 'livestock')
+  const cards = sortCards(
+    livestock.map((profile) => {
+      const entry = snapshot ? matchEntry(profile, snapshot.entries) : null
+      const price = entry ? priceView(entry) : null
+      return toCardView(
+        { profile, inPeak: false, price },
+        month,
+        nutritionView(matchNutrition(profile, nutrition)),
+        recipeView(matchRecipes(profile, recipes)),
+      )
+    }),
+    'drop',
+  )
+  return { cards, date: now, freshness: freshnessOf(snapshot, now) }
 }

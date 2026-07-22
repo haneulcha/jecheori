@@ -1,0 +1,7 @@
+/* 조사일 줄 — App.module.css의 .surveyed와 같은 톤(경고 아니라 메타). */
+.surveyed {
+  color: var(--muted);
+  font-size: var(--text-xs);
+  letter-spacing: 0.02em;
+  margin: 0;
+}

@@ -14,6 +14,7 @@
     "test:watch": "vitest",
     "fetch:prices": "node scripts/fetch-prices.mjs",
     "probe:seafood": "node scripts/probe-seafood.mjs",
+    "probe:livestock": "node scripts/probe-livestock.mjs",
     "fetch:coming-prices": "node scripts/fetch-coming-prices.mjs",
     "fetch:nutrition": "node scripts/fetch-nutrition.mjs",
     "explore:nutrition": "node scripts/explore-nutrition.mjs",

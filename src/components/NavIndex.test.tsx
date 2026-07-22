@@ -45,4 +45,10 @@ describe('NavIndex', () => {
     expect(getByText('지금 제철인 품목')).toBeTruthy()
     expect(getByText('다가오는 제철 품목')).toBeTruthy()
   })
+
+  test('축산물 값 링크가 /livestock을 가리킨다', async () => {
+    const { getByText } = await renderWithRouter(<NavIndex current="now" />)
+    const link = getByText('축산물 값') as HTMLAnchorElement
+    expect(link.getAttribute('href')).toContain('livestock')
+  })
 })
