@@ -31,6 +31,8 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
 - `npm run fetch:nutrition` — 식약처 영양성분DB 수집 (env: `DATA_GO_KR_KEY`)
 - `npm run fetch:recipes` — 식약처 조리식품 레시피DB 수집 (env: `FOODSAFETY_API_KEY`)
 - `npm run report:coverage` — 제철 프로필 ↔ 가격 스냅샷 매칭 리포트
+- `npm run subset:fonts` — 본문(Wanted Sans)·손글씨 폰트 콘텐츠 서브셋 재생성
+  (produce.json·문구 변경 시. 사전요구: python3 + fonttools + brotli)
 - `npm run build:lambda` — 가격 수집 Lambda 번들 생성 (esbuild → `dist/lambda/index.js`).
   이어 `cd dist/lambda && zip -r ../lambda-fetch-prices.zip . && cd -`로 압축 → Lambda 업로드 (아래 "배포").
 
