@@ -36,10 +36,11 @@
 ```ts
 // 카테고리를 Filter에서 분리
 export type Filter = 'drop' | 'peak' | 'priced'
-export type Category = 'all' | 'fruit' | 'vegetable' | 'seafood'
+export type CategoryFilter = 'all' | 'fruit' | 'vegetable' | 'seafood'
 ```
 
-`Category`는 카드의 `category`(`'fruit'|'vegetable'|'seafood'`)에 `'all'`을 더한 유니온이다.
+`CategoryFilter`는 카드의 `category`(`'fruit'|'vegetable'|'seafood'`)에 `'all'`을 더한 유니온이다.
+(기존 `src/types.ts`의 `Category`(livestock 포함)와 이름 충돌을 피하려 `CategoryFilter`로 둔다.)
 
 ## 순수 로직 (`src/cardlist.ts`)
 
@@ -54,7 +55,7 @@ const PRED: Record<Filter, (c: CardView) => boolean> = {
 // 과일/채소/수산 PRED 항목 삭제
 
 /** 카테고리 단일 선택 필터. 'all'이면 전부 통과. */
-export function filterByCategory(cards: CardView[], category: Category): CardView[] {
+export function filterByCategory(cards: CardView[], category: CategoryFilter): CardView[] {
   return category === 'all' ? cards : cards.filter((c) => c.category === category)
 }
 
@@ -98,9 +99,9 @@ function ButtonGroup<T extends string>(props: {
 
 ### `App.tsx` (수정)
 
-- 상태 추가: `const [category, setCategory] = useState<Category>('all')`.
+- 상태 추가: `const [category, setCategory] = useState<CategoryFilter>('all')`.
 - `EXCLUSIVE_FILTERS` 상수·`toggle`의 상호배타 분기 **삭제** → `toggle`은 단순 add/delete.
-- `CATEGORIES: ButtonGroupOption<Category>[]` 상수 추가(전체·과일·채소·수산물).
+- `CATEGORIES: ButtonGroupOption<CategoryFilter>[]` 상수 추가(전체·과일·채소·수산물).
 - 필터 합성: `sortCards(filterCards(filterByCategory(base, category), filters), sort)`.
 - 렌더: `.ctrlrow` 안, `FilterBar` **위 줄**에 `<ButtonGroup options={CATEGORIES} value={category}
   onChange={setCategory} ariaLabel="카테고리" />`를 놓는다(세그먼트=1차 축, 상태 칩=보조 축).

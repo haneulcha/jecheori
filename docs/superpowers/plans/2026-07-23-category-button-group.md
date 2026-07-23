@@ -31,7 +31,7 @@
 - Test: `tests/cardlist.test.ts` (filterByCategory describe 추가)
 
 **Interfaces:**
-- Produces: `type Category = 'all' | 'fruit' | 'vegetable' | 'seafood'`; `filterByCategory(cards: CardView[], category: Category): CardView[]`
+- Produces: `type CategoryFilter = 'all' | 'fruit' | 'vegetable' | 'seafood'`; `filterByCategory(cards: CardView[], category: CategoryFilter): CardView[]`
 
 - [ ] **Step 1: 실패하는 테스트 작성** — `tests/cardlist.test.ts` 최상단 import에 `filterByCategory` 추가하고(2번 줄 `import { signedChange, sortCards, filterCards, searchCards, searchHints } from '../src/cardlist'` → 끝에 `, filterByCategory`), 파일 끝(`describe('filterCards'…)` 블록 뒤, 120번 줄 닫는 `})` 다음)에 아래 describe를 추가한다:
 
@@ -59,14 +59,14 @@ Expected: FAIL — `filterByCategory is not a function` (또는 import 에러).
 - [ ] **Step 3: 타입 추가** — `src/view-types.ts:11`의 `export type Filter = …` 줄 **아래**에 추가:
 
 ```ts
-export type Category = 'all' | 'fruit' | 'vegetable' | 'seafood'
+export type CategoryFilter = 'all' | 'fruit' | 'vegetable' | 'seafood'
 ```
 
-- [ ] **Step 4: 순수 함수 추가** — `src/cardlist.ts` 상단 import(2번 줄)에 `Category`를 더하고(`import type { Category, Filter, OffSeasonHint, SortMode } from './view-types'`), `filterCards` 정의(40–42번 줄) **아래**에 추가:
+- [ ] **Step 4: 순수 함수 추가** — `src/cardlist.ts` 상단 import(2번 줄)에 `CategoryFilter`를 더하고(`import type { CategoryFilter, Filter, OffSeasonHint, SortMode } from './view-types'`), `filterCards` 정의(40–42번 줄) **아래**에 추가:
 
 ```ts
 /** 카테고리 단일 선택 필터 (순수). 'all'이면 전부 통과. */
-export function filterByCategory(cards: CardView[], category: Category): CardView[] {
+export function filterByCategory(cards: CardView[], category: CategoryFilter): CardView[] {
   return category === 'all' ? cards : cards.filter((c) => c.category === category)
 }
 ```
@@ -330,7 +330,7 @@ git commit -m "feat: 단일 선택 세그먼트 ButtonGroup 컴포넌트 (시안
 - Test: `src/components/App.stories.tsx:323,366` (radio 셀렉터로 갱신)
 
 **Interfaces:**
-- Consumes: `filterByCategory`, `Category` (Task 1); `ButtonGroup`, `ButtonGroupOption` (Task 2)
+- Consumes: `filterByCategory`, `CategoryFilter` (Task 1); `ButtonGroup`, `ButtonGroupOption` (Task 2)
 - Produces: 없음(최종 소비자).
 
 - [ ] **Step 1: cardlist 테스트를 축 분리에 맞게 수정** — `tests/cardlist.test.ts`의 `describe('filterCards'…)` 안에서:
@@ -387,7 +387,7 @@ const CHIPS: { key: Filter; label: string }[] = [
 
 ```tsx
 import { filterByCategory, filterCards, searchCards, searchHints, sortCards } from '../cardlist'
-import type { AppView, Category, Filter, SortMode } from '../view-types'
+import type { AppView, CategoryFilter, Filter, SortMode } from '../view-types'
 import { ButtonGroup, type ButtonGroupOption } from './ButtonGroup'
 ```
 
@@ -395,7 +395,7 @@ import { ButtonGroup, type ButtonGroupOption } from './ButtonGroup'
 
 ```tsx
 // 카테고리 축(과일·채소·수산)은 상호배타 — 세그먼트 컨트롤로 항상 하나만 선택. '전체'=미필터.
-const CATEGORIES: ButtonGroupOption<Category>[] = [
+const CATEGORIES: ButtonGroupOption<CategoryFilter>[] = [
   { value: 'all', label: '전체' },
   { value: 'fruit', label: '과일' },
   { value: 'vegetable', label: '채소' },
@@ -406,7 +406,7 @@ const CATEGORIES: ButtonGroupOption<Category>[] = [
   (c) 41번 줄 `const [filters, …]` 아래에 카테고리 상태 추가:
 
 ```tsx
-  const [category, setCategory] = useState<Category>('all')
+  const [category, setCategory] = useState<CategoryFilter>('all')
 ```
 
   (d) 51–63번 줄 `toggle`을 단순 add/delete로 교체(상호배타 분기 제거):
@@ -572,4 +572,4 @@ git commit -m "docs: 카테고리 세그먼트 분리 — DESIGN 결정 기록·
 
 **Placeholder scan:** 모든 코드 스텝에 실제 코드 있음. "적절히"·TBD·TODO 없음. Task 4 Step 4만 "해당 절 없으면 근처에"라는 조건부지만 삽입할 문장 전문을 제공함. ✓
 
-**Type consistency:** `filterByCategory(cards, category)` (Task 1) ↔ App 합성 호출(Task 3 6e) 시그니처 일치. `ButtonGroupOption<T>`/`ButtonGroup` props(Task 2) ↔ App 사용(Task 3 6b·6f) 일치. `Category` 유니온(Task 1) ↔ CATEGORIES value(Task 3) 일치. `Filter = 'drop'|'peak'|'priced'`(Task 3) ↔ PRED 키·CHIPS 키 일치. ✓
+**Type consistency:** `filterByCategory(cards, category)` (Task 1) ↔ App 합성 호출(Task 3 6e) 시그니처 일치. `ButtonGroupOption<T>`/`ButtonGroup` props(Task 2) ↔ App 사용(Task 3 6b·6f) 일치. `CategoryFilter` 유니온(Task 1) ↔ CATEGORIES value(Task 3) 일치. `Filter = 'drop'|'peak'|'priced'`(Task 3) ↔ PRED 키·CHIPS 키 일치. ✓
