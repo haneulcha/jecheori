@@ -63,7 +63,7 @@ describe('App', () => {
     )
     const html = container.innerHTML
     expect(html).toContain('data-cat="fruit"')
-    // 옛 CSS 라디오(#f-fruit) 대신 JS FilterBar 칩이 마운트 후 보인다
+    // 옛 CSS 라디오(#f-fruit) 대신 JS 컨트롤(세그먼트+칩)이 마운트 후 보인다
     expect(queryByTestId('filter')).not.toBeNull()
     expect(container.textContent).toContain('과일')
     expect(container.textContent).toContain('여름이 절정이에요')
@@ -86,24 +86,24 @@ describe('App', () => {
       { name: '오이', category: 'vegetable' },
     ])
     const { container, getByRole } = await renderWithRouter(<App view={view} />)
-    fireEvent.click(getByRole('button', { name: '과일' }))
+    fireEvent.click(getByRole('radio', { name: '과일' }))
     expect(container.textContent).toContain('수박')
     expect(container.textContent).not.toContain('오이')
   })
-  test('과일·채소·수산 칩은 3자 상호배타 (하나 켜면 나머지 해제)', async () => {
+  test('카테고리 세그먼트는 단일 선택 (하나 고르면 이전 해제)', async () => {
     const view = viewWithCards([
       { name: '수박', category: 'fruit' },
       { name: '오이', category: 'vegetable' },
       { name: '굴', category: 'seafood' },
     ])
     const { container, getByRole } = await renderWithRouter(<App view={view} />)
-    fireEvent.click(getByRole('button', { name: '과일' }))
+    fireEvent.click(getByRole('radio', { name: '과일' }))
     expect(container.textContent).toContain('수박')
     expect(container.textContent).not.toContain('굴')
-    fireEvent.click(getByRole('button', { name: '수산물' })) // 과일 해제되고 수산만
+    fireEvent.click(getByRole('radio', { name: '수산물' })) // 과일 해제되고 수산만
     expect(container.textContent).toContain('굴')
     expect(container.textContent).not.toContain('수박')
-    expect(getByRole('button', { name: '과일' }).getAttribute('aria-pressed')).toBe('false')
+    expect(getByRole('radio', { name: '과일' }).getAttribute('aria-checked')).toBe('false')
   })
   test('정렬 변경이 순서를 바꾼다 (이름)', async () => {
     const view = viewWithCards([{ name: '수박' }, { name: '가지' }])
@@ -116,7 +116,7 @@ describe('App', () => {
   test('조건에 맞는 카드가 없으면 빈 상태 문구를 보인다', async () => {
     const view = viewWithCards([{ name: '수박', category: 'fruit' }])
     const { container, getByRole } = await renderWithRouter(<App view={view} />)
-    fireEvent.click(getByRole('button', { name: '채소' }))
+    fireEvent.click(getByRole('radio', { name: '채소' }))
     expect(container.textContent).toContain('조건에 맞는 제철 품목이 없어요')
   })
   test('noDrop이면 담백한 안내를 보인다', async () => {

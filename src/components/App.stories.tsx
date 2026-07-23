@@ -310,7 +310,7 @@ export const 검색결과: StoryObj = {
 }
 
 /** 필터 칩("과일")을 눌러 걸러진 상태. 7월 제철 과일(복숭아·수박·참외·멜론)만 남고
- *  채소는 사라진다 — FilterBar·cardlist.filterCards가 실제로 하는 일 그대로. */
+ *  채소는 사라진다 — 카테고리 세그먼트·cardlist.filterByCategory가 실제로 하는 일 그대로. */
 export const 필터적용: StoryObj = {
   render: () => {
     const now = new Date('2026-07-13T09:00:00+09:00')
@@ -320,7 +320,7 @@ export const 필터적용: StoryObj = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    const fruitChip = await canvas.findByRole('button', { name: '과일' })
+    const fruitChip = await canvas.findByRole('radio', { name: '과일' })
     fireEvent.click(fruitChip)
     await waitFor(() => {
       expect(canvas.getByText('수박')).toBeInTheDocument()
@@ -363,7 +363,7 @@ export const 필터_무매치: StoryObj = {
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    const fruitChip = await canvas.findByRole('button', { name: '과일' })
+    const fruitChip = await canvas.findByRole('radio', { name: '과일' })
     fireEvent.click(fruitChip)
     await waitFor(() => {
       expect(canvas.getByText('조건에 맞는 제철 품목이 없어요')).toBeInTheDocument()

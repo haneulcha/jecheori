@@ -1,0 +1,54 @@
+.group {
+  position: relative;
+  display: grid;
+  grid-auto-flow: column;
+  /* 등폭 고정 칸 — 목록 폭에 맞춰 오른쪽 여백이 남게(풀폭 금지). 가장 넓은 라벨(수산물, 3자)에 숨통.
+     썸 폭 공식 (100% - 6px)/N 은 트랙 padding 3px에 묶여 있으니 padding은 3px 유지. */
+  grid-auto-columns: 3.6em;
+  align-self: start; /* 세로 컬럼(.controls)에서 늘어나지 않게 — 내용폭으로 좌측 정렬 */
+  align-items: stretch;
+  /* 흰 트랙(시안 A2) — 크림 종이 위 순백 레이어, 흰 칩과 결 맞춤. inset 음영이 이 면 위에 눌린다. */
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: 3px;
+  isolation: isolate;
+  /* A2: 트랙 안쪽 눌린 음영 — DESIGN.md 그림자 금지의 두 번째 예외(냉장고 메모 --lift에 이어).
+     세그먼트 웰의 "홈" 느낌. 드롭섀도 아님(안으로만), 그라데이션 아님. */
+  box-shadow: inset 0 1px 2px rgba(43, 69, 134, 0.07);
+}
+.thumb {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  background: var(--tint);
+  border: 1px solid var(--accent);
+  /* 동심 반경 규칙: 안쪽 반경 = 바깥 반경 − 여백(3px). 트랙 높이와 무관하게 썸 모서리가
+     트랙 모서리와 정확히 맞물린다 — 높은 트랙에서 반경이 어긋나 보이던 문제의 정공법 해소. */
+  border-radius: calc(var(--radius-pill) - 3px);
+  z-index: 0;
+  /* 차양(NavIndex) 언롤과 같은 곡선 — 앱의 슬라이드 어휘 재사용 */
+  transition: transform 0.32s cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+.seg {
+  position: relative;
+  z-index: 1;
+  appearance: none;
+  background: none;
+  border: 0;
+  font: inherit;
+  font-size: var(--text-xs);
+  color: var(--muted);
+  padding: var(--space-3xs) 0;
+  cursor: pointer;
+  border-radius: var(--radius-pill);
+  transition: color 0.2s ease;
+}
+.seg.on { color: var(--ink); font-weight: 700; }
+.seg:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb,
+  .seg { transition: none; }
+}
