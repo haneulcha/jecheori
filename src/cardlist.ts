@@ -1,5 +1,5 @@
 import type { CardView } from './card'
-import type { Category, Filter, OffSeasonHint, SortMode } from './view-types'
+import type { CategoryFilter, Filter, OffSeasonHint, SortMode } from './view-types'
 
 /** 정렬·필터용 지난달 등락(하락 음수). 없으면 null. (표시 change=값어치와 별개 축) */
 export function signedChange(card: CardView): number | null {
@@ -42,7 +42,7 @@ export function filterCards(cards: CardView[], filters: Set<Filter>): CardView[]
 }
 
 /** 카테고리 단일 선택 필터 (순수). 'all'이면 전부 통과. */
-export function filterByCategory(cards: CardView[], category: Category): CardView[] {
+export function filterByCategory(cards: CardView[], category: CategoryFilter): CardView[] {
   return category === 'all' ? cards : cards.filter((c) => c.category === category)
 }
 
