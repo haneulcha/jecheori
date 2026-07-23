@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { signedChange, sortCards, filterCards, searchCards, searchHints } from '../src/cardlist'
+import { signedChange, sortCards, filterCards, searchCards, searchHints, filterByCategory } from '../src/cardlist'
 import type { CardView, SeasonStripView } from '../src/card'
 import { count } from './units'
 
@@ -131,4 +131,18 @@ describe('searchCards / searchHints', () => {
     { emoji: '🍇', name: '포도', seasonLabel: '8~9월', comingSoon: true },
   ]
   test('힌트 부분일치', () => expect(searchHints(index, '딸').map((h) => h.name)).toEqual(['딸기']))
+})
+
+describe('filterByCategory', () => {
+  const fruit = card({ name: '수박', category: 'fruit' })
+  const veg = card({ name: '오이', category: 'vegetable' })
+  const sea = card({ name: '굴', category: 'seafood' })
+  const all = [fruit, veg, sea]
+
+  test("'all'이면 전부", () => expect(filterByCategory(all, 'all')).toHaveLength(3))
+  test('과일만', () => expect(filterByCategory(all, 'fruit').map((c) => c.name)).toEqual(['수박']))
+  test('채소만', () => expect(filterByCategory(all, 'vegetable').map((c) => c.name)).toEqual(['오이']))
+  test('수산물만', () => expect(filterByCategory(all, 'seafood').map((c) => c.name)).toEqual(['굴']))
+  test('없는 카테고리면 빈 목록', () =>
+    expect(filterByCategory([fruit], 'seafood')).toEqual([]))
 })

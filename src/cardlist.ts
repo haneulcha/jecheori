@@ -1,5 +1,5 @@
 import type { CardView } from './card'
-import type { Filter, OffSeasonHint, SortMode } from './view-types'
+import type { Category, Filter, OffSeasonHint, SortMode } from './view-types'
 
 /** 정렬·필터용 지난달 등락(하락 음수). 없으면 null. (표시 change=값어치와 별개 축) */
 export function signedChange(card: CardView): number | null {
@@ -39,6 +39,11 @@ const PRED: Record<Filter, (c: CardView) => boolean> = {
 /** 필터 술어 AND (순수). 과일/채소/수산 상호배타는 UI(App.tsx toggle)가 관장. */
 export function filterCards(cards: CardView[], filters: Set<Filter>): CardView[] {
   return cards.filter((c) => [...filters].every((f) => PRED[f](c)))
+}
+
+/** 카테고리 단일 선택 필터 (순수). 'all'이면 전부 통과. */
+export function filterByCategory(cards: CardView[], category: Category): CardView[] {
+  return category === 'all' ? cards : cards.filter((c) => c.category === category)
 }
 
 /** 이름 부분일치로 제철 카드 검색 (순수). 빈 쿼리면 전체. */
