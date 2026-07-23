@@ -2,7 +2,10 @@
   position: relative;
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 1fr;
+  /* 등폭 고정 칸 — 목록 폭에 맞춰 오른쪽 여백이 남게(풀폭 금지). 가장 넓은 라벨(수산물, 3자)에 숨통.
+     썸 폭 공식 (100% - 6px)/N 은 트랙 padding 3px에 묶여 있으니 padding은 3px 유지. */
+  grid-auto-columns: 3.6em;
+  align-self: start; /* 세로 컬럼(.controls)에서 늘어나지 않게 — 내용폭으로 좌측 정렬 */
   align-items: stretch;
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
@@ -19,7 +22,9 @@
   left: 3px;
   background: var(--tint);
   border: 1px solid var(--accent);
-  border-radius: var(--radius-pill);
+  /* 동심 반경 규칙: 안쪽 반경 = 바깥 반경 − 여백(3px). 트랙 높이와 무관하게 썸 모서리가
+     트랙 모서리와 정확히 맞물린다 — 높은 트랙에서 반경이 어긋나 보이던 문제의 정공법 해소. */
+  border-radius: calc(var(--radius-pill) - 3px);
   z-index: 0;
   /* 차양(NavIndex) 언롤과 같은 곡선 — 앱의 슬라이드 어휘 재사용 */
   transition: transform 0.32s cubic-bezier(0.2, 0.75, 0.2, 1);
@@ -31,9 +36,9 @@
   background: none;
   border: 0;
   font: inherit;
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   color: var(--muted);
-  padding: var(--space-2xs) 0;
+  padding: var(--space-3xs) 0;
   cursor: pointer;
   border-radius: var(--radius-pill);
   transition: color 0.2s ease;

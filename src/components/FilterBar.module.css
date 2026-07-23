@@ -13,7 +13,7 @@
 .filter::-webkit-scrollbar { display: none; }
 .fchip {
   flex: 0 0 auto;
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   padding: var(--space-2xs) var(--space-sm);
   border-radius: var(--radius-pill);
   border: 1px solid var(--line);
