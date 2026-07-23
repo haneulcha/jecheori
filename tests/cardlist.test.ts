@@ -96,11 +96,11 @@ describe('filterCards', () => {
   const all = [fruit, vegRise, vegNoPrice]
 
   test('빈 필터면 전부', () => expect(filterCards(all, new Set())).toHaveLength(3))
-  test('과일만', () => expect(filterCards(all, new Set(['fruit'])).map((c) => c.name)).toEqual(['수박']))
   test('내려간 것만', () => expect(filterCards(all, new Set(['drop'])).map((c) => c.name)).toEqual(['수박']))
   test('절정만', () => expect(filterCards(all, new Set(['peak'])).map((c) => c.name)).toEqual(['수박', '토마토']))
   test('가격 있는 것만', () => expect(filterCards(all, new Set(['priced'])).map((c) => c.name)).toEqual(['수박', '토마토']))
-  test('AND: 채소 + 가격있음', () => expect(filterCards(all, new Set(['vegetable', 'priced'])).map((c) => c.name)).toEqual(['토마토']))
+  test('AND: 채소(카테고리) + 가격있음', () =>
+    expect(filterCards(filterByCategory(all, 'vegetable'), new Set(['priced'])).map((c) => c.name)).toEqual(['토마토']))
   test('축 분리: drop 필터는 monthAgoPct(지난달) 기준 — 표시 값어치와 무관', () => {
     const cards = [
       card2('평년쌈-지난달상승', 8, { kind: 'fall', pct: 20, basisLabel: '평년' }),
@@ -108,15 +108,6 @@ describe('filterCards', () => {
     ]
     // 지난달 기준으로 필터: -12만 하락(< 0)
     expect(filterCards(cards, new Set(['drop'])).map((c) => c.name)).toEqual(['평년비쌈-지난달하락'])
-  })
-
-  test('seafood 필터는 수산 카드만 남긴다', () => {
-    const cards = [
-      card({ name: '굴', category: 'seafood' }),
-      card({ name: '수박', category: 'fruit' }),
-    ]
-    const out = filterCards(cards, new Set(['seafood']))
-    expect(out.map((c) => c.name)).toEqual(['굴'])
   })
 })
 

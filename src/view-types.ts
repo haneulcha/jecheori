@@ -8,7 +8,7 @@ export type Freshness =
   | { kind: 'none' }
   | { kind: 'dated'; surveyedOn: string; days: number }
 
-export type Filter = 'fruit' | 'vegetable' | 'seafood' | 'drop' | 'peak' | 'priced'
+export type Filter = 'drop' | 'peak' | 'priced'
 export type CategoryFilter = 'all' | 'fruit' | 'vegetable' | 'seafood'
 export type SortMode = 'drop' | 'name' | 'priceLow'
 

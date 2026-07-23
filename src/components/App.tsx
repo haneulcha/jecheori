@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { filterCards, searchCards, searchHints, sortCards } from '../cardlist'
-import type { AppView, Filter, SortMode } from '../view-types'
+import { filterByCategory, filterCards, searchCards, searchHints, sortCards } from '../cardlist'
+import type { AppView, CategoryFilter, Filter, SortMode } from '../view-types'
 import { relativeDayLabel, surveyedDateLabel, weekLabel } from '../week'
+import { ButtonGroup, type ButtonGroupOption } from './ButtonGroup'
 import { FilterBar } from './FilterBar'
 import { NavIndex } from './NavIndex'
 import { ProduceCard } from './ProduceCard'
@@ -15,8 +16,13 @@ import styles from './App.module.css'
 // 절정 dot(카드 펼침 방지)과 조사일 날짜(.rel-date)가 같은 패턴을 쓴다.
 // 토글 신호는 클래스가 아니라 data-tip/data-show 속성 — 클래스는 곧 CSS Module로 해시된다.
 const TIP_SELECTOR = '[data-tip]'
-// 카테고리 칩(과일·채소·수산)은 상호배타 — 하나 켜면 나머지 해제
-const EXCLUSIVE_FILTERS: Filter[] = ['fruit', 'vegetable', 'seafood']
+// 카테고리 축(과일·채소·수산)은 상호배타 — 세그먼트 컨트롤로 항상 하나만 선택. '전체'=미필터.
+const CATEGORIES: ButtonGroupOption<CategoryFilter>[] = [
+  { value: 'all', label: '전체' },
+  { value: 'fruit', label: '과일' },
+  { value: 'vegetable', label: '채소' },
+  { value: 'seafood', label: '수산물' },
+]
 function useTapTooltips() {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -39,6 +45,7 @@ export function App({ view }: { view: AppView }) {
   useTapTooltips()
   const [ready, setReady] = useState(false)
   const [filters, setFilters] = useState<Set<Filter>>(new Set())
+  const [category, setCategory] = useState<CategoryFilter>('all')
   const [sort, setSort] = useState<SortMode>('drop')
   const [query, setQuery] = useState('')
   // 하이드레이션 후에야 기본 필터(한창 제철)를 켠다 — 서버 프리렌더·무JS는 전체 목록을 그대로
@@ -52,20 +59,14 @@ export function App({ view }: { view: AppView }) {
     setFilters((prev) => {
       const next = new Set(prev)
       if (next.has(f)) next.delete(f)
-      else {
-        next.add(f)
-        // 카테고리 칩(과일·채소·수산)은 상호배타 — 하나 켜면 나머지 해제
-        if (EXCLUSIVE_FILTERS.includes(f)) {
-          for (const other of EXCLUSIVE_FILTERS) if (other !== f) next.delete(other)
-        }
-      }
+      else next.add(f)
       return next
     })
 
   const q = query.trim()
   const searching = q.length > 0
   const base = searchCards(cards, q)
-  const shown = sortCards(filterCards(base, filters), sort)
+  const shown = sortCards(filterCards(filterByCategory(base, category), filters), sort)
   const hints = searchHints(view.searchIndex, q)
   const eyebrow = term ? `${term} · ${weekLabel(date)}` : weekLabel(date)
 
@@ -95,6 +96,7 @@ export function App({ view }: { view: AppView }) {
               {ready && (
                 <div className={styles.controls}>
                   <SearchBar query={query} onChange={setQuery} />
+                  <ButtonGroup options={CATEGORIES} value={category} onChange={setCategory} ariaLabel="카테고리" />
                   <div className={styles.ctrlrow}>
                     <FilterBar filters={filters} onToggle={toggle} />
                     <SortControl sort={sort} onChange={setSort} />

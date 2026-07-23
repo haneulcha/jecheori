@@ -28,15 +28,12 @@ export function sortCards(cards: CardView[], mode: SortMode): CardView[] {
 }
 
 const PRED: Record<Filter, (c: CardView) => boolean> = {
-  fruit: (c) => c.category === 'fruit',
-  vegetable: (c) => c.category === 'vegetable',
-  seafood: (c) => c.category === 'seafood',
   drop: (c) => (c.price?.monthAgoPct ?? 0) < 0,
   peak: (c) => c.inPeak,
   priced: (c) => c.price != null,
 }
 
-/** 필터 술어 AND (순수). 과일/채소/수산 상호배타는 UI(App.tsx toggle)가 관장. */
+/** 상태 필터 술어 AND (순수). 카테고리 축은 filterByCategory가 별도로 관장. */
 export function filterCards(cards: CardView[], filters: Set<Filter>): CardView[] {
   return cards.filter((c) => [...filters].every((f) => PRED[f](c)))
 }

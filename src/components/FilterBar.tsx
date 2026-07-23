@@ -4,9 +4,6 @@ import styles from './FilterBar.module.css'
 
 const CHIPS: { key: Filter; label: string }[] = [
   { key: 'peak', label: '한창 제철' },
-  { key: 'fruit', label: '과일' },
-  { key: 'vegetable', label: '채소' },
-  { key: 'seafood', label: '수산물' },
   { key: 'drop', label: '가격 하락' },
   { key: 'priced', label: '가격 있음' },
 ]
