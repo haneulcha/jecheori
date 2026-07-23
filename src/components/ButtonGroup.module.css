@@ -7,6 +7,8 @@
   grid-auto-columns: 3.6em;
   align-self: start; /* 세로 컬럼(.controls)에서 늘어나지 않게 — 내용폭으로 좌측 정렬 */
   align-items: stretch;
+  /* 흰 트랙(시안 A2) — 크림 종이 위 순백 레이어, 흰 칩과 결 맞춤. inset 음영이 이 면 위에 눌린다. */
+  background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
   padding: 3px;
