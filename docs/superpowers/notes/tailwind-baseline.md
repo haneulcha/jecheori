@@ -33,6 +33,7 @@ $ wc -l src/global.css src/components/*.module.css | tail -1
 | `SeasonHint.module.css` | 4 |
 | `SeasonStrip.module.css` | 32 |
 | `SortControl.module.css` | 10 |
+| `Sparkline.module.css` | 29 |
 | `Sprig.module.css` | 28 |
 | **합계** | **698** |
 
@@ -56,10 +57,16 @@ $ wc -l src/global.css src/components/*.module.css | tail -1
 
 뷰포트 420×900(모바일), 오늘 날짜 기준 계절은 여름(8월, `data-season` 기본값 `summer`).
 `document.body.dataset.season`은 `--accent`/`--tint`만 바꾸고 품목 목록 자체는 안 바뀌므로,
-**5화면 전체는 기본 계절(여름)로 한 번**, **나머지 세 계절은 홈에서 accent/tint 차이만**
-확인하는 것으로 4계절×5화면을 압축했다(스크린샷 20장 대신 8장). 모든 파일은
-`.playwright-mcp/`에 있고(gitignore 대상, 커밋 안 함) 이후 태스크가 같은 이름으로 재촬영해
-diff한다.
+`/coming`·`/livestock`·검색 힌트 화면은 소스를 확인해도 `--accent`/`--tint`를 전혀 참조하지
+않는다(각 컴포넌트 CSS에 `var(--accent)`/`var(--tint)` 사용 없음) — 이 세 화면은 여름 한
+번만 찍어도 된다. 하지만 **카드 펼침 화면**은 `--accent`/`--tint`를 실제로 쓰는 지점이
+몰려 있다(`ProduceCard`의 열림 테두리·마스킹테이프, `PeakDot`의 도트+헤일로, `SeasonStrip`의
+절정 셀 채움, `PriceBlock`의 하락 칩, `RecipeChips`의 선택 칩 배경) — 마이그레이션의 최대
+위험(`[data-season]` 팔레트 스와이프가 깨지는 것)이 실제로 드러나는 화면이라, 이 화면만은
+**네 계절 모두** 찍는다. 그래서 압축 결과는: **홈·`/coming`·`/livestock`·검색 힌트는 여름
+한 번**, **홈의 accent/tint 차이는 나머지 세 계절도 확인**, **카드 펼침은 네 계절 전부**
+(4계절×5화면 20장 대신 11장). 모든 파일은 `.playwright-mcp/`에 있고(gitignore 대상, 커밋
+안 함) 이후 태스크가 같은 이름으로 재촬영해 diff한다.
 
 - [x] 홈 `/` (여름·기본, 전체 목록) — `baseline-home-summer.png`
   - 헤더 계절 블롭, 검색/카테고리/필터바, 멜론~가지 9장 카드 리스트, 하단 출처 3줄까지 정상.
@@ -67,6 +74,15 @@ diff한다.
       `baseline-card-expanded-summer-full.png`
   - 펼치면 스파크라인·영양·"제철이의 한마디"(손글씨)·레시피 칩(`멜론스프`)까지 보임.
     카드 테두리가 accent색(노랑)으로 바뀜.
+- [x] 카드 펼침 — 봄 accent/tint (멜론 펼치고 레시피 칩 `멜론스프` 선택한 채로
+      `data-season='spring'`) — `baseline-card-expanded-spring.png`
+  - 연두로 확인되는 소비처: 카드 상단 마스킹테이프·열림 테두리(`ProduceCard`), 이름 옆
+    절정 도트+헤일로(`PeakDot`), 제철 띠의 절정 셀 채움(`SeasonStrip`), 가격 하락 칩
+    배경(`PriceBlock`), 선택된 레시피 칩 배경(`RecipeChips`) — 한 화면에 5곳 모두 보임.
+- [x] 카드 펼침 — 가을 accent/tint (`'autumn'`) — `baseline-card-expanded-autumn.png`
+  - 위와 동일한 5곳이 주황으로 바뀜.
+- [x] 카드 펼침 — 겨울 accent/tint (`'winter'`) — `baseline-card-expanded-winter.png`
+  - 위와 동일한 5곳이 로즈로 바뀜.
 - [x] `/coming` (여름 기준 리스트, 9월·10월 섹션) — `baseline-coming-summer.png`
   - 월별 섹션 `<h2>`("9월", "10월")이 진하게(볼드) 보임 — §4 참고.
 - [x] `/livestock` — `baseline-livestock-summer.png`
