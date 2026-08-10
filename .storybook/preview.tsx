@@ -1,5 +1,5 @@
 import type { Decorator, Preview } from '@storybook/react-vite'
-import '../src/style.css'
+import '../src/global.css'
 
 /** 실제 앱은 __root.tsx가 <body data-season>을 달고 #app으로 감싼다. 그대로 흉내낸다 —
  *  #app이 없으면 모바일 28rem 폭이 안 걸려 실물과 다르게 보인다. */
