@@ -19,24 +19,28 @@ export function NutritionLine({ nutrition }: { nutrition: NutritionView }) {
   if (nutrition.fat !== null) cells.push({ label: '지방', num: fmt(nutrition.fat), unit: 'g' })
   if (cells.length === 0) return null
   return (
-    <div className="text-ink self-center">
-      {/* 스탯 6개가 모바일 카드 폭(~325px)에 한 줄로 들어오게 간격을 lg로.
-          xl(1.5rem)이면 6셀+간격이 폭을 ~10px 넘겨 지방 하나가 둘째 줄로 밀렸다. */}
-      <div className="flex flex-wrap gap-lg justify-center">
-        {cells.map((c) => (
-          <span className="flex flex-col items-center" key={c.label}>
-            <span className="text-2xs tracking-wider text-muted">{c.label}</span>
-            <span className="text-md font-bold text-ink tabular-nums mt-3xs">
-              {c.num}
-              <span className="text-2xs font-semibold ml-3xs">{c.unit}</span>
+    <>
+      {/* 영양 블록은 스탯 너비로 줄여 카드 중앙에 두고, "100g 기준"은 그 블록 안에서
+          우측 정렬 → 스탯 너비 아래 오른쪽에 붙는다. self-center가 그 핵심이다. */}
+      <div className="text-ink self-center">
+        {/* 스탯 6개가 모바일 카드 폭(~325px)에 한 줄로 들어오게 간격을 lg로.
+            xl(1.5rem)이면 6셀+간격이 폭을 ~10px 넘겨 지방 하나가 둘째 줄로 밀렸다. */}
+        <div className="flex flex-wrap gap-lg justify-center">
+          {cells.map((c) => (
+            <span className="flex flex-col items-center" key={c.label}>
+              <span className="text-2xs tracking-wider text-muted">{c.label}</span>
+              <span className="text-md font-bold text-ink tabular-nums mt-3xs">
+                {c.num}
+                <span className="text-2xs font-semibold ml-3xs">{c.unit}</span>
+              </span>
             </span>
-          </span>
-        ))}
+          ))}
+        </div>
+        {/* m-0을 넣지 않는다 — 원래 .serv는 margin-top만 지정하고 <p>의 UA margin-bottom은
+            그대로 둔다. .nutrition이 flex 아이템이라 그 마진이 상쇄되지 않고 실제 높이(약 11px)로
+            남아 있다. m-0을 넣으면 펼친 카드가 그만큼 짧아진다. */}
+        <p className="text-2xs text-muted text-right mt-2xs">{nutrition.serving} 기준</p>
       </div>
-      {/* m-0을 넣지 않는다 — 원래 .serv는 margin-top만 지정하고 <p>의 UA margin-bottom은
-          그대로 둔다. .nutrition이 flex 아이템이라 그 마진이 상쇄되지 않고 실제 높이(약 11px)로
-          남아 있다. m-0을 넣으면 펼친 카드가 그만큼 짧아진다. */}
-      <p className="text-2xs text-muted text-right mt-2xs">{nutrition.serving} 기준</p>
-    </div>
+    </>
   )
 }

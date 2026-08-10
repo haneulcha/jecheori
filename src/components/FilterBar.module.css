@@ -4,13 +4,11 @@
   flex: 1 1 auto;
   min-width: 0;
   overflow-x: auto;
-  scrollbar-width: none;
   padding-bottom: var(--spacing-3xs);
   /* 넘칠 때 우측 페이드로 "더 있다"를 알린다. 칩이 다 들어오면 빈 공간에 걸려 안 보인다. */
   -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 14px), transparent);
   mask-image: linear-gradient(to right, #000 calc(100% - 14px), transparent);
 }
-.filter::-webkit-scrollbar { display: none; }
 .fchip {
   flex: 0 0 auto;
   font-size: var(--text-xs);
@@ -20,8 +18,10 @@
   background: var(--color-card);
   color: var(--color-ink);
   cursor: pointer;
-  /* 켜짐/꺼짐 상태 전환을 부드럽게 — RecipeChips .chipBtn과 동일한 선언(칩 일관성).
-     색만 트랜지션(transform 없음): 필터칩은 스케일이 텍스트를 들썩이게 하지 않는다. */
+  /* 켜짐/꺼짐 상태 전환을 부드럽게. 색만 트랜지션(transform 없음): 필터칩은 스케일이
+     텍스트를 들썩이게 하지 않는다. RecipeChips의 칩은 지금은 Tailwind
+     transition-colors(기본 이징, 더 넓은 속성 세트)라 이 선언과 정확히 같지 않다 —
+     둘 다 "색만, scale 없이" 원칙은 같지만 curve·property는 개별 선언이다. */
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 .fchip.on { background: var(--color-tint); border-color: var(--color-accent); }
