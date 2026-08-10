@@ -1,4 +1,0 @@
-.seasonHint { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-sm) 0; color: var(--color-muted); }
-.seasonHint .hintName { color: var(--color-ink); font-weight: 600; }
-.hintWhen { font-size: var(--text-sm); }
-.hintComing { margin-left: auto; font-size: var(--text-sm); color: var(--color-ink); text-decoration: none; }
