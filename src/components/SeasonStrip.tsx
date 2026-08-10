@@ -2,7 +2,7 @@ import type { SeasonStripView } from '../card'
 import { cx } from '../cx'
 import styles from './SeasonStrip.module.css'
 
-/** 카드 펼침 최상단의 제철 간트 바. 12개월 축 위에 제철=연함(--tint)·절정=짙음(--accent)으로
+/** 카드 펼침 최상단의 제철 간트 바. 12개월 축 위에 제철=연함(--color-tint)·절정=짙음(--color-accent)으로
  *  얹고, 숫자는 제철 월과 이번 달만(이번 달은 볼드) — 나머지는 숨김.
  *  표시만 — 파생은 card.ts의 toSeasonStrip. */
 export function SeasonStrip({ strip }: { strip: SeasonStripView }) {

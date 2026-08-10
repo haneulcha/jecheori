@@ -51,7 +51,7 @@
   border-top: 1px dashed var(--color-line);
 }
 /* 제철이의 한마디 — 종이에 연필로 적어준 듯한 손글씨. 펼치기 전에도 늘 보이는,
-   카드 표지 하단의 한 줄. 쪽빛의 뮤트(--muted)로 연필 흑연처럼, 살짝 기울여. */
+   카드 표지 하단의 한 줄. 쪽빛의 뮤트(--color-muted)로 연필 흑연처럼, 살짝 기울여. */
 .card .why {
   font-family: var(--font-hand);
   color: var(--color-muted);

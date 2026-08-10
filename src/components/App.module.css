@@ -47,7 +47,7 @@
 @media (prefers-reduced-motion: reduce) { .dateTip { transition: none; } }
 
 /* 오프시즌 힌트 — 검색했지만 이번 달 제철이 아닌 품목을 알려주는 목록.
-   텍스트는 쪽빛 규율(--ink/--muted)만, 웜 컬러 없음(배경 블록이 아니라 목록이라 tint도 안 씀). */
+   텍스트는 쪽빛 규율(--color-ink/--color-muted)만, 웜 컬러 없음(배경 블록이 아니라 목록이라 tint도 안 씀). */
 .offSeason { margin-top: var(--spacing-xl); }
 .offDivider {
   color: var(--color-muted);
@@ -60,8 +60,8 @@
 
 .nodrop { color: var(--color-muted); font-size: var(--text-sm); margin: 0 0 var(--spacing-lg); }
 
-/* 검색 · 필터 · 정렬 컨트롤 (JS 기반). 텍스트는 쪽빛(--ink/--muted)만,
-   웜 컬러(--accent/--tint)는 켜진 칩의 배경·테두리로만 쓴다(글자엔 안 씀). */
+/* 검색 · 필터 · 정렬 컨트롤 (JS 기반). 텍스트는 쪽빛(--color-ink/--color-muted)만,
+   웜 컬러(--color-accent/--color-tint)는 켜진 칩의 배경·테두리로만 쓴다(글자엔 안 씀). */
 .controls { display: flex; flex-direction: column; gap: var(--spacing-sm); margin-bottom: var(--spacing-lg); }
 /* 필터 칩(좌·넘치면 횡스크롤) + 정렬(우측 고정) 한 줄 */
 .ctrlrow { display: flex; align-items: center; gap: var(--spacing-sm); }

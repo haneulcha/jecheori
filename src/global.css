@@ -6,9 +6,15 @@
 /* source(none) + @source: 자동 소스 탐지를 끄고 src/만 훑는다. 끄지 않으면 docs/의
    마크다운(이 플랜·스펙 문서 자체!)에 적힌 `p-xs`·`bg-tint` 같은 코드 인용까지 스캔해
    쓰지도 않는 유틸리티가 번들에 실리고, "유틸리티가 생성됐나" 게이트가 무의미해진다
-   (문서가 대신 생성해주므로 .tsx 스캔이 깨져도 통과한다). */
+   (문서가 대신 생성해주므로 .tsx 스캔이 깨져도 통과한다). *.test.tsx도 같은 이유로 뺀다
+   (RTL의 `const { container } = render(…)`가 `.container`를 새어들게 한다).
+   생성 확인용 카나리아로 `.container`/`.flex`/`.filter`/`.transform`을 쓰지 않는다 —
+   이 넷은 테스트·주석·식별자에서 새어 들어와 스캔이 깨져도 생성된다(`.flex`는
+   ProduceCard.tsx의 한글 주석 "flex gap", `.transform`은 ButtonGroup.tsx의 인라인
+   스타일 키 `transform`에서 나옴 — @source로 막을 수 없다). */
 @import 'tailwindcss/utilities.css' layer(utilities) source(none);
 @source "./";
+@source not "./**/*.test.tsx";
 
 @font-face {
   font-family: 'Wanted Sans';
