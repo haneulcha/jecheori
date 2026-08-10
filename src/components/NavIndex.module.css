@@ -2,7 +2,7 @@
 .navIndex { position: fixed; top: -8px; right: 1rem; z-index: 20; } /* 위로 오버슈트 — 당겨도 틈 없음 */
 .navCord {
   display: block; background: none; border: 0; padding: 0; cursor: pointer;
-  color: var(--ink); transition: transform 160ms ease;
+  color: var(--color-ink); transition: transform 160ms ease;
   position: relative; z-index: 22;   /* 차양(21)·백드롭(20) 앞에 — 열려도 줄로 다시 당겨 닫는다 */
 }
 .navCord svg { display: block; width: 12px; height: 72px; }
@@ -14,22 +14,22 @@
 .navPanel {
   position: fixed; top: 0; right: 0.8rem; z-index: 21;
   width: 11rem;
-  background: var(--card); border: 1px solid var(--line);
+  background: var(--color-card); border: 1px solid var(--color-line);
   border-top: 0;                          /* 천장에 붙음 — 위 테두리 없음 */
   border-radius: 0 0 0.3rem 0.3rem;      /* 위에서 늘어지는 차양 */
-  box-shadow: var(--lift);
+  box-shadow: var(--shadow-lift);
   display: grid; grid-template-rows: 0fr;
   transition: grid-template-rows 300ms cubic-bezier(0.2, 0.75, 0.2, 1);
 }
 .navIndex[data-open] .navPanel { grid-template-rows: 1fr; }
 .navPanelClip { overflow: hidden; }                    /* 접힘 전용 — 패딩 없음이라 0으로 완전 접힘 */
-.navPanelInner { padding: var(--space-md) var(--space-lg); }
+.navPanelInner { padding: var(--spacing-md) var(--spacing-lg); }
 .navPanel a {
   display: flex;
   align-items: center;
-  padding: var(--space-sm) var(--space-lg);
+  padding: var(--spacing-sm) var(--spacing-lg);
   min-height: 44px;               /* 터치타깃 */
-  color: var(--ink);
+  color: var(--color-ink);
   text-decoration: none;
 }
 .navPanel a[aria-current='page'] { font-weight: 600; }

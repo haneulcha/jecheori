@@ -13,13 +13,13 @@
   top: 50%;
   transform: translateY(-50%);
   height: 1px;
-  background: var(--line);
+  background: var(--color-line);
   z-index: 0;
 }
 .seasonCell { position: relative; z-index: 1; flex: 1; min-width: 0; height: 0.45rem; }
-.seasonCell.isSeason { background: var(--tint); }
-.seasonCell.isPeak { background: var(--accent); }
-.seasonLabels { display: flex; margin-top: var(--space-3xs); }
+.seasonCell.isSeason { background: var(--color-tint); }
+.seasonCell.isPeak { background: var(--color-accent); }
+.seasonLabels { display: flex; margin-top: var(--spacing-3xs); }
 .seasonLabel {
   flex: 1;
   min-width: 0;
@@ -27,6 +27,6 @@
   font-family: var(--font-mono);
   font-size: 0.6rem;
   line-height: 1;
-  color: var(--muted);
+  color: var(--color-muted);
 }
-.seasonLabel.isCurrent { color: var(--ink); font-weight: 700; }
+.seasonLabel.isCurrent { color: var(--color-ink); font-weight: 700; }

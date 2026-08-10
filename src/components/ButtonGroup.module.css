@@ -8,8 +8,8 @@
   align-self: start; /* 세로 컬럼(.controls)에서 늘어나지 않게 — 내용폭으로 좌측 정렬 */
   align-items: stretch;
   /* 흰 트랙(시안 A2) — 크림 종이 위 순백 레이어, 흰 칩과 결 맞춤. inset 음영이 이 면 위에 눌린다. */
-  background: var(--card);
-  border: 1px solid var(--line);
+  background: var(--color-card);
+  border: 1px solid var(--color-line);
   border-radius: var(--radius-pill);
   padding: 3px;
   isolation: isolate;
@@ -22,8 +22,8 @@
   top: 3px;
   bottom: 3px;
   left: 3px;
-  background: var(--tint);
-  border: 1px solid var(--accent);
+  background: var(--color-tint);
+  border: 1px solid var(--color-accent);
   /* 동심 반경 규칙: 안쪽 반경 = 바깥 반경 − 여백(3px). 트랙 높이와 무관하게 썸 모서리가
      트랙 모서리와 정확히 맞물린다 — 높은 트랙에서 반경이 어긋나 보이던 문제의 정공법 해소. */
   border-radius: calc(var(--radius-pill) - 3px);
@@ -39,14 +39,14 @@
   border: 0;
   font: inherit;
   font-size: var(--text-xs);
-  color: var(--muted);
-  padding: var(--space-3xs) 0;
+  color: var(--color-muted);
+  padding: var(--spacing-3xs) 0;
   cursor: pointer;
   border-radius: var(--radius-pill);
   transition: color 0.2s ease;
 }
-.seg.on { color: var(--ink); font-weight: 700; }
-.seg:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.seg.on { color: var(--color-ink); font-weight: 700; }
+.seg:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
   .thumb,
