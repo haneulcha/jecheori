@@ -62,8 +62,9 @@ export function ProduceCard({ card }: { card: CardView }) {
         {card.price?.spark && <Sparkline spark={card.price.spark} />}
         {card.nutrition && <NutritionLine nutrition={card.nutrition} />}
         <Note note={card.note} />
+        {/* 라벨+칩 묶음 — .open의 flex gap이 둘 사이에 끼지 않게 하는 구조용 래퍼(스타일 없음) */}
         {recipes && (
-          <div className="recipe-section">
+          <div>
             <p className={styles.recipeLabel}>레시피</p>
             <RecipeChips recipes={recipes} current={current} onSelect={select} memoId={memoId} />
           </div>
