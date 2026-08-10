@@ -280,5 +280,18 @@ $ wc -l src/global.css src/components/*.module.css | tail -1
 
 ### 6-3. 화면·모션·grep 게이트
 
-Task 5 Step 9(브라우저 회귀 실측)와 Step 2(grep 게이트) 결과는
-`.superpowers/sdd/2026-08-11-tailwind-migration/task-5-report.md`에 기록한다.
+Task 5 Step 9(브라우저 회귀 실측)와 Step 2(grep 게이트) 모두 이상 없음 — 홈·카드 펼침·`/coming`·
+`/livestock`·검색 힌트 전 화면이 계절 4종(여름·봄·가을·겨울)까지 기준선 스크린샷과 구조·색
+동일, 모션 3종(카드 리빌·NavIndex 차양·레시피 메모 in/out)도 타이밍·이징 변화 없음, 콘솔 에러
+0건. grep 게이트(임의값·보간 클래스)도 0건. 스크린샷은 확인 후 삭제했다(커밋 대상 아님).
+
+**의도적으로 받아들인 동작 차이 두 가지** (둘 다 눈으로 확인·감수하고 넘어간 것 — 회귀가 아니다):
+
+1. **레시피 칩 트랜지션 이징이 바뀌었다.** CSS 기본값 `ease`에서 Tailwind의
+   `--default-transition-timing-function`(`cubic-bezier(.4,0,.2,1)`)로 바뀌었다. 150ms 트랜지션에서는
+   육안으로 구분되지 않는다.
+2. **`hover:` 유틸리티는 `@media (hover: hover)` 안에서만 생성된다.** 예전 `.chipBtn:hover`는
+   무조건부라 터치에서도 탭 후 hover 상태가 "끈적이게" 남았지만, 이제는 안 남는다. 모바일 우선
+   앱에서는 오히려 개선일 수 있지만, 주 터치 타깃(레시피 칩)이 **의미가 바뀐 것**은 사실이다.
+   (같은 패턴의 다른 예: `RecipeMemo.module.css`의 `.nav:hover { opacity: 1 }`을 그대로 유틸리티로
+   옮기면 터치 피드백을 잃는다 — 앞으로 `:hover` 모듈 규칙을 변환할 때마다 짚어야 할 지점.)

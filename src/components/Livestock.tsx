@@ -16,8 +16,8 @@ export function Livestock({ view }: { view: LivestockView }) {
         <p className="week">{eyebrow}</p>
         <h1>요즘 값이 내려온 축산물</h1>
         {freshness.kind === 'dated' && (
+          // 조사일 줄 — App.module.css의 .surveyed와 같은 톤(경고 아니라 메타)
           <p className="text-muted text-xs tracking-label m-0">
-            {/* 조사일 줄 — App.module.css의 .surveyed와 같은 톤(경고 아니라 메타) */}
             {relativeDayLabel(freshness.days)} · {surveyedDateLabel(freshness.surveyedOn)} · 전국 평균
           </p>
         )}

@@ -51,12 +51,27 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
 **모듈에 남기는 기준 셋** — 하나라도 걸리면 모듈:
 
 1. JSX가 모르는 상태 (`nth-child`, `::details-content`, `::marker`)
-2. 선언보다 근거가 중요해 주석이 붙은 것
+2. 선언보다 근거가 중요해 주석이 붙었는데, **JSX에 그 주석을 놓을 자리가 없는 것** (자리가 있으면
+   주석만 옮기고 선언은 유틸리티로 간다 — `NutritionLine`·`RecipeChips`·`SearchBar`가 이렇게 갔다)
 3. 스케일 밖 기하 (`calc(100% / 24)`, `0.3rem`)
+
+이 기준은 이번 사이클엔 **선언 단위가 아니라 파일 단위**로 적용했다 — 잔류 11개 모듈은 파일
+전체가 위 셋 중 하나에 걸려 남은 것이고, 그 안의 평범한 선언(예: `App.module.css`의 `.surveyed`는
+`Livestock.tsx`가 유틸리티로 쓰는 `text-muted text-xs tracking-label m-0`과 바이트 단위로 같다)까지
+개별로 걸러내진 않았다. 잔류 11개는 **그랜드파더링**됐고, 선언 단위로 더 슬림화하는 건 스펙이
+명시한 별도의 이후 사이클이다.
 
 부수 규칙: **임의값(`p-[…]`) 금지**(토큰 추가하거나 모듈에 남긴다) · **동적 클래스는 완전 리터럴만**
 (`text-${dir}`는 아무 CSS도 생성 안 함) · **한 요소의 같은 속성을 모듈과 유틸리티 양쪽에서 안 건드림**
-(레이어 밖 모듈이 `@layer utilities`를 항상 이긴다) · **`@theme inline` 금지**(계절 팔레트가 죽는다).
+(레이어 밖 모듈이 `@layer utilities`를 항상 이긴다) · **레이어 밖인 건 모듈만이 아니다** — 유틸리티가
+실제로 가장 자주 마주치는 상대는 `global.css`의 언레이어드 규칙(`:focus-visible`·`body`·`header h1`·
+`footer p` 등)이다. 레이어 밖 CSS는 특정도와 무관하게 모든 레이어를 이기므로, 유틸리티가 꼭 그
+규칙을 이겨야 할 때는 트레일링 `!`(예: `focus-visible:outline-offset-0!`)가 정식 탈출구다 — 왜
+이겨야 하는지 주석을 남기고, 꼭 필요한 값 하나에만 쓴다 · **`hover:` 유틸리티는
+`@media (hover: hover)`로 감싸져 생성된다** — 예전 무조건부 `:hover`와 달리 터치에서 "끈적이는"
+hover(탭 후에도 hover 상태 유지)가 안 걸린다. 모듈의 `:hover`(예: `RecipeMemo.module.css`의
+`.nav:hover { opacity: 1 }`)를 유틸리티로 옮길 땐 터치 피드백을 잃지 않는지 확인한다 ·
+**`@theme inline` 금지**(계절 팔레트가 죽는다).
 
 ## 규칙
 

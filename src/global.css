@@ -57,14 +57,19 @@
    var(--color-tint)를 참조해도 "사용"으로 세지 않는다 → 토큰이 사라져 모듈이 깨진다. */
 @theme static {
   /* Tailwind 기본 스케일 제거 — 우리 스케일 밖 유틸리티가 섞이지 않게.
-     --font-*는 지우지 않는다: --font-weight-* 까지 함께 지워질 위험이 있어
-     font-bold 등이 사라질 수 있다. 대신 아래에서 필요한 값을 명시 선언한다. */
+     --font-*는 통째로(`--font-*: initial`) 지우지 않는다: --font-weight-*까지 함께 지워질
+     위험이 있어 font-bold 등이 사라질 수 있다. 대신 실제로 문제였던 두 이름 있는 키
+     (--font-sans/--font-serif — font-sans/font-serif 유틸리티를 만드는 Tailwind 기본
+     폰트 스택)만 개별 initial로 지운다. 실측 확인: 이렇게 해도 font-bold·font-hand는
+     살아남는다(이름 있는 키 개별 초기화는 그 이름에만 영향을 준다). */
   --color-*: initial;
   --spacing-*: initial;
   --text-*: initial;
   --radius-*: initial;
   --shadow-*: initial;
   --tracking-*: initial;
+  --font-sans: initial;
+  --font-serif: initial;
 
   --color-paper: #fbf9f6;
   --color-card: #ffffff;

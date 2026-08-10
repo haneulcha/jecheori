@@ -20,7 +20,7 @@ export function RecipeChips({
         <button
           key={r.name}
           type="button"
-          className="flex-none font-body font-normal text-xs leading-body bg-transparent border border-dashed border-line rounded-soft py-2xs px-md text-ink cursor-pointer whitespace-nowrap transition-colors duration-150 hover:border-ink aria-pressed:border-solid aria-pressed:border-ink aria-pressed:bg-tint focus-visible:outline-2 focus-visible:outline-ink focus-visible:outline-offset-2"
+          className="flex-none font-body font-normal text-xs leading-body bg-transparent border border-dashed border-line rounded-soft py-2xs px-md text-ink cursor-pointer whitespace-nowrap transition-colors duration-150 hover:border-ink aria-pressed:border-solid aria-pressed:border-ink aria-pressed:bg-tint"
           aria-pressed={current === i}
           aria-controls={current === i ? memoId : undefined}
           onClick={() => onSelect(i)}
