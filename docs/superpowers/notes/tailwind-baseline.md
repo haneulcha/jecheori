@@ -56,17 +56,49 @@ $ wc -l src/global.css src/components/*.module.css | tail -1
 ## 3. 화면·계절 스크린샷 체크리스트
 
 뷰포트 420×900(모바일), 오늘 날짜 기준 계절은 여름(8월, `data-season` 기본값 `summer`).
-`document.body.dataset.season`은 `--accent`/`--tint`만 바꾸고 품목 목록 자체는 안 바뀌므로,
-`/coming`·`/livestock`·검색 힌트 화면은 소스를 확인해도 `--accent`/`--tint`를 전혀 참조하지
-않는다(각 컴포넌트 CSS에 `var(--accent)`/`var(--tint)` 사용 없음) — 이 세 화면은 여름 한
-번만 찍어도 된다. 하지만 **카드 펼침 화면**은 `--accent`/`--tint`를 실제로 쓰는 지점이
-몰려 있다(`ProduceCard`의 열림 테두리·마스킹테이프, `PeakDot`의 도트+헤일로, `SeasonStrip`의
-절정 셀 채움, `PriceBlock`의 하락 칩, `RecipeChips`의 선택 칩 배경) — 마이그레이션의 최대
-위험(`[data-season]` 팔레트 스와이프가 깨지는 것)이 실제로 드러나는 화면이라, 이 화면만은
-**네 계절 모두** 찍는다. 그래서 압축 결과는: **홈·`/coming`·`/livestock`·검색 힌트는 여름
-한 번**, **홈의 accent/tint 차이는 나머지 세 계절도 확인**, **카드 펼침은 네 계절 전부**
-(4계절×5화면 20장 대신 11장). 모든 파일은 `.playwright-mcp/`에 있고(gitignore 대상, 커밋
-안 함) 이후 태스크가 같은 이름으로 재촬영해 diff한다.
+`document.body.dataset.season`은 `--accent`/`--tint`만 바꾸고 품목 목록 자체는 안 바뀐다.
+"어느 화면을 계절별로 다시 찍어야 하나"는 페이지 단위로 짐작하지 않고, 소비처를 기계적으로
+전수 조사해서 정했다:
+
+```
+$ grep -rn -- "--accent\|--tint" src/global.css src/components/*.module.css
+```
+
+토큰 정의(`global.css`의 `:root`/`[data-season=...]`) 말고 실제로 값을 **쓰는** 규칙은 8곳이다:
+
+| 소비처 | 접힌 카드에서 보이나 | 커버하는 스크린샷 |
+|---|---|---|
+| `global.css` 헤더 블롭(`header::before`) | 해당 없음(카드와 무관, 헤더 자체) | 홈 계절별 |
+| `ButtonGroup.module.css` `.thumb`(세그먼트 썸) | 해당 없음(홈 전용 컨트롤) | 홈 계절별 |
+| `FilterBar.module.css` `.fchip.on`(켜진 카테고리 칩) | 해당 없음(홈 전용 컨트롤) | 홈 계절별 |
+| `ProduceCard.module.css` `.card::before`(마스킹테이프) | **보임** — `[open]`에 안 걸려 있음 | 홈 계절별 + 카드 펼침 계절별 |
+| `ProduceCard.module.css` `.card[open]` 테두리 | 안 보임 — 펼쳐야만 | 카드 펼침 계절별만 |
+| `PeakDot.module.css` `.peakDot b`(절정 도트+헤일로) | **보임** — `<summary>` 안 | 홈 계절별 + 카드 펼침 계절별 |
+| `SeasonStrip.module.css` `.isSeason`/`.isPeak` | **보임** — `<summary>` 안 | 홈 계절별 + 카드 펼침 계절별 |
+| `PriceBlock.module.css` `.price.fall .chip` | **보임** — `<summary>` 안 | 홈 계절별 + 카드 펼침 계절별 |
+| `RecipeChips.module.css` 선택 칩 배경 | 안 보임 — 펼치고 칩을 눌러야만 | 카드 펼침 계절별만 |
+
+즉 `SeasonStrip`·`PeakDot`·`PriceBlock`·마스킹테이프는 `ProduceCard`의 `<summary>` 안에 있어
+**카드가 접혀 있어도** 보인다 — 홈 목록의 접힌 카드에 이미 다 나타난다. 카드가 **펼쳐져야만**
+보이는 소비처는 딱 둘(열림 테두리, 선택된 레시피 칩)이고 그건 카드 펼침 스크린샷이 커버한다.
+그래서 홈 계절별(4장) + 카드 펼침 계절별(4장)로 위 8곳 전부가 최소 한 장 이상에 나타난다.
+
+`/coming`·`/livestock`은 **이 8곳 중 하나도 안 쓰기 때문이 아니라**, 둘 다 홈과 완전히 같은
+`ProduceCard`(따라서 같은 마스킹테이프·`PeakDot`·`SeasonStrip`·`PriceBlock`)를 그대로 렌더링해서
+— 즉 이미 홈·카드 펼침 계절별 스크린샷이 커버한 것과 동일한 컴포넌트라서 — 별도 계절 스크린샷이
+필요 없다. 두 화면은 여름 한 번만 찍고 각 화면 고유의 것(`/coming`의 `<h2>` 볼드, `/livestock`의
+등락 배지)만 확인한다.
+
+검색 힌트 화면은 **이 캡처 상태(`딸기` 검색, 제철 아님이라 결과 0건)에서는** `ProduceCard`가
+아예 렌더링되지 않아 위 8곳 중 카드 소비처(6곳)가 화면에 없다 — 화면 자체의 성질이 아니라
+지금 캡처한 상태의 성질이다. 다만 페이지 크롬(헤더 블롭·`ButtonGroup`·`FilterBar`)은 검색 중에도
+그대로 남아 있고 그건 홈 계절별 스크린샷이 이미 커버하므로, 이 상태에서는 별도 계절 스크린샷이
+필요 없다.
+
+정리하면 grep으로 찾은 8개 소비처 전부가 계절별 스크린샷(홈 4장 + 카드 펼침 4장) 중 최소
+하나에 나타난다. 압축 결과: **홈은 4계절**, **카드 펼침은 4계절**, **`/coming`·`/livestock`·
+검색 힌트는 여름 한 번**(4계절×5화면 20장 대신 11장). 모든 파일은 `.playwright-mcp/`에
+있고(gitignore 대상, 커밋 안 함) 이후 태스크가 같은 이름으로 재촬영해 diff한다.
 
 - [x] 홈 `/` (여름·기본, 전체 목록) — `baseline-home-summer.png`
   - 헤더 계절 블롭, 검색/카테고리/필터바, 멜론~가지 9장 카드 리스트, 하단 출처 3줄까지 정상.
