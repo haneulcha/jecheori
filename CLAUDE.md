@@ -43,6 +43,20 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
 - **`src/app.ts`** — `buildAppView`: 원시데이터+시계 → `AppView` 조립 (순수)
 - **`src/components/`** — `AppView`/`CardView` → JSX. 표시만, 비즈니스 로직 없음
 - **`src/routes/`** — 라우트·로더 (JSON 로드 + 프리렌더). 자세한 심(seam)은 `CONTEXT.md`.
+- **`src/global.css`** — Tailwind 레이어 import(Preflight 미사용) + `@theme static` 토큰 + 자체 리셋·`[data-season]`·`@view-transition`
+
+## 스타일 경계 (하이브리드)
+
+스타일은 세 곳에 산다: `global.css`(토큰·리셋·전역) / `*.module.css`(시그니처) / JSX 유틸리티(나머지).
+**모듈에 남기는 기준 셋** — 하나라도 걸리면 모듈:
+
+1. JSX가 모르는 상태 (`nth-child`, `::details-content`, `::marker`)
+2. 선언보다 근거가 중요해 주석이 붙은 것
+3. 스케일 밖 기하 (`calc(100% / 24)`, `0.3rem`)
+
+부수 규칙: **임의값(`p-[…]`) 금지**(토큰 추가하거나 모듈에 남긴다) · **동적 클래스는 완전 리터럴만**
+(`text-${dir}`는 아무 CSS도 생성 안 함) · **한 요소의 같은 속성을 모듈과 유틸리티 양쪽에서 안 건드림**
+(레이어 밖 모듈이 `@layer utilities`를 항상 이긴다) · **`@theme inline` 금지**(계절 팔레트가 죽는다).
 
 ## 규칙
 

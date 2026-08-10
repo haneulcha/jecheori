@@ -1,5 +1,9 @@
 # CSS Modules 코로케이션 마이그레이션 — 설계
 
+> **2026-08-11 부분 개정:** 토큰·평범한 컴포넌트는 Tailwind로 이관됐다
+> (`2026-08-10-tailwind-migration-design.md`). 이 문서의 전역↔모듈 경계 판단과
+> Tailwind 반려 근거(맞춤 효과와의 충돌)는 시그니처 모듈에 대해 여전히 유효하다.
+
 - 날짜: 2026-07-19
 - 상태: 승인됨 (구현 대기)
 - 관련: `DESIGN.md`(순수 CSS 변수 결정), 메모 `design-token-system.md`, `docs/superpowers/specs/2026-07-17-design-tokens-structural-design.md`

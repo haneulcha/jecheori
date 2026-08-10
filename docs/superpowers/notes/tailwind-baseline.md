@@ -64,7 +64,7 @@ $ wc -l src/global.css src/components/*.module.css | tail -1
 $ grep -rn -- "--accent\|--tint" src/global.css src/components/*.module.css
 ```
 
-토큰 정의(`global.css`의 `:root`/`[data-season=...]`) 말고 실제로 값을 **쓰는** 규칙은 8곳이다:
+토큰 정의(`global.css`의 `:root`/`[data-season=...]`) 말고 실제로 값을 **쓰는** 규칙은 9곳이다:
 
 | 소비처 | 접힌 카드에서 보이나 | 커버하는 스크린샷 |
 |---|---|---|
@@ -81,21 +81,21 @@ $ grep -rn -- "--accent\|--tint" src/global.css src/components/*.module.css
 즉 `SeasonStrip`·`PeakDot`·`PriceBlock`·마스킹테이프는 `ProduceCard`의 `<summary>` 안에 있어
 **카드가 접혀 있어도** 보인다 — 홈 목록의 접힌 카드에 이미 다 나타난다. 카드가 **펼쳐져야만**
 보이는 소비처는 딱 둘(열림 테두리, 선택된 레시피 칩)이고 그건 카드 펼침 스크린샷이 커버한다.
-그래서 홈 계절별(4장) + 카드 펼침 계절별(4장)로 위 8곳 전부가 최소 한 장 이상에 나타난다.
+그래서 홈 계절별(4장) + 카드 펼침 계절별(4장)로 위 9곳 전부가 최소 한 장 이상에 나타난다.
 
-`/coming`·`/livestock`은 **이 8곳 중 하나도 안 쓰기 때문이 아니라**, 둘 다 홈과 완전히 같은
+`/coming`·`/livestock`은 **이 9곳 중 하나도 안 쓰기 때문이 아니라**, 둘 다 홈과 완전히 같은
 `ProduceCard`(따라서 같은 마스킹테이프·`PeakDot`·`SeasonStrip`·`PriceBlock`)를 그대로 렌더링해서
 — 즉 이미 홈·카드 펼침 계절별 스크린샷이 커버한 것과 동일한 컴포넌트라서 — 별도 계절 스크린샷이
 필요 없다. 두 화면은 여름 한 번만 찍고 각 화면 고유의 것(`/coming`의 `<h2>` 볼드, `/livestock`의
 등락 배지)만 확인한다.
 
 검색 힌트 화면은 **이 캡처 상태(`딸기` 검색, 제철 아님이라 결과 0건)에서는** `ProduceCard`가
-아예 렌더링되지 않아 위 8곳 중 카드 소비처(6곳)가 화면에 없다 — 화면 자체의 성질이 아니라
+아예 렌더링되지 않아 위 9곳 중 카드 소비처(6곳)가 화면에 없다 — 화면 자체의 성질이 아니라
 지금 캡처한 상태의 성질이다. 다만 페이지 크롬(헤더 블롭·`ButtonGroup`·`FilterBar`)은 검색 중에도
 그대로 남아 있고 그건 홈 계절별 스크린샷이 이미 커버하므로, 이 상태에서는 별도 계절 스크린샷이
 필요 없다.
 
-정리하면 grep으로 찾은 8개 소비처 전부가 계절별 스크린샷(홈 4장 + 카드 펼침 4장) 중 최소
+정리하면 grep으로 찾은 9개 소비처 전부가 계절별 스크린샷(홈 4장 + 카드 펼침 4장) 중 최소
 하나에 나타난다. 압축 결과: **홈은 4계절**, **카드 펼침은 4계절**, **`/coming`·`/livestock`·
 검색 힌트는 여름 한 번**(4계절×5화면 20장 대신 11장). 모든 파일은 `.playwright-mcp/`에
 있고(gitignore 대상, 커밋 안 함) 이후 태스크가 같은 이름으로 재촬영해 diff한다.
@@ -212,3 +212,73 @@ DOM 제거.
 4. **`<ol>` 단계 번호**와 **`/coming`의 `<h2>`·`RecipeMemo`의 `<h3>` 볼드**는 Tailwind
    Preflight를 켜는 순간 가장 먼저 깨질 수 있는 지점이므로, Preflight 도입 태스크에서
    반드시 개별 확인한다.
+
+## 6. 마이그레이션 후 실측 (Phase 5, 2026-08-11) — 전/후 대조
+
+### 6-1. CSS 총량
+
+```
+$ wc -l src/global.css src/components/*.module.css | tail -1
+     666 total
+```
+
+| 파일 | 전 (Phase 0) | 후 (Phase 5) |
+|---|---:|---:|
+| `src/global.css` | 154 | 212 |
+| `App.module.css` | 67 | 67 |
+| `ButtonGroup.module.css` | 54 | 54 |
+| `Coming.module.css` | 3 | 삭제됨(유틸리티로 이관) |
+| `FilterBar.module.css` | 32 | 32 (죽은 스크롤바 2줄 삭제, 주석 갱신 — 총량 우연히 동일) |
+| `Livestock.module.css` | 7 | 삭제됨(유틸리티로 이관) |
+| `NavIndex.module.css` | 39 | 39 |
+| `Note.module.css` | 5 | 5 |
+| `NutritionLine.module.css` | 23 | 삭제됨(유틸리티로 이관) |
+| `PeakDot.module.css` | 9 | 9 |
+| `PriceBlock.module.css` | 15 | 삭제됨(유틸리티로 이관) |
+| `ProduceCard.module.css` | 99 | 99 |
+| `RecipeChips.module.css` | 16 | 삭제됨(유틸리티로 이관) |
+| `RecipeMemo.module.css` | 60 | 60 |
+| `SearchBar.module.css` | 12 | 삭제됨(유틸리티로 이관) |
+| `SeasonHint.module.css` | 4 | 삭제됨(유틸리티로 이관) |
+| `SeasonStrip.module.css` | 32 | 32 |
+| `SortControl.module.css` | 10 | 삭제됨(유틸리티로 이관) |
+| `Sparkline.module.css` | 29 | 29 |
+| `Sprig.module.css` | 28 | 28 |
+| **합계** | **698** | **666** |
+
+**정직한 평가: 손으로 쓰는 CSS 줄 수는 거의 안 줄었다(698 → 666, −32줄 = −4.6%).**
+모듈 8개(~90줄)가 유틸리티로 녹아 사라졌지만, `global.css`가 `:root` → `@theme static` 이전
+(자간·굵기·`margin:0` 신규 토큰 + 결정 근거 주석 포함)으로 154→212줄(+58줄)로 불어나 거의
+상쇄했다. 남은 11개 모듈(454줄)은 애초에 **이번 사이클의 범위가 아니었다** — 시그니처 효과
+(의사요소·`@keyframes`·스케일 밖 기하)라 유틸리티로 옮길 수 없는 것들이다. 이번 사이클이
+실제로 산 것은 줄 수 절감이 아니라 **토큰 체계를 `@theme static`으로 옮긴 것**과, **새 UI를
+파일 왕복 없이 유틸리티로 바로 쓸 수 있는 능력**이다(스펙 "작성 속도" 근거 참고).
+
+### 6-2. 빌드 CSS 번들 크기
+
+`npm run build` 후 `dist/client/assets/*.css`:
+
+| 파일 | 원본 | gzip |
+|---|---:|---:|
+| `global-C9-WL06H.css` | 10,948 B | 3,051 B |
+| `ProduceCard-_O6A_uct.css` | 10,828 B | 2,945 B |
+| `routes-Cci3l-e0.css` | 3,321 B | 1,129 B |
+| **합계** | **25,097 B (~24.5 KiB)** | **7,125 B (~7.0 KiB)** |
+
+| | 전 (Phase 0) | 후 (Phase 5) |
+|---|---:|---:|
+| 파일 개수 | 5개 (`coming`·`global`·`livestock`·`ProduceCard`·`routes`) | 3개 (`global`·`ProduceCard`·`routes`) |
+| 원본 합계 | 20,693 B (~20.2 KiB) | 25,097 B (~24.5 KiB) |
+| gzip 합계 | 6,329 B (~6.2 KiB) | 7,125 B (~7.0 KiB) |
+
+파일 개수는 줄었다(`coming`·`livestock` 라우트 전용 청크가 사라지고 그 스타일이 `routes`/
+`global` 청크의 유틸리티로 흡수됨) — 청크 경계가 컴포넌트별에서 Tailwind가 훑는 소스 단위로
+바뀐 결과다. 반면 바이트 합계는 늘었다(원본 +21%, gzip +13%) — Tailwind 유틸리티 CSS(클래스당
+개별 규칙)가 손으로 압축해 쓴 CSS Modules 선언보다 태생적으로 더 장황하기 때문이다. 절대
+크기(raw 24.5 KiB, gzip 7.0 KiB)는 여전히 이 앱 규모에서 무시할 만한 수준이라 급격한 증가로
+보지 않는다(§5-1의 "급격한 증가는 이상 신호" 기준 대비 정상 범위).
+
+### 6-3. 화면·모션·grep 게이트
+
+Task 5 Step 9(브라우저 회귀 실측)와 Step 2(grep 게이트) 결과는
+`.superpowers/sdd/2026-08-11-tailwind-migration/task-5-report.md`에 기록한다.
