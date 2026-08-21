@@ -88,8 +88,10 @@ JSON에서 오듯 폰트도 콘텐츠를 진실의 원천으로 삼는다. 문�
   표현에 한해 아주 옅은 1단계(`--lift`, 카드에만)"만 예외. 그 외 그림자는 금지.
 - 카드 펼침은 `<details>` — JS 없는 인터랙션 (카테고리 세그먼트는 하이드레이션 후 JS radiogroup)
 
-> 구현 메모: 마크업은 `src/components/`의 React(JSX) 컴포넌트이고, 이 문서의 클래스명·
-> 스타일은 `src/style.css`에서 그대로 재사용된다. 팔레트·타이포·규율은 프레임워크와 무관.
+> 구현 메모: 마크업은 `src/components/`의 React(JSX) 컴포넌트다. 토큰·팔레트·리셋은
+> `src/global.css`(Tailwind `@theme static`), 시그니처 효과(의사요소·`@keyframes`·스케일 밖 기하)는
+> `src/components/*.module.css`, 평범한 레이아웃은 JSX Tailwind 유틸리티 — 세 곳의 하이브리드
+> 경계는 `CLAUDE.md` "스타일 경계" 참고. 팔레트·타이포·규율은 프레임워크와 무관.
 
 ## 모션·접근성
 
@@ -211,3 +213,16 @@ CLAUDE.md의 규칙(한국어, 담백, 이커머스 화법 금지)에 더해:
   구현 후 브라우저 실측으로 다듬음: 풀폭 대신 **내용폭 좌측 정렬**(등폭 고정 칸, `align-self:start`)로
   상단 밀도를 낮추고, 크기를 한 단계 줄였다(라벨 `--text-xs`, 상태 칩도 `--text-sm`→`--text-xs`로 맞춤).
   트랙이 낮아지며 생긴 반경 어긋남은 **동심 규칙(안쪽 반경 = 바깥 −여백 3px)**으로 정합.
+- **"순수 CSS 변수" 결정을 개정 — Tailwind `@theme static` 토큰 + 하이브리드로 전환했다**
+  (2026-08-11). 2026-07-19 CSS Modules 코로케이션 스펙이 명시적으로 반려했던 Tailwind를,
+  같은 스코프 문제 때문이 아니라 **다른 이유**로 다시 들였다: **작성 속도가 주된 근거**다 —
+  클래스 이름을 짓고 파일을 오가지 않고 JSX에서 바로 스타일링한다. 에이전트 친화(AI 보조
+  UI 작업의 산출물 품질)와 생태계 접근성(향후 shadcn/ui 등)은 보조 가설·미래 대비일 뿐,
+  이번 결정을 떠받치는 건 아니다. 전면 전환은 아니다 — 앱 정체성의 상당 부분인 맞춤 효과
+  (마스킹테이프 `color-mix`, 홀짝 기울기 `nth-child`, `::details-content` 리빌, 계절 간트
+  `calc`, `@keyframes`)는 여전히 유틸리티와 싸우므로 **시그니처는 CSS 모듈에 남긴다**(경계
+  기준 셋은 `CLAUDE.md` "스타일 경계" 참고). Tailwind의 기본 리셋(Preflight)은 **가져오지
+  않는다** — `<ol>` 마커·헤딩 굵기 등 이 앱이 기대는 UA 기본값을 지워 "픽셀 동일" 원칙을
+  즉시 깨기 때문이다. 토큰 값은 한 글자도 재설계하지 않았다(간격·타입 스케일의 리듬 보존
+  유지). 스펙: `docs/superpowers/specs/2026-08-10-tailwind-migration-design.md`
+  (`docs/superpowers/specs/2026-07-19-css-modules-colocation-design.md`의 부분 개정).

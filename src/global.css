@@ -1,3 +1,21 @@
+/* Tailwind v4 — Preflight(리셋)은 가져오지 않는다. 이 앱은 자체 리셋을 쓰고,
+   Preflight은 <ol> 마커·헤딩 굵기를 지워 "픽셀 동일"을 즉시 깬다.
+   (스펙 "결정: Preflight을 쓰지 않는다") */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+/* source(none) + @source: 자동 소스 탐지를 끄고 src/만 훑는다. 끄지 않으면 docs/의
+   마크다운(이 플랜·스펙 문서 자체!)에 적힌 `p-xs`·`bg-tint` 같은 코드 인용까지 스캔해
+   쓰지도 않는 유틸리티가 번들에 실리고, "유틸리티가 생성됐나" 게이트가 무의미해진다
+   (문서가 대신 생성해주므로 .tsx 스캔이 깨져도 통과한다). *.test.tsx도 같은 이유로 뺀다
+   (RTL의 `const { container } = render(…)`가 `.container`를 새어들게 한다).
+   생성 확인용 카나리아로 `.container`/`.flex`/`.filter`/`.transform`을 쓰지 않는다 —
+   이 넷은 테스트·주석·식별자에서 새어 들어와 스캔이 깨져도 생성된다(`.flex`는
+   ProduceCard.tsx의 한글 주석 "flex gap", `.transform`은 ButtonGroup.tsx의 인라인
+   스타일 키 `transform`에서 나옴 — @source로 막을 수 없다). */
+@import 'tailwindcss/utilities.css' layer(utilities) source(none);
+@source "./";
+@source not "./**/*.test.tsx";
+
 @font-face {
   font-family: 'Wanted Sans';
   src: url('./fonts/WantedSans-400.woff2') format('woff2');
@@ -31,54 +49,99 @@
   font-display: swap;
 }
 
-/* DESIGN.md "절기 스케치북" 토큰 — 텍스트는 오직 쪽빛(--ink)이 소유한다.
-   계절 웜 컬러는 글자를 싣지 않고 배경(배지·블롭·칩)으로만 쓴다. */
-:root {
-  --paper: #fbf9f6;
-  --card: #ffffff;
-  --ink: #2b4586;
-  --muted: #7b84a3;
-  --line: #e7e2d6;
-  --axis: #cbc2b0;
-  --margin: #e3c4b8;
-  --rise: #c0392b;      /* 상승 마커 (구 밤색 #8c6a5d에서 개정: 칩 내부 채도 대비) */
-  --rise-lo: #efeae3;   /* 상승 칩 저채도 배경 */
-  --tint: #fff4ce;
+/* DESIGN.md "절기 스케치북" 토큰 — 텍스트는 오직 쪽빛(--color-ink)이 소유한다.
+   계절 웜 컬러는 글자를 싣지 않고 배경(배지·블롭·칩)으로만 쓴다.
+
+   `static` 필수: 기본 @theme은 Tailwind가 컴파일한 CSS에서 실제로 쓰인 변수만
+   :root에 내보낸다. 우리 *.module.css는 Vite의 CSS Modules가 처리하므로 거기서
+   var(--color-tint)를 참조해도 "사용"으로 세지 않는다 → 토큰이 사라져 모듈이 깨진다. */
+@theme static {
+  /* Tailwind 기본 스케일 제거 — 우리 스케일 밖 유틸리티가 섞이지 않게.
+     --font-*는 통째로(`--font-*: initial`) 지우지 않는다: --font-weight-*까지 함께 지워질
+     위험이 있어 font-bold 등이 사라질 수 있다. 대신 실제로 문제였던 두 이름 있는 키
+     (--font-sans/--font-serif — font-sans/font-serif 유틸리티를 만드는 Tailwind 기본
+     폰트 스택)만 개별 initial로 지운다. 실측 확인: 이렇게 해도 font-bold·font-hand는
+     살아남는다(이름 있는 키 개별 초기화는 그 이름에만 영향을 준다). */
+  --color-*: initial;
+  --spacing-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --tracking-*: initial;
+  --font-sans: initial;
+  --font-serif: initial;
+
+  --color-paper: #fbf9f6;
+  --color-card: #ffffff;
+  --color-ink: #2b4586;
+  --color-muted: #7b84a3;
+  --color-line: #e7e2d6;
+  --color-axis: #cbc2b0;
+  --color-margin-line: #e3c4b8;
+  --color-rise: #c0392b;      /* 상승 마커 */
+  --color-rise-lo: #efeae3;   /* 상승 칩 저채도 배경 */
+  --color-tint: #fff4ce;
+  --color-memo: #fffcf3;      /* 메모 낱장 — 순백 카드와 구분되는 살짝 따뜻한 종이 */
+  /* 계절 기본값 (여름) — [data-season]이 덮어쓴다 */
+  --color-accent: #ffc400;
+
   /* 메모 고정 한정 옅은 부양(그림자 1단계). DESIGN.md 규율 예외 — 카드에만 쓴다. */
-  --lift: 0 2px 6px rgba(43, 69, 134, 0.06);
-  --memo: #FFFCF3;                   /* 메모 낱장 — 순백 카드와 구분되는 살짝 따뜻한 종이 */
-  /* 계절 기본값 (여름) — main.ts가 body[data-season]으로 덮어쓴다 */
-  --accent: #ffc400;
-  /* 간격 스케일 — 리듬 보존(앱의 0.4rem 계열). 1.0(lg)이 최대 클러스터. impeccable 감사. */
-  --space-3xs: 0.2rem;
-  --space-2xs: 0.3rem;
-  --space-xs: 0.4rem;
-  --space-sm: 0.6rem;
-  --space-md: 0.8rem;
-  --space-lg: 1rem;
-  --space-xl: 1.5rem;
-  --space-2xl: 2.5rem;
-  --space-3xl: 3rem;
+  --shadow-lift: 0 2px 6px rgba(43, 69, 134, 0.06);
+
+  /* 간격 스케일 — 리듬 보존(앱의 0.4rem 계열). 1.0(lg)이 최대 클러스터. */
+  --spacing-0: 0;
+  --spacing-3xs: 0.2rem;
+  --spacing-2xs: 0.3rem;
+  --spacing-xs: 0.4rem;
+  --spacing-sm: 0.6rem;
+  --spacing-md: 0.8rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 1.5rem;
+  --spacing-2xl: 2.5rem;
+  --spacing-3xl: 3rem;
+
   /* 폰트 패밀리 — @font-face 별칭 그대로. 못 구하면 시스템 고딕 폴백. */
   --font-body: 'Wanted Sans', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
   --font-hand: 'Hakgyoansim', 'Wanted Sans', 'Apple SD Gothic Neo', sans-serif;
   --font-mono: 'SF Mono', 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  /* 굵기 — 기본값과 같은 값이지만 명시 선언해 --font-* 초기화 여부와 무관하게 보장 */
+  --font-weight-normal: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* 자간 — 앱이 실제로 쓰는 6종. Tailwind 기본(-0.05/-0.025/0/0.025/0.05/0.1em)과
+     값이 달라 초기화 후 우리 것만 남긴다. */
+  --tracking-tight: -0.02em;   /* 큰 가격 숫자 */
+  --tracking-normal: 0;        /* 상속 자간 취소 */
+  --tracking-label: 0.02em;    /* 절기 아이브로·조사일 메타줄 */
+  --tracking-wide: 0.04em;     /* 섹션 제목 */
+  --tracking-wider: 0.06em;    /* 마이크로 라벨 */
+  --tracking-widest: 0.08em;   /* 라벨 역할(넓은 자간·600) */
+
+  /* 본문 행간 — body의 1.65. UA 기본 폰트 메트릭을 쓰는 폼 요소(<button> 등)에
+     본문과 같은 행간을 되돌릴 때 필요하다(Preflight 미사용이라 UA 기본이 살아 있다). */
+  --leading-body: 1.65;
+
   /* 라운드 — 역할별. crisp=메모 낱장 카드, soft=칩·배지, pill=알약 */
   --radius-crisp: 0.2rem;
   --radius-soft: 0.4rem;
   --radius-pill: 1rem;
-  /* 타입 스케일 — 리듬 보존 6단계. 시그니처(아이브로 0.9·h1 1.5·디스플레이 1.7) 무이동. impeccable 감사. */
+
+  /* 타입 스케일 — 리듬 보존 6단계. 시그니처(아이브로 0.9·h1 1.5·디스플레이 1.7) 무이동. */
   --text-2xs: 0.7rem;  /* 마이크로 라벨·캡션 */
   --text-xs: 0.8rem;   /* 소형 라벨 */
   --text-sm: 0.9rem;   /* 보조 텍스트·절기 아이브로 */
   --text-md: 1rem;     /* 본문·카드/섹션 제목 */
-  --text-lg: 1.5rem;   /* 디스플레이 헤딩 — h1 (+ ‹ › 넘김 셰브론 1.3→1.5 흡수) */
+  --text-lg: 1.5rem;   /* 디스플레이 헤딩 — h1 */
   --text-xl: 1.7rem;   /* 최대 디스플레이 — 카드 이모지·큰 가격 */
 }
-[data-season='spring'] { --accent: #a2d3a6; --tint: #eaf4e9; }
-[data-season='summer'] { --accent: #ffc400; --tint: #fff4ce; }
-[data-season='autumn'] { --accent: #ed7328; --tint: #fbe7d6; }
-[data-season='winter'] { --accent: #bc6e79; --tint: #f6e7ea; }
+
+[data-season='spring'] { --color-accent: #a2d3a6; --color-tint: #eaf4e9; }
+[data-season='summer'] { --color-accent: #ffc400; --color-tint: #fff4ce; }
+[data-season='autumn'] { --color-accent: #ed7328; --color-tint: #fbe7d6; }
+[data-season='winter'] { --color-accent: #bc6e79; --color-tint: #f6e7ea; }
 
 * { box-sizing: border-box; }
 
@@ -88,17 +151,17 @@
 
 body {
   margin: 0;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--color-paper);
+  color: var(--color-ink);
   font-family: var(--font-body);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 }
 
-#app { max-width: 28rem; margin: 0 auto; padding: var(--space-xl) var(--space-lg) var(--space-3xl); }
+#app { max-width: 28rem; margin: 0 auto; padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-3xl); }
 
 /* 헤더 — 시그니처: 쪽빛 스케치 + 계절 틴트 블롭 */
-header { position: relative; margin-bottom: var(--space-xl); }
+header { position: relative; margin-bottom: var(--spacing-xl); }
 header::before {
   content: '';
   position: absolute;
@@ -106,40 +169,40 @@ header::before {
   right: -0.4rem;
   width: 9rem;
   height: 7rem;
-  background: var(--tint);
+  background: var(--color-tint);
   border-radius: 48% 52% 61% 39% / 55% 44% 56% 45%;
   z-index: -1;
 }
 .week {
-  color: var(--ink);
+  color: var(--color-ink);
   font-size: var(--text-sm);
   letter-spacing: 0.02em;
-  margin: var(--space-xs) 0 0;
+  margin: var(--spacing-xs) 0 0;
 }
 header h1 {
   font-weight: 700;
   font-size: var(--text-lg);
   line-height: 1.45;
-  margin: var(--space-3xs) 0 var(--space-xs);
+  margin: var(--spacing-3xs) 0 var(--spacing-xs);
   word-break: keep-all;   /* 한글은 어절 단위로만 줄바꿈 ("방법"이 방/법으로 안 쪼개지게) */
   text-wrap: balance;     /* 두 줄 길이 균형 */
 }
-.list { display: flex; flex-direction: column; gap: var(--space-xl); }
+.list { display: flex; flex-direction: column; gap: var(--spacing-xl); }
 
 .num { font-variant-numeric: tabular-nums; }
 
-footer { margin-top: var(--space-2xl); }
-footer p { color: var(--muted); font-size: var(--text-xs); line-height: 1.35; margin: 0; }
-footer p + p { margin-top: var(--space-3xs); }
+footer { margin-top: var(--spacing-2xl); }
+footer p { color: var(--color-muted); font-size: var(--text-xs); line-height: 1.35; margin: 0; }
+footer p + p { margin-top: var(--spacing-3xs); }
 .empty {
-  color: var(--muted);
+  color: var(--color-muted);
   font-size: var(--text-md);
   text-align: center;
-  margin-top: var(--space-3xl);
+  margin-top: var(--spacing-3xl);
 }
 
 /* 접근성 */
-:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
 
 /* 선택적 향상 — MPA View Transitions (지원 브라우저에서만). */
 @view-transition {
