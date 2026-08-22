@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>제철이 — 카드 이미지 에셋 컨셉 시안</title>
+<style>
+  :root {
+    /* 앱 토큰 (global.css에서 그대로) */
+    --paper:#FBF9F6; --card:#FFFFFF; --ink:#2B4586; --muted:#7B84A3;
+    --line:#E7E2D6; --axis:#CBC2B0; --rise:#C0392B; --rise-lo:#EFEAE3;
+    --lift: 0 1px 2px rgba(43,69,134,.06);
+    /* 플레이그라운드 크롬 */
+    --bg:#16181d; --panel:#1d2027; --panel2:#23272f; --edge:#2f343d;
+    --fg:#e6e8ec; --fg-dim:#9aa1ad; --hi:#8fb3ff;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif;
+  }
+  [data-season="spring"] { --accent:#A2D3A6; --tint:#EAF4E9; }
+  [data-season="summer"] { --accent:#FFC400; --tint:#FFF4CE; }
+  [data-season="autumn"] { --accent:#ED7328; --tint:#FBE7D6; }
+  [data-season="winter"] { --accent:#BC6E79; --tint:#F6E7EA; }
+
+  * { box-sizing: border-box; }
+  body {
+    margin:0; background:var(--bg); color:var(--fg); font-family:var(--sans);
+    font-size:13px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  .shell { display:grid; grid-template-columns: 310px 1fr; min-height:100vh; }
+  @media (max-width: 900px){ .shell { grid-template-columns:1fr; } }
+
+  /* ── 컨트롤 ───────────────────────────── */
+  .controls { background:var(--panel); border-right:1px solid var(--edge); padding:18px 16px 40px; overflow-y:auto; max-height:100vh; }
+  .brand { font-size:15px; font-weight:700; letter-spacing:-.01em; margin:0 0 2px; }
+  .brand small { display:block; font-weight:400; font-size:11px; color:var(--fg-dim); letter-spacing:0; margin-top:3px; }
+  .group { margin-top:22px; }
+  .group > h3 {
+    margin:0 0 9px; font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--fg-dim); font-weight:600;
+  }
+  .seg { display:flex; flex-direction:column; gap:5px; }
+  .seg.row { flex-direction:row; flex-wrap:wrap; }
+  .opt {
+    display:block; border:1px solid var(--edge); background:var(--panel2); color:var(--fg);
+    border-radius:6px; padding:8px 10px; cursor:pointer; text-align:left; font:inherit;
+    transition: border-color .12s, background .12s;
+  }
+  .opt:hover { border-color:#454c58; }
+  .opt[aria-pressed="true"] { border-color:var(--hi); background:#1b2a45; }
+  .opt b { display:block; font-size:12.5px; font-weight:600; }
+  .opt span { display:block; font-size:10.5px; color:var(--fg-dim); margin-top:2px; line-height:1.4; }
+  .seg.row .opt { flex:1 1 auto; text-align:center; padding:6px 9px; font-size:11.5px; }
+  .field { margin-top:11px; }
+  .field label { display:flex; justify-content:space-between; align-items:baseline; font-size:11.5px; color:var(--fg-dim); margin-bottom:5px; }
+  .field label b { color:var(--fg); font-family:var(--mono); font-size:11px; font-weight:500; }
+  input[type=range]{ width:100%; accent-color:var(--hi); }
+  .check { display:flex; align-items:center; gap:8px; padding:5px 0; font-size:12px; cursor:pointer; }
+  .check input { accent-color:var(--hi); width:14px; height:14px; }
+  .note { font-size:10.5px; color:var(--fg-dim); line-height:1.5; margin-top:9px; }
+
+  /* ── 프리뷰 ───────────────────────────── */
+  .stage { display:flex; flex-direction:column; min-width:0; height:100vh; }
+  .canvas { flex:1 1 auto; min-height:0; background:var(--paper); padding:26px 18px 34px; overflow-y:auto; }
+  .canvasHead { max-width:1180px; margin:0 auto 18px; display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  .canvasHead h2 { margin:0; font-size:13px; color:var(--ink); font-weight:700; }
+  .canvasHead p { margin:0; font-size:11.5px; color:var(--muted); }
+
+  .cols { max-width:1180px; margin:0 auto; display:grid; gap:18px; grid-template-columns:repeat(3, minmax(0,1fr)); align-items:start; }
+  .cols.single { grid-template-columns: minmax(0, 26rem); justify-content:center; }
+  @media (max-width:1080px){ .cols { grid-template-columns:1fr; max-width:26rem; } }
+
+  .col > .colHead { margin:0 0 12px; }
+  .colHead h3 { margin:0; font-size:12.5px; color:var(--ink); font-weight:700; }
+  .colHead p { margin:2px 0 0; font-size:10.5px; color:var(--muted); font-family:var(--mono); }
+
+  .list { display:flex; flex-direction:column; gap:20px; }
+
+  /* 앱 카드 재현 */
+  .pcard {
+    position:relative; background:var(--card); border:1px solid var(--line);
+    border-radius:.2rem; padding:1rem; box-shadow:var(--lift); transform-origin:top center;
+  }
+  .pcard:nth-child(odd){ transform:rotate(.4deg); }
+  .pcard:nth-child(even){ transform:rotate(-.4deg); }
+  .pcard::before {
+    content:''; position:absolute; top:-.5rem; left:50%; width:3.4rem; height:1rem;
+    transform:translateX(-50%) rotate(-2deg); border-radius:1px;
+    background: color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+  .row { display:flex; align-items:flex-start; gap:1rem; }
+  .art { flex:0 0 auto; display:block; }
+  .meta { flex:1 1 auto; min-width:0; }
+  .nameline { display:flex; align-items:center; gap:.4rem; color:var(--ink); font-size:1.05rem; font-weight:600; }
+  .peak { width:.4rem; height:.4rem; border-radius:50%; background:var(--accent); flex:none; }
+  .kind { display:block; color:var(--muted); font-size:.75rem; margin-top:.2rem; }
+  .price { margin-top:.5rem; color:var(--ink); font-size:1.7rem; font-weight:700; font-variant-numeric:tabular-nums; line-height:1.05; }
+  .basis { color:var(--muted); font-size:.75rem; margin-top:.2rem; }
+  .strip { margin-top:.7rem; height:8px; border-radius:1px; background:linear-gradient(to right, transparent 0, transparent 0); position:relative; }
+  .strip i { position:absolute; top:0; bottom:0; display:block; }
+  .why { font-family:"Nanum Pen Script", var(--sans); color:var(--muted); font-size:1rem; line-height:1.3; margin:1rem 0 0; }
+  .emojiFallback { font-size:1.7rem; line-height:1; }
+
+  /* ── 프롬프트 ─────────────────────────── */
+  .promptWrap { flex:0 0 auto; border-top:1px solid var(--edge); background:var(--panel); padding:14px 18px 18px; }
+  .promptHead { display:flex; align-items:center; gap:10px; margin-bottom:9px; flex-wrap:wrap; }
+  .promptHead h3 { margin:0; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--fg-dim); font-weight:600; }
+  .tabs { display:flex; gap:4px; margin-left:auto; }
+  .tab { border:1px solid var(--edge); background:var(--panel2); color:var(--fg-dim); border-radius:5px; padding:4px 9px; font:inherit; font-size:11px; cursor:pointer; }
+  .tab[aria-pressed="true"]{ color:var(--fg); border-color:var(--hi); background:#1b2a45; }
+  .copy { border:1px solid var(--hi); background:#1b2a45; color:var(--fg); border-radius:5px; padding:4px 11px; font:inherit; font-size:11px; cursor:pointer; }
+  pre.prompt {
+    margin:0; background:#101318; border:1px solid var(--edge); border-radius:7px;
+    padding:12px 14px; font-family:var(--mono); font-size:11.5px; line-height:1.65;
+    color:#cfd6e2; white-space:pre-wrap; max-height:290px; overflow-y:auto;
+  }
+  pre.prompt .slot { color:#ffcf70; }
+  pre.prompt .k { color:#7fd6a8; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ══ 컨트롤 ══ -->
+  <aside class="controls">
+    <p class="brand">카드 이미지 에셋 컨셉
+      <small>제철이 · 96px 표지 도판 · 실사 기반 벡터</small>
+    </p>
+
+    <div class="group">
+      <h3>보기</h3>
+      <div class="seg row" id="viewSeg">
+        <button class="opt" data-view="compare" aria-pressed="true">세 컨셉 비교</button>
+        <button class="opt" data-view="single" aria-pressed="false">한 컨셉 자세히</button>
+      </div>
+    </div>
+
+    <div class="group" id="conceptGroup" hidden>
+      <h3>컨셉</h3>
+      <div class="seg" id="conceptSeg"></div>
+    </div>
+
+    <div class="group">
+      <h3>품목</h3>
+      <div class="seg" id="itemSeg"></div>
+      <label class="check"><input type="checkbox" id="allItems" checked> 세 품목 모두 쌓아 보기</label>
+      <p class="note">과일·수산·채소를 한 세트로 볼 때 컨셉의 일관성이 드러납니다.</p>
+    </div>
+
+    <div class="group">
+      <h3>표시 크기</h3>
+      <div class="seg row" id="sizeSeg">
+        <button class="opt" data-size="44">44</button>
+        <button class="opt" data-size="68">68</button>
+        <button class="opt" data-size="96" aria-pressed="true">96</button>
+        <button class="opt" data-size="128">128</button>
+      </div>
+      <p class="note">앞서 96px로 정했습니다. 44px는 원래 이모지 자리 — 실사 벡터가 왜 그 크기에선 안 살아나는지 비교용.</p>
+    </div>
+
+    <div class="group">
+      <h3>컨셉 세부 (덮어쓰기)</h3>
+      <div class="field">
+        <label>색면 단계 <b id="stepsVal">10</b></label>
+        <input type="range" id="steps" min="3" max="40" value="10">
+      </div>
+      <label class="check"><input type="checkbox" id="parts" checked> 부속물 (잎·꼭지·지느러미)</label>
+      <label class="check"><input type="checkbox" id="shadow"> 접지 그림자</label>
+      <label class="check"><input type="checkbox" id="warm"> 방향광 (좌상단 자연광)</label>
+      <p class="note">컨셉을 바꾸면 이 값들이 그 컨셉의 기본값으로 되돌아갑니다.</p>
+    </div>
+
+    <div class="group">
+      <h3>카드 맥락</h3>
+      <label class="check"><input type="checkbox" id="tape" checked> 마스킹테이프</label>
+      <label class="check"><input type="checkbox" id="tilt" checked> ±0.4° 기울기</label>
+      <label class="check"><input type="checkbox" id="fallback"> 이모지 폴백 비교 (에셋 미완성 품목)</label>
+    </div>
+
+    <p class="note" style="margin-top:24px; border-top:1px solid var(--edge); padding-top:14px;">
+      그림은 <b style="color:var(--fg)">벡터 평탄화 시뮬레이션</b>입니다 — 실제 AI 생성물이 아니라,
+      같은 형태를 N단계로 양자화해 <em>컨셉 간 차이</em>만 정확히 보여줍니다.
+      본문 폰트(Wanted Sans)·손글씨는 이 파일에 없어 시스템 고딕으로 대체됩니다.
+    </p>
+  </aside>
+
+  <!-- ══ 스테이지 ══ -->
+  <main class="stage">
+    <div class="canvas">
+      <div class="canvasHead">
+        <h2 id="stageTitle">세 컨셉 비교</h2>
+        <p id="stageSub"></p>
+      </div>
+      <div class="cols" id="cols"></div>
+    </div>
+
+    <div class="promptWrap">
+      <div class="promptHead">
+        <h3>생성 프롬프트</h3>
+        <div class="tabs" id="promptTabs">
+          <button class="tab" data-mode="filled" aria-pressed="true">이 품목</button>
+          <button class="tab" data-mode="template" aria-pressed="false">포맷 (슬롯)</button>
+          <button class="tab" data-mode="system" aria-pressed="false">일관성 전략</button>
+        </div>
+        <button class="copy" id="copyBtn">복사</button>
+      </div>
+      <pre class="prompt" id="promptOut"></pre>
+    </div>
+  </main>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   컨셉 정의
+   ═══════════════════════════════════════════════════ */
+const CONCEPTS = {
+  plate: {
+    key:'plate', name:'인쇄 도판', en:'printed plate',
+    tag:'색면 8–12 · 그림자 없음 · 부속물 있음',
+    blurb:'종묘사 씨앗봉투·어류도감·정육 도해가 공유하는 인쇄 도판 어휘.',
+    steps:10, parts:true, shadow:false, warm:false,
+    style:'flat vector illustration traced from a photograph, in the manner of a printed colour plate from a 1900s seed catalogue. Every material rendered in 8 to 12 discrete flat tonal steps — hard-edged colour fields, no gradients, no blur, no outline stroke, no grain. Crisp offset-print ink edges.',
+    light:'even, diffuse, frontal illumination. No cast shadow, no ground shadow, no specular bloom.',
+    comp:(it)=>`one ${it.en}, ${it.partsEn}`,
+    refs:'1900s seed-catalogue plates, 조선식물도보, Danish fish plates (Blåvand), Kew botanical plates',
+  },
+  market: {
+    key:'market', name:'시장 좌판 스틸라이프', en:'market stall still life',
+    tag:'색면 20–40 · 그림자 없음 · 방향광  ← 확정',
+    blurb:'확정안. 사진에 가장 가까운 벡터화 + 좌상단 방향광, 접지 그림자는 뺐다 (68장 중 절반이 바닥에 놓이지 않아 붕 뜬다).',
+    steps:28, parts:true, shadow:false, warm:true,
+    style:'high-fidelity vector trace of a photograph — 20 to 40 tonal steps per material, so reflections, moisture and leaf veining survive. Hard-edged colour fields only (no gradients), but stepped finely enough to read as photographic.',
+    light:'warm natural daylight from the upper left, modelling the form. No cast shadow, no contact shadow, no ground shadow — the subject is cleanly cut out with nothing beneath it.',
+    comp:(it)=>`${it.marketCount} ${it.en}, arranged naturally as on a market stall, ${it.partsEn}`,
+    refs:'high-end food photography, vectorised produce still life',
+  },
+  specimen: {
+    key:'specimen', name:'계절 표본 카드', en:'field-guide specimen',
+    tag:'색면 5–8 · 본체 단독 · 축 통일',
+    blurb:'가장 평탄. 68장을 늘어놨을 때 세트감 최고, 실사 풍성함은 가장 적음.',
+    steps:6, parts:false, shadow:false, warm:false,
+    style:'strongly flattened vector illustration — only 5 to 8 large flat colour fields per material. Broad simplified shapes, hard edges, no gradients, no outline, no internal texture.',
+    light:'flat, shadowless, museum-specimen lighting.',
+    comp:(it)=>`a single ${it.en}, no accompanying leaves, stems or props`,
+    refs:'museum specimen labels, modern field-guide pictograms',
+  },
+};
+
+/* ═══════════════════════════════════════════════════
+   색 램프 (자연색) — [밝은쪽, 어두운쪽]
+   ═══════════════════════════════════════════════════ */
+const RAMPS = {
+  peachFlesh: ['#FEEAC9', '#A8352C'],
+  peachBlush: ['#F7B98C', '#8E2A24'],
+  leaf:       ['#D2E3A8', '#3B6431'],
+  stem:       ['#CBAE84', '#6A4A2B'],
+  fishBack:   ['#BFD6D2', '#15303A'],
+  fishBelly:  ['#FFFFFF', '#A9B2B8'],
+  fishFin:    ['#A6BEC2', '#26424B'],
+  cabbage:    ['#EEF4D4', '#4A7739'],
+  cabbageOut: ['#CBDDAE', '#2F5A2A'],
+  eggshell:   ['#FFF6E4', '#C9A97E'],
+};
+
+/* ═══════════════════════════════════════════════════
+   품목 — 도형
+     tone 0=밝음, 1=어두움
+     part:1  부속물 (잎·꼭지·겉잎) — 컨셉이 끄면 사라진다
+     det:1|2 디테일 티어 — 색면 단계가 낮으면 통째로 빠진다.
+             평탄화는 "색을 뭉개는 것"이 아니라 "면의 수를 줄이는 것"이라,
+             단계 수와 함께 도형 수도 같이 줄어야 실제 결과와 같아진다.
+   ═══════════════════════════════════════════════════ */
+const ITEMS = {
+  peach: {
+    key:'peach', kr:'복숭아', en:'Korean peach (Prunus persica)', kind:'햇사레',
+    emoji:'🍑', season:'summer', price:'3,120', basis:'100g 기준',
+    why:'7월 복숭아가 제일 답니다', peak:true,
+    marketCount:'two whole', partsEn:'with two attached leaves and a short cut stem',
+    colorNote:'cream-yellow to apricot flesh with a deep carmine blush on the sunward cheek; leaves muted olive-green',
+    strip:[[6,8,'accent'],[5,5,'tint'],[9,9,'tint']],
+    shapes:[
+      // 본체
+      {ramp:'peachFlesh', tone:.42, d:'M50 20 C 71 20, 86 36, 86 57 C 86 79, 70 94, 50 94 C 30 94, 14 79, 14 57 C 14 36, 29 20, 50 20 Z'},
+      {ramp:'peachBlush', tone:.50, d:'M58 22 C 74 27, 86 40, 86 57 C 86 79, 70 94, 50 94 C 63 76, 68 44, 58 22 Z'},
+      {ramp:'peachBlush', tone:.72, det:1, d:'M70 28 C 82 38, 87 48, 86 60 C 84 76, 74 88, 62 92 C 72 74, 76 48, 70 28 Z'},
+      {ramp:'peachFlesh', tone:.88, d:'M86 57 C 86 79, 70 94, 50 94 C 69 91, 82 79, 84 59 Z'},
+      // 봉합선(골) — 밝은 띠가 아니라 어두운 홈
+      {ramp:'peachFlesh', tone:.70, d:'M52 20 C 45 42, 44 74, 49 94 L 53.5 94 C 48.5 74, 49.5 42, 56 20 Z'},
+      // 좌상 림라이트 — 테두리를 따라 흐르는 초승달 (도려낸 조각처럼 보이지 않게)
+      {ramp:'peachFlesh', tone:.24, d:'M21 52 C 20 35, 32 22, 48 21 C 36 26, 26 37, 24 53 Z'},
+      {ramp:'peachFlesh', tone:.08, det:1, d:'M28 42 C 30 34, 37 27, 45 25 C 37 31, 32 38, 30 45 Z'},
+      // 아래 반사광 + 솜털 얼룩 (고밀도에서만)
+      {ramp:'peachFlesh', tone:.56, det:2, d:'M20 64 C 24 79, 34 89, 47 92 C 34 88, 25 78, 22 64 Z'},
+      {ramp:'peachBlush', tone:.34, det:2, d:'M60 36 C 66 44, 68 56, 65 68 C 66 56, 64 44, 59 37 Z'},
+      {ramp:'peachFlesh', tone:.30, det:2, d:'M34 62 C 39 66, 42 72, 41 78 C 38 73, 35 68, 33 64 Z'},
+      // 부속물 — 꼭지 + 잎 2장
+      {part:1, ramp:'stem',  tone:.58, d:'M48 23 C 48 16, 50 12, 54 9 L 58 11 C 54 14, 52 18, 52 24 Z'},
+      {part:1, ramp:'leaf',  tone:.50, d:'M56 12 C 70 2, 86 6, 92 17 C 79 26, 62 23, 56 12 Z'},
+      {part:1, ramp:'leaf',  tone:.80, det:1, d:'M57 13 C 69 11, 81 13, 92 17 C 79 18, 67 17, 57 13 Z'},
+      {part:1, ramp:'leaf',  tone:.66, d:'M44 16 C 34 8, 22 10, 18 19 C 29 26, 40 24, 44 16 Z'},
+    ],
+  },
+  mackerel: {
+    key:'mackerel', kr:'고등어', en:'chub mackerel (Scomber japonicus)', kind:'',
+    emoji:'🐟', season:'autumn', price:'4,280', basis:'100g 기준',
+    why:'가을 고등어는 기름이 오릅니다', peak:true,
+    marketCount:'two whole', partsEn:'shown whole, in full lateral profile, fins and tail intact',
+    colorNote:'steel blue-green back with dark oblique wave-bands, sharply divided from a silver-white belly',
+    strip:[[8,11,'accent'],[7,7,'tint'],[12,12,'tint']],
+    shapes:[
+      // 지느러미·꼬리는 부속물이 아니라 본체 — 컨셉이 꺼도 남는다
+      {ramp:'fishFin',  tone:.72, d:'M22 50 L 5 35 L 10 50 L 5 65 Z'},
+      {ramp:'fishFin',  tone:.58, d:'M48 32 L 55 21 L 63 31 Z'},
+      {ramp:'fishBelly',tone:.30, d:'M20 50 C 27 65, 47 71, 65 68 C 79 66, 89 58, 93 50 C 70 57, 41 57, 20 50 Z'},
+      {ramp:'fishBack', tone:.70, d:'M20 50 C 27 35, 47 29, 65 32 C 79 34, 89 42, 93 50 C 70 43, 41 43, 20 50 Z'},
+      {ramp:'fishBack', tone:.99, d:'M28 40 C 32 45, 34 48, 33 51 C 30 49, 27 45, 26 42 Z'},
+      {ramp:'fishBack', tone:.99, d:'M41 34 C 45 40, 47 44, 46 48 C 43 45, 40 40, 39 36 Z'},
+      {ramp:'fishBack', tone:.99, d:'M54 32 C 58 38, 60 42, 59 47 C 56 44, 53 39, 52 34 Z'},
+      {ramp:'fishBack', tone:.99, det:1, d:'M67 34 C 71 39, 73 43, 72 48 C 69 45, 66 41, 65 36 Z'},
+      {ramp:'fishBack', tone:.86, det:1, d:'M34 37 C 38 42, 40 46, 39 50 C 36 47, 33 42, 32 38 Z'},
+      {ramp:'fishBack', tone:.86, det:2, d:'M47 33 C 51 39, 53 43, 52 47 C 49 44, 46 39, 45 35 Z'},
+      {ramp:'fishBack', tone:.86, det:2, d:'M60 33 C 64 38, 66 42, 65 47 C 62 44, 59 39, 58 35 Z'},
+      {ramp:'fishBack', tone:.46, det:2, d:'M26 45 C 46 39, 70 40, 90 47 C 70 44, 46 43, 26 45 Z'},
+      {ramp:'fishBelly',tone:.05, d:'M24 52 C 44 57, 70 57, 91 51 C 70 54, 44 55, 24 52 Z'},
+      {ramp:'fishBelly',tone:.55, det:2, d:'M30 58 C 46 64, 66 64, 84 57 C 66 61, 46 61, 30 58 Z'},
+      {ramp:'fishFin',  tone:.50, d:'M64 58 L 71 67 L 59 64 Z'},
+      {ramp:'fishFin',  tone:.42, det:1, d:'M44 60 L 49 68 L 38 65 Z'},
+      {ramp:'fishBack', tone:.86, d:'M84 38 C 90 42, 93 46, 93 50 C 91 46, 88 42, 83 40 Z'},
+      {eye:1},
+    ],
+  },
+  cabbage: {
+    key:'cabbage', kr:'양배추', en:'green cabbage (Brassica oleracea var. capitata)', kind:'',
+    emoji:'🥬', season:'spring', price:'2,940', basis:'1통 기준',
+    why:'봄 양배추는 잎이 연합니다', peak:false,
+    marketCount:'one whole and one halved', partsEn:'with two loose outer wrapper leaves still attached at the base',
+    colorNote:'pale jade interior grading to a bluish sage on the outer wrapper leaves; pale cream veins',
+    strip:[[3,5,'accent'],[11,12,'tint'],[1,2,'tint']],
+    shapes:[
+      // 겉잎 — 밑동에서 벌어져 나온다 (위로 솟은 "귀"가 아니라 아래로 늘어진 잎)
+      {part:1, ramp:'cabbageOut', tone:.72, d:'M34 74 C 18 78, 6 74, 2 64 C 14 58, 28 62, 36 70 Z'},
+      {part:1, ramp:'cabbageOut', tone:.90, d:'M66 74 C 82 79, 94 75, 98 65 C 86 59, 72 63, 64 71 Z'},
+      // 결구(머리) — 위가 살짝 넓은 구
+      {ramp:'cabbage', tone:.48, d:'M50 14 C 71 14, 87 30, 87 52 C 87 74, 71 88, 50 88 C 29 88, 13 74, 13 52 C 13 30, 29 14, 50 14 Z'},
+      {ramp:'cabbage', tone:.72, d:'M87 52 C 87 74, 71 88, 50 88 C 70 85, 83 72, 85 52 Z'},
+      {ramp:'cabbage', tone:.86, det:1, d:'M82 66 C 76 79, 64 87, 50 88 C 66 84, 77 76, 81 64 Z'},
+      // 겹겹 잎 가장자리 — 정수리에서 나선으로 감긴다
+      {ramp:'cabbage', tone:.26, d:'M46 16 C 30 24, 20 38, 20 55 C 24 39, 34 26, 49 19 Z'},
+      {ramp:'cabbage', tone:.34, d:'M52 15 C 68 22, 79 36, 80 54 C 76 38, 66 25, 51 18 Z'},
+      {ramp:'cabbage', tone:.18, det:1, d:'M48 22 C 36 30, 29 42, 29 57 C 32 44, 39 33, 50 25 Z'},
+      {ramp:'cabbage', tone:.60, det:1, d:'M53 22 C 64 30, 70 42, 70 57 C 67 44, 61 33, 51 25 Z'},
+      {ramp:'cabbage', tone:.10, det:2, d:'M49 30 C 42 37, 38 46, 38 57 C 40 47, 44 39, 51 33 Z'},
+      {ramp:'cabbage', tone:.40, det:2, d:'M52 30 C 58 37, 61 46, 61 57 C 59 47, 56 39, 50 33 Z'},
+      {ramp:'cabbage', tone:.66, det:2, d:'M24 62 C 30 76, 40 85, 52 87 C 39 83, 30 75, 26 62 Z'},
+      // 정수리 심 + 밑동 심
+      {ramp:'cabbage', tone:.04, d:'M50 14 C 47 21, 46 27, 47 33 C 49 27, 51 21, 53 15 Z'},
+      {ramp:'stem', tone:.46, d:'M43 86 C 46 90, 54 90, 57 86 C 56 92, 44 92, 43 86 Z'},
+    ],
+  },
+};
+const ITEM_ORDER = ['peach','mackerel','cabbage'];
+
+/* ═══════════════════════════════════════════════════
+   색 유틸 — 양자화
+   ═══════════════════════════════════════════════════ */
+function hex2rgb(h){ return [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)]; }
+function rgb2hex(r){ return '#' + r.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join(''); }
+function lerp(a,b,t){ return a.map((v,i)=> v + (b[i]-v)*t ); }
+
+/** tone(0..1)을 steps 단계로 양자화해 램프 위의 색을 뽑는다 — 이게 "concept to vector"의 평탄화. */
+function quantize(rampKey, tone, steps, toneShift){
+  const [lo,hi] = RAMPS[rampKey].map(hex2rgb);
+  let t = Math.max(0, Math.min(1, tone + (toneShift||0)));
+  const n = Math.max(2, steps);
+  const idx = Math.round(t * (n-1));
+  return rgb2hex(lerp(lo, hi, idx/(n-1)));
+}
+
+/* ═══════════════════════════════════════════════════
+   상태
+   ═══════════════════════════════════════════════════ */
+const state = {
+  view:'compare', concept:'market', item:'peach', allItems:true, size:96,
+  steps:28, parts:true, shadow:false, warm:true,
+  tape:true, tilt:true, fallback:false, promptMode:'filled',
+};
+
+/* ═══════════════════════════════════════════════════
+   에셋 SVG 렌더
+   ═══════════════════════════════════════════════════ */
+function renderArt(item, cfg, px){
+  const { steps, parts, shadow, warm } = cfg;
+  let out = '';
+
+  if (shadow){
+    // 접지 그림자 — 단일 불투명 타원 (그라데이션 없음, 컨셉 B 전용)
+    out += `<ellipse cx="52" cy="95" rx="30" ry="4.5" fill="#000" opacity=".13"/>`;
+  }
+
+  for (const s of item.shapes){
+    if (s.part && !parts) continue;
+    // 면의 수도 단계 수와 함께 줄인다 — 이게 평탄화의 실제 모습이다
+    if (s.det === 1 && steps < 11) continue;
+    if (s.det === 2 && steps < 20) continue;
+
+    if (s.eye){
+      out += `<circle cx="86" cy="45" r="4" fill="#FBF7EF"/><circle cx="86.5" cy="45.5" r="2.4" fill="#16222B"/>`;
+      continue;
+    }
+    // 방향광: 좌상단이 밝고 우하단이 어둡게 — 도형 중심의 위치로 tone을 민다
+    let shift = 0;
+    if (warm){
+      const m = /M\s*(-?[\d.]+)\s+(-?[\d.]+)/.exec(s.d);
+      if (m){ const x = +m[1], y = +m[2]; shift = ((x-50)/100)*0.14 + ((y-50)/100)*0.14; }
+    }
+    out += `<path d="${s.d}" fill="${quantize(s.ramp, s.tone, steps, shift)}"/>`;
+  }
+  return `<svg class="art" width="${px}" height="${px}" viewBox="0 0 100 100" aria-hidden="true">${out}</svg>`;
+}
+
+/* ═══════════════════════════════════════════════════
+   카드 렌더
+   ═══════════════════════════════════════════════════ */
+function renderStrip(item){
+  // 12개월 축 위 제철 띠 (앱 SeasonStrip 축약 재현)
+  let bars = '';
+  for (const [a,b,kind] of item.strip){
+    const left = ((a-1)/12*100), w = ((b-a+1)/12*100);
+    const c = kind==='accent' ? 'var(--accent)' : 'var(--tint)';
+    bars += `<i style="left:${left}%;width:${w}%;background:${c}"></i>`;
+  }
+  return `<div class="strip" style="border-bottom:1px solid var(--axis)">${bars}</div>`;
+}
+
+function renderCard(item, cfg, opts){
+  const px = opts.size;
+  const art = opts.fallbackMode
+    ? `<span class="art emojiFallback" style="display:inline-block;width:${Math.min(px,30)}px">${item.emoji}</span>`
+    : renderArt(item, cfg, px);
+  return `
+  <article class="pcard" data-season="${item.season}" style="${state.tape?'':'--tape:0;'}${state.tilt?'':'transform:none;'}">
+    <div class="row">
+      ${art}
+      <div class="meta">
+        <div class="nameline">${item.kr}${item.peak?'<span class="peak"></span>':''}</div>
+        ${item.kind?`<span class="kind">${item.kind}</span>`:''}
+        <div class="price">${item.price}원</div>
+        <div class="basis">${item.basis}</div>
+        ${renderStrip(item)}
+      </div>
+    </div>
+    <p class="why">${item.why}</p>
+  </article>`;
+}
+
+function cfgFor(conceptKey){
+  // 비교 모드에서는 각 컨셉의 기본값을, 단일 모드에서는 사용자가 덮어쓴 값을 쓴다.
+  const c = CONCEPTS[conceptKey];
+  if (state.view === 'single' && conceptKey === state.concept){
+    return { steps:state.steps, parts:state.parts, shadow:state.shadow, warm:state.warm };
+  }
+  return { steps:c.steps, parts:c.parts, shadow:c.shadow, warm:c.warm };
+}
+
+function render(){
+  const items = state.allItems ? ITEM_ORDER.map(k=>ITEMS[k]) : [ITEMS[state.item]];
+  const cols = document.getElementById('cols');
+  const title = document.getElementById('stageTitle');
+  const sub = document.getElementById('stageSub');
+
+  if (state.view === 'compare'){
+    cols.className = 'cols';
+    title.textContent = '세 컨셉 비교';
+    sub.textContent = `${state.size}px 표시 · 같은 형태를 컨셉별 색면 단계로 양자화`;
+    cols.innerHTML = Object.values(CONCEPTS).map(c=>{
+      const cfg = cfgFor(c.key);
+      const cards = items.map(it=>renderCard(it,cfg,{size:state.size})).join('');
+      return `<div class="col">
+        <div class="colHead"><h3>${c.name}</h3><p>${c.tag}</p></div>
+        <div class="list">${cards}</div>
+      </div>`;
+    }).join('');
+  } else {
+    cols.className = 'cols single';
+    const c = CONCEPTS[state.concept];
+    title.textContent = c.name;
+    sub.textContent = c.blurb;
+    const cfg = cfgFor(state.concept);
+    let cards = items.map(it=>renderCard(it,cfg,{size:state.size})).join('');
+    if (state.fallback){
+      cards += renderCard(ITEMS.cabbage, cfg, {size:state.size, fallbackMode:true});
+    }
+    cols.innerHTML = `<div class="col"><div class="list">${cards}</div></div>`;
+  }
+
+  // 테이프 토글
+  document.querySelectorAll('.pcard').forEach(el=>{
+    if (!state.tape) el.style.setProperty('--tape-hide','1');
+  });
+  if (!state.tape){
+    let s = document.getElementById('tapeOff');
+    if (!s){ s = document.createElement('style'); s.id='tapeOff'; document.head.appendChild(s); }
+    s.textContent = '.pcard::before{display:none}';
+  } else {
+    const s = document.getElementById('tapeOff'); if (s) s.textContent = '';
+  }
+
+  renderPrompt();
+}
+
+/* ═══════════════════════════════════════════════════
+   프롬프트
+   ═══════════════════════════════════════════════════ */
+const NEGATIVE = 'text, letters, numbers, labels, watermark, signature, border, frame, vignette, drop shadow, gradient, outline stroke, background colour, paper texture, props, hands, plates, bowls, packaging, price tag, photorealism, 3D render, bokeh, depth of field';
+
+function filledPrompt(){
+  const c = CONCEPTS[state.concept];
+  const it = ITEMS[state.item];
+  const cfg = cfgFor(state.concept);
+  const stepTxt = state.view==='single' ? `${cfg.steps}` : (c.key==='plate'?'8 to 12':c.key==='market'?'20 to 40':'5 to 8');
+  return `Subject
+${c.comp(it)}. Korean market produce, ${it.kr}.
+
+Style
+${c.style.replace(/8 to 12|20 to 40|5 to 8/, stepTxt)}
+
+Colour
+True-to-life natural colour: ${it.colorNote}. Do not stylise, tint or desaturate the subject's own colour.
+
+View
+Three-quarter view from slightly above, subject centred and upright, occupying about 80% of the frame with even margins on all four sides.
+
+Light
+${c.light}
+
+Background
+Fully transparent. Nothing behind or around the subject.
+
+Do not include
+${NEGATIVE}.
+
+Output
+Square 1:1, 1024 × 1024, transparent PNG.
+
+Reference register: ${c.refs}.`;
+}
+
+function templatePrompt(){
+  const c = CONCEPTS[state.concept];
+  return `# 제철이 에셋 프롬프트 포맷 — ${c.name} (${c.en})
+# 슬롯 {…}만 품목별로 갈아끼우고 나머지 7개 블록은 한 글자도 바꾸지 않는다.
+# 바뀌지 않는 블록이 68장을 한 세트로 묶는 유일한 장치다.
+
+Subject
+{COMPOSITION} — {PARTS}. Korean market produce, {ITEM_KR}.
+
+Style
+${c.style}
+
+Colour
+True-to-life natural colour: {COLOUR_NOTE}. Do not stylise, tint or desaturate
+the subject's own colour.
+
+View
+Three-quarter view from slightly above, subject centred and upright, occupying
+about 80% of the frame with even margins on all four sides.
+
+Light
+${c.light}
+
+Background
+Fully transparent. Nothing behind or around the subject.
+
+Do not include
+${NEGATIVE}.
+
+Output
+Square 1:1, 1024 × 1024, transparent PNG.
+
+Reference register: ${c.refs}.
+
+
+# ── 슬롯 사전 (68항목 × 4슬롯 = 스펙 부록으로 관리) ─────────────
+# {ITEM_KR}      복숭아
+# {COMPOSITION}  one Korean peach (Prunus persica)
+# {PARTS}        with two attached leaves and a short cut stem
+# {COLOUR_NOTE}  cream-yellow to apricot flesh with a deep carmine blush …
+#
+# 슬롯을 4개로 묶은 이유: 학명은 형태를, PARTS는 도판 문법을,
+# COLOUR_NOTE는 색 드리프트를 각각 고정한다. 셋 중 하나만 빠져도
+# 같은 프롬프트가 다른 그림을 낸다.`;
+}
+
+function systemPrompt(){
+  return `# 68장을 한 세트로 유지하는 장치 (Nano Banana / Gemini 계열 기준)
+
+1. 앵커 3장을 먼저 확정한다
+   복숭아(과일) · 고등어(수산) · 양배추(채소) — 형태 난이도가 서로 다른 셋.
+   이 3장이 통과할 때까지 프롬프트를 고치고, 통과한 뒤엔 프롬프트를 동결한다.
+   ※ 축산은 도판 문법이 달라(부위 단면) 4번째 앵커로 한우 등심 1장을 추가한다.
+
+2. 매 생성마다 앵커 3장을 레퍼런스로 첨부한다
+   Nano Banana 계열의 일관성은 텍스트가 아니라 첨부 이미지에서 나온다.
+   문장: "Match the flattening level, edge quality, lighting and framing of the
+   three attached reference plates exactly. Only the subject changes."
+
+3. 슬롯만 갈아끼운다
+   {ITEM_KR} {COMPOSITION} {PARTS} {COLOUR_NOTE} 네 자리 외의 문장을 손대면
+   그 시점부터 세트가 갈라진다. 슬롯 사전은 스펙 부록에 표로 관리한다.
+
+4. 검수 게이트 — 뽑은 즉시 4가지를 본다
+   ① 배경이 진짜 투명한가 (반투명 흰 테두리 = 재생성)
+   ② 그림자가 섞여 들어왔나 (컨셉 A·C는 그림자 0)
+   ③ 프레임 점유율이 ~80%인가 (68장이 제각각이면 카드에서 크기가 춤춘다)
+   ④ 96px로 축소했을 때 무엇인지 읽히는가 ← 이게 최종 기준
+
+5. 후처리 파이프라인 (고정)
+   1024 PNG → 배경 알파 정리 → 정사각 트림 후 여백 10% 재부여(점유율 통일)
+   → 288px WebP(3x) 저장 → public/assets/produce/{id}.webp
+   68장 × 288px WebP ≈ 8~14KB/장 = 총 0.6~1.0MB. 카드마다 lazy 로드.
+
+6. 실패 시
+   에셋이 없으면 기존 이모지로 폴백한다(점진 교체). 이미지가 비어 보이는
+   상태를 만들지 않는다.`;
+}
+
+function renderPrompt(){
+  const el = document.getElementById('promptOut');
+  el.textContent = state.promptMode==='template' ? templatePrompt()
+                 : state.promptMode==='system'   ? systemPrompt()
+                 : filledPrompt();
+}
+
+/* ═══════════════════════════════════════════════════
+   컨트롤 바인딩
+   ═══════════════════════════════════════════════════ */
+function buildSeg(id, entries, key, onPick){
+  const wrap = document.getElementById(id);
+  wrap.innerHTML = entries.map(e=>`
+    <button class="opt" data-v="${e.v}" aria-pressed="${state[key]===e.v}">
+      <b>${e.b}</b>${e.s?`<span>${e.s}</span>`:''}
+    </button>`).join('');
+  wrap.addEventListener('click', ev=>{
+    const btn = ev.target.closest('.opt'); if(!btn) return;
+    state[key] = btn.dataset.v;
+    [...wrap.children].forEach(c=>c.setAttribute('aria-pressed', c===btn));
+    onPick && onPick(btn.dataset.v);
+    render();
+  });
+}
+
+buildSeg('conceptSeg', Object.values(CONCEPTS).map(c=>({v:c.key,b:c.name,s:c.tag})), 'concept', (v)=>{
+  const c = CONCEPTS[v];
+  state.steps=c.steps; state.parts=c.parts; state.shadow=c.shadow; state.warm=c.warm;
+  syncDetail();
+});
+buildSeg('itemSeg', ITEM_ORDER.map(k=>({v:k,b:`${ITEMS[k].emoji} ${ITEMS[k].kr}`,s:ITEMS[k].en})), 'item');
+
+document.getElementById('viewSeg').addEventListener('click', e=>{
+  const b = e.target.closest('.opt'); if(!b) return;
+  state.view = b.dataset.view;
+  [...e.currentTarget.children].forEach(c=>c.setAttribute('aria-pressed', c===b));
+  document.getElementById('conceptGroup').hidden = state.view!=='single';
+  render();
+});
+document.getElementById('sizeSeg').addEventListener('click', e=>{
+  const b = e.target.closest('.opt'); if(!b) return;
+  state.size = +b.dataset.size;
+  [...e.currentTarget.children].forEach(c=>c.setAttribute('aria-pressed', c===b));
+  render();
+});
+document.getElementById('promptTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.tab'); if(!b) return;
+  state.promptMode = b.dataset.mode;
+  [...e.currentTarget.children].forEach(c=>c.setAttribute('aria-pressed', c===b));
+  renderPrompt();
+});
+
+function bindCheck(id, key){
+  const el = document.getElementById(id);
+  el.checked = state[key];
+  el.addEventListener('change', ()=>{ state[key]=el.checked; render(); });
+}
+['allItems','parts','shadow','warm','tape','tilt','fallback'].forEach(id=>bindCheck(id, id));
+
+const stepsEl = document.getElementById('steps');
+stepsEl.addEventListener('input', ()=>{
+  state.steps = +stepsEl.value;
+  document.getElementById('stepsVal').textContent = stepsEl.value;
+  render();
+});
+function syncDetail(){
+  stepsEl.value = state.steps;
+  document.getElementById('stepsVal').textContent = state.steps;
+  ['parts','shadow','warm'].forEach(k=>{ document.getElementById(k).checked = state[k]; });
+}
+
+document.getElementById('copyBtn').addEventListener('click', async e=>{
+  await navigator.clipboard.writeText(document.getElementById('promptOut').textContent);
+  const b = e.currentTarget, t = b.textContent;
+  b.textContent = '복사됨'; setTimeout(()=>b.textContent=t, 1200);
+});
+
+syncDetail();
+render();
+</script>
+</body>
+</html>
