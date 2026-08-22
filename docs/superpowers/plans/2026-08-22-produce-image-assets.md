@@ -65,14 +65,14 @@ Task 1이 Phase A보다 앞인 이유: 게이트 1의 "용량 실측"이 정규�
 **Interfaces:**
 - Produces: `normalizeImage(input: Buffer): Promise<Buffer>` — 1024 투명 PNG를 받아 288 WebP를 낸다. CLI: `node scripts/normalize-produce-images.mjs <원본 PNG 폴더> [출력 폴더=public/assets/produce]`. Task 2·8이 이 CLI를 쓴다.
 
-- [ ] **Step 1: 브랜치 + 의존성**
+- [x] **Step 1: 브랜치 + 의존성**
 
 ```bash
 git checkout main && git pull && git checkout -b feat/produce-images
 npm install -D sharp
 ```
 
-- [ ] **Step 2: 실패하는 테스트 작성** — `tests/normalize-image.test.js`:
+- [x] **Step 2: 실패하는 테스트 작성** — `tests/normalize-image.test.js`:
 
 ```js
 import { describe, expect, test } from 'vitest'
@@ -89,13 +89,15 @@ async function syntheticPng({ w = 500, h = 300, left = 37, top = 91, extra = [] 
   }).composite([{ input: subject, left, top }, ...extra]).png().toBuffer()
 }
 
-/** 출력물에서 불투명(alpha>0) 픽셀의 bbox를 잰다. */
+/** 출력물에서 피사체의 bbox를 잰다. 기준은 알파 50%(=EDGE) — `alpha > 0`으로 재면
+ *  288 축소 시 생기는 가장자리 보간 그라데이션까지 세어 236px처럼 부풀어 읽힌다. */
+const EDGE = 128
 async function bbox(buffer) {
   const { data, info } = await sharp(buffer).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
   let minX = info.width, minY = info.height, maxX = -1, maxY = -1
   for (let y = 0; y < info.height; y++)
     for (let x = 0; x < info.width; x++)
-      if (data[(y * info.width + x) * info.channels + 3] > 0) {
+      if (data[(y * info.width + x) * info.channels + 3] >= EDGE) {
         if (x < minX) minX = x
         if (x > maxX) maxX = x
         if (y < minY) minY = y
@@ -118,8 +120,8 @@ describe('normalizeImage — 점유율 80% 정규화 (스펙 §7)', () => {
     const out = await normalizeImage(await syntheticPng({ left: 37, top: 91 }))
     const b = await bbox(out)
     // 긴 변 500 → 캔버스 625 → 288로 축소하면 500/625*288 ≈ 230px (80%)
-    expect(b.w).toBeGreaterThanOrEqual(228)
-    expect(b.w).toBeLessThanOrEqual(234)
+    expect(b.w).toBeGreaterThanOrEqual(229)
+    expect(b.w).toBeLessThanOrEqual(232)
     // 중앙: 좌우 여백이 같다 (±2px — 리사이즈 보간 오차)
     expect(Math.abs(b.minX - (SIZE - b.w) / 2)).toBeLessThanOrEqual(2)
   })
@@ -132,7 +134,7 @@ describe('normalizeImage — 점유율 80% 정규화 (스펙 §7)', () => {
       await syntheticPng({ extra: [{ input: halo, left: 1010, top: 1010 }] }),
     )
     const b = await bbox(out)
-    expect(b.w).toBeGreaterThanOrEqual(228) // 헤일로가 bbox에 들어갔다면 피사체가 훨씬 작아진다
+    expect(b.w).toBeGreaterThanOrEqual(229) // 헤일로가 bbox에 들어갔다면 피사체가 훨씬 작아진다
   })
 
   test('완전 투명이면 조용히 넘기지 않고 throw', async () => {
@@ -144,12 +146,12 @@ describe('normalizeImage — 점유율 80% 정규화 (스펙 §7)', () => {
 })
 ```
 
-- [ ] **Step 3: 실패 확인**
+- [x] **Step 3: 실패 확인**
 
 Run: `npx vitest run tests/normalize-image.test.js`
 Expected: FAIL — `normalize-image.mjs` 모듈 없음.
 
-- [ ] **Step 4: 구현** — `scripts/lib/normalize-image.mjs`:
+- [x] **Step 4: 구현** — `scripts/lib/normalize-image.mjs`:
 
 ```js
 import sharp from 'sharp'
@@ -188,7 +190,10 @@ export async function normalizeImage(input) {
     .extract({ left: minX, top: minY, width: w, height: h })
     .png()
     .toBuffer()
-  return sharp(subject)
+  // extend와 resize를 한 체인에 두면 안 된다 — sharp는 체인 순서가 아니라 자기
+  // 파이프라인 순서로 적용해 resize를 먼저 돌린다(288로 줄인 뒤 여백을 덧대 413×613이
+  // 나온다). 여백을 확정한 버퍼를 만들고 나서 별도 인스턴스로 축소한다.
+  const padded = await sharp(subject)
     .extend({
       top,
       bottom: canvas - h - top,
@@ -196,9 +201,10 @@ export async function normalizeImage(input) {
       right: canvas - w - left,
       background: { r: 0, g: 0, b: 0, alpha: 0 },
     })
-    .resize(SIZE, SIZE)
-    .webp()
+    .png()
     .toBuffer()
+
+  return sharp(padded).resize(SIZE, SIZE).webp().toBuffer()
 }
 ```
 
@@ -227,18 +233,18 @@ for (const f of readdirSync(inDir).filter((f) => f.endsWith('.png'))) {
 }
 ```
 
-- [ ] **Step 5: 통과 확인 + 전체 게이트**
+- [x] **Step 5: 통과 확인 + 전체 게이트**
 
 Run: `npx vitest run tests/normalize-image.test.js` → PASS
 Run: `npm test && npx tsc --noEmit` → PASS (기존 테스트 무영향)
 
-- [ ] **Step 6: CLAUDE.md 명령어 절에 추가** — `npm run subset:fonts` 항목 아래:
+- [x] **Step 6: CLAUDE.md 명령어 절에 추가** — `npm run subset:fonts` 항목 아래:
 
 ```markdown
 - `node scripts/normalize-produce-images.mjs <폴더>` — 품목 도판 후처리 (1024 PNG → 점유율 80% 정규화 → 288 WebP, `public/assets/produce/`). 1회성 로컬, CI 없음
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add scripts/lib/normalize-image.mjs scripts/normalize-produce-images.mjs tests/normalize-image.test.js package.json package-lock.json CLAUDE.md
