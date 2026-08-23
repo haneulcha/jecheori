@@ -20,3 +20,4 @@ nutrition-candidates.json
 
 # 도판 생성 원본 (1024+ PNG) — 커밋 대상은 288 WebP뿐 (스펙 §7)
 /assets/
+/assets-trial/

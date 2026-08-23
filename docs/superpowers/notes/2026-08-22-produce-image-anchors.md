@@ -389,3 +389,76 @@ Gemini 계열, 2048×2048 PNG 4장.
 보정하지 않는다(스펙 §3 동결).
 
 **동결 선언:** (통과 시 날짜와 함께 여기에)
+
+
+---
+
+## 부록 — 인쇄 도판 시범 1장 (**동결 대상 아님**)
+
+시장 좌판으로 확정했지만 탈락안을 안 보고 가기 아쉬워 `peach` 한 장만 뽑아본다.
+**이건 실험이지 생산 프롬프트가 아니다.** 위의 동결 프롬프트 4개와 혼동하지 않는다.
+
+**바꾼 것은 Style·Light 두 블록뿐이다.** 나머지 여섯(Subject·Colour·View·Background·
+Do not include·Output)은 동결본과 한 글자도 다르지 않다 — 그래야 같은 파이프라인을
+타고 같은 96px 자리에서 겹쳐볼 수 있다. 두 블록을 함께 바꾸는 이유: 인쇄 도판과 시장
+좌판을 가르는 건 평탄화 강도(20–40 → 8–12)와 **방향광 유무** 둘이다. 한쪽만 바꾸면
+컨셉이 아니라 반쪽을 시험하게 된다.
+
+```
+Subject
+two whole peaches, one upright and one tilted beside it — with two attached leaves and a
+short cut stem. Korean market produce, 복숭아.
+
+Style
+Flat vector illustration in the manner of a printed colour plate from a 1900s seed
+catalogue. Every material reduced to 8 to 12 discrete flat tonal steps — broad
+hard-edged colour fields, no gradients, no blur, no grain. Crisp offset-print ink
+edges, as if pressed onto paper. Simplified but not stylised: the shapes stay true
+to the real fruit.
+
+Colour
+True-to-life natural colour: cream-yellow to apricot skin with a deep carmine blush on
+the sunward cheek; leaves muted olive-green. Do not stylise, tint or desaturate the
+subject's own colour.
+
+View
+Three-quarter view from slightly above, subject centred, occupying about 80% of the
+frame with even margins on all four sides. If the subject is markedly longer than it
+is tall, angle it diagonally across the square so its long axis runs corner to
+corner and it fills the frame.
+
+Light
+Even, diffuse, frontal illumination — the flat light of a printed plate. No cast
+shadow, no contact shadow, no ground shadow, no specular highlight.
+
+Background
+A single flat solid magenta (#FF00FF) fill, edge to edge, with nothing on it — no
+pattern, no checkerboard, no texture, no gradient, no vignette, and no shadow cast
+onto it. The magenta is a chroma key that is removed afterwards, so keep the
+subject's own colours free of pure magenta (natural purples such as grape skin are
+fine — only the flat background colour is keyed).
+
+Do not include
+checkerboard, transparency checker pattern, alpha checker, fake transparency, text,
+letters, numbers, labels, captions, watermark, signature, sparkle, star, glint,
+decorative flourish, grid, collage, multiple panels, border, frame, vignette, drop
+shadow, gradient, outline stroke, paper texture, props, hands, plates, bowls,
+packaging, price tag, photorealism, 3D render, bokeh, depth of field.
+
+Output
+Square 1:1, at least 1024 × 1024, PNG.
+```
+
+뽑은 뒤 `assets-trial/peach.png`로 저장하면 96px 나란히 비교 시트를 만든다.
+배경은 **똑같이 마젠타**로 — 파이프라인이 같아야 비교가 성립한다.
+
+### 무엇을 보고 판단하나
+
+96px에서 시장 좌판본과 나란히 놓고:
+
+1. **축소를 견디나** — 면이 클수록 뭉개져도 남는다. 인쇄 도판의 유일한 구조적 장점이다
+2. **크림 종이와 붙나** — 스톡 사진처럼 뜨지 않고 앱의 손그림 정체성에 앉는가
+3. **식욕** — 잃은 만큼 값어치를 하는가. 이걸 잃는 게 애초 탈락 사유였다
+
+바꿀 거면 66장을 뽑기 전인 지금이 마지막이다. 바꾸지 않기로 하면 이 부록은 기록으로
+남는다 — 왜 안 갔는지가 남는 게 안 남는 것보다 낫다.
