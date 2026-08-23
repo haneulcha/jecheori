@@ -162,3 +162,30 @@ describe('normalizeImage — 키 컬러 배경 제거 (스펙 §7)', () => {
     expect(worst).toBeLessThanOrEqual(12)
   })
 })
+
+describe('normalizeImage — 부스러기 검출 (스펙 §6 ①)', () => {
+  test('본체와 동떨어진 1% 미만 조각이 있으면 throw — 라벨·반짝이·먼지', async () => {
+    // 2회차 앵커가 이랬다: Gemini가 "peach" 라벨을 그려 넣었고, 마젠타를 빼내도
+    // 글자가 섬으로 남아 bbox를 끌어당겼다(피사체가 아래로 밀리고 작아졌다).
+    const speck = await sharp({
+      create: { width: 26, height: 26, channels: 4, background: { r: 20, g: 20, b: 20, alpha: 1 } },
+    })
+      .png()
+      .toBuffer()
+    await expect(
+      normalizeImage(await keyedPng({ extra: [{ input: speck, left: 60, top: 40 }] })),
+    ).rejects.toThrow(/부스러기/)
+  })
+
+  test('덩치가 비슷한 여러 개는 정상 구성이다 — 복숭아 세 알·마늘 쪽', async () => {
+    const second = await sharp({
+      create: { width: 300, height: 300, channels: 4, background: { r: 70, g: 140, b: 60, alpha: 1 } },
+    })
+      .png()
+      .toBuffer()
+    const out = await normalizeImage(
+      await keyedPng({ extra: [{ input: second, left: 600, top: 500 }] }),
+    )
+    expect((await sharp(out).metadata()).width).toBe(SIZE)
+  })
+})

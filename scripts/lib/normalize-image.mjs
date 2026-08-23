@@ -75,6 +75,43 @@ function removeKeyColour(data, width, height, channels) {
   }
 }
 
+/** 불투명 영역의 이 비율 미만인 연결요소는 피사체가 아니라 부스러기로 본다.
+ *  2회차 앵커에서 실측: 라벨 글자·반짝이는 전부 0.8% 미만이었고 본체는 95% 이상이었다.
+ *  정상 구성요소는 자릿수가 다르다 — 복숭아 세 알이면 각 33%, 마늘 쪽 하나도 10%대. */
+const FRAGMENT_FLOOR = 0.01
+
+/** 본체(가장 큰 연결요소)에서 떨어져 나온 작은 조각들의 비율(%)을 돌려준다.
+ *  조용히 지우지 않는다 — 부스러기가 있다는 건 생성기가 "Do not include"를 어겼다는
+ *  뜻이고, 그건 사람이 알아야 할 사실이지 파이프라인이 덮을 일이 아니다. */
+function findFragments(data, width, height, channels) {
+  const label = new Int32Array(width * height).fill(-1)
+  const sizes = []
+  for (let p = 0; p < width * height; p++) {
+    if (label[p] !== -1 || data[p * channels + 3] === 0) continue
+    const id = sizes.length
+    let count = 0
+    const stack = [p]
+    label[p] = id
+    while (stack.length) {
+      const q = stack.pop()
+      count++
+      const x = q % width
+      const y = (q - x) / width
+      if (x > 0 && label[q - 1] === -1 && data[(q - 1) * channels + 3] > 0) { label[q - 1] = id; stack.push(q - 1) }
+      if (x < width - 1 && label[q + 1] === -1 && data[(q + 1) * channels + 3] > 0) { label[q + 1] = id; stack.push(q + 1) }
+      if (y > 0 && label[q - width] === -1 && data[(q - width) * channels + 3] > 0) { label[q - width] = id; stack.push(q - width) }
+      if (y < height - 1 && label[q + width] === -1 && data[(q + width) * channels + 3] > 0) { label[q + width] = id; stack.push(q + width) }
+    }
+    sizes.push(count)
+  }
+  const total = sizes.reduce((a, b) => a + b, 0)
+  if (total === 0) return []
+  return sizes
+    .filter((s) => s / total < FRAGMENT_FLOOR)
+    .sort((a, b) => b - a)
+    .map((s) => (s / total) * 100)
+}
+
 /** 1024 PNG(투명 배경이거나 평면 마젠타 배경) → 배경 제거 → 알파 정리 →
  *  피사체 bbox 트림 → 여백 10% 재부여 → 288 WebP.
  *  점유율 80% 통일이 여기서 강제된다(스펙 §7) — AI는 프레이밍을 맞춰주지 않아,
@@ -113,6 +150,14 @@ export async function normalizeImage(input) {
     throw new Error(
       '배경이 제거되지 않았다 — 프레임 전체가 불투명하다. ' +
         '평면 마젠타(#FF00FF) 배경이나 투명 배경으로 다시 생성해야 한다',
+    )
+  }
+
+  const fragments = findFragments(data, width, height, channels)
+  if (fragments.length > 0) {
+    throw new Error(
+      `본체에서 떨어진 부스러기 ${fragments.length}개 (${fragments.map((f) => f.toFixed(2) + '%').join(', ')}). ` +
+        '라벨 글자·반짝이·먼지일 가능성이 높다 — 프롬프트의 "Do not include"를 어긴 것이므로 재생성한다',
     )
   }
 

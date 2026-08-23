@@ -11,7 +11,7 @@
 수산(측면 프로필·긴 형태) · 채소(단일 덩어리) · 축산(식물 부속물 없음, 해부학적
 특징으로 대체).
 
-**현재: 2회차 대기.** 1회차 결과와 무엇을 왜 고쳤는지는 아래 "회차 기록".
+**현재: 3회차 대기.** 회차별 결과와 무엇을 왜 고쳤는지는 아래 "회차 기록".
 
 ---
 
@@ -19,6 +19,9 @@
 
 - 출력: **1024×1024 이상 PNG**. 배경은 **평면 마젠타 `#FF00FF`** — 투명이 아니다.
 - 생성기: **Gemini 계열(Nano Banana)**. GPT Image 비교는 구독이 없어 미수행(스펙 §5.2).
+- **한 번에 하나씩 생성한다.** 네 프롬프트를 한 번에 넣으면 Gemini가 2×2 대지 한 장에
+  몰아 그리고 **라벨 글자까지 박는다**(2회차 실패 모드). 대화를 나눠 한 프롬프트당
+  한 장씩 받는다.
 - 파일명은 `peach.png` · `mackerel.png` · `cabbage.png` · `hanwoo-sirloin.png`
   (후처리 CLI가 파일명을 그대로 쓴다).
 - **점유율 80%는 맞추지 않아도 된다** — 후처리가 강제한다. 잘리지만 않으면 된다.
@@ -73,7 +76,8 @@ fine — only the flat background colour is keyed).
 
 Do not include
 checkerboard, transparency checker pattern, alpha checker, fake transparency, text,
-letters, numbers, labels, watermark, signature, border, frame, vignette, drop
+letters, numbers, labels, captions, watermark, signature, sparkle, star, glint,
+decorative flourish, grid, collage, multiple panels, border, frame, vignette, drop
 shadow, gradient, outline stroke, paper texture, props, hands, plates, bowls,
 packaging, price tag, photorealism, 3D render, bokeh, depth of field.
 
@@ -122,7 +126,8 @@ fine — only the flat background colour is keyed).
 
 Do not include
 checkerboard, transparency checker pattern, alpha checker, fake transparency, text,
-letters, numbers, labels, watermark, signature, border, frame, vignette, drop
+letters, numbers, labels, captions, watermark, signature, sparkle, star, glint,
+decorative flourish, grid, collage, multiple panels, border, frame, vignette, drop
 shadow, gradient, outline stroke, paper texture, props, hands, plates, bowls,
 packaging, price tag, photorealism, 3D render, bokeh, depth of field.
 
@@ -168,7 +173,8 @@ fine — only the flat background colour is keyed).
 
 Do not include
 checkerboard, transparency checker pattern, alpha checker, fake transparency, text,
-letters, numbers, labels, watermark, signature, border, frame, vignette, drop
+letters, numbers, labels, captions, watermark, signature, sparkle, star, glint,
+decorative flourish, grid, collage, multiple panels, border, frame, vignette, drop
 shadow, gradient, outline stroke, paper texture, props, hands, plates, bowls,
 packaging, price tag, photorealism, 3D render, bokeh, depth of field.
 
@@ -218,7 +224,8 @@ fine — only the flat background colour is keyed).
 
 Do not include
 checkerboard, transparency checker pattern, alpha checker, fake transparency, text,
-letters, numbers, labels, watermark, signature, border, frame, vignette, drop
+letters, numbers, labels, captions, watermark, signature, sparkle, star, glint,
+decorative flourish, grid, collage, multiple panels, border, frame, vignette, drop
 shadow, gradient, outline stroke, paper texture, props, hands, plates, bowls,
 packaging, price tag, photorealism, 3D render, bokeh, depth of field.
 
@@ -296,7 +303,50 @@ Gemini 계열, 2048×2048 PNG 4장.
 후처리도 같이 바뀌었다 — 마젠타 키잉(테두리 flood fill) + 스필 제거(3px 띠)를
 `scripts/lib/normalize-image.mjs`에 넣고, 배경이 안 빠진 이미지는 실패시킨다.
 
-### 2회차 — 대기
+### 2회차 (2026-08-23) — 반려. **다만 그림 방향은 통과**
+
+1회차 수정 3건이 전부 먹혔다:
+
+- 배경이 평면 마젠타로 나왔다 — 체커보드 사라짐 ✓
+- **고등어가 대각선으로 누웠다** ✓ — 96px에서 처음으로 "생선"이 아니라 "고등어"로
+  읽힌다. View 규칙 변경이 정확히 겨눈 곳에 맞았다
+- 4장의 평탄화 밀도가 1회차보다 고르다 — `peach`의 인쇄 도판 쪽 쏠림이 줄었다
+
+반려 사유는 **프롬프트가 아니라 투입 방식**이다. 네 프롬프트를 한 번에 넣어 Gemini가
+2×2 대지 한 장(2048²)에 몰아 그렸고, 그 결과:
+
+1. 낱장이 아니다 — 사분면을 잘라야 쓴다
+2. **`peach`·`mackerel` 같은 라벨 글자가 박혔다** — `Do not include`의 `text, labels`
+   위반. 마젠타를 빼내도 글자는 섬으로 남아 **bbox를 끌어당긴다**(피사체가 아래로
+   밀리고 작아진다). 실측으로 확인
+3. 사분면 경계에 흰 구분선 — 잘라낸 조각의 테두리가 흰색이라 flood fill이 시작점을
+   못 찾아 4장 전부 `배경이 제거되지 않았다`로 실패
+4. 스테이크에 ✦ 반짝이 장식
+
+**부스러기 실측** (구분선을 피해 16px 안쪽으로 잘라 통과시킨 뒤):
+
+| image | 조각 수 | 본체 | 부스러기 최대 |
+|---|---|---|---|
+| `peach` | 6 | 98.3% | 0.45% |
+| `cabbage` | 8 | 97.6% | 0.43% |
+| `mackerel` | 9 | 95.5% | 0.77% |
+| `hanwoo-sirloin` | 18 | 95.8% | 0.75% |
+
+부스러기는 전부 **0.8% 미만**, 본체는 **95% 이상**. 정상 구성요소와 자릿수가 달라
+(복숭아 세 알이면 각 33%, 마늘 쪽 하나도 10%대) 후처리에 **1% 미만 조각 검출**을
+넣었다. 조용히 지우지 않고 실패시킨다 — 부스러기가 있다는 건 생성기가 지시를 어겼다는
+뜻이고, 그건 사람이 알아야 할 사실이다.
+
+### 프롬프트 수정 이력 (2회차 → 3회차)
+
+| 블록 | 무엇을 | 왜 |
+|---|---|---|
+| Do not include | `captions, sparkle, star, glint, decorative flourish, grid, collage, multiple panels` 추가 | 2회차가 대지·라벨·반짝이를 냈다 |
+
+**그림 방향은 안 건드린다.** Style·View·Colour·Light·Background는 2회차 그대로다 —
+그 넷은 통과했다.
+
+### 3회차 — 대기
 
 | 게이트 | peach | mackerel | cabbage | hanwoo-sirloin |
 |---|---|---|---|---|
