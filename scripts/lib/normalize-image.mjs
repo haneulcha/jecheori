@@ -2,11 +2,81 @@ import sharp from 'sharp'
 
 export const SIZE = 288
 export const OCCUPANCY = 0.8
+/** 배경 키 컬러 — 마젠타. 제철 품목에 이 색은 없다.
+ *  "투명 배경"을 달라고 하면 Gemini 계열은 포토샵 체커보드를 **픽셀로 그려서** 준다
+ *  (1회차 앵커 4장이 전부 그랬다). 그래서 평면 키 컬러를 요구하고 여기서 빼낸다. */
+export const KEY = { r: 255, g: 0, b: 255 }
 /** 이 미만의 알파는 헤일로(생성기가 흔히 남기는 반투명 테두리)로 보고
  *  완전 투명 처리 + bbox 계산에서 제외한다. */
 const ALPHA_FLOOR = 16
+/** 키 컬러 판정 — 압축 아티팩트를 감안해 넉넉히. */
+const KEY_TOLERANCE = 90
+/** 스필(가장자리 마젠타 물듦)을 지울 띠의 폭(px). 키 영역에 닿은 픽셀만 손본다 —
+ *  전체에 걸면 포도·자두의 붉은보라까지 초록 쪽으로 밀린다. */
+const DESPILL_BAND = 3
 
-/** 1024 투명 PNG → 알파 정리 → 피사체 bbox 트림 → 여백 10% 재부여 → 288 WebP.
+const isKey = (d, i) =>
+  Math.abs(d[i] - KEY.r) + Math.abs(d[i + 1] - KEY.g) + Math.abs(d[i + 2] - KEY.b) <= KEY_TOLERANCE
+
+/** 테두리에서 이어진 키 컬러 영역만 지운다(flood fill). 피사체 **안쪽**의
+ *  붉은보라는 테두리와 이어져 있지 않으므로 살아남는다. */
+function removeKeyColour(data, width, height, channels) {
+  const keyed = new Uint8Array(width * height)
+  const stack = []
+  for (let x = 0; x < width; x++) {
+    stack.push(x, (height - 1) * width + x)
+  }
+  for (let y = 0; y < height; y++) {
+    stack.push(y * width, y * width + width - 1)
+  }
+  while (stack.length) {
+    const p = stack.pop()
+    if (keyed[p] || !isKey(data, p * channels)) continue
+    keyed[p] = 1
+    const x = p % width
+    const y = (p - x) / width
+    if (x > 0) stack.push(p - 1)
+    if (x < width - 1) stack.push(p + 1)
+    if (y > 0) stack.push(p - width)
+    if (y < height - 1) stack.push(p + width)
+  }
+
+  let removed = 0
+  for (let p = 0; p < width * height; p++) {
+    if (keyed[p]) {
+      data[p * channels + 3] = 0
+      removed++
+    }
+  }
+  if (removed === 0) return
+
+  // 스필 제거 — 지워진 영역에 닿은 띠에서만, 초록을 붉은·파랑의 낮은 쪽까지 끌어올린다.
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const p = y * width + x
+      if (keyed[p]) continue
+      let near = false
+      for (let dy = -DESPILL_BAND; dy <= DESPILL_BAND && !near; dy++) {
+        for (let dx = -DESPILL_BAND; dx <= DESPILL_BAND; dx++) {
+          const nx = x + dx
+          const ny = y + dy
+          if (nx < 0 || ny < 0 || nx >= width || ny >= height) continue
+          if (keyed[ny * width + nx]) {
+            near = true
+            break
+          }
+        }
+      }
+      if (!near) continue
+      const i = p * channels
+      const floor = Math.min(data[i], data[i + 2])
+      if (data[i + 1] < floor) data[i + 1] = floor
+    }
+  }
+}
+
+/** 1024 PNG(투명 배경이거나 평면 마젠타 배경) → 배경 제거 → 알파 정리 →
+ *  피사체 bbox 트림 → 여백 10% 재부여 → 288 WebP.
  *  점유율 80% 통일이 여기서 강제된다(스펙 §7) — AI는 프레이밍을 맞춰주지 않아,
  *  70장을 그대로 쓰면 카드를 스크롤할 때 그림이 커졌다 작아졌다 춤춘다. */
 export async function normalizeImage(input) {
@@ -15,6 +85,8 @@ export async function normalizeImage(input) {
     .raw()
     .toBuffer({ resolveWithObject: true })
   const { width, height, channels } = info
+
+  removeKeyColour(data, width, height, channels)
 
   let minX = width
   let minY = height
@@ -35,6 +107,14 @@ export async function normalizeImage(input) {
   }
   // 모르는 형태를 만나면 조용히 넘기지 않고 실패한다 (KAMIS 어댑터와 같은 결)
   if (maxX < 0) throw new Error('피사체가 없다 — 완전 투명 이미지')
+  // 배경이 안 빠졌으면(체커보드·사진 배경·다른 키 컬러) 프레임 전체가 피사체로 잡힌다.
+  // 이걸 통과시키면 여백 없는 꽉 찬 사각형이 카드에 박히므로 여기서 멈춘다.
+  if (maxX - minX + 1 === width && maxY - minY + 1 === height) {
+    throw new Error(
+      '배경이 제거되지 않았다 — 프레임 전체가 불투명하다. ' +
+        '평면 마젠타(#FF00FF) 배경이나 투명 배경으로 다시 생성해야 한다',
+    )
+  }
 
   const w = maxX - minX + 1
   const h = maxY - minY + 1

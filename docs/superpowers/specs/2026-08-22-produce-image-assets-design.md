@@ -51,9 +51,9 @@ AI 생성물이 아니다 — 컨셉 간 차이를 보여주는 용도)
 | 엣지 | 하드 엣지 색면만. **그라데이션 0 · 블러 0 · 외곽선 0 · 그레인 0** |
 | 색 | **자연색 무보정.** 앱 팔레트로 틴트·감채도하지 않는다 |
 | 조명 | 좌상단 따뜻한 자연광. **그림자 0** (캐스트·접지·반사 모두) |
-| 시점 | 약간 위에서 3/4. 피사체 중앙, 정립 |
+| 시점 | 약간 위에서 3/4, 피사체 중앙. **긴 피사체는 대각선으로** — 80% 규칙이 긴 변을 맞추다 보니 납작하고 긴 것(고등어·갈치·오이·가지·대파)은 96px에서 시각 질량이 둥근 것의 1/3로 죽는다. 사각형의 대각선을 쓰면 1.41배를 회수한다 |
 | 구성 | 본체 1–3개 + 부속물. **낱개가 작은 품목은 무리로** — 방울토마토·바지락·꼬막·홍합·멸치·계란·새우. 감귤은 낱과 3 + 깐 조각 1 |
-| 배경 | 완전 투명 |
+| 배경 | **평면 마젠타 `#FF00FF`** (후처리에서 키잉). 투명 배경을 요구하면 Gemini 계열이 포토샵 체커보드를 픽셀로 그려서 준다 — 1회차 앵커 4장이 전부 그랬다 |
 
 **부속물은 장식이 아니라 식별 장치다.** 시안에서 복숭아 잎을 빼니 그냥 동그란
 과일이 되어 자두·천도복숭아와 구별되지 않았다. 축산은 식물 부속물이 없으므로
@@ -64,12 +64,12 @@ AI 생성물이 아니다 — 컨셉 간 차이를 보여주는 용도)
 
 | 항목 | 값 |
 |---|---|
-| 생성 원본 | 1024×1024 투명 PNG |
+| 생성 원본 | 1024×1024 이상 PNG, 평면 마젠타 배경 |
 | 배포 파일 | 288×288 WebP (표시 96px의 3x), 알파 |
 | 점유율 | 피사체가 프레임의 **80%**, 사방 여백 균등 10% |
 | 경로 | `public/assets/produce/{image}.webp` |
 | 장수 | **70** (과일 12 · 채소 28 · 수산 16 · 축산 14) |
-| 총 용량 | 약 1.0–1.4MB (추정, §7에서 실측). 앞 2장은 `eager`, 나머지 `lazy` |
+| 총 용량 | **~830KB** (1회차 앵커 4장 실측 평균 11.8KB × 70). 앞 2장은 `eager`, 나머지 `lazy` |
 
 점유율 80%를 규격에 박는 이유: 70장의 피사체 크기가 제각각이면 카드를 스크롤할 때
 그림이 커졌다 작아졌다 춤춘다. AI는 이걸 맞춰주지 않으므로 **후처리에서 강제**한다.
@@ -87,17 +87,20 @@ Subject
 
 Style
 High-fidelity vector trace of a photograph — 20 to 40 tonal steps per material, so
-reflections, moisture and leaf veining survive. Hard-edged colour fields only (no
-gradients), but stepped finely enough to read as photographic. No outline stroke,
-no grain.
+reflections, moisture, marbling and leaf veining survive. Hard-edged colour fields
+only (no gradients), but stepped finely enough to read as photographic. This is not
+a flat poster illustration: a six- or eight-colour simplification is wrong. No
+outline stroke, no grain.
 
 Colour
 True-to-life natural colour: {COLOUR_NOTE}. Do not stylise, tint or desaturate the
 subject's own colour.
 
 View
-Three-quarter view from slightly above, subject centred and upright, occupying about
-80% of the frame with even margins on all four sides.
+Three-quarter view from slightly above, subject centred, occupying about 80% of the
+frame with even margins on all four sides. If the subject is markedly longer than it
+is tall, angle it diagonally across the square so its long axis runs corner to
+corner and it fills the frame.
 
 Light
 Warm natural daylight from the upper left, modelling the form. No cast shadow, no
@@ -105,15 +108,20 @@ contact shadow, no ground shadow — the subject is cleanly cut out with nothing
 beneath it.
 
 Background
-Fully transparent. Nothing behind or around the subject.
+A single flat solid magenta (#FF00FF) fill, edge to edge, with nothing on it — no
+pattern, no checkerboard, no texture, no gradient, no vignette, and no shadow cast
+onto it. The magenta is a chroma key that is removed afterwards, so keep the
+subject's own colours free of pure magenta (natural purples such as grape skin are
+fine — only the flat background colour is keyed).
 
 Do not include
-text, letters, numbers, labels, watermark, signature, border, frame, vignette, drop
-shadow, gradient, outline stroke, background colour, paper texture, props, hands,
-plates, bowls, packaging, price tag, photorealism, 3D render, bokeh, depth of field.
+checkerboard, transparency checker pattern, alpha checker, fake transparency, text,
+letters, numbers, labels, watermark, signature, border, frame, vignette, drop
+shadow, gradient, outline stroke, paper texture, props, hands, plates, bowls,
+packaging, price tag, photorealism, 3D render, bokeh, depth of field.
 
 Output
-Square 1:1, 1024 × 1024, transparent PNG.
+Square 1:1, at least 1024 × 1024, PNG.
 ```
 
 **슬롯 4개 외의 문장은 한 글자도 바꾸지 않는다.** 바뀌지 않는 블록이 70장을 한
@@ -132,9 +140,11 @@ Square 1:1, 1024 × 1024, transparent PNG.
 > Match the flattening level, edge quality, lighting and framing of the attached
 > reference plates exactly. Only the subject changes.
 
-Nano Banana / Gemini 계열의 일관성은 문장이 아니라 첨부 이미지에서 나온다. 생성기는
-아직 최종 확정이 아니다 — 앵커 4장을 Gemini 계열·GPT Image 두 곳에서 뽑아 비교한 뒤
-고른다. Midjourney는 투명배경을 못 만들어 70번의 누끼 작업이 붙으므로 제외한다.
+Nano Banana / Gemini 계열의 일관성은 문장이 아니라 첨부 이미지에서 나온다.
+
+**생성기는 Gemini 계열로 간다.** 계획했던 GPT Image 비교는 **하지 않았다** — 구독이
+없다. 비교 없이 고른 셈이므로, 66장 양산 중 Gemini가 구조적으로 못 내는 것(예: 특정
+부위 단면)이 나오면 그때 다시 본다. Midjourney는 배경을 평면으로 못 잡아 제외한다.
 
 ### 5.3 슬롯 사전
 
@@ -144,7 +154,9 @@ Nano Banana / Gemini 계열의 일관성은 문장이 아니라 첨부 이미지
 
 뽑은 즉시 여섯을 본다. 하나라도 걸리면 재생성한다.
 
-1. **배경이 진짜 투명한가** — 반투명 흰 테두리·회색 헤일로가 흔하다
+1. **배경이 평면 마젠타 한 색인가** — 체커보드를 그려주거나(1회차 실패 모드),
+   배경에 그림자·질감·그라데이션이 얹히면 키잉이 깨끗이 안 된다. 후처리가 이걸
+   잡아 실패시키므로(`배경이 제거되지 않았다`) 눈으로 먼저 거른다
 2. **그림자가 섞였나** — 이 컨셉은 그림자 0
 3. **점유율이 ~80%인가** — 후처리로 교정하되, 피사체가 잘려 나갔으면 재생성
 4. **96px로 줄였을 때 무엇인지 읽히는가** — 1024px에서 아름다운 것과 96px에서
@@ -372,7 +384,7 @@ egg-10 / egg-30                    → image: "egg"
 
 1. 앵커 4장 생성 → 검수 게이트 6항목 → 프롬프트 동결 → 용량 실측 기록
    → **⛔ 게이트 1: 사인오프**
-2. 생성기 최종 확정 (Gemini 계열 vs GPT Image, 앵커 4장으로 비교)
+2. 생성기 확정 — Gemini 계열 (GPT Image 비교는 미수행, §5.2)
 3. **앵커 4장을 실제 카드에 얹어** 표지 레이아웃 시안 2~3안 (§10)
    → **⛔ 게이트 2: 사인오프**
 4. 코드 — 타입 · `card.ts` 두 조립처 · `ProduceCard`(레이아웃 + `eager` prop) ·

@@ -19,12 +19,30 @@ if (files.length === 0) {
   process.exit(1)
 }
 
+// 70장 배치에서 한 장이 걸렸다고 멈추면 나머지를 다시 돌려야 한다.
+// 실패는 모아서 끝에 보여주고, 하나라도 실패하면 종료코드를 세운다.
 let total = 0
+let done = 0
+const failed = []
 for (const f of files) {
   const out = join(outDir, `${basename(f, '.png')}.webp`)
-  const webp = await normalizeImage(await readFile(join(inDir, f)))
-  await writeFile(out, webp)
-  total += webp.length
-  console.log(`${out}  ${(webp.length / 1024).toFixed(1)}KB`)
+  try {
+    const webp = await normalizeImage(await readFile(join(inDir, f)))
+    await writeFile(out, webp)
+    total += webp.length
+    done++
+    console.log(`  ok    ${basename(f, '.png').padEnd(24)} ${(webp.length / 1024).toFixed(1)}KB`)
+  } catch (e) {
+    failed.push([f, e.message])
+    console.log(`  실패  ${basename(f, '.png').padEnd(24)} ${e.message}`)
+  }
 }
-console.log(`\n${files.length}장  합계 ${(total / 1024).toFixed(0)}KB  평균 ${(total / files.length / 1024).toFixed(1)}KB`)
+
+if (done > 0) {
+  console.log(`\n${done}장  합계 ${(total / 1024).toFixed(0)}KB  평균 ${(total / done / 1024).toFixed(1)}KB  → ${outDir}`)
+}
+if (failed.length > 0) {
+  console.error(`\n${failed.length}장 실패:`)
+  for (const [f, msg] of failed) console.error(`  ${f} — ${msg}`)
+  process.exit(1)
+}
