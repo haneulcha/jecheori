@@ -47,7 +47,7 @@ async function bbox(buffer) {
 
 describe('normalizeImage — 점유율 80% 정규화 (스펙 §7)', () => {
   test('288×288 WebP(알파)를 낸다', async () => {
-    const out = await normalizeImage(await syntheticPng())
+    const { webp: out } = await normalizeImage(await syntheticPng())
     const meta = await sharp(out).metadata()
     expect(meta.format).toBe('webp')
     expect(meta.width).toBe(SIZE)
@@ -56,7 +56,7 @@ describe('normalizeImage — 점유율 80% 정규화 (스펙 §7)', () => {
   })
 
   test('피사체 긴 변이 프레임의 ~80%, 중앙 배치 — 원본 위치와 무관', async () => {
-    const out = await normalizeImage(await syntheticPng({ left: 37, top: 91 }))
+    const { webp: out } = await normalizeImage(await syntheticPng({ left: 37, top: 91 }))
     const b = await bbox(out)
     // 긴 변 500 → 캔버스 625 → 288로 축소하면 500/625*288 ≈ 230px (80%)
     expect(b.w).toBeGreaterThanOrEqual(229)
@@ -66,8 +66,8 @@ describe('normalizeImage — 점유율 80% 정규화 (스펙 §7)', () => {
   })
 
   test('원본 위치가 달라도 같은 결과를 낸다 — 프레이밍이 정규화된다', async () => {
-    const a = await bbox(await normalizeImage(await syntheticPng({ left: 0, top: 0 })))
-    const b = await bbox(await normalizeImage(await syntheticPng({ left: 400, top: 600 })))
+    const a = await bbox((await normalizeImage(await syntheticPng({ left: 0, top: 0 }))).webp)
+    const b = await bbox((await normalizeImage(await syntheticPng({ left: 400, top: 600 }))).webp)
     expect(Math.abs(a.w - b.w)).toBeLessThanOrEqual(2)
     expect(Math.abs(a.minX - b.minX)).toBeLessThanOrEqual(2)
     expect(Math.abs(a.minY - b.minY)).toBeLessThanOrEqual(2)
@@ -79,7 +79,7 @@ describe('normalizeImage — 점유율 80% 정규화 (스펙 §7)', () => {
     })
       .png()
       .toBuffer()
-    const out = await normalizeImage(
+    const { webp: out } = await normalizeImage(
       await syntheticPng({ extra: [{ input: halo, left: 1010, top: 1010 }] }),
     )
     const b = await bbox(out)
@@ -122,7 +122,7 @@ async function keyedPng({ w = 500, h = 300, left = 37, top = 91, colour = { r: 7
 
 describe('normalizeImage — 키 컬러 배경 제거 (스펙 §7)', () => {
   test('평면 마젠타 배경을 빼내고 피사체만 남긴다', async () => {
-    const out = await normalizeImage(await keyedPng())
+    const { webp: out } = await normalizeImage(await keyedPng())
     const b = await bbox(out)
     expect(b.w).toBeGreaterThanOrEqual(229)
     expect(b.w).toBeLessThanOrEqual(232)
@@ -139,7 +139,7 @@ describe('normalizeImage — 키 컬러 배경 제거 (스펙 §7)', () => {
     })
       .png()
       .toBuffer()
-    const out = await normalizeImage(
+    const { webp: out } = await normalizeImage(
       await keyedPng({ extra: [{ input: plum, left: 200, top: 180 }] }),
     )
     const { data, info } = await sharp(out).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
@@ -151,7 +151,7 @@ describe('normalizeImage — 키 컬러 배경 제거 (스펙 §7)', () => {
 
   test('키 컬러 스필(가장자리 마젠타 물듦)을 지운다', async () => {
     // 흰 피사체 — 스필이 남으면 흰 가장자리가 분홍으로 물든다
-    const out = await normalizeImage(await keyedPng({ colour: { r: 250, g: 250, b: 250 } }))
+    const { webp: out } = await normalizeImage(await keyedPng({ colour: { r: 250, g: 250, b: 250 } }))
     const { data, info } = await sharp(out).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
     let worst = 0
     for (let i = 0; i < data.length; i += info.channels) {
@@ -164,17 +164,34 @@ describe('normalizeImage — 키 컬러 배경 제거 (스펙 §7)', () => {
 })
 
 describe('normalizeImage — 부스러기 검출 (스펙 §6 ①)', () => {
-  test('본체와 동떨어진 1% 미만 조각이 있으면 throw — 라벨·반짝이·먼지', async () => {
-    // 2회차 앵커가 이랬다: Gemini가 "peach" 라벨을 그려 넣었고, 마젠타를 빼내도
-    // 글자가 섬으로 남아 bbox를 끌어당겼다(피사체가 아래로 밀리고 작아졌다).
+  test('본체와 동떨어진 1% 미만 조각은 지우고 보고한다 — 워터마크·라벨·먼지', async () => {
+    // Gemini는 우하단에 ✦ 워터마크를 찍는다. 프롬프트로 막을 수 없어 후처리가 뗀다.
     const speck = await sharp({
       create: { width: 26, height: 26, channels: 4, background: { r: 20, g: 20, b: 20, alpha: 1 } },
     })
       .png()
       .toBuffer()
-    await expect(
-      normalizeImage(await keyedPng({ extra: [{ input: speck, left: 60, top: 40 }] })),
-    ).rejects.toThrow(/부스러기/)
+    const { dropped } = await normalizeImage(
+      await keyedPng({ extra: [{ input: speck, left: 900, top: 900 }] }),
+    )
+    expect(dropped.count).toBe(1)
+    expect(dropped.share).toBeGreaterThan(0)
+    expect(dropped.share).toBeLessThan(1)
+  })
+
+  test('조각 제거가 bbox보다 먼저다 — 구석 워터마크가 피사체를 끌어당기지 않는다', async () => {
+    const speck = await sharp({
+      create: { width: 26, height: 26, channels: 4, background: { r: 20, g: 20, b: 20, alpha: 1 } },
+    })
+      .png()
+      .toBuffer()
+    const clean = await bbox((await normalizeImage(await keyedPng())).webp)
+    const marked = await bbox(
+      (await normalizeImage(await keyedPng({ extra: [{ input: speck, left: 960, top: 960 }] }))).webp,
+    )
+    // 워터마크가 bbox에 들어갔다면 피사체가 작아지고 위로 밀린다
+    expect(Math.abs(marked.w - clean.w)).toBeLessThanOrEqual(2)
+    expect(Math.abs(marked.minY - clean.minY)).toBeLessThanOrEqual(2)
   })
 
   test('덩치가 비슷한 여러 개는 정상 구성이다 — 복숭아 세 알·마늘 쪽', async () => {
@@ -183,7 +200,7 @@ describe('normalizeImage — 부스러기 검출 (스펙 §6 ①)', () => {
     })
       .png()
       .toBuffer()
-    const out = await normalizeImage(
+    const { webp: out } = await normalizeImage(
       await keyedPng({ extra: [{ input: second, left: 600, top: 500 }] }),
     )
     expect((await sharp(out).metadata()).width).toBe(SIZE)

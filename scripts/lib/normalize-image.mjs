@@ -80,10 +80,12 @@ function removeKeyColour(data, width, height, channels) {
  *  정상 구성요소는 자릿수가 다르다 — 복숭아 세 알이면 각 33%, 마늘 쪽 하나도 10%대. */
 const FRAGMENT_FLOOR = 0.01
 
-/** 본체(가장 큰 연결요소)에서 떨어져 나온 작은 조각들의 비율(%)을 돌려준다.
- *  조용히 지우지 않는다 — 부스러기가 있다는 건 생성기가 "Do not include"를 어겼다는
- *  뜻이고, 그건 사람이 알아야 할 사실이지 파이프라인이 덮을 일이 아니다. */
-function findFragments(data, width, height, channels) {
+/** 본체(가장 큰 연결요소)에서 떨어져 나온 작은 조각들을 **지우고** 무엇을 얼마나
+ *  지웠는지 돌려준다. 지배적인 출처는 생성기 워터마크(Gemini는 우하단에 ✦를 찍는다)라
+ *  프롬프트로는 막을 수 없다. 다만 **조용히 지우지는 않는다** — CLI가 매 장의 제거
+ *  내역을 찍어, 라벨 글자처럼 프롬프트 위반에서 온 조각(2회차: 합계 2%대)과
+ *  워터마크(0.2% 미만)를 사람이 로그에서 구분할 수 있게 한다. */
+function dropFragments(data, width, height, channels) {
   const label = new Int32Array(width * height).fill(-1)
   const sizes = []
   for (let p = 0; p < width * height; p++) {
@@ -105,15 +107,24 @@ function findFragments(data, width, height, channels) {
     sizes.push(count)
   }
   const total = sizes.reduce((a, b) => a + b, 0)
-  if (total === 0) return []
-  return sizes
-    .filter((s) => s / total < FRAGMENT_FLOOR)
-    .sort((a, b) => b - a)
-    .map((s) => (s / total) * 100)
+  if (total === 0) return { count: 0, share: 0 }
+
+  const doomed = new Set(sizes.map((s, i) => [s, i]).filter(([s]) => s / total < FRAGMENT_FLOOR).map(([, i]) => i))
+  if (doomed.size === 0) return { count: 0, share: 0 }
+
+  let removed = 0
+  for (let p = 0; p < width * height; p++) {
+    if (doomed.has(label[p])) {
+      data[p * channels + 3] = 0
+      removed++
+    }
+  }
+  return { count: doomed.size, share: (removed / total) * 100 }
 }
 
 /** 1024 PNG(투명 배경이거나 평면 마젠타 배경) → 배경 제거 → 알파 정리 →
- *  피사체 bbox 트림 → 여백 10% 재부여 → 288 WebP.
+ *  부스러기 제거 → 피사체 bbox 트림 → 여백 10% 재부여 → 288 WebP.
+ *  `{ webp, dropped }`를 돌려준다 — `dropped`는 CLI가 로그로 찍는다.
  *  점유율 80% 통일이 여기서 강제된다(스펙 §7) — AI는 프레이밍을 맞춰주지 않아,
  *  70장을 그대로 쓰면 카드를 스크롤할 때 그림이 커졌다 작아졌다 춤춘다. */
 export async function normalizeImage(input) {
@@ -125,17 +136,22 @@ export async function normalizeImage(input) {
 
   removeKeyColour(data, width, height, channels)
 
+  // 헤일로 정리를 먼저 — 반투명 테두리가 조각으로 세어지면 안 된다.
+  for (let p = 0; p < width * height; p++) {
+    if (data[p * channels + 3] < ALPHA_FLOOR) data[p * channels + 3] = 0
+  }
+
+  // 부스러기 제거는 **bbox보다 먼저**다. 순서가 바뀌면 우하단 워터마크가 bbox를
+  // 끌어당겨 피사체가 위로 밀리고 작아진다(2·3회차에서 실측으로 확인).
+  const dropped = dropFragments(data, width, height, channels)
+
   let minX = width
   let minY = height
   let maxX = -1
   let maxY = -1
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      const a = (y * width + x) * channels + 3
-      if (data[a] < ALPHA_FLOOR) {
-        data[a] = 0
-        continue
-      }
+      if (data[(y * width + x) * channels + 3] === 0) continue
       if (x < minX) minX = x
       if (x > maxX) maxX = x
       if (y < minY) minY = y
@@ -150,14 +166,6 @@ export async function normalizeImage(input) {
     throw new Error(
       '배경이 제거되지 않았다 — 프레임 전체가 불투명하다. ' +
         '평면 마젠타(#FF00FF) 배경이나 투명 배경으로 다시 생성해야 한다',
-    )
-  }
-
-  const fragments = findFragments(data, width, height, channels)
-  if (fragments.length > 0) {
-    throw new Error(
-      `본체에서 떨어진 부스러기 ${fragments.length}개 (${fragments.map((f) => f.toFixed(2) + '%').join(', ')}). ` +
-        '라벨 글자·반짝이·먼지일 가능성이 높다 — 프롬프트의 "Do not include"를 어긴 것이므로 재생성한다',
     )
   }
 
@@ -188,5 +196,5 @@ export async function normalizeImage(input) {
     .png()
     .toBuffer()
 
-  return sharp(padded).resize(SIZE, SIZE).webp().toBuffer()
+  return { webp: await sharp(padded).resize(SIZE, SIZE).webp().toBuffer(), dropped }
 }

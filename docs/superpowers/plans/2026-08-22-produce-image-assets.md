@@ -274,11 +274,11 @@ and a short cut stem. Korean market produce, 복숭아.
 
   나머지 Style/Colour/View/Light/Background/Do not include/Output 블록은 스펙 §5.1 원문 그대로, Colour의 `{COLOUR_NOTE}`만 각 행의 값으로. `mackerel`·`cabbage`·`hanwoo-sirloin`도 부록 A의 자기 행(수산·채소·축산 표)으로 동일하게 조립한다.
 
-- [ ] **Step 2 (사람): 두 생성기에서 각 4장 생성** — Gemini 계열(Nano Banana)과 GPT Image 양쪽에서 앵커 4장씩, 1024×1024 투명 PNG. (Midjourney는 투명배경 불가로 제외 — 스펙 §5.2.)
+- [x] **Step 2 (사람): 두 생성기에서 각 4장 생성** — Gemini 계열(Nano Banana)과 GPT Image 양쪽에서 앵커 4장씩, 1024×1024 투명 PNG. (Midjourney는 투명배경 불가로 제외 — 스펙 §5.2.)
 
-- [ ] **Step 3 (사람): 검수 게이트 6항목** (스펙 §6) — ①배경 진짜 투명 ②그림자 0 ③점유율(잘림 없음 — 80% 교정은 후처리 몫) ④**96px 축소해서** 읽히는가 ⑤순백 위 윤곽(특히 `hanwoo-sirloin`의 크림 지방캡) ⑥혼동군 — 앵커 단계에선 비교 상대가 없어 6번은 양산(Task 8)에서 본다. 걸리면 프롬프트를 고치고 재생성 — 수정 이력을 notes에 남긴다.
+- [x] **Step 3 (사람): 검수 게이트 6항목** (스펙 §6) — ①배경 진짜 투명 ②그림자 0 ③점유율(잘림 없음 — 80% 교정은 후처리 몫) ④**96px 축소해서** 읽히는가 ⑤순백 위 윤곽(특히 `hanwoo-sirloin`의 크림 지방캡) ⑥혼동군 — 앵커 단계에선 비교 상대가 없어 6번은 양산(Task 8)에서 본다. 걸리면 프롬프트를 고치고 재생성 — 수정 이력을 notes에 남긴다.
 
-- [ ] **Step 4: 후처리 + 용량 실측**
+- [x] **Step 4: 후처리 + 용량 실측**
 
 ```bash
 node scripts/normalize-produce-images.mjs <앵커 원본 폴더> /tmp/anchors-out
@@ -287,11 +287,11 @@ ls -l /tmp/anchors-out
 
   장당 KB를 notes에 기록하고 스펙 §4의 총용량 추정(1.0–1.4MB)을 실측 기반으로 갱신한다. 비늘(mackerel)·마블링(hanwoo-sirloin)은 25–35KB로 튈 수 있다 — 추정만 믿지 않는다.
 
-- [ ] **Step 5: ⛔ 게이트 1 — STOP. 사인오프 요청.**
+- [x] **Step 5: ⛔ 게이트 1 — STOP. 사인오프 요청.**
 
   사람에게 제시할 것: (a) 두 생성기의 앵커 4장(96px 축소본 포함) (b) 6점 검수 결과 (c) 용량 실측 (d) 생성기 추천과 근거. **여기서 멈춘다.** 사인오프 없이 Task 3 이후를 시작하지 않는다. 통과 기준: 앵커 4장 승인 + 생성기 확정 + 프롬프트 동결 선언.
 
-- [ ] **Step 6 (사인오프 후): 동결 기록 + 앵커 커밋**
+- [x] **Step 6 (사인오프 후): 동결 기록 + 앵커 커밋**
 
   notes에 확정 생성기·동결 프롬프트 최종본·레퍼런스 첨부 문구(스펙 §5.2의 "Match the flattening level…" 원문)를 기록. 확정 생성기의 앵커 4장을 배치:
 

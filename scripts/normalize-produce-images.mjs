@@ -27,11 +27,16 @@ const failed = []
 for (const f of files) {
   const out = join(outDir, `${basename(f, '.png')}.webp`)
   try {
-    const webp = await normalizeImage(await readFile(join(inDir, f)))
+    const { webp, dropped } = await normalizeImage(await readFile(join(inDir, f)))
     await writeFile(out, webp)
     total += webp.length
     done++
-    console.log(`  ok    ${basename(f, '.png').padEnd(24)} ${(webp.length / 1024).toFixed(1)}KB`)
+    // 제거 내역을 매 장 찍는다. 워터마크는 0.2% 미만, 라벨 글자처럼 프롬프트를 어긴
+    // 조각은 그보다 훨씬 크다 — 로그에서 둘을 구분할 수 있어야 한다.
+    const note = dropped.count
+      ? `  부스러기 ${dropped.count}개 제거 (${dropped.share.toFixed(2)}%)${dropped.share > 0.5 ? '  ← 워터마크치곤 크다. 확인할 것' : ''}`
+      : ''
+    console.log(`  ok    ${basename(f, '.png').padEnd(24)} ${(webp.length / 1024).toFixed(1)}KB${note}`)
   } catch (e) {
     failed.push([f, e.message])
     console.log(`  실패  ${basename(f, '.png').padEnd(24)} ${e.message}`)
