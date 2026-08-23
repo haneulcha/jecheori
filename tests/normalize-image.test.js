@@ -206,3 +206,39 @@ describe('normalizeImage — 부스러기 검출 (스펙 §6 ①)', () => {
     expect((await sharp(out).metadata()).width).toBe(SIZE)
   })
 })
+
+describe('normalizeImage — 갇힌 키 컬러 (스펙 §7)', () => {
+  test('피사체가 에워싼 마젠타 구멍도 지운다 — 잎·줄기 고리 안쪽', async () => {
+    // 인쇄 도판 시범본에서 실제로 걸린 케이스: 잎 두 장과 꼭지가 고리를 이뤄
+    // 그 안의 배경이 테두리와 안 이어졌고, 테두리 flood fill만으로는 안 지워졌다.
+    const ring = await sharp({
+      create: { width: 400, height: 400, channels: 4, background: { r: 70, g: 140, b: 60, alpha: 1 } },
+    })
+      .composite([
+        {
+          input: await sharp({
+            create: { width: 160, height: 160, channels: 4, background: { ...KEY, alpha: 1 } },
+          })
+            .png()
+            .toBuffer(),
+          left: 120,
+          top: 120,
+        },
+      ])
+      .png()
+      .toBuffer()
+    const { webp } = await normalizeImage(
+      await sharp({
+        create: { width: 1024, height: 1024, channels: 4, background: { ...KEY, alpha: 1 } },
+      })
+        .composite([{ input: ring, left: 300, top: 300 }])
+        .png()
+        .toBuffer(),
+    )
+    // 가운데(고리 안쪽)가 뚫려 있어야 한다
+    const { data, info } = await sharp(webp).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+    const cx = Math.floor(info.width / 2)
+    const cy = Math.floor(info.height / 2)
+    expect(data[(cy * info.width + cx) * info.channels + 3]).toBe(0)
+  })
+})

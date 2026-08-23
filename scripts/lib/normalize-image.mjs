@@ -18,35 +18,24 @@ const DESPILL_BAND = 3
 const isKey = (d, i) =>
   Math.abs(d[i] - KEY.r) + Math.abs(d[i + 1] - KEY.g) + Math.abs(d[i + 2] - KEY.b) <= KEY_TOLERANCE
 
-/** 테두리에서 이어진 키 컬러 영역만 지운다(flood fill). 피사체 **안쪽**의
- *  붉은보라는 테두리와 이어져 있지 않으므로 살아남는다. */
+/** 키 컬러 픽셀을 지운다 — 테두리에서 이어졌든, 피사체가 에워싼 구멍이든.
+ *
+ *  처음엔 테두리 flood fill로만 지웠다. 피사체 안쪽의 붉은보라(포도·자두)를 지키려던
+ *  건데, 잎·줄기가 고리를 이루면 그 안의 배경이 테두리와 안 이어져 살아남았다
+ *  (인쇄 도판 시범본에서 실제로 걸렸다). 갈비뼈 사이·지느러미 틈·마늘 쪽 사이에서
+ *  계속 나올 문제다.
+ *
+ *  전역 제거로 바꿔도 보라는 안전하다. 허용범위는 채널 절대차의 합 90인데,
+ *  포도 껍질(60,20,80)은 390, 열무 뿌리의 분홍(255,150,180)도 225로 한참 밖이다.
+ *  마젠타 근처에 오는 제철 품목은 없다. */
 function removeKeyColour(data, width, height, channels) {
   const keyed = new Uint8Array(width * height)
-  const stack = []
-  for (let x = 0; x < width; x++) {
-    stack.push(x, (height - 1) * width + x)
-  }
-  for (let y = 0; y < height; y++) {
-    stack.push(y * width, y * width + width - 1)
-  }
-  while (stack.length) {
-    const p = stack.pop()
-    if (keyed[p] || !isKey(data, p * channels)) continue
-    keyed[p] = 1
-    const x = p % width
-    const y = (p - x) / width
-    if (x > 0) stack.push(p - 1)
-    if (x < width - 1) stack.push(p + 1)
-    if (y > 0) stack.push(p - width)
-    if (y < height - 1) stack.push(p + width)
-  }
-
   let removed = 0
   for (let p = 0; p < width * height; p++) {
-    if (keyed[p]) {
-      data[p * channels + 3] = 0
-      removed++
-    }
+    if (!isKey(data, p * channels)) continue
+    keyed[p] = 1
+    data[p * channels + 3] = 0
+    removed++
   }
   if (removed === 0) return
 
