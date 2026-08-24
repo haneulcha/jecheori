@@ -313,22 +313,22 @@ git commit -m "feat: 앵커 도판 4장 확정 — 프롬프트 동결·생성�
 **Interfaces:**
 - Produces: 사인오프된 레이아웃 확정안(프로토타입 파일 상단 주석에 결정 기록). Task 6이 이것을 명세로 구현한다.
 
-- [ ] **Step 1: 렌즈 스킬 열기** — `DESIGN.md` 필독 후 `frontend-design`(미감·비주얼)로 시안을 만들고 `impeccable`(위계·인지부하) 렌즈로 자체 리뷰한다 (CLAUDE.md UI/UX 결정 규칙 1).
+- [x] **Step 1: 렌즈 스킬 열기** — `DESIGN.md` 필독 후 `frontend-design`(미감·비주얼)로 시안을 만들고 `impeccable`(위계·인지부하) 렌즈로 자체 리뷰한다 (CLAUDE.md UI/UX 결정 규칙 1).
 
-- [ ] **Step 2: 시안 2~3안 작성** — 앵커 4장 실물(`../../public/assets/produce/*.webp` 상대 경로)을 얹은 카드 표지를 안별로 나란히. 시안이 지켜야 할 제약(스펙 §10 — 이건 결정이 아니라 제약이다):
+- [x] **Step 2: 시안 2~3안 작성** — 앵커 4장 실물(`../../public/assets/produce/*.webp` 상대 경로)을 얹은 카드 표지를 안별로 나란히. 시안이 지켜야 할 제약(스펙 §10 — 이건 결정이 아니라 제약이다):
   - 콘텐츠 폭 ≈ 384px. 96px 도판이 그중 1/4을 먹는다
   - 표지에 남아야 할 것 전부: 이름 · 품종(`kind`) · 절정 점(`PeakDot`) · 제철 띠(`SeasonStrip`) · 가격 블록(`PriceBlock` — 큰 숫자 + 기준선) · 손글씨 한마디(`why`). **하나도 펼침 영역으로 내리지 않는다**
   - 마스킹테이프(`::before`)·홀짝 기울기·crisp 모서리 유지
   - `<summary>` 클릭 타깃이 행 전체 — 이미지가 클릭을 삼키지 않아야 한다
   - 축산 카드는 `SeasonStrip`이 없다(`ProduceCard.tsx:55`) — 그 변형의 균형도 각 안에 포함 (`hanwoo-sirloin` 앵커로)
 
-- [ ] **Step 3: 브라우저 확인** — 384px 뷰포트로 열어 앵커 4장 × 각 안을 실측. 가격 없는 카드(취소선·칩 없음)와 whyNow 긴 줄 케이스도 넣어 본다.
+- [x] **Step 3: 브라우저 확인** — 384px 뷰포트로 열어 앵커 4장 × 각 안을 실측. 가격 없는 카드(취소선·칩 없음)와 whyNow 긴 줄 케이스도 넣어 본다.
 
-- [ ] **Step 4: ⛔ 게이트 2 — STOP. 사인오프 요청.**
+- [x] **Step 4: ⛔ 게이트 2 — STOP. 사인오프 요청.**
 
   **여기서 멈춘다.** 확정안 번호와 조정 지시를 받은 뒤에만 Task 6의 레이아웃 구현을 시작한다. 확정 내용을 프로토타입 파일 상단 주석에 기록.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add docs/prototypes/2026-08-22-card-cover-layout.html
@@ -348,7 +348,7 @@ git commit -m "docs: 카드 표지 레이아웃 시안 — 게이트 2 확정안
 - Consumes: 없음 (순수 타입·파생)
 - Produces: `ProduceProfile.image?: string`, `CardView.image?: string` (`emoji`는 유지 — 둘 다 넘긴다). Task 5(에셋 테스트)·Task 6(ProduceCard)·Task 7(story-utils)이 이 필드를 소비한다. `src/app.ts`는 **변경 없음** — 세 빌더(`buildAppView`·`buildComingView`·`buildLivestockView`)가 두 조립처를 타므로 자동으로 덮인다.
 
-- [ ] **Step 1: 실패하는 테스트** — `tests/card.test.ts` 끝에 추가 (기존 `profile`·`pick` 픽스처 재사용):
+- [x] **Step 1: 실패하는 테스트** — `tests/card.test.ts` 끝에 추가 (기존 `profile`·`pick` 픽스처 재사용):
 
 ```ts
 describe('CardView.image — 조립처가 둘이다', () => {
@@ -369,12 +369,12 @@ describe('CardView.image — 조립처가 둘이다', () => {
 })
 ```
 
-- [ ] **Step 2: 실패 확인**
+- [x] **Step 2: 실패 확인**
 
 Run: `npx vitest run tests/card.test.ts`
 Expected: FAIL — `card.image`가 `undefined` (그리고 `tsc`로 돌리면 `image`가 `ProduceProfile`에 없다는 타입에러 — 이게 옵셔널 추가 후엔 사라지므로 지금이 마지막으로 타입이 잡아주는 순간이다).
 
-- [ ] **Step 3: 구현** — `src/types.ts`의 `ProduceProfile`에 `emoji` 아래:
+- [x] **Step 3: 구현** — `src/types.ts`의 `ProduceProfile`에 `emoji` 아래:
 
 ```ts
   /** 품목 도판 파일 basename — public/assets/produce/{image}.webp (스펙 2026-08-22).
@@ -386,12 +386,12 @@ Expected: FAIL — `card.image`가 `undefined` (그리고 `tsc`로 돌리면 `im
 
 `src/card.ts`의 `CardView`에 `emoji: string` 아래 `image?: string` 추가(주석: `/** 도판 basename — 없으면 emoji 폴백. ⚠️ 조립처 둘(toCardView·toComingCardView) 모두 채울 것 */`). `toCardView`(190행 반환 객체)와 `toComingCardView`(231행 반환 객체) **둘 다**에 `image: profile.image,`를 `emoji` 다음 줄로 추가.
 
-- [ ] **Step 4: 통과 + 게이트**
+- [x] **Step 4: 통과 + 게이트**
 
 Run: `npx vitest run tests/card.test.ts` → PASS
 Run: `npm test && npx tsc --noEmit` → PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/types.ts src/card.ts tests/card.test.ts

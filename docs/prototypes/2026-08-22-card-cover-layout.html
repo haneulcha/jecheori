@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>카드 표지 레이아웃 시안 — 96px 도판</title>
 <!--
+  ⛔ 게이트 2 통과 (2026-08-24) — **안 B-2 확정**.
+     마크 96 + 이름이 한 행, 가격이 전폭 독립행이되 그 행을 가로로 쓴다
+     (등락 칩 왼쪽 · 큰 숫자와 기준선 오른쪽), 제철 띠 전폭, 손글씨 전폭.
+     실측(4장 합계): A 871 / B 1147 / B-2 1047 / C(72px) 847  [390px]
+                     A 797 / B 1014 / B-2  966 / C 773        [320px]
+     A가 가장 낮지만 하늘이 "가격이 자기 행을 갖는" B 계열을 골랐고,
+     B-2가 B에서 100px을 회수한다. 96px 유지 — A/C 비교에서 마크 크기가
+     높이를 지배하지 않음이 실측으로 확인됐다(카드별 높이 동일).
+
   게이트 2 시안. 스펙: docs/superpowers/specs/2026-08-22-produce-image-assets-design.md §10
   플랜: docs/superpowers/plans/2026-08-22-produce-image-assets.md Task 3
 
