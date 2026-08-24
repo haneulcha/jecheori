@@ -582,7 +582,7 @@ git commit -m "feat(ProduceCard): 96px 도판 슬롯 + eager 로딩 + 표지 레
 - Consumes: `ProduceProfile.image?` (Task 4), 앵커 WebP (Task 2)
 - Produces: `CardKnobs.image: string` (`''` = 없음 → 이모지 폴백) — 노브로 도판/폴백을 오갈 수 있다.
 
-- [ ] **Step 1: 노브 추가** — `CardKnobs`에:
+- [x] **Step 1: 노브 추가** — `CardKnobs`에:
 
 ```ts
   /** 도판 basename. ''이면 없음 → 이모지 폴백(점진 도입 기간의 실제 상태). */
@@ -591,7 +591,7 @@ git commit -m "feat(ProduceCard): 96px 도판 슬롯 + eager 로딩 + 표지 레
 
   `CARD_KNOBS_DEFAULT`에 `image: ''` (주석: `// 감자 도판(potato)은 양산 후 존재 — 그 전까지 기본 카드는 정직하게 이모지 폴백`), `CARD_ARG_TYPES`에 `image: { control: 'text' }`, `toProfile` 반환 객체의 `emoji` 아래에 `image: k.image || undefined,`.
 
-- [ ] **Step 2: 스토리 1쌍** — `ProduceCard.stories.tsx`에 추가:
+- [x] **Step 2: 스토리 1쌍** — `ProduceCard.stories.tsx`에 추가:
 
 ```tsx
 /** 도판 — 앵커 peach 실물 파일. Storybook도 Vite publicDir을 그대로 쓰므로
@@ -609,14 +609,14 @@ export const 도판: Story = {
 export const 이모지폴백: Story = { args: { image: '' } }
 ```
 
-- [ ] **Step 3: 확인**
+- [x] **Step 3: 확인**
 
 Run: `npm run storybook`
 Expected: `카드/ProduceCard/도판`에 복숭아 도판이 확정 레이아웃으로, `이모지폴백`에 이모지가 보인다. `image` 노브에 `peach`/`''`를 오가며 폴백 전환 확인.
 
 Run: `npm test && npx tsc --noEmit` → PASS
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/story-utils.tsx src/components/ProduceCard.stories.tsx

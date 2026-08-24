@@ -57,6 +57,9 @@ export type MeasureKey = keyof typeof MEASURES
 export interface CardKnobs {
   name: string
   emoji: string
+  /** 도판 basename(`public/assets/produce/{image}.webp`). ''이면 없음 → 이모지 폴백.
+   *  70장이 다 될 때까지 화면에 실재하는 상태라, 이 노브로 두 상태를 오갈 수 있어야 한다. */
+  image: string
   kindName: string
   category: Category
   inPeak: boolean
@@ -86,6 +89,9 @@ export interface CardKnobs {
 export const CARD_KNOBS_DEFAULT: CardKnobs = {
   name: '감자',
   emoji: '🥔',
+  // 감자 도판은 아직 없다(앵커 4장뿐) — 기본 카드는 정직하게 이모지 폴백을 보인다.
+  // 도판이 있는 카드는 '도판' 스토리에서 본다.
+  image: '',
   // 실물 감자 프로필엔 kamis.kindName이 없다(40개 중 애호박·포도·샤인머스캣·대파·쪽파 5개만 보유).
   // 빈 문자열로 두어 기본 카드가 실제 앱엔 없는 품종 줄을 그리지 않게 한다.
   // 노브 자체는 남긴다 — 품종을 가진 품목(샤인머스캣 등)도 있어 유효한 축이다.
@@ -109,6 +115,7 @@ export const CARD_KNOBS_DEFAULT: CardKnobs = {
 }
 
 export const CARD_ARG_TYPES = {
+  image: { control: 'text' },
   category: { control: 'inline-radio', options: ['fruit', 'vegetable', 'seafood'] },
   unitMeasure: { control: 'inline-radio', options: Object.keys(MEASURES) },
   unitQuantity: { control: { type: 'number', min: 1 } },
@@ -129,7 +136,9 @@ function toProfile(k: CardKnobs, month: number): ProduceProfile {
   return {
     id: 'story',
     name: k.name,
+    // 수기 조립이라 여기서 빠뜨리면 탐색기에서 영영 안 보인다 — 옵셔널이라 에러도 없다
     emoji: k.emoji,
+    image: k.image || undefined,
     category: k.category,
     // 카드의 품종 줄은 profile.kamis.kindName에서 온다 (card.ts) — 참조를 여기서 채운다.
     kamis: { categoryCode: '200', itemName: k.name, kindName: k.kindName },
