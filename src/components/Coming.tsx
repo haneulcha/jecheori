@@ -18,13 +18,14 @@ export function Coming({ view }: { view: ComingView }) {
       </header>
       <main>
         {months.length > 0 ? (
-          months.map((m) => (
+          months.map((m, mi) => (
             <section className="mt-xl" key={m.month} data-season={m.season}>
               {/* <h2>의 굵기는 UA 기본값이다(Preflight 미사용이라 유지된다) — font-bold를 추가하지 않는다 */}
               <h2 className="text-md tracking-wide mb-md">{m.month}월</h2>
               <div className="list">
-                {m.items.map((card) => (
-                  <ProduceCard key={card.name} card={card} />
+                {/* 첫 월 섹션의 앞 2장만 eager — 나머지는 스크롤해야 보인다 */}
+                {m.items.map((card, i) => (
+                  <ProduceCard key={card.name} card={card} eager={mi === 0 && i < 2} />
                 ))}
               </div>
             </section>

@@ -481,7 +481,7 @@ git commit -m "feat: 에셋 존재 양방향 가드 + 앵커 4장 produce.json �
 - Consumes: `CardView.image?` (Task 4), 게이트 2 확정 레이아웃 (Task 3), 앵커 WebP (Task 2/5)
 - Produces: `ProduceCard({ card, eager = false }: { card: CardView; eager?: boolean })` — 세 목록 렌더가 `eager`를 넘긴다.
 
-- [ ] **Step 1: 실패하는 테스트** — `ProduceCard.test.tsx`에 추가:
+- [x] **Step 1: 실패하는 테스트** — `ProduceCard.test.tsx`에 추가:
 
 ```tsx
 // ⚠️ getByRole('img') 금지: alt=""인 <img>는 접근성 트리에서 빠져 그 쿼리에 안 잡히고,
@@ -516,12 +516,12 @@ describe('ProduceCard 도판', () => {
 })
 ```
 
-- [ ] **Step 2: 실패 확인**
+- [x] **Step 2: 실패 확인**
 
 Run: `npx vitest run src/components/ProduceCard.test.tsx`
 Expected: 신규 3케이스 FAIL (`eager` prop 없음 → tsc 에러이기도 하다), 기존 케이스 PASS 유지.
 
-- [ ] **Step 3: 슬롯 구현** — 시그니처를 `export function ProduceCard({ card, eager = false }: { card: CardView; eager?: boolean })`로. 46행의 이모지 `<span>`을 교체:
+- [x] **Step 3: 슬롯 구현** — 시그니처를 `export function ProduceCard({ card, eager = false }: { card: CardView; eager?: boolean })`로. 46행의 이모지 `<span>`을 교체:
 
 ```tsx
 {card.image ? (
@@ -538,30 +538,30 @@ Expected: 신규 3케이스 FAIL (`eager` prop 없음 → tsc 에러이기도 �
 )}
 ```
 
-- [ ] **Step 4: 세 목록에 eager 전달** — 첫 화면 카드까지 lazy면 96px 빈 칸이 보였다가 채워진다. **앞 2장에만** `true`:
+- [x] **Step 4: 세 목록에 eager 전달** — 첫 화면 카드까지 lazy면 96px 빈 칸이 보였다가 채워진다. **앞 2장에만** `true`:
 
   - `App.tsx`: `{shown.map((c, i) => (<ProduceCard key={c.name} card={c} eager={i < 2} />))}`
   - `Livestock.tsx`: `{cards.map((c, i) => (<ProduceCard key={c.name} card={c} eager={i < 2} />))}`
   - `Coming.tsx`: `months.map((m, mi) => …` 로 바꾸고 `{m.items.map((card, i) => (<ProduceCard key={card.name} card={card} eager={mi === 0 && i < 2} />))}` — 첫 월 섹션의 앞 2장만.
 
-- [ ] **Step 5: 확정 레이아웃 구현** — **게이트 2 확정안이 명세다** (이 플랜은 레이아웃을 정하지 않았다). `ProduceCard.tsx` 43-58행의 표지 마크업과 `ProduceCard.module.css`를 확정안대로 조정한다. 지킬 것:
+- [x] **Step 5: 확정 레이아웃 구현** — **게이트 2 확정안이 명세다** (이 플랜은 레이아웃을 정하지 않았다). `ProduceCard.tsx` 43-58행의 표지 마크업과 `ProduceCard.module.css`를 확정안대로 조정한다. 지킬 것:
   - 스케일 밖 기하(96px 관련 정렬·수축 방지 등)는 **모듈**로, 스케일 안 평범한 선언은 JSX 유틸리티로 (스타일 경계 기준 3 · 임의값 금지)
   - 같은 속성을 모듈·유틸리티 양쪽에서 건드리지 않는다
   - 기존 컴포넌트 테스트의 시맨틱(요소 role·텍스트)을 깨지 않는다 — 깨지면 마크업이 아니라 테스트 셀렉터가 표시 구조에 과결합된 것인지 먼저 본다
   - `SeasonHint`는 손대지 않는다 — 목록 줄은 이모지 유지 (스펙 §8.3)
 
-- [ ] **Step 6: 통과 + 게이트**
+- [x] **Step 6: 통과 + 게이트**
 
 Run: `npx vitest run src/components/ProduceCard.test.tsx` → PASS (기존 + 신규 전부)
 Run: `npm test && npx tsc --noEmit` → PASS
 
-- [ ] **Step 7: 브라우저 실측** — `npm run dev` 후 세 경로 전부:
+- [x] **Step 7: 브라우저 실측** — `npm run dev` 후 세 경로 전부:
   - `/` — 복숭아 카드에 도판(8월이면 제철), 나머지는 이모지 폴백 혼재(점진 도입 — 의도된 상태)
   - `/coming` — 조립처 2번(`toComingCardView`)이 실제로 이어졌는지 눈으로 확인
   - `/livestock` — 한우 등심 3등급 카드가 같은 `hanwoo-sirloin.webp`를 공유하는지
   - 공통: 순백 카드 위 알파 경계 헤일로 없음 · 스크롤 중 lazy 로드 레이아웃 안 튐(width/height 속성) · `<summary>` 클릭이 이미지 위에서도 카드를 펼침 · 마스킹테이프·기울기·crisp 모서리 유지 · 카드 펼침 리빌 모션 정상
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add src/components/ProduceCard.tsx src/components/ProduceCard.module.css src/components/ProduceCard.test.tsx src/components/App.tsx src/components/Coming.tsx src/components/Livestock.tsx
