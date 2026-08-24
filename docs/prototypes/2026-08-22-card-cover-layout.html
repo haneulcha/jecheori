@@ -147,6 +147,15 @@
   /* 가격 없는 카드: 이름 블록을 마크 옆 세로 중앙으로 — 오른쪽 아래 공백을 없앤다 */
   .b2 .row:only-of-type{align-items:center}
 
+  /* ── 안 B-3 · B-2에서 띠를 마크 옆 빈자리로 ── */
+  .b3 .row{display:flex;align-items:center;gap:var(--spacing-sm)}
+  .b3 .idb{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--spacing-sm)}
+  .b3 .idb .strip{margin-top:0}
+  .b3 .price{margin-top:var(--spacing-md);flex-direction:row;align-items:flex-end;
+             justify-content:space-between;gap:var(--spacing-sm)}
+  .b3 .cmp{margin-bottom:0;align-self:center}
+  .b3 .num{display:flex;flex-direction:column;align-items:flex-end;margin-left:auto}
+
   /* ── 안 C · 안 A 구조 + 72px 마크 ── */
   .c .row{display:flex;align-items:flex-start;gap:var(--spacing-sm)}
   .c .right{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--spacing-sm)}
@@ -230,6 +239,8 @@ const OPTIONS = [
     desc:'마크 96 + 이름이 한 행(이름에 218.8px), 가격은 자기 행을 갖고 우정렬. 이름이 가장 넉넉하고 가격이 가장 또렷하지만 행이 하나 더 는다.' },
   { key:'b2', cls:'b2', title:'안 B-2 · B + 가격 행 가로', mark:96,
     desc:'안 B와 같은 구조인데, 전폭을 차지한 가격 행을 실제로 전폭으로 쓴다 — 등락 칩 왼쪽, 큰 숫자·기준선 오른쪽. B가 산 자리를 안 쓰고 3줄로 쌓아 두던 82px이 43px로 준다.' },
+  { key:'b3', cls:'b3', title:'안 B-3 · B-2 + 띠를 마크 옆으로', mark:96,
+    desc:'B-2의 빈 오른쪽 위를 제철 띠로 채운다 — 행 하나가 줄고 공백이 사라진다. 대가는 띠 폭: 324.4 → 218.8px(320px 기기에선 149px). 칸당 12.4px인데 두 자리 라벨 잉크가 11.6px이라 여유가 0.8px뿐이다. 방금 고친 겹침 버그의 문턱이 바로 거기다.' },
   { key:'c', cls:'c', title:'안 C · 72px 마크', mark:72,
     desc:'안 A와 같은 구조에 마크만 72px. 96px의 높이 비용을 재는 대조군이다 — 도판 품질을 얼마나 내주고 스크롤을 얼마나 되찾는지.' },
 ]
@@ -282,6 +293,10 @@ function card(it, opt){
       </div>
       ${priceBlock(it)}
     </div>`
+  } else if (opt.key === 'b3') {
+    body = `<div class="row">${mark(it,opt.mark)}
+              <div class="idb"><div>${nm}</div>${strip(it)}</div></div>
+            ${priceBlock(it, true)}`
   } else if (opt.key === 'b' || opt.key === 'b2') {
     body = `<div class="row">${mark(it,opt.mark)}<div class="idb">${nm}</div></div>
             ${priceBlock(it, opt.key==='b2')}${strip(it)}`
