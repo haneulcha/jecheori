@@ -135,7 +135,7 @@
   --text-sm: 0.9rem;   /* 보조 텍스트·절기 아이브로 */
   --text-md: 1rem;     /* 본문·카드/섹션 제목 */
   --text-lg: 1.5rem;   /* 디스플레이 헤딩 — h1 */
-  --text-xl: 1.7rem;   /* 최대 디스플레이 — 카드 이모지·큰 가격 */
+  --text-xl: 1.7rem;   /* 최대 디스플레이 — 큰 가격·카드 이모지 폴백(도판 없는 품목) */
 }
 
 [data-season='spring'] { --color-accent: #a2d3a6; --color-tint: #eaf4e9; }
