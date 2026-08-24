@@ -412,7 +412,7 @@ git commit -m "feat: ProduceProfile/CardView에 image 필드 — 두 조립처 �
 - Consumes: Task 2가 커밋한 `public/assets/produce/*.webp` 4장, Task 4의 `ProduceProfile.image?`
 - Produces: `produce.json` ↔ 파일 양방향 동기화 가드. Task 8의 배치별 "채우면 테스트가 지켜준다" 루프가 여기 의존한다.
 
-- [ ] **Step 1: 실패하는 테스트** — `tests/produce-images.test.ts`:
+- [x] **Step 1: 실패하는 테스트** — `tests/produce-images.test.ts`:
 
 ```ts
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
@@ -444,23 +444,23 @@ describe('품목 도판 ↔ produce.json 동기화', () => {
 })
 ```
 
-- [ ] **Step 2: 실패 확인**
+- [x] **Step 2: 실패 확인**
 
 Run: `npx vitest run tests/produce-images.test.ts`
 Expected: FAIL — 고아 검사: 앵커 4장이 있는데 `produce.json`엔 아직 아무 참조가 없다.
 
-- [ ] **Step 3: produce.json 앵커 항목 채우기** — 부록 A·B 기준, `emoji` 필드 다음에:
+- [x] **Step 3: produce.json 앵커 항목 채우기** — 부록 A·B 기준, `emoji` 필드 다음에:
   - `peach` → `"image": "peach"`
   - `mackerel` → `"image": "mackerel"`
   - `cabbage` → `"image": "cabbage"`
   - `hanwoo-sirloin-1pp` / `-1p` / `-1` 3항목 모두 → `"image": "hanwoo-sirloin"` (부록 B 공유 — 등급은 그림으로 가르지 않는다)
 
-- [ ] **Step 4: 통과 + 게이트**
+- [x] **Step 4: 통과 + 게이트**
 
 Run: `npx vitest run tests/produce-images.test.ts tests/produce.test.ts` → PASS
 Run: `npm test && npx tsc --noEmit` → PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add tests/produce-images.test.ts public/data/produce.json

@@ -3,6 +3,7 @@
     "id": "peach",
     "name": "복숭아",
     "emoji": "🍑",
+    "image": "peach",
     "category": "fruit",
     "kamis": {
       "categoryCode": "400",
@@ -652,6 +653,7 @@
     "id": "cabbage",
     "name": "양배추",
     "emoji": "🥬",
+    "image": "cabbage",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -1321,6 +1323,7 @@
     "id": "mackerel",
     "name": "고등어",
     "emoji": "🐟",
+    "image": "mackerel",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1835,6 +1838,7 @@
     "id": "hanwoo-sirloin-1pp",
     "name": "한우 등심 1++등급",
     "emoji": "🐂",
+    "image": "hanwoo-sirloin",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -1855,6 +1859,7 @@
     "id": "hanwoo-sirloin-1p",
     "name": "한우 등심 1+등급",
     "emoji": "🐂",
+    "image": "hanwoo-sirloin",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -1875,6 +1880,7 @@
     "id": "hanwoo-sirloin-1",
     "name": "한우 등심 1등급",
     "emoji": "🐂",
+    "image": "hanwoo-sirloin",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
