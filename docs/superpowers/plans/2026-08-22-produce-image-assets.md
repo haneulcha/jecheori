@@ -638,7 +638,7 @@ git commit -m "feat(storybook): image 노브 + 도판/이모지폴백 스토리 
 - Consumes: 동결 프롬프트 + 확정 생성기 + 앵커 4장(레퍼런스 첨부용), `normalize-produce-images.mjs`, `tests/produce-images.test.ts`
 - Produces: 84 프로필 전부 `image` 보유 (도판 70종 — 부록 B 공유 매핑 적용).
 
-- [ ] **Step 1 (에이전트): 66행 프롬프트 일괄 조립** — 동결된 8블록 × 부록 A의 나머지 66행(앵커 4행 제외)을 notes 파일로. 각 프롬프트 앞에 공통 지시를 명기: **매 생성마다 앵커 4장을 레퍼런스 이미지로 첨부**하고 스펙 §5.2의 문장(“Match the flattening level, edge quality, lighting and framing of the attached reference plates exactly. Only the subject changes.”)을 함께 보낸다.
+- [x] **Step 1 (에이전트): 66행 프롬프트 일괄 조립** — 동결된 8블록 × 부록 A의 나머지 66행(앵커 4행 제외)을 notes 파일로. 각 프롬프트 앞에 공통 지시를 명기: **매 생성마다 앵커 4장을 레퍼런스 이미지로 첨부**하고 스펙 §5.2의 문장(“Match the flattening level, edge quality, lighting and framing of the attached reference plates exactly. Only the subject changes.”)을 함께 보낸다.
 
 - [ ] **Step 2 (반복, 배치 권장 순서: 과일 11 → 채소 27 → 수산 15 → 축산 13):** 배치마다:
   1. **(사람)** 생성 — 1024 투명 PNG
