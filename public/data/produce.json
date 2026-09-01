@@ -116,6 +116,7 @@
     "id": "tomato",
     "name": "토마토",
     "emoji": "🍅",
+    "image": "tomato",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -155,6 +156,7 @@
     "id": "cucumber",
     "name": "오이",
     "emoji": "🥒",
+    "image": "cucumber",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -194,6 +196,7 @@
     "id": "zucchini",
     "name": "애호박",
     "emoji": "🥬",
+    "image": "zucchini",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -234,6 +237,7 @@
     "id": "potato",
     "name": "감자",
     "emoji": "🥔",
+    "image": "potato",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "100",
@@ -272,6 +276,7 @@
     "id": "corn",
     "name": "옥수수",
     "emoji": "🌽",
+    "image": "corn",
     "category": "vegetable",
     "foodDb": {
       "category1": "곡류",
@@ -342,6 +347,7 @@
     "id": "spinach",
     "name": "시금치",
     "emoji": "🥗",
+    "image": "spinach",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -622,6 +628,7 @@
     "id": "napa-cabbage",
     "name": "배추",
     "emoji": "🥬",
+    "image": "napa-cabbage",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -691,6 +698,7 @@
     "id": "lettuce",
     "name": "상추",
     "emoji": "🥬",
+    "image": "lettuce",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -721,6 +729,7 @@
     "id": "eolgari-cabbage",
     "name": "얼갈이배추",
     "emoji": "🥬",
+    "image": "eolgari-cabbage",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -749,6 +758,7 @@
     "id": "garlic-chives",
     "name": "부추",
     "emoji": "🌿",
+    "image": "garlic-chives",
     "category": "vegetable",
     "foodDb": {
       "category1": "채소류",
@@ -773,6 +783,7 @@
     "id": "perilla-leaf",
     "name": "깻잎",
     "emoji": "🌿",
+    "image": "perilla-leaf",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -812,6 +823,7 @@
     "id": "sweet-pumpkin",
     "name": "단호박",
     "emoji": "🎃",
+    "image": "sweet-pumpkin",
     "category": "vegetable",
     "foodDb": {
       "category1": "채소류",
@@ -845,6 +857,7 @@
     "id": "cherry-tomato",
     "name": "방울토마토",
     "emoji": "🍅",
+    "image": "cherry-tomato",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -879,6 +892,7 @@
     "id": "eggplant",
     "name": "가지",
     "emoji": "🍆",
+    "image": "eggplant",
     "category": "vegetable",
     "foodDb": {
       "category1": "채소류",
@@ -914,6 +928,7 @@
     "id": "green-chili",
     "name": "풋고추",
     "emoji": "🌶️",
+    "image": "green-chili",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -948,6 +963,7 @@
     "id": "paprika",
     "name": "파프리카",
     "emoji": "🫑",
+    "image": "paprika",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -987,6 +1003,7 @@
     "id": "radish",
     "name": "무",
     "emoji": "🫜",
+    "image": "radish",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -1015,6 +1032,7 @@
     "id": "young-radish",
     "name": "열무",
     "emoji": "🫜",
+    "image": "young-radish",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -1052,6 +1070,7 @@
     "id": "carrot",
     "name": "당근",
     "emoji": "🥕",
+    "image": "carrot",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -1080,6 +1099,7 @@
     "id": "broccoli",
     "name": "브로콜리",
     "emoji": "🥦",
+    "image": "broccoli",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -1110,6 +1130,7 @@
     "id": "green-onion",
     "name": "대파",
     "emoji": "🌱",
+    "image": "green-onion",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -1139,6 +1160,7 @@
     "id": "scallion",
     "name": "쪽파",
     "emoji": "🌱",
+    "image": "scallion",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -1168,6 +1190,7 @@
     "id": "onion",
     "name": "양파",
     "emoji": "🧅",
+    "image": "onion",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -1203,6 +1226,7 @@
     "id": "garlic",
     "name": "마늘",
     "emoji": "🧄",
+    "image": "garlic",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -1239,6 +1263,7 @@
     "id": "ginger",
     "name": "생강",
     "emoji": "🫚",
+    "image": "ginger",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
@@ -1266,6 +1291,7 @@
     "id": "sweet-potato",
     "name": "고구마",
     "emoji": "🍠",
+    "image": "sweet-potato",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "100",
@@ -1295,6 +1321,7 @@
     "id": "minari",
     "name": "미나리",
     "emoji": "🌿",
+    "image": "minari",
     "category": "vegetable",
     "kamis": {
       "categoryCode": "200",
