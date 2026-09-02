@@ -1391,6 +1391,7 @@
     "id": "hairtail",
     "name": "갈치",
     "emoji": "🐟",
+    "image": "hairtail",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1421,6 +1422,7 @@
     "id": "croaker",
     "name": "조기",
     "emoji": "🐟",
+    "image": "croaker",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1449,6 +1451,7 @@
     "id": "spanish-mackerel",
     "name": "삼치",
     "emoji": "🐟",
+    "image": "spanish-mackerel",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1478,6 +1481,7 @@
     "id": "saury",
     "name": "꽁치",
     "emoji": "🐟",
+    "image": "saury",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1503,6 +1507,7 @@
     "id": "squid",
     "name": "물오징어",
     "emoji": "🦑",
+    "image": "squid",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1534,6 +1539,7 @@
     "id": "abalone",
     "name": "전복",
     "emoji": "🐚",
+    "image": "abalone",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1561,6 +1567,7 @@
     "id": "shrimp",
     "name": "새우",
     "emoji": "🦐",
+    "image": "shrimp",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1587,6 +1594,7 @@
     "id": "blue-crab",
     "name": "꽃게",
     "emoji": "🦀",
+    "image": "blue-crab",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1618,6 +1626,7 @@
     "id": "mussel",
     "name": "홍합",
     "emoji": "🦪",
+    "image": "mussel",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1650,6 +1659,7 @@
     "id": "clam",
     "name": "바지락",
     "emoji": "🐚",
+    "image": "clam",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1678,6 +1688,7 @@
     "id": "octopus",
     "name": "낙지",
     "emoji": "🐙",
+    "image": "octopus",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1705,6 +1716,7 @@
     "id": "cockle",
     "name": "꼬막",
     "emoji": "🐚",
+    "image": "cockle",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1734,6 +1746,7 @@
     "id": "laver",
     "name": "김",
     "emoji": "🍙",
+    "image": "laver",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1763,6 +1776,7 @@
     "id": "dried-seaweed",
     "name": "마른미역",
     "emoji": "🌿",
+    "image": "dried-seaweed",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
@@ -1788,6 +1802,7 @@
     "id": "dried-anchovy",
     "name": "마른멸치",
     "emoji": "🐟",
+    "image": "dried-anchovy",
     "category": "seafood",
     "kamis": {
       "categoryCode": "600",
