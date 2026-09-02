@@ -42,6 +42,7 @@
     "id": "watermelon",
     "name": "수박",
     "emoji": "🍉",
+    "image": "watermelon",
     "category": "fruit",
     "kamis": {
       "categoryCode": "200",
@@ -79,6 +80,7 @@
     "id": "korean-melon",
     "name": "참외",
     "emoji": "🍈",
+    "image": "korean-melon",
     "category": "fruit",
     "kamis": {
       "categoryCode": "200",
@@ -308,6 +310,7 @@
     "id": "apple",
     "name": "사과",
     "emoji": "🍎",
+    "image": "apple",
     "category": "fruit",
     "kamis": {
       "categoryCode": "400",
@@ -380,6 +383,7 @@
     "id": "pear",
     "name": "배",
     "emoji": "🍐",
+    "image": "pear",
     "category": "fruit",
     "kamis": {
       "categoryCode": "400",
@@ -410,6 +414,7 @@
     "id": "grape",
     "name": "포도",
     "emoji": "🍇",
+    "image": "grape",
     "category": "fruit",
     "kamis": {
       "categoryCode": "400",
@@ -440,6 +445,7 @@
     "id": "shine-muscat",
     "name": "샤인머스캣",
     "emoji": "🍇",
+    "image": "shine-muscat",
     "category": "fruit",
     "kamis": {
       "categoryCode": "400",
@@ -471,6 +477,7 @@
     "id": "mandarin",
     "name": "감귤",
     "emoji": "🍊",
+    "image": "mandarin",
     "category": "fruit",
     "kamis": {
       "categoryCode": "400",
@@ -502,6 +509,7 @@
     "id": "sweet-persimmon",
     "name": "단감",
     "emoji": "🟠",
+    "image": "sweet-persimmon",
     "category": "fruit",
     "kamis": {
       "categoryCode": "400",
@@ -532,6 +540,7 @@
     "id": "kiwi",
     "name": "참다래",
     "emoji": "🥝",
+    "image": "kiwi",
     "category": "fruit",
     "kamis": {
       "categoryCode": "400",
@@ -560,6 +569,7 @@
     "id": "strawberry",
     "name": "딸기",
     "emoji": "🍓",
+    "image": "strawberry",
     "category": "fruit",
     "kamis": {
       "categoryCode": "200",
@@ -593,6 +603,7 @@
     "id": "melon",
     "name": "멜론",
     "emoji": "🍈",
+    "image": "melon",
     "category": "fruit",
     "kamis": {
       "categoryCode": "200",
