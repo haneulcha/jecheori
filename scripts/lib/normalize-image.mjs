@@ -64,6 +64,41 @@ function removeKeyColour(data, width, height, channels) {
   }
 }
 
+/** 출하되는 288 WebP에서, 불투명 픽셀 중 마젠타 잔류가 이 비율을 넘으면 실패시킨다.
+ *
+ *  **재는 자리가 288 출력물이라는 게 핵심이다.** 원본(1024/2048)에서 재면 안 된다 —
+ *  배경과 피사체 경계, 그리고 잎이 겹치는 안쪽 윤곽·뿌리털 사이에 생성기가 남기는
+ *  1픽셀 굵기 마젠타 스필까지 세어, 지표가 생성기 실수가 아니라 **둘레의 복잡도**를
+ *  재게 된다. 실측으로 확인: 원본 기준으로는 불량이던 삼겹살 0.21%와 정상인 대파
+ *  0.22%가 동률이어서 가르는 임계가 없었다. 대파의 스필은 얇은 선이라 288로 줄이면
+ *  이웃과 섞여 사라지고, 삼겹살의 잔류는 덩어리라 축소를 견딘다 — **축소를 견디는지가
+ *  진짜 구분선이고, 출하되는 것도 288이다.**
+ *
+ *  완성 WebP 기준 실측(69장): 67장이 0, `spinach` 0.018%(COLOUR_NOTE가 지정한
+ *  "root crown magenta-pink" 자연색), `laver` 0.005%. 불량이던 삼겹살은 0.19%.
+ *  0.05%는 그 사이에 양쪽 3배 안팎의 여유를 두고 그은 선이다. */
+const RESIDUE_CEILING = 0.0005
+
+/** 마젠타 잔류 비율. 지우지 않고 **센다** — 키 허용범위를 이만큼 넓히면 열무 뿌리의
+ *  분홍(합 225)까지 빨아들여 피사체를 갉아먹기 때문에, 제거는 좁게 하고 검출만 넓게
+ *  해서 사람에게 알린다. (부스러기 검출은 연결요소 크기만 보고 색은 안 봐서 이걸
+ *  놓친다 — 삼겹살이 그랬다.) */
+export function magentaResidueShare(data, width, height, channels) {
+  let opaque = 0
+  let residue = 0
+  for (let p = 0; p < width * height; p++) {
+    const i = p * channels
+    if (data[i + 3] < 128) continue
+    opaque++
+    const r = data[i]
+    const g = data[i + 1]
+    const b = data[i + 2]
+    // 초록이 크게 죽고, 적·청이 함께 높고 서로 비슷하면 마젠타 계열이다.
+    if (r > 150 && b > 150 && g < 90 && Math.abs(r - b) < 70) residue++
+  }
+  return opaque === 0 ? 0 : residue / opaque
+}
+
 /** 불투명 영역의 이 비율 미만인 연결요소는 피사체가 아니라 부스러기로 본다.
  *  2회차 앵커에서 실측: 라벨 글자·반짝이는 전부 0.8% 미만이었고 본체는 95% 이상이었다.
  *  정상 구성요소는 자릿수가 다르다 — 복숭아 세 알이면 각 33%, 마늘 쪽 하나도 10%대. */
@@ -185,5 +220,19 @@ export async function normalizeImage(input) {
     .png()
     .toBuffer()
 
-  return { webp: await sharp(padded).resize(SIZE, SIZE).webp().toBuffer(), dropped }
+  const webp = await sharp(padded).resize(SIZE, SIZE).webp().toBuffer()
+
+  // 배경이 통째로 남은 건 위에서 잡았다. 여기서 잡는 건 **피사체 안에 섞여 남은**
+  // 마젠타다 — 생성기가 피사체 위에 배경색을 칠해 놓으면 키잉으로는 안 빠진다.
+  // **완성된 WebP를 되읽어서** 잰다 — 근거는 RESIDUE_CEILING 주석 참고.
+  const out = await sharp(webp).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+  const residue = magentaResidueShare(out.data, out.info.width, out.info.height, out.info.channels)
+  if (residue > RESIDUE_CEILING) {
+    throw new Error(
+      `피사체에 마젠타가 남아 있다 (${(residue * 100).toFixed(2)}%) — ` +
+        '생성기가 피사체 위에 배경색을 칠했다. 다시 생성해야 한다',
+    )
+  }
+
+  return { webp, dropped, residue }
 }

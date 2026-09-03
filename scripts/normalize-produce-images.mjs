@@ -27,7 +27,7 @@ const failed = []
 for (const f of files) {
   const out = join(outDir, `${basename(f, '.png')}.webp`)
   try {
-    const { webp, dropped } = await normalizeImage(await readFile(join(inDir, f)))
+    const { webp, dropped, residue } = await normalizeImage(await readFile(join(inDir, f)))
     await writeFile(out, webp)
     total += webp.length
     done++
@@ -36,7 +36,12 @@ for (const f of files) {
     const note = dropped.count
       ? `  부스러기 ${dropped.count}개 제거 (${dropped.share.toFixed(2)}%)${dropped.share > 0.5 ? '  ← 워터마크치곤 크다. 확인할 것' : ''}`
       : ''
-    console.log(`  ok    ${basename(f, '.png').padEnd(24)} ${(webp.length / 1024).toFixed(1)}KB${note}`)
+    // 마젠타 잔류는 임계 아래여도 찍는다 — 자연색(시금치 뿌리)과 생성기 실수의
+    // 차이가 자릿수라, 추이가 보이면 임계를 데이터로 다시 그을 수 있다.
+    const res = residue > 0 ? `  마젠타 잔류 ${(residue * 100).toFixed(3)}%` : ''
+    console.log(
+      `  ok    ${basename(f, '.png').padEnd(24)} ${(webp.length / 1024).toFixed(1)}KB${note}${res}`,
+    )
   } catch (e) {
     failed.push([f, e.message])
     console.log(`  실패  ${basename(f, '.png').padEnd(24)} ${e.message}`)

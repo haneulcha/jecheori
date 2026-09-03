@@ -134,8 +134,13 @@ describe('normalizeImage — 키 컬러 배경 제거 (스펙 §7)', () => {
 
   test('피사체 안쪽의 마젠타빛 색은 지우지 않는다 — 테두리에서 이어진 것만 뺀다', async () => {
     // 자두·포도처럼 붉은보라를 가진 품목이 통째로 사라지면 안 된다.
+    // 값은 **실제 포도 껍질**(60,20,80) — 구현 주석이 인용하는 그 값이다. 처음엔
+    // (200,20,190)이라는, 어떤 제철 품목보다 밝은 자홍을 썼는데 그건 "현실의 자보라"가
+    // 아니라 키 허용범위 경계를 시험하는 값이었다. 실제로 grape·eggplant·sweet-potato는
+    // 69장 전수 스캔에서 마젠타 잔류가 0이다. 밝은 자홍은 잔류 가드가 잡아야 할 쪽이라
+    // (아래 삼겹살 회귀 describe) 이 테스트는 자기 의도인 현실값으로 되돌렸다.
     const plum = await sharp({
-      create: { width: 120, height: 120, channels: 4, background: { r: 200, g: 20, b: 190, alpha: 1 } },
+      create: { width: 120, height: 120, channels: 4, background: { r: 60, g: 20, b: 80, alpha: 1 } },
     })
       .png()
       .toBuffer()
@@ -240,5 +245,55 @@ describe('normalizeImage — 갇힌 키 컬러 (스펙 §7)', () => {
     const cx = Math.floor(info.width / 2)
     const cy = Math.floor(info.height / 2)
     expect(data[(cy * info.width + cx) * info.channels + 3]).toBe(0)
+  })
+})
+
+/** 생성기가 **피사체 위에** 배경색을 칠해 놓은 경우. 키 허용범위 밖의 어두운 마젠타라
+ *  키잉으로는 안 빠지고, 부스러기 검출은 연결요소 **크기**만 보고 색은 안 봐서 통과한다.
+ *  삼겹살 도판에서 실제로 새어나갔다 — 아래쪽 조각에 57px(0.19%)이 남아 96px에서
+ *  분홍 얼룩으로 보였다. 사람이 눈으로 잡기 전까지 파이프라인은 `ok`를 찍었다. */
+describe('normalizeImage — 피사체 안의 마젠타 잔류 (삼겹살 회귀)', () => {
+  /** 초록 사각형 피사체에, 키 허용범위 **밖**인 어두운 마젠타 얼룩을 얹는다. */
+  async function withResidue(blotch) {
+    const subject = await sharp({
+      create: { width: 500, height: 500, channels: 4, background: { r: 70, g: 140, b: 60, alpha: 1 } },
+    })
+      .composite([
+        {
+          input: await sharp({
+            create: {
+              width: blotch,
+              height: blotch,
+              channels: 4,
+              // rgb(205,8,154) — 실측된 최악 잔류. 채널차 합 159로 KEY_TOLERANCE(90) 밖이다.
+              background: { r: 205, g: 8, b: 154, alpha: 1 },
+            },
+          })
+            .png()
+            .toBuffer(),
+          left: 20,
+          top: 20,
+        },
+      ])
+      .png()
+      .toBuffer()
+    return sharp({
+      create: { width: 1024, height: 1024, channels: 4, background: { ...KEY, alpha: 1 } },
+    })
+      .composite([{ input: subject, left: 200, top: 200 }])
+      .png()
+      .toBuffer()
+  }
+
+  test('임계를 넘는 잔류는 조용히 통과시키지 않고 throw', async () => {
+    // 500² 피사체의 1% 넘게 = 임계(0.05%) 한참 위
+    await expect(normalizeImage(await withResidue(60))).rejects.toThrow(/마젠타/)
+  })
+
+  test('임계 미만의 잔류는 통과 — 자연색이 자홍에 걸치는 품목이 있다', async () => {
+    // 시금치는 COLOUR_NOTE가 "root crown magenta-pink"로 지정한 자연색이고 0.018%로 실측됐다.
+    // 500²(=250,000px)에서 0.05%는 125px — 10×10=100px는 그 아래다.
+    const { webp } = await normalizeImage(await withResidue(10))
+    expect(webp.length).toBeGreaterThan(0)
   })
 })
