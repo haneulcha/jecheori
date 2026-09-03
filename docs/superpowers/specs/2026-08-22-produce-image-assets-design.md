@@ -431,10 +431,13 @@ A가 가장 낮지만 "가격이 자기 행을 갖는" B 계열을 택했고, B-
   1등급의 마블링 차이를 그림으로 구분하려는 건 과잉이다.
 - **공유 기준은 원산지가 아니라 정형이다.** 겉모습이 같으면 공유하고 다르면 나눈다:
   - 돼지 삼겹살 / 수입 삼겹살 → **공유**. 정형이 같다.
-  - 한우 갈비 / 수입 소갈비 → **분리**. 수입 소갈비는 LA갈비식 두꺼운 단면으로
-    나와 한우 찜갈비와 실제 모양이 다르다. 원산지 때문이 아니라 정형 때문이다.
-  - 검수 게이트 6번의 혼동군에 이 쌍이 들어 있다 — 96px에서 정말 갈리는지 눈으로
-    확인하고, 안 갈리면 그때 공유로 되돌린다(70 → 69).
+  - 한우 갈비 / 수입 소갈비 → **공유** (2026-09-03 실측으로 확정, 70 → 69장).
+    초안은 "수입은 LA갈비식 두꺼운 단면이라 정형이 다르다"고 보아 분리했으나,
+    96px에서 갈리지 않았다. 240px에서는 차이(길고 얇은 대 vs 짧고 각진 덩이)가
+    보이지만 카드 크기에서는 둘 다 "층진 갈비 덩어리"다. 원칙("겉모습이 같으면
+    공유")을 뒤집은 게 아니라, 겉모습이 같다는 사실을 실측으로 확인한 것이다.
+    화면에서는 문구가 구분을 진다 — "한우 갈비보다 저렴한 구이·찜감이에요.
+    미국산입니다."
 - **품종을 그림으로 안 가른다** — `kind`(햇사레 등)는 텍스트로만 구별된다.
   포도/샤인머스캣, 참외/멜론처럼 겉모습이 다른 것만 별개 장이다.
 - **점진 도입** — 70장이 다 될 때까지 에셋 없는 품목은 이모지로 보인다. 한 화면에
@@ -552,12 +555,12 @@ A가 가장 낮지만 "가격이 자기 행을 갖는" B 계열을 택했고, B-
 |---|---|---|---|---|
 | `hanwoo-tenderloin` | 한우 안심 | one thick round tenderloin steak on its own | a clean trimmed cylinder with no bone | deep cherry-red lean with very fine white marbling and a thin cream fat edge |
 | `hanwoo-sirloin` | 한우 등심 | one thick sirloin steak on its own | the broad eye of the loin with its outer fat cap | deep cherry-red lean with dense fine white marbling; cream-white fat cap |
-| `hanwoo-round` | 한우 설도 | one lean round steak slice | a broad flat cut with little fat and a thin silver connective seam | deep red lean, sparse marbling |
+| `hanwoo-round` | 한우 설도 | one lean round block, tall and squared rather than a thin slice | a pale silverskin seam running across one face, very little fat | deep red lean, sparse marbling; silverskin pale pearl-grey |
 | `hanwoo-brisket` | 한우 양지 | one brisket block with the grain running lengthwise | coarse long muscle fibre and a fat layer along one edge | dark red lean with pronounced long grain; cream fat layer |
-| `hanwoo-rib` | 한우 갈비 | two bone-in short-rib pieces, stacked | the cut rib bone in cross-section | deep red meat layered with cream fat; bone pale ivory with a rose marrow centre |
-| `imported-beef-rib` | 수입 소갈비 | two bone-in beef short ribs, stacked | the cut rib bone in cross-section | bright red meat with thicker cream fat layers; bone pale ivory |
-| `imported-beef-ribmeat` | 수입 소갈비살 | one boneless rib-meat slab | no bone; wide muscle seams running through the cut | bright red lean with wide cream fat seams between muscle layers |
-| `pork-front-leg` | 돼지 앞다리살 | one block of pork shoulder | several muscle seams and a thin fat cap | pale rose-pink lean with cream fat seams |
+| `hanwoo-rib` | 한우 갈비 | one section of bone-in beef short ribs lying flat, the ribs running lengthwise | the long rib bones showing along the side, no sawn cross-section facing the viewer | deep red meat layered with cream fat; bone pale ivory |
+| `imported-beef-rib` | 수입 소갈비 | one section of bone-in beef short ribs lying flat, cut thicker and squarer than the Korean trim | the long rib bones showing along the side, no sawn cross-section facing the viewer | bright red meat with thicker cream fat layers; bone pale ivory |
+| `imported-beef-ribmeat` | 수입 소갈비살 | one whole boneless rib-meat piece, rounded and full rather than sliced | no bone, and no cut face toward the viewer; the muscle seams reading as gentle ridges across the outer surface | bright red lean with cream fat seams |
+| `pork-front-leg` | 돼지 앞다리살 | one whole block of pork shoulder, full and rounded | an unbroken outer surface with a thin fat cap, no cut face toward the viewer | pale rose-pink lean with a cream fat cap |
 | `pork-belly` | 돼지 삼겹살 | three slices of pork belly, fanned | the alternating lean and fat layers seen edge-on | rose-pink lean striped with cream-white fat in clear bands |
 | `pork-rib` | 돼지 갈비 | one rack section of pork ribs | the rib bones running through the meat | pale rose meat with cream fat; bones ivory |
 | `pork-neck` | 돼지 목살 | two thick pork neck steaks, overlapping | coarse marbled seams threading through the cut | rose-pink with coarse cream marbling |

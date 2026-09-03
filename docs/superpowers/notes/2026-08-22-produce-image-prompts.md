@@ -2631,8 +2631,8 @@ Square 1:1, at least 1024 × 1024, PNG.
 
 ```
 Subject
-one lean round steak slice — a broad flat cut with little fat and a thin silver connective
-seam. Korean market produce, 한우 설도.
+one lean round block, tall and squared rather than a thin slice — a pale silverskin seam
+running across one face, very little fat. Korean market produce, 한우 설도.
 
 Style
 High-fidelity vector trace of a photograph — 20 to 40 tonal steps per material, so
@@ -2642,8 +2642,8 @@ a flat poster illustration: a six- or eight-colour simplification is wrong. No
 outline stroke, no grain.
 
 Colour
-True-to-life natural colour: deep red lean, sparse marbling. Do not stylise, tint or
-desaturate the subject's own colour.
+True-to-life natural colour: deep red lean, sparse marbling; silverskin pale pearl-grey.
+Do not stylise, tint or desaturate the subject's own colour.
 
 View
 Three-quarter view from slightly above, subject centred, occupying about 80% of the
@@ -2725,7 +2725,8 @@ Square 1:1, at least 1024 × 1024, PNG.
 
 ```
 Subject
-two bone-in short-rib pieces, stacked — the cut rib bone in cross-section. Korean market
+one section of bone-in beef short ribs lying flat, the ribs running lengthwise — the long
+rib bones showing along the side, no sawn cross-section facing the viewer. Korean market
 produce, 한우 갈비.
 
 Style
@@ -2736,8 +2737,8 @@ a flat poster illustration: a six- or eight-colour simplification is wrong. No
 outline stroke, no grain.
 
 Colour
-True-to-life natural colour: deep red meat layered with cream fat; bone pale ivory with a
-rose marrow centre. Do not stylise, tint or desaturate the subject's own colour.
+True-to-life natural colour: deep red meat layered with cream fat; bone pale ivory. Do not
+stylise, tint or desaturate the subject's own colour.
 
 View
 Three-quarter view from slightly above, subject centred, occupying about 80% of the
@@ -2772,8 +2773,9 @@ Square 1:1, at least 1024 × 1024, PNG.
 
 ```
 Subject
-two bone-in beef short ribs, stacked — the cut rib bone in cross-section. Korean market
-produce, 수입 소갈비.
+one section of bone-in beef short ribs lying flat, cut thicker and squarer than the Korean
+trim — the long rib bones showing along the side, no sawn cross-section facing the viewer.
+Korean market produce, 수입 소갈비.
 
 Style
 High-fidelity vector trace of a photograph — 20 to 40 tonal steps per material, so
@@ -2819,8 +2821,9 @@ Square 1:1, at least 1024 × 1024, PNG.
 
 ```
 Subject
-one boneless rib-meat slab — no bone; wide muscle seams running through the cut. Korean
-market produce, 수입 소갈비살.
+one whole boneless rib-meat piece, rounded and full rather than sliced — no bone, and no
+cut face toward the viewer; the muscle seams reading as gentle ridges across the outer
+surface. Korean market produce, 수입 소갈비살.
 
 Style
 High-fidelity vector trace of a photograph — 20 to 40 tonal steps per material, so
@@ -2830,8 +2833,8 @@ a flat poster illustration: a six- or eight-colour simplification is wrong. No
 outline stroke, no grain.
 
 Colour
-True-to-life natural colour: bright red lean with wide cream fat seams between muscle
-layers. Do not stylise, tint or desaturate the subject's own colour.
+True-to-life natural colour: bright red lean with cream fat seams. Do not stylise, tint or
+desaturate the subject's own colour.
 
 View
 Three-quarter view from slightly above, subject centred, occupying about 80% of the
@@ -2866,8 +2869,8 @@ Square 1:1, at least 1024 × 1024, PNG.
 
 ```
 Subject
-one block of pork shoulder — several muscle seams and a thin fat cap. Korean market
-produce, 돼지 앞다리살.
+one whole block of pork shoulder, full and rounded — an unbroken outer surface with a thin
+fat cap, no cut face toward the viewer. Korean market produce, 돼지 앞다리살.
 
 Style
 High-fidelity vector trace of a photograph — 20 to 40 tonal steps per material, so
@@ -2877,7 +2880,7 @@ a flat poster illustration: a six- or eight-colour simplification is wrong. No
 outline stroke, no grain.
 
 Colour
-True-to-life natural colour: pale rose-pink lean with cream fat seams. Do not stylise,
+True-to-life natural colour: pale rose-pink lean with a cream fat cap. Do not stylise,
 tint or desaturate the subject's own colour.
 
 View
@@ -3194,3 +3197,58 @@ packaging, price tag, photorealism, 3D render, bokeh, depth of field.
 Output
 Square 1:1, at least 1024 × 1024, PNG.
 ```
+
+---
+
+## 양산 기록 (2026-08-25 ~ 09-03)
+
+69장으로 끝났다. 70이 아닌 이유와, 프롬프트를 고친 자리를 남긴다.
+
+### 슬롯을 고친 5행 (축산)
+
+동결은 **고정 6블록**에만 걸린다. 축산 1차 생성에서 스펙의 전제가 틀린 걸 확인해
+슬롯 4개를 고쳤고, 위 본문과 스펙 부록 A를 새 문구로 갱신했다.
+
+틀린 전제: *"축산은 식물 부속물이 없으니 `PARTS`가 해부학적 특징을 대신 담는다"*
+(부록 A 축산 표 주). 톱으로 자른 뼈 단면과 드러난 근섬유는 **288px에서 혐오스럽고
+96px에서 뭉개져 사라진다.** 징그러움과 식별 실패가 같은 원인이었다 — 하나를 고치면
+둘이 같이 풀린다.
+
+| image | 무엇을 | 결과 |
+|---|---|---|
+| `hanwoo-rib` · `imported-beef-rib` | 뼈 단면 → 갈비대가 길이 방향. Colour의 `rose marrow centre`(골수) 삭제 | 혐오감 해소 ○ · 둘의 구별 ✕ |
+| `pork-front-leg` · `imported-beef-ribmeat` | 자른 면 없이 통 덩어리 | ○ |
+| `hanwoo-round` | 얇은 슬라이스 → 각진 살덩이 + 은근막 줄 | ○ — 밋밋한 붉은 타원에서 형태를 얻었다 |
+
+### §12 되돌림 판단 — 갈비는 공유 (70 → 69장)
+
+스펙 §12가 *"안 갈리면 그때 공유로 되돌린다(70 → 69)"*로 열어둔 문. 재생성 뒤에도
+96px에서 `hanwoo-rib`과 `imported-beef-rib`이 갈리지 않아 **공유로 확정했다.**
+
+240px에서는 정형 차이(길고 얇게 휜 대 vs 짧고 각진 덩이)가 보인다. 그러나 카드가
+쓰는 96px에서는 둘 다 "층진 갈비 덩어리"다. 덧붙여, 다운로드한 두 파일 중 어느 쪽이
+한우인지 **나조차 형태만으로 특정하지 못해** 생성 화면과 직접 대조해 정했다 — 그
+특정 실패 자체가 사용자도 못 가른다는 증거로 읽었다.
+
+원칙을 뒤집은 게 아니다. §12는 "겉모습이 같으면 공유"라고 했고, 겉모습이 같다는
+사실을 실측으로 확인한 것이다. 화면에서는 문구가 구분을 진다 —
+"한우 갈비보다 저렴한 구이·찜감이에요. 미국산입니다."
+
+### 남은 판단 둘 (기록만, 되돌리지 않음)
+
+- **`clam` / `cockle`** — 96px에서 둘 다 "베이지색 조개 무더기"다. 골의 굵기 차이뿐이라
+  색으로는 안 갈린다. 스펙 §6의 지정 혼동군이 아니어서 분리를 유지했다.
+- **`napa-cabbage` / `eolgari-cabbage`** — 1차 생성이 둘 다 "여문 통"으로 나와 얼갈이만
+  재생성했다. 겉잎이 벌어져 나아졌지만 스펙이 말한 "벌어진 단"까지는 아니다.
+
+### 생성 경로 기록
+
+- 다운로드 자동화는 **포기했다.** Gemini의 "원본 크기 다운로드"는 앞선 요청이 처리
+  중이면 버튼이 잠기고, 페이지 토스트("이미지를 다운로드했습니다")는 Chrome이 실제로
+  저장했는지와 무관하게 뜬다. 클릭 수로 세면 조용히 어긋난다 — 사람이 받는 게 확실하다.
+- 프롬프트 전송은 자동화가 안정적이다. 단 **새 채팅의 첫 전송에서 URL이
+  `/app` → `/app/<id>`로 바뀌며 실행 컨텍스트가 리셋된다** — 첫 장을 먼저 보내
+  URL을 고정한 뒤 드라이버를 걸어야 한다.
+- 새 채팅엔 이전 이미지 문맥이 없다. 파일 업로드가 도구로 안 되므로(파일 입력이
+  접근성 트리에 없다) **해당 배치의 앵커를 첫 장으로 한 번 생성해** 대화 안에 화풍
+  기준을 세웠다. 수산·축산 모두 이 방식으로 기존 장들과 같은 결이 나왔다.

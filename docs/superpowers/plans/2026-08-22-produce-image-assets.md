@@ -640,7 +640,7 @@ git commit -m "feat(storybook): image 노브 + 도판/이모지폴백 스토리 
 
 - [x] **Step 1 (에이전트): 66행 프롬프트 일괄 조립** — 동결된 8블록 × 부록 A의 나머지 66행(앵커 4행 제외)을 notes 파일로. 각 프롬프트 앞에 공통 지시를 명기: **매 생성마다 앵커 4장을 레퍼런스 이미지로 첨부**하고 스펙 §5.2의 문장(“Match the flattening level, edge quality, lighting and framing of the attached reference plates exactly. Only the subject changes.”)을 함께 보낸다.
 
-- [ ] **Step 2 (반복, 배치 권장 순서: 과일 11 → 채소 27 → 수산 15 → 축산 13):** 배치마다:
+- [x] **Step 2 (반복, 배치 권장 순서: 과일 11 → 채소 27 → 수산 15 → 축산 13):** 배치마다:
   1. **(사람)** 생성 — 1024 투명 PNG
   2. **(사람)** 검수 6항목 (스펙 §6). 특히:
      - **흰 피사체 위험군** — `milk-white` · `hairtail` · `dried-anchovy` · `chicken-broiler` · `garlic` · `napa-cabbage`: 순백 위 윤곽 확인, 녹으면 자연색 범위 안 음영 심화로 재생성
@@ -651,9 +651,9 @@ git commit -m "feat(storybook): image 노브 + 도판/이모지폴백 스토리 
   6. `npm run dev`로 해당 카드가 보이는 경로에서 실화면 스팟 체크 (축산 배치는 반드시 `/livestock`)
   7. Commit: `git add public/assets/produce public/data/produce.json && git commit -m "feat: 품목 도판 — <배치명> N장"`
 
-- [ ] **Step 3: 판단 유보 항목 확인** — 스펙 §12가 열어둔 되돌림: **한우 갈비 vs 수입 소갈비**가 96px에서 정말 갈리는지 나란히 확인하고, 안 갈리면 공유로 되돌린다(70 → 69장, `imported-beef-rib-us/-au`의 `image`를 `hanwoo-rib`으로). 판단 결과를 notes에 한 줄 기록.
+- [x] **Step 3: 판단 유보 항목 확인** — 스펙 §12가 열어둔 되돌림: **한우 갈비 vs 수입 소갈비**가 96px에서 정말 갈리는지 나란히 확인하고, 안 갈리면 공유로 되돌린다(70 → 69장, `imported-beef-rib-us/-au`의 `image`를 `hanwoo-rib`으로). 판단 결과를 notes에 한 줄 기록.
 
-- [ ] **Step 4: 완료 판정**
+- [x] **Step 4: 완료 판정**
 
 ```bash
 ls public/assets/produce/*.webp | wc -l           # 70 (또는 §12 되돌림 시 69)
