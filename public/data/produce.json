@@ -1831,6 +1831,7 @@
     "id": "hanwoo-tenderloin-1pp",
     "name": "한우 안심 1++등급",
     "emoji": "🐂",
+    "image": "hanwoo-tenderloin",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -1851,6 +1852,7 @@
     "id": "hanwoo-tenderloin-1p",
     "name": "한우 안심 1+등급",
     "emoji": "🐂",
+    "image": "hanwoo-tenderloin",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -1871,6 +1873,7 @@
     "id": "hanwoo-tenderloin-1",
     "name": "한우 안심 1등급",
     "emoji": "🐂",
+    "image": "hanwoo-tenderloin",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -1954,6 +1957,7 @@
     "id": "hanwoo-round-1pp",
     "name": "한우 설도 1++등급",
     "emoji": "🐂",
+    "image": "hanwoo-round",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -1974,6 +1978,7 @@
     "id": "hanwoo-round-1p",
     "name": "한우 설도 1+등급",
     "emoji": "🐂",
+    "image": "hanwoo-round",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -1994,6 +1999,7 @@
     "id": "hanwoo-round-1",
     "name": "한우 설도 1등급",
     "emoji": "🐂",
+    "image": "hanwoo-round",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2014,6 +2020,7 @@
     "id": "hanwoo-brisket-1pp",
     "name": "한우 양지 1++등급",
     "emoji": "🐂",
+    "image": "hanwoo-brisket",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2034,6 +2041,7 @@
     "id": "hanwoo-brisket-1p",
     "name": "한우 양지 1+등급",
     "emoji": "🐂",
+    "image": "hanwoo-brisket",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2054,6 +2062,7 @@
     "id": "hanwoo-brisket-1",
     "name": "한우 양지 1등급",
     "emoji": "🐂",
+    "image": "hanwoo-brisket",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2074,6 +2083,7 @@
     "id": "hanwoo-rib-1pp",
     "name": "한우 갈비 1++등급",
     "emoji": "🐂",
+    "image": "hanwoo-rib",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2094,6 +2104,7 @@
     "id": "hanwoo-rib-1p",
     "name": "한우 갈비 1+등급",
     "emoji": "🐂",
+    "image": "hanwoo-rib",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2114,6 +2125,7 @@
     "id": "hanwoo-rib-1",
     "name": "한우 갈비 1등급",
     "emoji": "🐂",
+    "image": "hanwoo-rib",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2134,6 +2146,7 @@
     "id": "imported-beef-rib-us",
     "name": "수입 소갈비 (미국산)",
     "emoji": "🐂",
+    "image": "hanwoo-rib",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2154,6 +2167,7 @@
     "id": "imported-beef-rib-au",
     "name": "수입 소갈비 (호주산)",
     "emoji": "🐂",
+    "image": "hanwoo-rib",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2174,6 +2188,7 @@
     "id": "imported-beef-ribmeat-us",
     "name": "수입 소갈비살 (미국산)",
     "emoji": "🐂",
+    "image": "imported-beef-ribmeat",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2194,6 +2209,7 @@
     "id": "imported-beef-ribmeat-au",
     "name": "수입 소갈비살 (호주산)",
     "emoji": "🐂",
+    "image": "imported-beef-ribmeat",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2214,6 +2230,7 @@
     "id": "pork-front-leg",
     "name": "돼지 앞다리살",
     "emoji": "🐖",
+    "image": "pork-front-leg",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2233,6 +2250,7 @@
     "id": "pork-belly",
     "name": "돼지 삼겹살",
     "emoji": "🐖",
+    "image": "pork-belly",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2252,6 +2270,7 @@
     "id": "pork-rib",
     "name": "돼지 갈비",
     "emoji": "🐖",
+    "image": "pork-rib",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2271,6 +2290,7 @@
     "id": "pork-neck",
     "name": "돼지 목살",
     "emoji": "🐖",
+    "image": "pork-neck",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2290,6 +2310,7 @@
     "id": "imported-pork-belly",
     "name": "수입 삼겹살",
     "emoji": "🐖",
+    "image": "pork-belly",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2309,6 +2330,7 @@
     "id": "chicken-broiler",
     "name": "닭 (육계)",
     "emoji": "🐔",
+    "image": "chicken-broiler",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2328,6 +2350,7 @@
     "id": "egg-10",
     "name": "계란 (특란 10구)",
     "emoji": "🥚",
+    "image": "egg",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2347,6 +2370,7 @@
     "id": "egg-30",
     "name": "계란 (특란 30구)",
     "emoji": "🥚",
+    "image": "egg",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
@@ -2366,6 +2390,7 @@
     "id": "milk-white",
     "name": "흰우유 (1L)",
     "emoji": "🥛",
+    "image": "milk-white",
     "category": "livestock",
     "kamis": {
       "categoryCode": "500",
