@@ -484,8 +484,8 @@ A가 가장 낮지만 "가격이 자기 행을 갖는" B 계열을 택했고, B-
 | `korean-melon` | 참외 | two whole Korean melons, one standing and one lying | with shallow white longitudinal furrows and a small dry stem scar | vivid canary-yellow skin with ten white furrows; matte, not glossy |
 | `apple` | 사과 | two whole apples, one upright and one tilted | with a short woody stem and one attached leaf | deep red skin streaked with yellow-green striations and pale lenticel flecks |
 | `pear` | 배 | two whole Korean pears, round rather than tapered | with a short stem and a wide sunken calyx | russet golden-brown skin densely freckled with pale lenticels |
-| `grape` | 포도 | one whole bunch of Campbell Early grapes | with the woody stem and two vine leaves | near-black purple berries under a dusty pale bloom; leaves deep green |
-| `shine-muscat` | 샤인머스캣 | one whole bunch of Shine Muscat grapes | with the woody stem and one vine leaf | translucent yellow-green berries, glossy, no bloom |
+| `grape` | 포도 | one broad-shouldered bunch of Campbell Early grapes with three loose berries beside it | with a short woody stem and one vine leaf tucked behind, the individual round berries clearly separated rather than merging into one mass | near-black purple berries under a dusty pale bloom; leaves deep green |
+| `shine-muscat` | 샤인머스캣 | one broad-shouldered bunch of Shine Muscat grapes with three loose berries beside it | with a short woody stem and one vine leaf tucked behind, the individual oval berries clearly separated rather than merging into one mass | translucent yellow-green berries, glossy, no bloom |
 | `mandarin` | 감귤 | three whole mandarins and one peeled segment | with two attached leaves on the top fruit | bright orange dimpled skin; the segment a lighter translucent orange |
 | `sweet-persimmon` | 단감 | two whole sweet persimmons, flat-round rather than pointed | with the four-lobed calyx on top | orange-vermilion skin, smooth and slightly waxy; calyx dry sage-brown |
 | `kiwi` | 참다래 | two whole kiwifruit and one cut half | with the cut half showing the pale radial core and black seed ring | matte fuzzy russet-brown skin; interior vivid lime-green with a white core |

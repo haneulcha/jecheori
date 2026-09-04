@@ -250,8 +250,9 @@ Square 1:1, at least 1024 × 1024, PNG.
 
 ```
 Subject
-one whole bunch of Campbell Early grapes — with the woody stem and two vine leaves. Korean
-market produce, 포도.
+one broad-shouldered bunch of Campbell Early grapes with three loose berries beside it —
+with a short woody stem and one vine leaf tucked behind, the individual round berries
+clearly separated rather than merging into one mass. Korean market produce, 포도.
 
 Style
 High-fidelity vector trace of a photograph — 20 to 40 tonal steps per material, so
@@ -297,8 +298,9 @@ Square 1:1, at least 1024 × 1024, PNG.
 
 ```
 Subject
-one whole bunch of Shine Muscat grapes — with the woody stem and one vine leaf. Korean
-market produce, 샤인머스캣.
+one broad-shouldered bunch of Shine Muscat grapes with three loose berries beside it —
+with a short woody stem and one vine leaf tucked behind, the individual oval berries
+clearly separated rather than merging into one mass. Korean market produce, 샤인머스캣.
 
 Style
 High-fidelity vector trace of a photograph — 20 to 40 tonal steps per material, so
@@ -3252,3 +3254,20 @@ Square 1:1, at least 1024 × 1024, PNG.
 - 새 채팅엔 이전 이미지 문맥이 없다. 파일 업로드가 도구로 안 되므로(파일 입력이
   접근성 트리에 없다) **해당 배치의 앵커를 첫 장으로 한 번 생성해** 대화 안에 화풍
   기준을 세웠다. 수산·축산 모두 이 방식으로 기존 장들과 같은 결이 나왔다.
+- **다만 정석은 클립보드 첨부다** (2026-09-04에 뚫렸다). 스펙 §5.2가 처음부터 지시한
+  "매 생성마다 앵커를 레퍼런스 이미지로 첨부"를 이렇게 하면 된다:
+
+  ```bash
+  osascript -e 'set the clipboard to (read (POSIX file "/절대/경로/peach.png") as «class PNGf»)'
+  ```
+
+  작성창을 클릭하고 `cmd+V`로 붙이면 첨부되고, 이어서 프롬프트 텍스트를 또 `cmd+V`로
+  붙인다(맨 앞에 §5.2의 "Match the flattening level…" 문장). **효과가 실측으로 확인됐다** —
+  포도·샤인머스캣을 앵커 없이 새 채팅에서 뽑았더니 알마다 검은 외곽선에 3~4단계 평면으로
+  나와 탈락안이던 인쇄 도판 쪽으로 흘렀고, 같은 프롬프트를 `peach` 앵커 첨부로 다시 뽑으니
+  20~40단계·외곽선 없음으로 기존 42장과 같은 결이 나왔다.
+- **작성창 조작은 JS가 아니라 실제 입력으로 한다.** 긴 대화에서는 `document.execCommand`
+  삽입과 `button.click()`이 먹지 않는 경우가 있다(에디터만 비워지고 전송이 안 된다).
+  클립보드 붙여넣기 + 실제 마우스 클릭은 안정적이다.
+- **한 대화의 수명이 있다.** 40턴·40장이 된 과일 대화는 새 프롬프트를 조용히 삼켰다 —
+  전송해도 에디터만 비워지고 응답이 없다. 배치가 길어지면 대화를 나눈다.
