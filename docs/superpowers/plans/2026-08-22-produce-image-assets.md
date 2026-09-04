@@ -700,11 +700,11 @@ git commit -m "docs: 도판 전환 반영 — DESIGN.md 개정 3건 + 결정 기
 
 ### Task 10: 최종 실측 + 스크린샷 사인오프 (Phase E)
 
-- [ ] **Step 1: 전체 게이트**
+- [x] **Step 1: 전체 게이트**
 
 Run: `npm test && npx tsc --noEmit` → 전부 PASS
 
-- [ ] **Step 2: 빌드 산출물 확인** — `public/` 패스스루가 Vite 자산 디렉터리와 겹치는 이름이라 눈으로 확인한다:
+- [x] **Step 2: 빌드 산출물 확인** — `public/` 패스스루가 Vite 자산 디렉터리와 겹치는 이름이라 눈으로 확인한다:
 
 ```bash
 npm run build
@@ -715,7 +715,7 @@ grep -o '/jecheori/assets/produce/[a-z0-9-]*\.webp' dist/client/index.html | hea
 
 Expected: 하위경로 빌드의 `<img src>`가 `/jecheori/assets/produce/…`로 프리렌더됨 (BASE_URL 관례가 실제로 작동).
 
-- [ ] **Step 3: 브라우저 최종 실측** — `npm run dev`, 세 경로 전부:
+- [x] **Step 3: 브라우저 최종 실측** — `npm run dev`, 세 경로 전부:
   - `/` — 첫 2장 eager(빈 칸 플래시 없음), 스크롤하며 lazy 로드 중 레이아웃 안 튐, 검색 힌트 줄은 이모지 유지(SeasonHint 무변경), 카테고리 전환·정렬 정상
   - `/coming` — 월 섹션 카드 전부 도판, 마스킹테이프 색(미래 달 계절색)과 도판의 자연색이 충돌하지 않는지
   - `/livestock` — 축산 14장(등급 공유 확인), SeasonStrip 없는 카드의 표지 균형
