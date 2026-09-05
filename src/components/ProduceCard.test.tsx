@@ -134,3 +134,34 @@ describe('ProduceCard 제철 띠', () => {
     expect(queryByRole('img', { name: /제철/ })).toBeNull()
   })
 })
+
+/** ⚠️ `getByRole('img')` 금지: `alt=""`인 <img>는 접근성 트리에서 빠져 그 쿼리에
+ *  안 잡히고, `role="img"`는 이미 SeasonStrip이 점유해 기존 제철 띠 테스트와 충돌한다.
+ *  도판은 `container.querySelector('img')`로 지목한다. */
+describe('ProduceCard 도판', () => {
+  const withImage: CardView = { ...base, image: 'tomato' }
+
+  test('image 있으면 <img> — alt="" · 96px 속성 · 기본 lazy', () => {
+    const { container } = render(<ProduceCard card={withImage} />)
+    const img = container.querySelector('img')
+    expect(img).not.toBeNull()
+    expect(img!.getAttribute('src')).toBe('/assets/produce/tomato.webp')
+    expect(img!.getAttribute('alt')).toBe('') // 품목명이 바로 옆에 있다 — 채우면 이중 낭독
+    expect(img!.getAttribute('width')).toBe('96') // 크기의 유일한 권위 (CLS 방지)
+    expect(img!.getAttribute('height')).toBe('96')
+    expect(img!.getAttribute('loading')).toBe('lazy')
+  })
+
+  test('eager면 loading="eager" + fetchpriority="high"', () => {
+    const { container } = render(<ProduceCard card={withImage} eager />)
+    const img = container.querySelector('img')
+    expect(img!.getAttribute('loading')).toBe('eager')
+    expect(img!.getAttribute('fetchpriority')).toBe('high')
+  })
+
+  test('image 없으면 이모지 폴백 — aria-hidden으로 이중 낭독 방지(기존 결함 수정)', () => {
+    const { container, getByText } = render(<ProduceCard card={base} />)
+    expect(container.querySelector('img')).toBeNull()
+    expect(getByText('🍅').getAttribute('aria-hidden')).toBe('true')
+  })
+})

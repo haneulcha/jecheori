@@ -17,3 +17,7 @@ storybook-static/
 
 # 영양 탐색 산출물 (커밋 대상 아님 — produce.json 참조만 커밋)
 nutrition-candidates.json
+
+# 도판 생성 원본 (1024+ PNG) — 커밋 대상은 288 WebP뿐 (스펙 §7)
+/assets/
+/assets-trial/

@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>카드 표지 레이아웃 시안 — 96px 도판</title>
+<!--
+  ⛔ 게이트 2 통과 (2026-08-24) — **안 B-2 확정**.
+     마크 96 + 이름이 한 행, 가격이 전폭 독립행이되 그 행을 가로로 쓴다
+     (등락 칩 왼쪽 · 큰 숫자와 기준선 오른쪽), 제철 띠 전폭, 손글씨 전폭.
+     실측(4장 합계): A 871 / B 1147 / B-2 1047 / C(72px) 847  [390px]
+                     A 797 / B 1014 / B-2  966 / C 773        [320px]
+     A가 가장 낮지만 하늘이 "가격이 자기 행을 갖는" B 계열을 골랐고,
+     B-2가 B에서 100px을 회수한다. 96px 유지 — A/C 비교에서 마크 크기가
+     높이를 지배하지 않음이 실측으로 확인됐다(카드별 높이 동일).
+
+  게이트 2 시안. 스펙: docs/superpowers/specs/2026-08-22-produce-image-assets-design.md §10
+  플랜: docs/superpowers/plans/2026-08-22-produce-image-assets.md Task 3
+
+  실측 전제 (서브에이전트 브라우저 실측, 2026-08-23):
+    - 카드 안쪽 폭은 390px 폰에서 324.4px (382px은 데스크톱 값이다)
+    - 가격 열 하한 120.3px — 기준선이 whitespace-nowrap + min-width:auto라 안 줄어든다
+    - 따라서 마크(96) + 이름 + 가격을 한 행에 두면 이름에 82.5px만 남는다 → 불가능
+  세 시안은 전부 "가격을 어디로 보내느냐"로 갈린다.
+
+  세 시안 공통으로 기존 버그 둘을 함께 고친다 (변수가 아니라 수정이다):
+    - 제철 띠를 전폭 고정 → width:60%가 .idWrap에 종속돼 112.8~194.5px(1.72배)로 흔들리던 것
+    - .cardTitle에 word-break: keep-all → 320px에서 "한우 안/심"으로 쪼개지던 것
+
+  폰트: Wanted Sans·손글씨는 이 파일에 없어 시스템 고딕으로 대체된다. 자간·줄수가
+  실제와 다를 수 있으니 폭 판단은 여유를 두고 본다.
+-->
+<style>
+  :root {
+    --paper:#FBF9F6; --card:#FFFFFF; --ink:#2B4586; --muted:#7B84A3;
+    --line:#E7E2D6; --axis:#CBC2B0; --rise:#C0392B; --rise-lo:#EFEAE3;
+    --lift: 0 1px 2px rgba(43,69,134,.06);
+    /* global.css @theme static 그대로 */
+    --spacing-3xs:.2rem; --spacing-2xs:.3rem; --spacing-xs:.4rem; --spacing-sm:.6rem;
+    --spacing-md:.8rem; --spacing-lg:1rem; --spacing-xl:1.5rem; --spacing-2xl:2.5rem;
+    --text-2xs:.7rem; --text-xs:.8rem; --text-sm:.9rem; --text-md:1rem; --text-xl:1.7rem;
+    --radius-crisp:.2rem; --radius-pill:1rem;
+    --sans:-apple-system, BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  [data-season="spring"]{--accent:#A2D3A6;--tint:#EAF4E9}
+  [data-season="summer"]{--accent:#FFC400;--tint:#FFF4CE}
+  [data-season="autumn"]{--accent:#ED7328;--tint:#FBE7D6}
+  [data-season="winter"]{--accent:#BC6E79;--tint:#F6E7EA}
+
+  *{box-sizing:border-box}
+  body{margin:0;background:#15171c;color:#e6e8ec;font-family:var(--sans);font-size:13px}
+
+  /* ── 크롬 ── */
+  .bar{position:sticky;top:0;z-index:10;background:#1c1f26;border-bottom:1px solid #2c313a;
+       padding:.9rem 1.1rem;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
+  .bar h1{font-size:13px;margin:0;font-weight:700}
+  .bar h1 small{display:block;font-weight:400;color:#9aa1ad;font-size:10.5px;margin-top:2px}
+  .grp{display:flex;gap:.3rem;align-items:center}
+  .grp > span{font-size:10px;letter-spacing:.1em;color:#8b93a1;margin-right:.3rem}
+  button.t{border:1px solid #333a45;background:#23272f;color:#e6e8ec;border-radius:5px;
+           padding:.3rem .6rem;font:inherit;font-size:11.5px;cursor:pointer}
+  button.t[aria-pressed="true"]{border-color:#8fb3ff;background:#1b2a45}
+  label.t{display:flex;gap:.4rem;align-items:center;font-size:11.5px;cursor:pointer}
+
+  .cols{display:flex;gap:1.5rem;padding:1.5rem 1.1rem 5rem;align-items:flex-start;overflow-x:auto}
+  .col{flex:0 0 auto}
+  .colHead{margin:0 0 .7rem}
+  .colHead h2{font-size:12.5px;margin:0;font-weight:700}
+  .colHead p{margin:.2rem 0 0;font-size:10.5px;color:#9aa1ad;line-height:1.5;max-width:24rem}
+  .colHead .h{font-family:var(--mono);font-size:10.5px;color:#ffcf70;margin-top:.35rem;display:block}
+
+  /* ── 앱 뷰포트 ── */
+  .vp{background:var(--paper);border-radius:.4rem;overflow:hidden}
+  .app{max-width:28rem;margin:0 auto;padding:var(--spacing-xl) var(--spacing-lg)}
+  .list{display:flex;flex-direction:column;gap:var(--spacing-xl)}
+
+  /* ── 카드 공통 ── */
+  .pcard{position:relative;background:var(--card);border:1px solid var(--line);
+         border-radius:var(--radius-crisp);padding:var(--spacing-lg);
+         box-shadow:var(--lift);transform-origin:top center;color:var(--ink)}
+  .pcard:nth-child(odd){transform:rotate(.4deg)}
+  .pcard:nth-child(even){transform:rotate(-.4deg)}
+  .pcard::before{content:'';position:absolute;top:-.5rem;left:50%;width:3.4rem;height:1rem;
+    transform:translateX(-50%) rotate(-2deg);border-radius:1px;
+    background:color-mix(in srgb,var(--accent) 40%,transparent)}
+  .name{font-size:var(--text-md);font-weight:600;display:inline-flex;align-items:center;
+        gap:var(--spacing-xs);word-break:keep-all}
+  .dot{width:.75rem;height:.75rem;border-radius:50%;background:var(--accent);flex:none}
+  .kind{display:block;color:var(--muted);font-size:var(--text-xs);margin-top:var(--spacing-3xs)}
+  .why{color:var(--muted);font-size:var(--text-md);line-height:1.3;
+       margin:var(--spacing-lg) 0 0;transform:rotate(-.5deg);transform-origin:left center}
+  img.mark,span.mark{flex:0 0 auto;display:block}
+  span.mark{font-size:var(--text-xl);line-height:1;text-align:center}
+
+  /* 가격 */
+  .price{display:flex;flex-direction:column;align-items:flex-end}
+  .cmp{display:inline-flex;align-items:center;gap:var(--spacing-2xs);margin-bottom:var(--spacing-3xs)}
+  .cmp small{color:var(--muted);font-size:var(--text-2xs)}
+  .chip{display:inline-flex;align-items:center;gap:var(--spacing-3xs);font-size:var(--text-xs);
+        font-weight:700;padding:var(--spacing-3xs) var(--spacing-xs);border-radius:var(--radius-pill);
+        background:var(--tint);color:var(--ink)}
+  .chip.rise{background:var(--rise-lo);color:var(--rise)}
+  .big{font-size:var(--text-xl);font-weight:800;letter-spacing:-.02em;line-height:1;
+       font-variant-numeric:tabular-nums}
+  .big.rise{color:var(--rise)}
+  .big i{font-size:var(--text-md);font-weight:600;font-style:normal}
+  .basis{color:var(--muted);font-size:var(--text-2xs);margin-top:var(--spacing-2xs);
+         white-space:nowrap;font-variant-numeric:tabular-nums}
+
+  /* 제철 띠 — 세 시안 공통 전폭 (기존 width:60% 버그 수정) */
+  .strip{margin-top:var(--spacing-md)}
+  .strip .bar12{display:flex;height:.5rem;border-bottom:1px solid var(--axis)}
+  .strip .cell{flex:1;min-width:0}
+  .strip .cell.s{background:var(--tint)}
+  .strip .cell.p{background:var(--accent)}
+  .strip .lab{display:flex;margin-top:var(--spacing-3xs)}
+  .strip .lab span{flex:1;min-width:0;text-align:center;font-size:var(--text-2xs);
+                   color:var(--muted);font-variant-numeric:tabular-nums}
+  .strip .lab span.cur{color:var(--ink);font-weight:700}
+
+  /* ── 현행 (대조군) ── */
+  .now .row{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--spacing-lg)}
+  .now .idw{display:flex;flex-direction:column;flex:1;min-width:0;gap:var(--spacing-sm)}
+  .now .id{display:flex;align-items:center;gap:var(--spacing-sm)}
+  .now .strip{width:60%;margin-top:0}      /* 기존 버그 재현 */
+  .now .name{word-break:normal}            /* 기존 상태 재현 */
+  .now .emoji{font-size:var(--text-xl);line-height:1;flex:none}
+
+  /* ── 안 A · 세로 스택 ── */
+  .a .row{display:flex;align-items:flex-start;gap:var(--spacing-sm)}
+  .a .right{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--spacing-sm)}
+  .a .price{align-self:flex-end}
+
+  /* ── 안 B · 가격 독립행 ── */
+  .b .row{display:flex;align-items:center;gap:var(--spacing-sm)}
+  .b .idb{flex:1;min-width:0}
+  .b .price{margin-top:var(--spacing-md)}
+
+  /* ── 안 B-2 · 가격 행을 가로로 ── */
+  .b2 .row{display:flex;align-items:center;gap:var(--spacing-sm)}
+  .b2 .idb{flex:1;min-width:0}
+  .b2 .price{margin-top:var(--spacing-md);flex-direction:row;align-items:flex-end;
+             justify-content:space-between;gap:var(--spacing-sm)}
+  .b2 .cmp{margin-bottom:0;align-self:center}
+  .b2 .num{display:flex;flex-direction:column;align-items:flex-end;margin-left:auto}
+  /* 가격 없는 카드: 이름 블록을 마크 옆 세로 중앙으로 — 오른쪽 아래 공백을 없앤다 */
+  .b2 .row:only-of-type{align-items:center}
+
+  /* ── 안 B-3 · B-2에서 띠를 마크 옆 빈자리로 ── */
+  .b3 .row{display:flex;align-items:center;gap:var(--spacing-sm)}
+  .b3 .idb{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--spacing-sm)}
+  .b3 .idb .strip{margin-top:0}
+  .b3 .price{margin-top:var(--spacing-md);flex-direction:row;align-items:flex-end;
+             justify-content:space-between;gap:var(--spacing-sm)}
+  .b3 .cmp{margin-bottom:0;align-self:center}
+  .b3 .num{display:flex;flex-direction:column;align-items:flex-end;margin-left:auto}
+
+  /* ── 안 C · 안 A 구조 + 72px 마크 ── */
+  .c .row{display:flex;align-items:flex-start;gap:var(--spacing-sm)}
+  .c .right{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--spacing-sm)}
+  .c .price{align-self:flex-end}
+
+  .meas{font-family:var(--mono);font-size:9.5px;color:#8b93a1;text-align:right;
+        padding:.15rem .2rem 0}
+  .warn{color:#ff9f6b}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <h1>카드 표지 레이아웃 시안<small>96px 도판 · 게이트 2</small></h1>
+  <div class="grp"><span>뷰포트</span>
+    <button class="t" data-vp="320">320</button>
+    <button class="t" data-vp="390" aria-pressed="true">390</button>
+    <button class="t" data-vp="448">448</button>
+  </div>
+  <div class="grp"><span>보기</span>
+    <button class="t" data-set="core" aria-pressed="true">도판 4장</button>
+    <button class="t" data-set="edge">엣지 케이스</button>
+    <button class="t" data-set="all">전부</button>
+  </div>
+  <label class="t"><input type="checkbox" id="showNow" checked> 현행 대조군</label>
+  <label class="t"><input type="checkbox" id="showMeas" checked> 높이 실측</label>
+</div>
+
+<div class="cols" id="cols"></div>
+
+<script>
+/* ── 실데이터 ─────────────────────────────────────
+   폭·문자열은 서브에이전트 브라우저 실측에서 가져온 실제 값이다. */
+const ITEMS = [
+  { id:'peach', img:'peach', emoji:'🍑', name:'복숭아', kind:'햇사레', season:'summer',
+    peak:true, months:[6,7,8,9], peaks:[7,8], cur:8,
+    cmp:'지난 주 대비', dir:'fall', pct:13, now:'3,120', basis:'100g 기준',
+    why:'7월 복숭아가 제일 답니다', set:'core' },
+  { id:'mackerel', img:'mackerel', emoji:'🐟', name:'고등어', kind:'', season:'autumn',
+    peak:true, months:[9,10,11], peaks:[10,11], cur:8,
+    cmp:'지난 주 대비', dir:'fall', pct:7, now:'4,280', basis:'100g 기준',
+    why:'가을 고등어는 기름이 오릅니다', set:'core' },
+  { id:'cabbage', img:'cabbage', emoji:'🥬', name:'양배추', kind:'', season:'spring',
+    peak:false, months:[3,4,5,11,12], peaks:[4,5], cur:8,
+    cmp:'지난달 대비', dir:'rise', pct:4, now:'2,940', basis:'1통 기준',
+    why:'봄 양배추는 잎이 연합니다', set:'core' },
+  { id:'hanwoo-sirloin', img:'hanwoo-sirloin', emoji:'🐂', name:'한우 등심 1++등급',
+    kind:'1++등급', season:'summer', peak:false, months:null, cur:8,
+    cmp:'지난 주 대비', dir:'fall', pct:3, now:'14,800', basis:'100g 기준',
+    why:'구이용으로는 등심이 무난해요. 1++는 근내지방이 가장 촘촘한 등급이에요.', set:'core' },
+
+  /* ── 엣지 케이스 (전부 실데이터) ── */
+  { id:'imported-beef-ribmeat-us', img:null, emoji:'🐂', name:'수입 소갈비살 (미국산)',
+    kind:'미국산', season:'summer', peak:false, months:null, cur:8,
+    cmp:null, dir:'fall', pct:null, now:'3,890', basis:'100g 기준',
+    why:'구워도 삶아도 무난한 부위예요', set:'edge',
+    note:'최장 이름 144.3px · 등락 칩 없음' },
+  { id:'abalone', img:null, emoji:'🐚', name:'전복', kind:'', season:'autumn',
+    peak:true, months:[7,8,9,10], peaks:[9,10], cur:8,
+    cmp:'지난 주 대비', dir:'fall', pct:9, now:'42,000', basis:'5마리 기준 · 개당 2,014원',
+    why:'가을 전복이 가장 실합니다', set:'edge',
+    note:'최장 기준선 120.3px — 가격 열의 하한' },
+  { id:'hairtail', img:null, emoji:'🐟', name:'갈치', kind:'', season:'autumn',
+    peak:true, months:[7,8,9,10,11], peaks:[9,10], cur:8,
+    cmp:'지난 주 대비', dir:'rise', pct:6, now:'8,900', basis:'100g 기준',
+    why:'가을 갈치는 살이 두툼합니다', set:'edge',
+    note:'두 자리 월 라벨 겹침 — 현행에서 7 8 91011로 붙는다' },
+  { id:'corn', img:null, emoji:'🌽', name:'옥수수', kind:'', season:'summer',
+    peak:true, months:[7,8,9], peaks:[8], cur:8,
+    cmp:null, dir:null, pct:null, now:null, basis:null,
+    why:'8월 찰옥수수가 제일 답니다', set:'edge',
+    note:'가격 없음 — 84품목 중 4개 + /coming 전량' },
+]
+
+const OPTIONS = [
+  { key:'now', cls:'now', title:'현행 (대조군)',
+    desc:'27px 이모지, 띠는 idWrap의 60%. 96px을 이 구조에 그냥 넣으면 이름에 82.5px만 남아 성립하지 않는다.' },
+  { key:'a', cls:'a', title:'안 A · 세로 스택', mark:96,
+    desc:'마크 96 왼쪽, 오른쪽 열이 이름·품종 → 가격(우정렬)으로 쌓인다. 오른쪽 열 218.8px — 최장 이름 144.3도, 가격 하한 120.3도 들어간다. 띠는 전폭.' },
+  { key:'b', cls:'b', title:'안 B · 가격 독립행', mark:96,
+    desc:'마크 96 + 이름이 한 행(이름에 218.8px), 가격은 자기 행을 갖고 우정렬. 이름이 가장 넉넉하고 가격이 가장 또렷하지만 행이 하나 더 는다.' },
+  { key:'b2', cls:'b2', title:'안 B-2 · B + 가격 행 가로', mark:96,
+    desc:'안 B와 같은 구조인데, 전폭을 차지한 가격 행을 실제로 전폭으로 쓴다 — 등락 칩 왼쪽, 큰 숫자·기준선 오른쪽. B가 산 자리를 안 쓰고 3줄로 쌓아 두던 82px이 43px로 준다.' },
+  { key:'b3', cls:'b3', title:'안 B-3 · B-2 + 띠를 마크 옆으로', mark:96,
+    desc:'B-2의 빈 오른쪽 위를 제철 띠로 채운다 — 행 하나가 줄고 공백이 사라진다. 대가는 띠 폭: 324.4 → 218.8px(320px 기기에선 149px). 칸당 12.4px인데 두 자리 라벨 잉크가 11.6px이라 여유가 0.8px뿐이다. 방금 고친 겹침 버그의 문턱이 바로 거기다.' },
+  { key:'c', cls:'c', title:'안 C · 72px 마크', mark:72,
+    desc:'안 A와 같은 구조에 마크만 72px. 96px의 높이 비용을 재는 대조군이다 — 도판 품질을 얼마나 내주고 스크롤을 얼마나 되찾는지.' },
+]
+
+const state = { vp:390, set:'core', now:true, meas:true }
+
+const money = (it) => it.now === null ? '' : `<span class="big${it.dir==='rise'?' rise':''}">${it.now}<i>원</i></span>`
+
+function priceBlock(it, wide){
+  if (it.now === null) return ''
+  const cmp = it.cmp
+    ? `<span class="cmp"><small>${it.cmp}</small>
+         <span class="chip${it.dir==='rise'?' rise':''}">${it.dir==='rise'?'↑':'↓'}${it.pct}%</span></span>`
+    : ''
+  // wide(B-2): 칩은 왼쪽에 그대로 두고 숫자·기준선만 오른쪽 열로 묶는다
+  if (wide) {
+    return `<div class="price">${cmp}
+      <span class="num">${money(it)}<span class="basis">${it.basis}</span></span></div>`
+  }
+  return `<div class="price">${cmp}${money(it)}<span class="basis">${it.basis}</span></div>`
+}
+
+function strip(it){
+  if (!it.months) return ''
+  let cells='', labs=''
+  for (let m=1;m<=12;m++){
+    const s = it.months.includes(m), p = (it.peaks||[]).includes(m)
+    cells += `<span class="cell${p?' p':s?' s':''}"></span>`
+    const show = s || m===it.cur
+    labs += `<span class="${m===it.cur?'cur':''}">${show?m:''}</span>`
+  }
+  return `<div class="strip"><div class="bar12">${cells}</div><div class="lab">${labs}</div></div>`
+}
+
+function mark(it, px){
+  return it.img
+    ? `<img class="mark" src="../../public/assets/produce/${it.img}.webp" width="${px}" height="${px}" alt="">`
+    : `<span class="mark" style="width:${px}px;height:${px}px;display:flex;align-items:center;justify-content:center">${it.emoji}</span>`
+}
+
+function card(it, opt){
+  const nm = `<span class="name">${it.name}${it.peak?'<span class="dot"></span>':''}</span>
+              ${it.kind?`<span class="kind">${it.kind}</span>`:''}`
+  let body
+  if (opt.key === 'now') {
+    body = `<div class="row">
+      <div class="idw">
+        <div class="id"><span class="emoji">${it.emoji}</span><span>${nm}</span></div>
+        ${strip(it)}
+      </div>
+      ${priceBlock(it)}
+    </div>`
+  } else if (opt.key === 'b3') {
+    body = `<div class="row">${mark(it,opt.mark)}
+              <div class="idb"><div>${nm}</div>${strip(it)}</div></div>
+            ${priceBlock(it, true)}`
+  } else if (opt.key === 'b' || opt.key === 'b2') {
+    body = `<div class="row">${mark(it,opt.mark)}<div class="idb">${nm}</div></div>
+            ${priceBlock(it, opt.key==='b2')}${strip(it)}`
+  } else {
+    body = `<div class="row">${mark(it,opt.mark)}
+              <div class="right"><div>${nm}</div>${priceBlock(it)}</div>
+            </div>${strip(it)}`
+  }
+  return `<article class="pcard ${opt.cls}" data-season="${it.season}" data-id="${it.id}">
+            ${body}<p class="why">${it.why}</p></article>`
+}
+
+function render(){
+  const items = ITEMS.filter((i) => state.set==='all' || i.set===state.set)
+  const opts = OPTIONS.filter((o) => o.key!=='now' || state.now)
+  document.getElementById('cols').innerHTML = opts.map((o) => `
+    <div class="col">
+      <div class="colHead">
+        <h2>${o.title}</h2>
+        <p>${o.desc}</p>
+        <span class="h" data-h="${o.key}"></span>
+      </div>
+      <div class="vp" style="width:${state.vp}px">
+        <div class="app"><div class="list">
+          ${items.map((i) => card(i,o)).join('')}
+        </div></div>
+      </div>
+    </div>`).join('')
+  requestAnimationFrame(measure)
+}
+
+function measure(){
+  if (!state.meas){ document.querySelectorAll('[data-h]').forEach((e)=>e.textContent=''); return }
+  const base = {}
+  document.querySelectorAll('.col').forEach((col,idx) => {
+    const key = OPTIONS.filter((o)=>o.key!=='now'||state.now)[idx].key
+    const cards = [...col.querySelectorAll('.pcard')]
+    const hs = cards.map((c)=>Math.round(c.getBoundingClientRect().height))
+    const total = hs.reduce((a,b)=>a+b,0)
+    if (key==='now'||base.total===undefined) base.total = base.total ?? total
+    const max = Math.max(...hs)
+    const delta = state.now && key!=='now' ? `  현행 대비 ${total>base.total?'+':''}${total-base.total}px` : ''
+    col.querySelector('[data-h]').textContent =
+      `카드 ${hs.join(' / ')}px   합계 ${total}px${delta}`
+  })
+}
+
+document.querySelector('.bar').addEventListener('click', (e) => {
+  const b = e.target.closest('button.t'); if(!b) return
+  const g = b.parentElement
+  ;[...g.querySelectorAll('button.t')].forEach((x)=>x.setAttribute('aria-pressed', x===b))
+  if (b.dataset.vp) state.vp = +b.dataset.vp
+  if (b.dataset.set) state.set = b.dataset.set
+  render()
+})
+document.getElementById('showNow').addEventListener('change', (e)=>{ state.now=e.target.checked; render() })
+document.getElementById('showMeas').addEventListener('change', (e)=>{ state.meas=e.target.checked; measure() })
+
+render()
+</script>
+</body>
+</html>

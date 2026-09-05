@@ -326,3 +326,22 @@ describe('toComingCardView', () => {
     expect(card.name).toBe('포도')
   })
 })
+
+describe('CardView.image — 조립처가 둘이다', () => {
+  test('toCardView가 profile.image를 넘긴다', () => {
+    const card = toCardView(pick({ profile: { ...profile, image: 'peach' } }), 7)
+    expect(card.image).toBe('peach')
+    expect(card.emoji).toBe('🍑') // 이모지는 폴백으로 유지 — 지우지 않는다
+  })
+
+  test('image 없는 프로필은 undefined — 점진 도입 기간의 이모지 폴백', () => {
+    expect(toCardView(pick(), 7).image).toBeUndefined()
+  })
+
+  /** 조립처를 하나 빠뜨려도 image?가 옵셔널이라 tsc가 못 잡고, 이모지 폴백 때문에
+   *  화면도 안 깨진다 — /coming 카드만 조용히 이모지로 남는다. 그 침묵을 이 테스트가 깬다. */
+  test('toComingCardView도 image를 넘긴다', () => {
+    const card = toComingCardView({ ...comingProfile, image: 'grape' }, 8, 7, grapeEntry)
+    expect(card.image).toBe('grape')
+  })
+})

@@ -1,0 +1,299 @@
+import { describe, expect, test } from 'vitest'
+import sharp from 'sharp'
+import { KEY, normalizeImage, SIZE } from '../scripts/lib/normalize-image.mjs'
+
+/** 피사체(불투명 사각형)를 치우쳐 놓은 1024 투명 PNG를 합성한다. */
+async function syntheticPng({ w = 500, h = 300, left = 37, top = 91, extra = [] } = {}) {
+  const subject = await sharp({
+    create: { width: w, height: h, channels: 4, background: { r: 200, g: 40, b: 40, alpha: 1 } },
+  })
+    .png()
+    .toBuffer()
+  return sharp({
+    create: { width: 1024, height: 1024, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
+  })
+    .composite([{ input: subject, left, top }, ...extra])
+    .png()
+    .toBuffer()
+}
+
+/** 출력물에서 피사체의 bbox를 잰다.
+ *  기준은 알파 50%(=128)다 — `alpha > 0`으로 재면 288로 축소할 때 생기는
+ *  가장자리 보간 그라데이션(양쪽 3px 남짓)까지 피사체로 세어 236px처럼 부풀어
+ *  읽힌다. 하드 엣지의 실제 윤곽은 알파가 50%를 지나는 지점이다. */
+const EDGE = 128
+
+async function bbox(buffer) {
+  const { data, info } = await sharp(buffer)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+  let minX = info.width
+  let minY = info.height
+  let maxX = -1
+  let maxY = -1
+  for (let y = 0; y < info.height; y++) {
+    for (let x = 0; x < info.width; x++) {
+      if (data[(y * info.width + x) * info.channels + 3] >= EDGE) {
+        if (x < minX) minX = x
+        if (x > maxX) maxX = x
+        if (y < minY) minY = y
+        if (y > maxY) maxY = y
+      }
+    }
+  }
+  return { w: maxX - minX + 1, h: maxY - minY + 1, minX, minY }
+}
+
+describe('normalizeImage — 점유율 80% 정규화 (스펙 §7)', () => {
+  test('288×288 WebP(알파)를 낸다', async () => {
+    const { webp: out } = await normalizeImage(await syntheticPng())
+    const meta = await sharp(out).metadata()
+    expect(meta.format).toBe('webp')
+    expect(meta.width).toBe(SIZE)
+    expect(meta.height).toBe(SIZE)
+    expect(meta.hasAlpha).toBe(true)
+  })
+
+  test('피사체 긴 변이 프레임의 ~80%, 중앙 배치 — 원본 위치와 무관', async () => {
+    const { webp: out } = await normalizeImage(await syntheticPng({ left: 37, top: 91 }))
+    const b = await bbox(out)
+    // 긴 변 500 → 캔버스 625 → 288로 축소하면 500/625*288 ≈ 230px (80%)
+    expect(b.w).toBeGreaterThanOrEqual(229)
+    expect(b.w).toBeLessThanOrEqual(232)
+    // 중앙: 좌우 여백이 같다 (±2px — 리사이즈 보간 오차)
+    expect(Math.abs(b.minX - (SIZE - b.w) / 2)).toBeLessThanOrEqual(2)
+  })
+
+  test('원본 위치가 달라도 같은 결과를 낸다 — 프레이밍이 정규화된다', async () => {
+    const a = await bbox((await normalizeImage(await syntheticPng({ left: 0, top: 0 }))).webp)
+    const b = await bbox((await normalizeImage(await syntheticPng({ left: 400, top: 600 }))).webp)
+    expect(Math.abs(a.w - b.w)).toBeLessThanOrEqual(2)
+    expect(Math.abs(a.minX - b.minX)).toBeLessThanOrEqual(2)
+    expect(Math.abs(a.minY - b.minY)).toBeLessThanOrEqual(2)
+  })
+
+  test('알파 헤일로(alpha<16)는 피사체로 치지 않는다 — bbox가 헤일로에 끌려가지 않는다', async () => {
+    const halo = await sharp({
+      create: { width: 4, height: 4, channels: 4, background: { r: 255, g: 255, b: 255, alpha: 0.03 } },
+    })
+      .png()
+      .toBuffer()
+    const { webp: out } = await normalizeImage(
+      await syntheticPng({ extra: [{ input: halo, left: 1010, top: 1010 }] }),
+    )
+    const b = await bbox(out)
+    expect(b.w).toBeGreaterThanOrEqual(229) // 헤일로가 bbox에 들어갔다면 피사체가 훨씬 작아진다
+  })
+
+  test('불투명한 배경(피사체 없음)도 throw — 통짜 사진을 조용히 통과시키지 않는다', async () => {
+    const solid = await sharp({
+      create: { width: 512, height: 512, channels: 4, background: { r: 40, g: 90, b: 40, alpha: 1 } },
+    })
+      .png()
+      .toBuffer()
+    await expect(normalizeImage(solid)).rejects.toThrow()
+  })
+
+  test('완전 투명이면 조용히 넘기지 않고 throw', async () => {
+    const empty = await sharp({
+      create: { width: 64, height: 64, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
+    })
+      .png()
+      .toBuffer()
+    await expect(normalizeImage(empty)).rejects.toThrow()
+  })
+})
+
+/** 키 컬러 위에 피사체를 얹은 불투명 PNG를 만든다 (Gemini가 실제로 내주는 형태). */
+async function keyedPng({ w = 500, h = 300, left = 37, top = 91, colour = { r: 70, g: 140, b: 60 }, extra = [] } = {}) {
+  const subject = await sharp({
+    create: { width: w, height: h, channels: 4, background: { ...colour, alpha: 1 } },
+  })
+    .png()
+    .toBuffer()
+  return sharp({
+    create: { width: 1024, height: 1024, channels: 4, background: { ...KEY, alpha: 1 } },
+  })
+    .composite([{ input: subject, left, top }, ...extra])
+    .png()
+    .toBuffer()
+}
+
+describe('normalizeImage — 키 컬러 배경 제거 (스펙 §7)', () => {
+  test('평면 마젠타 배경을 빼내고 피사체만 남긴다', async () => {
+    const { webp: out } = await normalizeImage(await keyedPng())
+    const b = await bbox(out)
+    expect(b.w).toBeGreaterThanOrEqual(229)
+    expect(b.w).toBeLessThanOrEqual(232)
+    // 모서리는 완전 투명이어야 한다
+    const { data, info } = await sharp(out).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+    expect(data[3]).toBe(0)
+    expect(data[(info.width - 1) * info.channels + 3]).toBe(0)
+  })
+
+  test('피사체 안쪽의 마젠타빛 색은 지우지 않는다 — 테두리에서 이어진 것만 뺀다', async () => {
+    // 자두·포도처럼 붉은보라를 가진 품목이 통째로 사라지면 안 된다.
+    // 값은 **실제 포도 껍질**(60,20,80) — 구현 주석이 인용하는 그 값이다. 처음엔
+    // (200,20,190)이라는, 어떤 제철 품목보다 밝은 자홍을 썼는데 그건 "현실의 자보라"가
+    // 아니라 키 허용범위 경계를 시험하는 값이었다. 실제로 grape·eggplant·sweet-potato는
+    // 69장 전수 스캔에서 마젠타 잔류가 0이다. 밝은 자홍은 잔류 가드가 잡아야 할 쪽이라
+    // (아래 삼겹살 회귀 describe) 이 테스트는 자기 의도인 현실값으로 되돌렸다.
+    const plum = await sharp({
+      create: { width: 120, height: 120, channels: 4, background: { r: 60, g: 20, b: 80, alpha: 1 } },
+    })
+      .png()
+      .toBuffer()
+    const { webp: out } = await normalizeImage(
+      await keyedPng({ extra: [{ input: plum, left: 200, top: 180 }] }),
+    )
+    const { data, info } = await sharp(out).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+    // 피사체 사각형 한가운데(자두가 얹힌 자리 근처)는 여전히 불투명
+    const cx = Math.floor(info.width / 2)
+    const cy = Math.floor(info.height / 2)
+    expect(data[(cy * info.width + cx) * info.channels + 3]).toBe(255)
+  })
+
+  test('키 컬러 스필(가장자리 마젠타 물듦)을 지운다', async () => {
+    // 흰 피사체 — 스필이 남으면 흰 가장자리가 분홍으로 물든다
+    const { webp: out } = await normalizeImage(await keyedPng({ colour: { r: 250, g: 250, b: 250 } }))
+    const { data, info } = await sharp(out).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+    let worst = 0
+    for (let i = 0; i < data.length; i += info.channels) {
+      if (data[i + 3] < 200) continue // 반투명 가장자리는 합성 시 사라진다
+      const [r, g, b] = [data[i], data[i + 1], data[i + 2]]
+      worst = Math.max(worst, Math.min(r, b) - g) // 마젠타 물듦 = g가 r·b보다 낮음
+    }
+    expect(worst).toBeLessThanOrEqual(12)
+  })
+})
+
+describe('normalizeImage — 부스러기 검출 (스펙 §6 ①)', () => {
+  test('본체와 동떨어진 1% 미만 조각은 지우고 보고한다 — 워터마크·라벨·먼지', async () => {
+    // Gemini는 우하단에 ✦ 워터마크를 찍는다. 프롬프트로 막을 수 없어 후처리가 뗀다.
+    const speck = await sharp({
+      create: { width: 26, height: 26, channels: 4, background: { r: 20, g: 20, b: 20, alpha: 1 } },
+    })
+      .png()
+      .toBuffer()
+    const { dropped } = await normalizeImage(
+      await keyedPng({ extra: [{ input: speck, left: 900, top: 900 }] }),
+    )
+    expect(dropped.count).toBe(1)
+    expect(dropped.share).toBeGreaterThan(0)
+    expect(dropped.share).toBeLessThan(1)
+  })
+
+  test('조각 제거가 bbox보다 먼저다 — 구석 워터마크가 피사체를 끌어당기지 않는다', async () => {
+    const speck = await sharp({
+      create: { width: 26, height: 26, channels: 4, background: { r: 20, g: 20, b: 20, alpha: 1 } },
+    })
+      .png()
+      .toBuffer()
+    const clean = await bbox((await normalizeImage(await keyedPng())).webp)
+    const marked = await bbox(
+      (await normalizeImage(await keyedPng({ extra: [{ input: speck, left: 960, top: 960 }] }))).webp,
+    )
+    // 워터마크가 bbox에 들어갔다면 피사체가 작아지고 위로 밀린다
+    expect(Math.abs(marked.w - clean.w)).toBeLessThanOrEqual(2)
+    expect(Math.abs(marked.minY - clean.minY)).toBeLessThanOrEqual(2)
+  })
+
+  test('덩치가 비슷한 여러 개는 정상 구성이다 — 복숭아 세 알·마늘 쪽', async () => {
+    const second = await sharp({
+      create: { width: 300, height: 300, channels: 4, background: { r: 70, g: 140, b: 60, alpha: 1 } },
+    })
+      .png()
+      .toBuffer()
+    const { webp: out } = await normalizeImage(
+      await keyedPng({ extra: [{ input: second, left: 600, top: 500 }] }),
+    )
+    expect((await sharp(out).metadata()).width).toBe(SIZE)
+  })
+})
+
+describe('normalizeImage — 갇힌 키 컬러 (스펙 §7)', () => {
+  test('피사체가 에워싼 마젠타 구멍도 지운다 — 잎·줄기 고리 안쪽', async () => {
+    // 인쇄 도판 시범본에서 실제로 걸린 케이스: 잎 두 장과 꼭지가 고리를 이뤄
+    // 그 안의 배경이 테두리와 안 이어졌고, 테두리 flood fill만으로는 안 지워졌다.
+    const ring = await sharp({
+      create: { width: 400, height: 400, channels: 4, background: { r: 70, g: 140, b: 60, alpha: 1 } },
+    })
+      .composite([
+        {
+          input: await sharp({
+            create: { width: 160, height: 160, channels: 4, background: { ...KEY, alpha: 1 } },
+          })
+            .png()
+            .toBuffer(),
+          left: 120,
+          top: 120,
+        },
+      ])
+      .png()
+      .toBuffer()
+    const { webp } = await normalizeImage(
+      await sharp({
+        create: { width: 1024, height: 1024, channels: 4, background: { ...KEY, alpha: 1 } },
+      })
+        .composite([{ input: ring, left: 300, top: 300 }])
+        .png()
+        .toBuffer(),
+    )
+    // 가운데(고리 안쪽)가 뚫려 있어야 한다
+    const { data, info } = await sharp(webp).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+    const cx = Math.floor(info.width / 2)
+    const cy = Math.floor(info.height / 2)
+    expect(data[(cy * info.width + cx) * info.channels + 3]).toBe(0)
+  })
+})
+
+/** 생성기가 **피사체 위에** 배경색을 칠해 놓은 경우. 키 허용범위 밖의 어두운 마젠타라
+ *  키잉으로는 안 빠지고, 부스러기 검출은 연결요소 **크기**만 보고 색은 안 봐서 통과한다.
+ *  삼겹살 도판에서 실제로 새어나갔다 — 아래쪽 조각에 57px(0.19%)이 남아 96px에서
+ *  분홍 얼룩으로 보였다. 사람이 눈으로 잡기 전까지 파이프라인은 `ok`를 찍었다. */
+describe('normalizeImage — 피사체 안의 마젠타 잔류 (삼겹살 회귀)', () => {
+  /** 초록 사각형 피사체에, 키 허용범위 **밖**인 어두운 마젠타 얼룩을 얹는다. */
+  async function withResidue(blotch) {
+    const subject = await sharp({
+      create: { width: 500, height: 500, channels: 4, background: { r: 70, g: 140, b: 60, alpha: 1 } },
+    })
+      .composite([
+        {
+          input: await sharp({
+            create: {
+              width: blotch,
+              height: blotch,
+              channels: 4,
+              // rgb(205,8,154) — 실측된 최악 잔류. 채널차 합 159로 KEY_TOLERANCE(90) 밖이다.
+              background: { r: 205, g: 8, b: 154, alpha: 1 },
+            },
+          })
+            .png()
+            .toBuffer(),
+          left: 20,
+          top: 20,
+        },
+      ])
+      .png()
+      .toBuffer()
+    return sharp({
+      create: { width: 1024, height: 1024, channels: 4, background: { ...KEY, alpha: 1 } },
+    })
+      .composite([{ input: subject, left: 200, top: 200 }])
+      .png()
+      .toBuffer()
+  }
+
+  test('임계를 넘는 잔류는 조용히 통과시키지 않고 throw', async () => {
+    // 500² 피사체의 1% 넘게 = 임계(0.05%) 한참 위
+    await expect(normalizeImage(await withResidue(60))).rejects.toThrow(/마젠타/)
+  })
+
+  test('임계 미만의 잔류는 통과 — 자연색이 자홍에 걸치는 품목이 있다', async () => {
+    // 시금치는 COLOUR_NOTE가 "root crown magenta-pink"로 지정한 자연색이고 0.018%로 실측됐다.
+    // 500²(=250,000px)에서 0.05%는 125px — 10×10=100px는 그 아래다.
+    const { webp } = await normalizeImage(await withResidue(10))
+    expect(webp.length).toBeGreaterThan(0)
+  })
+})

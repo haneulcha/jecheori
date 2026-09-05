@@ -10,7 +10,7 @@ import { RecipeChips } from './RecipeChips'
 import { RecipeMemo } from './RecipeMemo'
 import styles from './ProduceCard.module.css'
 
-export function ProduceCard({ card }: { card: CardView }) {
+export function ProduceCard({ card, eager = false }: { card: CardView; eager?: boolean }) {
   const [current, setCurrent] = useState<number | null>(null)
   const rootRef = useRef<HTMLDetailsElement>(null)
   const memoId = useId()
@@ -39,23 +39,42 @@ export function ProduceCard({ card }: { card: CardView }) {
         if (!e.currentTarget.open) setCurrent(null)
       }}
     >
-      <summary>
-        <div className={styles.summaryRow}>
-          <div className={styles.idWrap}>
-            <span className={styles.id}>
-              <span className={styles.emoji}>{card.emoji}</span>
-              <span>
-                <span className={styles.cardTitle} data-testid="card-name">
-                  {card.name}
-                  {card.inPeak && <PeakDot />}
-                </span>
-                <span className={styles.kind}>{card.kind}</span>
-              </span>
+      {/* 표지는 행 넷을 위에서 아래로 쌓는다 (게이트 2 확정안 B-2): 도판+이름 / 가격 /
+          제철 띠 / 한마디. 마크(96)와 이름과 가격을 한 행에 두는 건 산술적으로 불가능하다
+          — 카드 안쪽 324.4px에서 가격 열 하한 120.3px을 빼면 이름에 82.5px밖에 안 남는다
+          (스펙 §10). 행 간격은 md(12.8) — 카드 패딩 lg(16)와 구분되는 안쪽 리듬이다. */}
+      <summary className="flex flex-col gap-md">
+        <div className="flex items-center gap-sm">
+          {card.image ? (
+            <img
+              className={styles.mark}
+              src={`${import.meta.env.BASE_URL}assets/produce/${card.image}.webp`}
+              width={96}
+              height={96}
+              // 품목명이 바로 옆에 있다 — 채우면 스크린리더가 이름을 두 번 읽는다.
+              // 장식이라서가 아니라 중복이라서 비운다.
+              alt=""
+              // 첫 화면 카드까지 lazy면 96px 빈 칸이 보였다가 채워진다
+              loading={eager ? 'eager' : 'lazy'}
+              fetchPriority={eager ? 'high' : undefined}
+            />
+          ) : (
+            // 점진 도입 기간의 폴백. 도판과 같은 자리를 차지해 목록에서 카드 높이가
+            // 들쭉날쭉해지지 않게 한다. aria-hidden은 위 alt=""와 같은 이유다.
+            <span className={styles.mark} aria-hidden="true">
+              {card.emoji}
             </span>
-            {card.category !== 'livestock' && <SeasonStrip strip={card.season} />}
-          </div>
-          {card.price && <PriceBlock price={card.price} />}
+          )}
+          <span className="min-w-0 flex-1">
+            <span className={styles.cardTitle} data-testid="card-name">
+              {card.name}
+              {card.inPeak && <PeakDot />}
+            </span>
+            <span className={styles.kind}>{card.kind}</span>
+          </span>
         </div>
+        {card.price && <PriceBlock price={card.price} />}
+        {card.category !== 'livestock' && <SeasonStrip strip={card.season} />}
         {card.whyNow && <p className={styles.why}>{card.whyNow}</p>}
       </summary>
       <div className={styles.open}>

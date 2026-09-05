@@ -108,3 +108,31 @@ export const 레시피없음: Story = {
 export const 절정아님: Story = {
   args: { inPeak: false },
 }
+
+/** 도판 — 앵커 `peach` 실물 파일. Storybook도 Vite의 publicDir을 그대로 쓰므로
+ *  `public/assets/produce`가 서빙된다 (`.storybook/main.ts`는 tanstack 플러그인만
+ *  걷어낸다 — staticDirs 설정은 불필요하고, `storybook-static/data`가 그 증거다).
+ *  이 스토리가 확정 레이아웃(B-2)의 기준 화면이다: 도판+이름 / 가격 / 제철 띠 / 한마디. */
+export const 도판: Story = {
+  args: {
+    name: '복숭아',
+    emoji: '🍑',
+    image: 'peach',
+    kindName: '',
+    category: 'fruit',
+    price: 12000,
+    monthAgo: 13500,
+    yearAgo: 11000,
+    unitQuantity: 1,
+    unitMeasure: 'kg',
+    whyNow: '7~8월이 노지 복숭아의 절정이에요',
+  },
+}
+
+/** 이모지 폴백 — `image`가 빈 품목. 70장이 다 될 때까지 화면에 실재하는 상태다
+ *  (84품목 중 78개가 아직 여기 있다). 도판과 같은 96px 슬롯을 차지해 목록에서
+ *  카드 높이가 들쭉날쭉해지지 않는 것을 여기서 확인한다. `image` 노브에
+ *  `peach`를 넣었다 지웠다 하면 두 상태를 오갈 수 있다. */
+export const 이모지폴백: Story = {
+  args: { image: '' },
+}

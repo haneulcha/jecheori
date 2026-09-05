@@ -25,8 +25,9 @@ export function Livestock({ view }: { view: LivestockView }) {
       <main>
         {cards.length > 0 ? (
           <div className="list">
-            {cards.map((c) => (
-              <ProduceCard key={c.name} card={c} />
+            {/* 앞 2장만 eager — 첫 화면 카드까지 lazy면 96px 빈 칸이 보였다가 채워진다 */}
+            {cards.map((c, i) => (
+              <ProduceCard key={c.name} card={c} eager={i < 2} />
             ))}
           </div>
         ) : (

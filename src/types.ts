@@ -18,6 +18,11 @@ export interface ProduceProfile {
   id: string
   name: string
   emoji: string
+  /** 품목 도판 파일 basename — `public/assets/produce/{image}.webp` (스펙 2026-08-22).
+   *  없으면 카드가 `emoji`로 폴백한다(점진 도입). 여러 항목이 한 장을 공유할 수 있다
+   *  — 한우 등급 3항목이 부위 1장을 쓴다(스펙 부록 B). 파일이 실제로 커밋된 뒤에만
+   *  채운다: `tests/produce-images.test.ts`가 양방향 동기화를 강제한다. */
+  image?: string
   category: Category
   /** KAMIS 가격 참조 (선택). KAMIS 소매 일일조사는 모든 제철 작물을 다루지 않는다 —
    *  가지·옥수수·부추·단호박은 소매·도매 어느 쪽에도 없다. 그런 품목은 이 참조를 비워

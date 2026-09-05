@@ -33,6 +33,10 @@ TanStack Start (React 19) + Vite + Vitest. 공개 달력은 라우트 로더가 
 - `npm run report:coverage` — 제철 프로필 ↔ 가격 스냅샷 매칭 리포트
 - `npm run subset:fonts` — 본문(Wanted Sans)·손글씨 폰트 콘텐츠 서브셋 재생성
   (produce.json·문구 변경 시. 사전요구: python3 + fonttools + brotli)
+- `node scripts/normalize-produce-images.mjs <원본 PNG 폴더> [출력 폴더]` — 품목 도판 후처리
+  (1024 투명 PNG → 헤일로 정리 → 점유율 80% 정규화 → 288 WebP, 기본 출력 `public/assets/produce/`).
+  **1회성 로컬 작업, CI 없음** — 도판은 영양·레시피와 같은 씨앗형이다.
+  스펙: `docs/superpowers/specs/2026-08-22-produce-image-assets-design.md`
 - `npm run build:lambda` — 가격 수집 Lambda 번들 생성 (esbuild → `dist/lambda/index.js`).
   이어 `cd dist/lambda && zip -r ../lambda-fetch-prices.zip . && cd -`로 압축 → Lambda 업로드 (아래 "배포").
 

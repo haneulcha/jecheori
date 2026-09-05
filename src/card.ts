@@ -53,6 +53,11 @@ export interface PriceCardView {
 
 export interface CardView {
   emoji: string
+  /** 도판 basename — 없으면 `emoji` 폴백.
+   *  ⚠️ 조립처가 **둘**이다(`toCardView`·`toComingCardView`). 옵셔널이라 한쪽을
+   *  빠뜨려도 tsc가 못 잡고 폴백 때문에 화면도 안 깨진다 — /coming만 조용히 이모지로
+   *  남는다. `tests/card.test.ts`가 두 함수를 각각 검사한다. */
+  image?: string
   name: string
   kind: string
   category: Category
@@ -189,6 +194,7 @@ export function toCardView(
   const { profile, inPeak, price } = pick
   return {
     emoji: profile.emoji,
+    image: profile.image,
     name: profile.name,
     kind: profile.kamis?.kindName ?? '',
     category: profile.category,
@@ -230,6 +236,7 @@ export function toComingCardView(
 ): CardView {
   return {
     emoji: profile.emoji,
+    image: profile.image,
     name: profile.name,
     kind: profile.kamis?.kindName ?? '',
     category: profile.category,
