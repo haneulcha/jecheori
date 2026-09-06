@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>카드 페이지 넘김 시안 — 2026-09-06</title>
+<style>
+/* ─── 실제 앱 토큰 ─────────────────────────────────────────────────── */
+@font-face { font-family:'Wanted Sans'; src:url('../../src/fonts/WantedSans-400.woff2') format('woff2'); font-weight:400; font-display:swap; }
+@font-face { font-family:'Wanted Sans'; src:url('../../src/fonts/WantedSans-600.woff2') format('woff2'); font-weight:600; font-display:swap; }
+@font-face { font-family:'Wanted Sans'; src:url('../../src/fonts/WantedSans-700.woff2') format('woff2'); font-weight:700; font-display:swap; }
+@font-face { font-family:'Wanted Sans'; src:url('../../src/fonts/WantedSans-800.woff2') format('woff2'); font-weight:800; font-display:swap; }
+@font-face { font-family:'Hakgyoansim'; src:url('../../src/fonts/HakgyoansimBadasseugi-L.woff2') format('woff2'); font-weight:400; font-display:swap; }
+:root{
+  --paper:#fbf9f6; --card:#fff; --ink:#2b4586; --muted:#7b84a3; --line:#e7e2d6; --axis:#cbc2b0;
+  --rise:#c0392b; --rise-lo:#efeae3; --accent:#ed7328; --tint:#fbe7d6;
+  --lift:0 2px 6px rgba(43,69,134,.06);
+  --s3xs:.2rem; --s2xs:.3rem; --sxs:.4rem; --ssm:.6rem; --smd:.8rem; --slg:1rem; --sxl:1.5rem; --s2xl:2.5rem;
+  --body:'Wanted Sans','Apple SD Gothic Neo',sans-serif; --hand:'Hakgyoansim',var(--body);
+  --mono:'SF Mono',Menlo,monospace;
+  --t2xs:.7rem; --txs:.8rem; --tsm:.9rem; --tmd:1rem; --txl:1.7rem;
+}
+*{box-sizing:border-box}
+*{scrollbar-width:none} *::-webkit-scrollbar{width:0;height:0;display:none}
+body{margin:0;padding:3rem 1rem 4rem;background:var(--paper);color:var(--ink);
+     font-family:var(--body);line-height:1.65;-webkit-font-smoothing:antialiased}
+
+.rig{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;gap:.6rem;align-items:center;
+  flex-wrap:wrap;padding:.5rem .9rem;background:#2b4586;color:#fff;font-size:.76rem}
+.rig b{font-weight:700}
+.rig button{font:inherit;font-size:.76rem;border:1px solid rgba(255,255,255,.35);background:transparent;
+  color:#fff;padding:.22rem .65rem;border-radius:1rem;cursor:pointer}
+.rig button[aria-pressed=true]{background:#fff;color:#2b4586;border-color:#fff;font-weight:700}
+.rig .read{margin-left:auto;font-family:var(--mono);font-size:.7rem;opacity:.9}
+.rig .read s{text-decoration:none;color:#ffc400}
+
+.list{display:flex;flex-direction:column;gap:var(--sxl);max-width:28rem;margin:0 auto}
+@media (min-width:48rem){
+  .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(14rem,1fr));
+        align-items:start;gap:var(--s2xl) var(--sxl);max-width:64rem}
+}
+
+/* ═══ 카드 — 접힘·펼침이 없다. 낱장을 옆으로 넘기는 페이저 하나다. ═══════
+   높이는 가장 긴 쪽이 정하고, 그 뒤로 절대 변하지 않는다. 격자 행이 들썩일 일도,
+   아래 카드가 밀릴 일도 없다. ─────────────────────────────────────────── */
+/* 가로 여백은 카드가 아니라 쪽이 갖는다 — full bleed 전환.
+   카드가 가로 패딩을 쥐고 있으면 쪽이 16px 안쪽 창에서 미끄러져 "액자 속 슬라이드"가 된다.
+   뷰포트를 카드 테두리까지 넓히고 여백을 쪽 안으로 옮기면, 들어오는 쪽이 카드 가장자리에서
+   나온다. 세로 패딩은 카드에 남는다(쪽마다 위아래가 어긋나면 안 되므로). */
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:.2rem;
+  padding:var(--slg) 0;box-shadow:var(--lift);transform-origin:top center}
+.card::before{content:'';position:absolute;top:-.5rem;left:50%;width:2.6rem;height:.8rem;
+  transform:translateX(-50%) rotate(-2deg);background:color-mix(in srgb,var(--accent) 40%,transparent);
+  border-radius:1px}
+.card:nth-child(odd){transform:rotate(.4deg)}
+.card:nth-child(even){transform:rotate(-.4deg)}
+/* 표지를 벗어나 있을 때만 테두리가 물든다 — 지금 [open] 테두리와 같은 신호 */
+.card:not([data-page="0"]){border-color:var(--accent)}
+
+.viewport{overflow:hidden;touch-action:pan-y;cursor:grab;-webkit-user-select:none;user-select:none}
+.viewport:active{cursor:grabbing}
+.track{display:flex;align-items:flex-start;will-change:transform}
+.page{flex:0 0 100%;min-width:0;overflow:hidden;height:var(--ph);padding:0 var(--slg)}
+
+/* 표지 — 지금 카드 접힘 상태 그대로 */
+.mark{width:100%;height:7.5rem;object-fit:contain;display:block}
+.idtext{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--sxs);min-width:0;margin-top:var(--ssm)}
+.title{font-size:var(--tmd);font-weight:600;word-break:keep-all;display:inline-flex;align-items:center;gap:var(--sxs)}
+.dot{width:.4rem;height:.4rem;border-radius:50%;background:var(--accent);flex:none}
+.kind{color:var(--muted);font-size:var(--txs)}
+.cover{display:flex;flex-direction:column;gap:var(--smd);margin-top:var(--smd)}
+
+/* 속쪽 — 지금 펼치면 보이는 그 내용 */
+/* 속쪽 머리 — 격자에서 이게 무슨 품목인지 잃지 않게. 표지가 가장 긴 쪽이라
+   속쪽엔 어차피 여백이 남는다: 그 여백의 일부를 신원에 쓴다. */
+.phead{display:flex;align-items:center;gap:var(--ssm);padding-bottom:var(--ssm);
+  border-bottom:1px dashed var(--line);margin-bottom:var(--smd)}
+.phead img{width:2.5rem;height:2.5rem;object-fit:contain;flex:none}
+.phead b{font-size:var(--tsm);font-weight:600;word-break:keep-all}
+.plabel{font-size:var(--t2xs);letter-spacing:.08em;color:var(--muted);margin:0;font-weight:600;
+  margin-left:auto;white-space:nowrap}
+
+.price{display:flex;flex-wrap:wrap;align-items:center;gap:var(--ssm)}
+.cmp{display:inline-flex;align-items:center;gap:var(--s2xs)}
+.cmp small{color:var(--muted);font-size:var(--t2xs)}
+.chip{font-size:var(--txs);font-weight:700;padding:.1rem .45rem;border-radius:1rem;background:var(--tint)}
+.chip[data-rise]{background:var(--rise-lo);color:var(--rise)}
+.bigwrap{display:flex;flex-direction:column;align-items:flex-end;margin-left:auto}
+.big{font-size:var(--txl);font-weight:800;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.big i{font-size:var(--tmd);font-weight:600;font-style:normal}
+.basis{color:var(--muted);font-size:var(--t2xs);white-space:nowrap;margin-top:var(--s2xs)}
+.strip{width:100%}
+.stripbar{position:relative;height:.55rem;margin:0 calc(100%/24)}
+.stripbar i{position:absolute;top:0;bottom:0;background:var(--tint);border-radius:1px}
+.stripbar i[data-peak]{background:var(--accent)}
+.stripaxis{position:absolute;left:0;right:0;top:50%;border-top:1px solid var(--line)}
+.months{display:grid;grid-template-columns:repeat(12,1fr);font-family:var(--mono);
+  font-size:var(--t2xs);color:var(--muted);text-align:center;margin-top:.15rem}
+.months b{color:var(--ink);font-weight:700}
+.why{font-family:var(--hand);color:var(--muted);font-size:var(--tsm);line-height:1.3;margin:0;
+  transform:rotate(-.5deg);transform-origin:left center;-webkit-font-smoothing:auto}
+.spark{height:3.4rem;border-bottom:1px solid var(--axis)}
+.spark svg{width:100%;height:100%;overflow:visible}
+.nut{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--ssm) var(--sxs);text-align:center}
+.nut div small{display:block;color:var(--muted);font-size:var(--t2xs)}
+.nut div b{font-size:var(--tsm);font-variant-numeric:tabular-nums}
+.note h4{font-size:var(--t2xs);letter-spacing:.08em;color:var(--muted);margin:0 0 .1rem;font-weight:600}
+.note p{font-size:var(--tsm);line-height:1.5;margin:0 0 var(--ssm)}
+.rchips{display:flex;flex-wrap:wrap;gap:var(--sxs)}
+.rchips button{font:inherit;font-size:var(--txs);border:1px solid var(--line);border-radius:1rem;
+  padding:.18rem .65rem;background:var(--card);color:var(--ink);cursor:pointer}
+.rchips button[aria-pressed=true]{background:var(--tint);border-color:var(--accent);font-weight:600}
+.steps{margin:var(--ssm) 0 0;padding-left:1.1rem;font-size:var(--tsm);line-height:1.5}
+.steps li{margin-bottom:var(--s2xs)}
+
+/* 쪽 표시 — 도트. 카드 밖(하단)에 얇게 놓아 내용을 안 밀어낸다. */
+/* 도트 줄은 뷰포트 밖 — full bleed의 예외다. 구분선은 카드 폭 전체를 긋되(낱장의 밑단),
+   여백은 쪽과 같은 눈금으로 들여 도트가 내용과 같은 기둥에 선다. */
+.idx{display:flex;justify-content:center;gap:.35rem;margin-top:var(--ssm);padding:var(--ssm) var(--slg) 0;
+  border-top:1px dashed var(--line)}
+.idx button{width:.4rem;height:.4rem;padding:0;border:0;border-radius:50%;background:var(--line);
+  cursor:pointer;transition:background .15s,width .2s}
+.idx button[aria-current=true]{background:var(--ink);width:1rem;border-radius:1rem}
+.idx button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+/* 분할 비교 — 4쪽(현 섹션 그대로) / 2쪽(펼침 내용 한 장) */
+body[data-split="2"] [data-p4]{display:none}
+body[data-split="4"] [data-p2]{display:none}
+
+@media (prefers-reduced-motion:reduce){ .idx button{transition:none} }
+</style>
+</head>
+<body data-split="4">
+
+<div class="rig">
+  <b>카드 페이지 넘김</b>
+  <button data-s="4" aria-pressed="true">4쪽 (표지·시세·영양·손질·레시피)</button>
+  <button data-s="2" aria-pressed="false">2쪽 (표지 · 펼침내용 한 장)</button>
+  <span class="read">쪽 높이 <s id="ph">–</s> · 가장 긴 쪽 <s id="tall">–</s> · 표지 여백 <s id="slack">–</s> · 스와이프</span>
+</div>
+
+<div class="list" id="list"></div>
+
+<script>
+const NOW = 9;
+const CARDS = [
+  {img:'grape', name:'포도', kind:'캠벨', now:'7,136', cmp:'지난 주 대비', d:'10%', dir:'fall',
+   basis:'1kg 기준', season:[8,9,10], peak:[9], why:'9월 캠벨포도가 당도와 향이 가장 진한 때예요',
+   nut:[['열량','60 kcal'],['탄수화물','15.7 g'],['당류','13.7 g'],['식이섬유','1.6 g'],['단백질','0.4 g'],['지방','0.3 g']],
+   // ⚠ 최악 케이스 검증용 — produce.json에서 손질이 가장 긴 복숭아의 실제 문구를 심었다
+   pick:'봉합선이 뚜렷하고 향이 진한 것. 꼭지 주변까지 붉게 물든 것이 잘 익은 거예요.',
+   store:'실온에서 후숙하고, 먹기 2~3시간 전에만 냉장. 차게 오래 두면 단맛이 떨어져요.',
+   use:'그냥 먹는 게 최고지만, 살짝 무른 것은 요거트에 으깨 넣거나 설탕에 재워 청으로.',
+   recipes:[{n:'포도잼',s:['포도를 알알이 떼어 씻고 물기를 뺀다.','냄비에 포도와 설탕을 넣고 중불로 끓인다.','거품을 걷어내며 걸쭉해질 때까지 졸인다.']},
+            {n:'포도 화채',s:['포도를 반으로 갈라 씨를 뺀다.','차가운 사이다와 얼음을 붓는다.','민트잎을 얹어 낸다.']}]},
+  {img:'pear', name:'배', kind:'신고', now:'24,923', cmp:'지난 주 대비', d:'3%', dir:'fall',
+   basis:'10개 기준 · 개당 2,492원', season:[9,10,11], peak:[9,10], why:'가을이 깊어지면 배가 달아지고 즙이 많아져요',
+   nut:[['열량','51 kcal'],['탄수화물','13.2 g'],['당류','9.8 g'],['식이섬유','1.9 g'],['단백질','0.3 g'],['지방','0.1 g']],
+   pick:'묵직하고 껍질이 매끈하며 반점이 고르게 퍼진 것. 꼭지가 마르지 않은 것을 고르세요.',
+   store:'신문지에 싸 냉장 채소칸에 세워 둡니다. 다른 과일과 떨어뜨려 두면 더 오래가요.',
+   use:'생과일로도 좋고, 갈아서 고기 재울 때 넣으면 육질이 부드러워져요.',
+   recipes:[{n:'배숙',s:['배를 껍질째 씻어 4등분한다.','통후추를 박고 생강·물과 함께 끓인다.','약불로 30분 끓여 국물째 낸다.']}]},
+  {img:'sweet-potato', name:'고구마', kind:'밤고구마', now:'4,394', cmp:'지난 주 대비', d:'19%', dir:'fall',
+   basis:'1kg 기준', season:[9,10,11], peak:[9,10], why:'가을 고구마가 수확 직후라 단맛이 살아 있어요',
+   nut:[['열량','131 kcal'],['탄수화물','31.6 g'],['당류','5.6 g'],['식이섬유','2.4 g'],['단백질','1.4 g'],['지방','0.2 g']],
+   pick:'표면이 매끈하고 상처가 없으며 묵직한 것. 잘린 면이 있으면 물기가 없어야 해요.',
+   store:'씻지 말고 신문지에 싸 서늘한 실온에. 냉장하면 단맛이 떨어지고 심이 생겨요.',
+   use:'찌거나 구워서 그대로. 으깨어 샐러드에 넣거나 튀김으로도 좋아요.',
+   recipes:[{n:'고구마 맛탕',s:['고구마를 한입 크기로 썰어 물에 담근다.','기름에 두 번 튀겨 겉을 바삭하게 한다.','설탕과 물엿을 졸인 시럽에 버무린다.']},
+            {n:'군고구마',s:['고구마를 씻어 물기를 닦는다.','200도 오븐에서 50분 굽는다.','젓가락이 쑥 들어가면 꺼낸다.']}]},
+  {img:'hairtail', name:'갈치', kind:'냉장', now:'14,579', cmp:'지난 주 대비', d:'5%', dir:'rise',
+   basis:'1마리 기준', season:[7,8,9,10,11], peak:[9,10], why:'산란을 앞둔 가을 갈치에 기름이 가장 많이 차요',
+   nut:[['열량','149 kcal'],['탄수화물','0 g'],['당류','0 g'],['식이섬유','0 g'],['단백질','18.5 g'],['지방','7.8 g']],
+   pick:'은빛이 벗겨지지 않고 고르게 덮인 것. 눈이 맑고 살이 단단하게 탄력 있는 것이 좋아요.',
+   store:'내장을 빼고 토막 내어 키친타월로 물기를 닦은 뒤 한 끼씩 나눠 냉동합니다.',
+   use:'소금구이가 가장 쉽고, 무를 깔아 조리면 살이 부서지지 않아요.',
+   recipes:[{n:'갈치조림',s:['무를 도톰하게 썰어 냄비 바닥에 깐다.','갈치를 올리고 양념장을 끼얹는다.','중불로 25분 조리며 국물을 끼얹는다.']}]},
+];
+
+const stripHTML = (season, peak) => {
+  const seg = []; let run = null;
+  for (let m = 1; m <= 12; m++) {
+    const on = season.includes(m), pk = peak.includes(m);
+    if (!on) { if (run) { seg.push(run); run = null } continue }
+    if (run && run.pk === pk && run.end === m - 1) run.end = m;
+    else { if (run) seg.push(run); run = { start:m, end:m, pk } }
+  }
+  if (run) seg.push(run);
+  const bars = seg.map(s => `<i style="left:${(s.start-1)/12*100}%;width:${(s.end-s.start+1)/12*100}%"${s.pk?' data-peak':''}></i>`).join('');
+  const months = Array.from({length:12}, (_, i) => {
+    const m = i + 1;
+    return m === NOW ? `<b>${m}</b>` : `<span>${season.includes(m) ? m : ''}</span>`;
+  }).join('');
+  return `<div class="strip"><div class="stripbar"><div class="stripaxis"></div>${bars}</div><div class="months">${months}</div></div>`;
+};
+const sparkHTML = () => {
+  const pts = Array.from({length:14}, (_, i) => [i/13*100, 22 + Math.sin(i*.9)*7 + (13-i)*1.3]);
+  return `<div class="spark"><svg viewBox="0 0 100 46" preserveAspectRatio="none">
+    <polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--ink)"
+      stroke-width="1.4" vector-effect="non-scaling-stroke"/>
+    <circle cx="100" cy="${pts[13][1]}" r="2" fill="var(--ink)"/></svg></div>`;
+};
+
+/* 지금 펼치면 나오는 그 내용 — 조각 그대로 */
+const F = {
+  spark: c => `${sparkHTML()}<p class="basis" style="margin-top:var(--ssm)">최근 2주 · ${c.basis}</p>`,
+  nut: c => `<div class="nut">${c.nut.map(([k,v])=>`<div><small>${k}</small><b>${v}</b></div>`).join('')}</div>
+             <p class="basis" style="margin-top:var(--ssm);text-align:center">100g 기준</p>`,
+  // 손질을 둘로 쪼갠 이유는 미감이 아니라 산술이다: 통째로 두면 실제 데이터 84개 중
+  // 39개가 표지(346px)보다 길어져 고정 높이를 396px로 밀어올리고, 그만큼 표지 아래가
+  // 빈다. 쪼개면 최장 283px < 346px이라 표지가 최장으로 남는다 → 여백 0.
+  // 의미로도 맞다 — 고를 때(가게)와 집에 온 뒤(보관·쓰임)는 때가 다르다.
+  pick: c => `<div class="note"><p>${c.pick}</p></div>`,
+  keep: c => `<div class="note"><h4>보관</h4><p>${c.store}</p><h4>쓰임</h4><p>${c.use}</p></div>`,
+  // 레시피는 칩까지만. 조리 단계는 75개 중 73개가 346px을 넘고(최장 872px) 순서라 쪼갤 수도
+  // 없다 — 지금처럼 카드 위 핀 메모 오버레이가 맡는다. 그 오버레이가 길어서 생긴 것이지
+  // 우연이 아니었다.
+  recipe: c => `<div class="rchips">${c.recipes.map((r,i)=>
+      `<button data-r="${i}" aria-pressed="false">${r.n}</button>`).join('')}</div>
+    <p class="basis" style="margin-top:var(--ssm);white-space:normal">칩을 누르면 조리 단계가 카드 위 메모로 떠요</p>`,
+};
+
+const coverPage = (c, i) => `<section class="page">
+  <img class="mark" src="../../public/assets/produce/${c.img}.webp" width="96" height="96" alt=""
+       loading="${i<2?'eager':'lazy'}">
+  <span class="idtext"><span class="title">${c.name}${c.peak.includes(NOW)?'<span class="dot"></span>':''}</span>
+    <span class="kind">${c.kind}</span></span>
+  <div class="cover">
+    <div class="price"><span class="cmp"><small>${c.cmp}</small>
+      <span class="chip"${c.dir==='rise'?' data-rise':''}>${c.dir==='rise'?'↑':'↓'} ${c.d}</span></span>
+      <span class="bigwrap"><span class="big">${c.now}<i>원</i></span>
+        <span class="basis">${c.basis}</span></span></div>
+    ${stripHTML(c.season,c.peak)}
+    <p class="why">${c.why}</p>
+  </div></section>`;
+
+// 4쪽 안 — 지금 펼침 영역의 섹션 구분을 그대로 쪽으로 옮긴다
+/* 쪽 분할은 실제 데이터로 고른 결과다(84개 품목·75개 레시피 실측).
+   후보와 속쪽 여백 평균: 6쪽 158px / 5쪽 125px / 4쪽(이 안) 70px / 손질통째 127px+표지여백 50px.
+   표지가 가장 긴 쪽(346px)으로 남는 안 중 여백이 가장 작다.
+   "쓰임" 다음에 레시피 칩이 붙는 것도 흐름이 맞다 — 어떻게 먹나 다음이 무엇을 해먹나다. */
+const P4 = [
+  ['시세·영양', c => `${F.spark(c)}<div style="margin-top:var(--sxl)">${F.nut(c)}</div>`],
+  ['고르는 법', F.pick],
+  ['보관·쓰임', c => `${F.keep(c)}<div style="margin-top:var(--slg)">${F.recipe(c)}</div>`],
+];
+// 2쪽 안 — 펼침 내용을 한 장에 다 넣는다 (지금 <details> 안과 완전히 같은 순서)
+
+function cardHTML(c, i) {
+  const phead = l => `<div class="phead">
+      <img src="../../public/assets/produce/${c.img}.webp" width="40" height="40" alt="" loading="lazy">
+      <b>${c.name}</b><p class="plabel">${l}</p></div>`;
+  const pages = coverPage(c, i)
+    + P4.map(([l,fn]) => `<section class="page" data-p4>${phead(l)}${fn(c)}</section>`).join('')
+    + `<section class="page" data-p2>${phead('자세히')}${F.spark(c)}
+        <div style="margin-top:var(--sxl)">${F.nut(c)}</div>
+        <div style="margin-top:var(--sxl)">${F.pick(c)}</div>
+        <div style="margin-top:var(--sxl)">${F.keep(c)}</div>
+        <div style="margin-top:var(--sxl)">${F.recipe(c)}</div></section>`;
+  return `<article class="card" data-page="0" data-name="${c.name}" tabindex="0">
+    <div class="viewport"><div class="track">${pages}</div></div>
+    <div class="idx"></div>
+  </article>`;
+}
+document.getElementById('list').innerHTML = CARDS.map(cardHTML).join('');
+
+/* ═══ 스와이프 — 바닐라. 1:1 추적 · 중단가능 · 속도 인계 · 모멘텀 투영 · 러버밴딩 ═══ */
+function makeSpring(onFrame) {
+  const K = 300, C = 30;
+  let x = 0, v = 0, target = 0, raf = null, last = 0;
+  const tick = now => {
+    const dt = Math.min((now - last) / 1000, 1/30); last = now;
+    v += (-K * (x - target) - C * v) * dt; x += v * dt;
+    if (Math.abs(x - target) < .2 && Math.abs(v) < .2) { x = target; v = 0; onFrame(x); raf = null; return }
+    onFrame(x); raf = requestAnimationFrame(tick);
+  };
+  return {
+    get x() { return x },
+    set(px) { x = px; v = 0; if (raf) { cancelAnimationFrame(raf); raf = null } onFrame(x) },
+    to(px, v0) { target = px; if (v0 !== undefined) v = v0;
+      if (!raf) { last = performance.now(); raf = requestAnimationFrame(tick) } },
+  };
+}
+const project = v => (v / 1000) * 0.998 / (1 - 0.998);
+
+/* 무한 루프 — 클론을 만들지 않는다.
+   트랙 위치는 가상 인덱스 v로 무한히 흐르고(…-1, 0, 1, 2 …), 각 쪽은 자기 자리에서
+   translateX(k·N·W)만큼 건너뛰어 v 근처에 다시 나타난다. 0쪽에서 왼쪽으로 당기면
+   마지막 쪽이 실제로 왼편에 서 있으므로 손가락을 따라오는 내내 이어져 보인다.
+   DOM은 N장 그대로 — React에서 같은 컴포넌트를 두 벌 렌더할 일이 없다.
+   끝이 없으니 러버밴딩도 없다(§9는 경계가 있을 때의 규칙이다). */
+function wire(card) {
+  const vp = card.querySelector('.viewport'), track = vp.querySelector('.track');
+  const idx = card.querySelector('.idx');
+  const live = () => [...track.children].filter(p => p.offsetParent !== null);
+  const W = () => vp.clientWidth;
+  let v = 0;                                  // 가상 인덱스 (음수·N 이상 가능)
+  const mod = n => ((n % live().length) + live().length) % live().length;
+
+  // 각 쪽을 v 근처로 데려다 놓는다. k가 바뀔 때만 쓴다.
+  const place = x => {
+    const pages = live(), N = pages.length, w = W();
+    if (!w) return;
+    const vNow = -x / w;
+    pages.forEach((p, i) => {
+      const k = Math.round((vNow - i) / N);
+      if (p.__k !== k) { p.__k = k; p.style.transform = `translateX(${k * N * w}px)` }
+    });
+  };
+  const spring = makeSpring(x => {
+    track.style.transform = `translate3d(${x}px,0,0)`;
+    place(x);
+  });
+
+  const sync = () => {
+    const cur = mod(v);
+    card.dataset.page = cur;
+    idx.querySelectorAll('button').forEach(b =>
+      b.setAttribute('aria-current', String(+b.dataset.goto === cur)));
+  };
+  const go = (nv, v0) => { v = nv; spring.to(-v * W(), v0); sync() };
+  const buildDots = () => {
+    idx.innerHTML = live().map((p, n) =>
+      `<button data-goto="${n}" aria-current="${n===0}" aria-label="${n+1}쪽"></button>`).join('');
+  };
+  card.__reset = () => {
+    live().forEach(p => { p.__k = undefined; p.style.transform = '' });
+    buildDots(); v = 0; spring.set(0); sync();
+  };
+
+  let id = null, x0 = 0, y0 = 0, base = 0, vStart = 0, axis = null, hist = [];
+  vp.addEventListener('pointerdown', e => {
+    if (e.target.closest('button')) return;
+    id = e.pointerId; x0 = e.clientX; y0 = e.clientY;
+    base = spring.x; vStart = v; axis = null; hist = [[e.clientX, performance.now()]];
+    spring.set(spring.x);                       // 날던 애니메이션을 그 자리에서 잡는다
+  });
+  vp.addEventListener('pointermove', e => {
+    if (e.pointerId !== id) return;
+    const dx = e.clientX - x0, dy = e.clientY - y0;
+    if (!axis) {
+      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+      axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      if (axis === 'x') vp.setPointerCapture(id); else { id = null; return }
+    }
+    hist.push([e.clientX, performance.now()]); if (hist.length > 6) hist.shift();
+    spring.set(base + dx);                      // 경계가 없으니 그대로 1:1
+    e.preventDefault();
+  });
+  const end = e => {
+    if (e.pointerId !== id) return;
+    id = null; if (axis !== 'x') return;
+    const [px, pt] = hist[0], [cx, ct] = hist[hist.length - 1];
+    const vel = ct > pt ? (cx - px) / (ct - pt) * 1000 : 0;
+    const landing = Math.round(-(spring.x + project(vel)) / W());
+    // 한 번의 제스처는 한 쪽만 — 세게 던져도 빙글 돌지 않게 (iOS 페이징 스크롤과 같다)
+    go(Math.max(vStart - 1, Math.min(vStart + 1, landing)), vel);
+  };
+  vp.addEventListener('pointerup', end);
+  vp.addEventListener('pointercancel', end);
+
+  card.addEventListener('click', e => {
+    const b = e.target.closest('[data-goto]');
+    if (b) {                                    // 도트 → 루프에서 가장 가까운 방향으로
+      const N = live().length, target = +b.dataset.goto;
+      let d = (target - mod(v) + N) % N; if (d > N / 2) d -= N;
+      go(v + d); return;
+    }
+    const r = e.target.closest('[data-r]');
+    if (r) {
+      r.parentElement.querySelectorAll('button').forEach(x =>
+        x.setAttribute('aria-pressed', String(x === r)));
+    }
+  });
+  card.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') { go(v + 1); e.preventDefault() }
+    if (e.key === 'ArrowLeft')  { go(v - 1); e.preventDefault() }
+  });
+  addEventListener('resize', () => { live().forEach(p => p.__k = undefined); spring.set(-v * W()) });
+  buildDots(); sync(); place(0);
+  return { relayout: () => { live().forEach(p => p.__k = undefined); spring.set(-v * W()) },
+           reset: card.__reset };
+}
+const wired = [...document.querySelectorAll('.card')].map(wire);
+
+/* ─── 고정 높이 — 가장 긴 쪽이 정하고, 그 뒤로 변하지 않는다 ────────── */
+function measure() {
+  let tall = 0, key = '', cover = 0;
+  document.querySelectorAll('.card').forEach(card => {
+    card.style.removeProperty('--ph');
+    [...card.querySelectorAll('.page')].forEach(p => {
+      if (p.offsetParent === null) return;
+      const h = p.scrollHeight;
+      const label = p.querySelector('.plabel')?.textContent ?? '표지';
+      if (label === '표지') cover = Math.max(cover, h);
+      if (h > tall) { tall = h; key = label }
+    });
+  });
+  document.querySelectorAll('.card').forEach(c => c.style.setProperty('--ph', tall + 'px'));
+  wired.forEach(w => w.relayout());
+  document.getElementById('ph').textContent = tall + 'px';
+  document.getElementById('tall').textContent = key;
+  // 표지가 가장 긴 쪽이 아니면 표지 아래에 남는 빈 칸 — 기본 상태에서 늘 보이는 여백이다
+  document.getElementById('slack').textContent = (tall - cover) + 'px';
+}
+
+document.querySelector('.rig').addEventListener('click', e => {
+  const b = e.target.closest('button[data-s]'); if (!b) return;
+  document.querySelectorAll('.rig button').forEach(x =>
+    x.setAttribute('aria-pressed', String(x === b)));
+  document.body.dataset.split = b.dataset.s;
+  wired.forEach(w => w.reset());
+  measure();
+});
+addEventListener('resize', measure);
+addEventListener('load', measure);
+measure();
+</script>
+</body>
+</html>

@@ -1,8 +1,14 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react'
+import { renderToStaticMarkup } from 'react-dom/server'
 import { afterEach, describe, expect, test } from 'vitest'
 import { ProduceCard } from './ProduceCard'
 import type { CardView, SeasonStripView } from '../card'
+
+/** 레시피는 "보관·쓰임" 쪽(3쪽)에 산다. RTL 렌더는 하이드레이션 후 상태라 페이저가 뜨므로,
+ *  칩을 만지려면 먼저 그 쪽으로 넘겨야 한다. */
+const toRecipePage = (getByRole: ReturnType<typeof render>['getByRole']) =>
+  fireEvent.click(getByRole('tab', { name: '보관·쓰임' }))
 
 const emptyStrip: SeasonStripView = {
   months: Array.from({ length: 12 }, (_, i) => ({
@@ -28,23 +34,26 @@ afterEach(() => cleanup())
 
 describe('ProduceCard 레시피', () => {
   test('recipes 없으면 칩·메모가 없다', () => {
-    // 주의: <details>도 암묵 role="group"이라 queryByRole('group')이 그 자체와 매칭된다.
-    // 메모(role=group) 유무는 group 요소 개수로 판별한다(1개 = details뿐 = 메모 없음).
     const { queryByText, queryAllByRole } = render(<ProduceCard card={base} />)
     expect(queryByText('레시피')).toBeNull()
-    expect(queryAllByRole('group')).toHaveLength(1)
+    expect(queryAllByRole('group')).toHaveLength(0)
   })
 
-  test('recipes 있으면 칩을 보이고 처음엔 메모가 없다', () => {
-    const { getAllByRole, getByText, queryAllByRole } = render(<ProduceCard card={withRecipes} />)
+  test('recipes 있으면 "보관·쓰임" 쪽에 칩을 보이고 처음엔 메모가 없다', () => {
+    const { getAllByRole, getByText, queryAllByRole, getByRole } = render(
+      <ProduceCard card={withRecipes} />,
+    )
+    toRecipePage(getByRole)
+    // 도트는 role="tab"이라 button 롤이 아니다 — 여기 잡히는 건 레시피 칩 둘뿐이다
     expect(getAllByRole('button')).toHaveLength(2)
     expect(getByText('레시피')).toBeTruthy()
-    expect(queryAllByRole('group')).toHaveLength(1)
+    expect(queryAllByRole('group')).toHaveLength(0)
   })
 
   test('칩을 누르면 그 레시피 메모가 뜬다', () => {
     // 요리명은 칩과 메모 h3 두 곳에 나오므로, 메모는 접근성 이름(aria-label)으로 지목한다.
     const { getByRole } = render(<ProduceCard card={withRecipes} />)
+    toRecipePage(getByRole)
     fireEvent.click(getByRole('button', { name: '냉토마토파스타' }))
     const memo = getByRole('group', { name: '냉토마토파스타' })
     expect(memo).not.toBeNull()
@@ -53,6 +62,7 @@ describe('ProduceCard 레시피', () => {
 
   test('‹ ›로 넘기면 메모 내용과 활성 칩이 동기화된다', () => {
     const { getByRole, getByTestId } = render(<ProduceCard card={withRecipes} />)
+    toRecipePage(getByRole)
     fireEvent.click(getByRole('button', { name: '토마토달걀볶음' })) // 0번 열기
     fireEvent.click(getByRole('button', { name: '다음 레시피' })) // → 1번
     expect(getByRole('group', { name: '냉토마토파스타' }).querySelector('h3')!.textContent).toBe(
@@ -69,50 +79,95 @@ describe('ProduceCard 레시피', () => {
 
   test('같은 칩을 다시 누르면 메모가 닫힌다(즉시)', () => {
     const { getByRole, queryAllByRole } = render(<ProduceCard card={withRecipes} />)
+    toRecipePage(getByRole)
     const chip = getByRole('button', { name: '토마토달걀볶음' })
     fireEvent.click(chip)
-    expect(queryAllByRole('group')).toHaveLength(2) // details + 메모
+    expect(queryAllByRole('group')).toHaveLength(1) // 메모
     fireEvent.click(chip)
-    expect(queryAllByRole('group')).toHaveLength(1) // 메모 사라짐
+    expect(queryAllByRole('group')).toHaveLength(0) // 메모 사라짐
   })
 
   test('압정으로 닫으면 메모가 사라지고 포커스가 그 칩으로 돌아온다', async () => {
     const { getByRole, queryAllByRole } = render(<ProduceCard card={withRecipes} />)
+    toRecipePage(getByRole)
     const chip = getByRole('button', { name: '토마토달걀볶음' })
     fireEvent.click(chip)
     fireEvent.click(getByRole('button', { name: '레시피 떼기' }))
-    await waitFor(() => expect(queryAllByRole('group')).toHaveLength(1))
+    await waitFor(() => expect(queryAllByRole('group')).toHaveLength(0))
     expect(document.activeElement).toBe(chip)
   })
 
-  test('카드를 접으면 열린 메모가 초기화된다', () => {
-    const { container, getByRole, queryAllByRole } = render(<ProduceCard card={withRecipes} />)
+  test('레시피 쪽을 떠나면 열린 메모가 닫힌다(폴백의 "카드 접기"와 같은 규칙)', () => {
+    const { getByRole, queryAllByRole } = render(<ProduceCard card={withRecipes} />)
+    toRecipePage(getByRole)
     fireEvent.click(getByRole('button', { name: '토마토달걀볶음' }))
-    expect(queryAllByRole('group')).toHaveLength(2)
-    const details = container.querySelector('details')!
-    details.open = false
-    fireEvent(details, new Event('toggle'))
     expect(queryAllByRole('group')).toHaveLength(1)
+    fireEvent.click(getByRole('tab', { name: '표지' }))
+    expect(queryAllByRole('group')).toHaveLength(0)
   })
 
   test('끝 레시피로 넘기면 포커스가 메모에 남는다(비활성 버튼 포커스 유실 방지)', () => {
     const { getByRole } = render(<ProduceCard card={withRecipes} />)
+    toRecipePage(getByRole)
     fireEvent.click(getByRole('button', { name: '토마토달걀볶음' })) // index 0
     fireEvent.click(getByRole('button', { name: '다음 레시피' })) // → 마지막(1), next 비활성
     expect(document.activeElement).toBe(getByRole('group', { name: '냉토마토파스타' }))
   })
 
-  test('카드를 접었다 다시 열면 메모가 열려 있지 않다(상태 초기화)', () => {
-    const { container, getByRole, queryAllByRole } = render(<ProduceCard card={withRecipes} />)
-    const details = container.querySelector('details')!
+  test('레시피 쪽으로 돌아와도 메모가 열려 있지 않다(상태 초기화)', () => {
+    const { getByRole, queryAllByRole } = render(<ProduceCard card={withRecipes} />)
+    toRecipePage(getByRole)
     fireEvent.click(getByRole('button', { name: '토마토달걀볶음' }))
-    expect(queryAllByRole('group')).toHaveLength(2)
-    details.open = false
-    fireEvent(details, new Event('toggle'))
     expect(queryAllByRole('group')).toHaveLength(1)
-    details.open = true
-    fireEvent(details, new Event('toggle'))
-    expect(queryAllByRole('group')).toHaveLength(1) // 재열림 시 닫힌 상태
+    fireEvent.click(getByRole('tab', { name: '표지' }))
+    toRecipePage(getByRole)
+    expect(queryAllByRole('group')).toHaveLength(0)
+  })
+})
+
+describe('ProduceCard 쪽 넘김', () => {
+  test('네 쪽과 도트가 있고 표지가 첫 쪽이다', () => {
+    const { getAllByRole, getByRole } = render(<ProduceCard card={base} />)
+    expect(getAllByRole('tabpanel', { hidden: true })).toHaveLength(4)
+    expect(getByRole('tab', { name: '표지' }).getAttribute('aria-selected')).toBe('true')
+  })
+
+  test('도트로 넘기면 선택이 옮겨간다', () => {
+    const { getByRole } = render(<ProduceCard card={base} />)
+    fireEvent.click(getByRole('tab', { name: '고르는 법' }))
+    expect(getByRole('tab', { name: '고르는 법' }).getAttribute('aria-selected')).toBe('true')
+    expect(getByRole('tab', { name: '표지' }).getAttribute('aria-selected')).toBe('false')
+  })
+
+  test('←/→ 방향키로 넘어가고, 표지에서 ←면 마지막 쪽으로 감싼다(무한 루프)', () => {
+    const { container, getByRole } = render(<ProduceCard card={base} />)
+    const cardEl = container.querySelector('article')!
+    fireEvent.keyDown(cardEl, { key: 'ArrowRight' })
+    expect(getByRole('tab', { name: '시세·영양' }).getAttribute('aria-selected')).toBe('true')
+    fireEvent.keyDown(cardEl, { key: 'ArrowLeft' })
+    fireEvent.keyDown(cardEl, { key: 'ArrowLeft' })
+    expect(getByRole('tab', { name: '보관·쓰임' }).getAttribute('aria-selected')).toBe('true')
+  })
+
+  test('보이는 쪽만 빼고 inert — 넷을 한꺼번에 읽거나 숨은 칩에 탭이 걸리지 않게', () => {
+    // jsdom은 inert를 접근성 트리에 반영하지 않으므로(롤 쿼리로는 넷 다 잡힌다) 속성을 본다.
+    const { container, getByRole } = render(<ProduceCard card={base} />)
+    const inertOf = () =>
+      [...container.querySelectorAll('[role="tabpanel"]')].map((el) => el.hasAttribute('inert'))
+    expect(inertOf()).toEqual([false, true, true, true])
+    fireEvent.click(getByRole('tab', { name: '고르는 법' }))
+    expect(inertOf()).toEqual([true, true, false, true])
+  })
+})
+
+/** 무JS·프리렌더 산출물은 지금까지의 <details> 그대로여야 한다 — JS가 없으면 이 상태로 남고,
+ *  카드 안 모든 정보에 닿을 수 있다. 하이드레이션 후에야 페이저로 승격한다. */
+describe('ProduceCard 무JS 폴백', () => {
+  test('서버 렌더는 <details>이고 손질 세 줄이 다 들어 있다', () => {
+    const html = renderToStaticMarkup(<ProduceCard card={base} />)
+    expect(html).toContain('<details')
+    expect(html).not.toContain('role="tablist"')
+    for (const label of ['고르는 법', '보관', '쓰임']) expect(html).toContain(label)
   })
 })
 
@@ -160,8 +215,9 @@ describe('ProduceCard 도판', () => {
   })
 
   test('image 없으면 이모지 폴백 — aria-hidden으로 이중 낭독 방지(기존 결함 수정)', () => {
-    const { container, getByText } = render(<ProduceCard card={base} />)
+    // 이모지는 표지 + 속쪽 머리 셋에 나온다(머리는 시각적 길잡이라 aria-hidden 처리).
+    const { container, getAllByText } = render(<ProduceCard card={base} />)
     expect(container.querySelector('img')).toBeNull()
-    expect(getByText('🍅').getAttribute('aria-hidden')).toBe('true')
+    for (const el of getAllByText('🍅')) expect(el.getAttribute('aria-hidden')).toBe('true')
   })
 })
