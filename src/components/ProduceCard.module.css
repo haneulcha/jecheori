@@ -1,5 +1,6 @@
-/* 카드 — 달력 낱장 */
+/* 카드 — 달력 낱장. <details>(무JS 폴백)와 <article>(페이저) 양쪽이 이 클래스를 쓴다. */
 .card {
+  display: block;   /* <details>의 UA 기본과 <article>을 같은 상자로 맞춘다 */
   position: relative;                /* Task 2 테이프(::before)의 기준 */
   background: var(--color-card);
   border: 1px solid var(--color-line);
@@ -29,6 +30,84 @@
 .card:nth-child(even) { transform: rotate(-0.4deg); }
 .card summary { cursor: pointer; list-style: none; }
 .card summary::-webkit-details-marker { display: none; }
+.card:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
+
+/* ── 페이저 ─────────────────────────────────────────────────────────────
+   full bleed: 뷰포트만 카드 패딩 밖으로 끌어내고(음수 마진) 가로 여백은 쪽이 갖는다.
+   카드 패딩을 없애는 대신 이렇게 하는 건 <details> 폴백이 그 패딩을 그대로 쓰기 때문이고,
+   RecipeChips가 이미 쓰는 관용구(-mx-lg px-lg)와 같은 수법이다.
+   높이는 CSS가 알아서 정한다 — 트랙이 flex라 가장 긴 쪽이 높이를 잡고, 모든 쪽이 늘 흐름
+   안에 있으므로 어느 쪽을 보든 카드 높이가 변하지 않는다(JS 측정 불필요). */
+.viewport {
+  overflow: hidden;
+  margin-inline: calc(-1 * var(--spacing-lg));
+  touch-action: pan-y;          /* 세로 스크롤은 브라우저에 양보 */
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: grab;
+}
+.viewport:active { cursor: grabbing; }
+.track { display: flex; align-items: stretch; will-change: transform; }
+.page {
+  flex: 0 0 100%;
+  min-width: 0;
+  padding-inline: var(--spacing-lg);
+}
+/* 속쪽 본문 — 표지의 gap-md와 같은 안쪽 리듬 */
+.body { display: flex; flex-direction: column; gap: var(--spacing-lg); }
+
+/* 속쪽 머리 — [작은 도판 | 품목명 | 쪽 라벨]. 격자에서 신원을 잃지 않게. */
+.phead {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  border-bottom: 1px dashed var(--color-line);
+}
+.card .markSm {
+  flex: none;
+  width: 2.5rem;                /* 스케일 밖 기하 */
+  height: 2.5rem;
+  object-fit: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-md);    /* 폴백 이모지에만 걸린다 */
+  line-height: 1;
+}
+.pname { font-size: var(--text-sm); font-weight: 600; word-break: keep-all; min-width: 0; }
+.plabel {
+  margin-left: auto;
+  font-size: var(--text-2xs);
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+/* 쪽 표시 — 도트. 구분 점선은 카드 폭 전체를 긋고(낱장의 밑단), 도트는 쪽과 같은 눈금에 선다. */
+.idx {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-2xs);
+  margin-inline: calc(-1 * var(--spacing-lg));
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg) 0;
+  border-top: 1px dashed var(--color-line);
+}
+.dot {
+  width: 0.4rem;                /* 스케일 밖 기하 */
+  height: 0.4rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-line);
+  cursor: pointer;
+}
+.dot[aria-selected='true'] { background: var(--color-ink); width: 1rem; border-radius: var(--radius-pill); }
+@media (prefers-reduced-motion: no-preference) {
+  .dot { transition: background-color 0.15s ease, width 0.2s ease; }
+}
 /* 도판 슬롯 — 96px은 spacing 스케일 밖(최대 3xl=3rem)이라 유틸리티로 못 쓴다.
    임의값(w-[96px])은 금지이므로 스케일 밖 기하로서 모듈이 맡는다(스타일 경계 기준 3).
    폴백 이모지도 같은 슬롯을 써서, 점진 도입 기간에 카드 높이가 들쭉날쭉해지지 않는다.
@@ -105,5 +184,30 @@
 /* 라벨+칩은 무클래스 div로 한 묶음 — .open의 flex gap이 둘 사이에 끼지 않게, 간격은 라벨 margin만 */
 .recipeLabel { font-size: var(--text-2xs); letter-spacing: 0.08em; color: var(--color-muted); margin: 0 0 var(--spacing-2xs); }
 
+/* 표지를 벗어나 있으면 테두리가 물든다 — 지금 .card[open]이 주던 신호를 그대로 잇는다.
+   모션 미디어쿼리 밖에 둔다: 색 자체는 상태 표시라 reduced-motion에서도 켜져야 한다
+   (전환만 그 안에서 붙는다). */
+.card[data-page]:not([data-page='0']) { border-color: var(--color-accent); }
+
 .memoLayer { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
 
+
+/* 데스크탑 세로 스택 표지 — 다열 격자(global.css, 같은 48rem)에서만 산다.
+   가로형 표지는 [도판 96 | 이름]이 한 행을 먹는데, 14rem 열에서는 그 행의 오른쪽이
+   텅 빈다(이름 한 줄이 짧게 끝난다). 그 첫 행마저 세로로 눕혀 도판이 카드 폭 전체를
+   쓰는 표지가 되면, 도판이 96 → 120px으로 커져 식별 장치가 제 역할을 한다
+   (DESIGN.md 2026-08-24 "장식이 아니라 식별 장치"). 나머지 행(가격·제철 띠·한마디)의
+   순서와 구조는 그대로다 — 눕는 건 첫 행뿐이다.
+   행 방향 전환 자체는 ProduceCard.tsx의 md: 유틸리티가 맡고, 여기엔 모듈이 이미
+   소유한 속성(도판 기하·.kind display·테이프 크기)만 남는다. */
+@media (min-width: 48rem) {
+  /* 고정 높이로 둔다 — aspect-ratio는 자동 최소 크기 때문에 내용에 밀려 비율이 무시되고
+     (실측 206px, 의도 130px), 열 폭 따라 카드 세로가 같이 늘어난다. 288px 정사각
+     투명 WebP를 contain으로 중앙에 앉힌다. */
+  .card .mark { width: 100%; height: 7.5rem; object-fit: contain; }
+  /* 이름 옆에 붙여 세로로 길어지는 걸 한 줄 아낀다 (배치는 .tsx의 md:flex) */
+  .card .kind { display: inline; margin-top: 0; }
+  /* 테이프는 좁아진 카드에 맞춰 한 치수 작게 — 3.4rem이면 228px 카드에서 과하다 */
+  .card::before { width: 2.6rem; height: 0.8rem; }
+  .card .why { font-size: var(--text-sm); }
+}
