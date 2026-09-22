@@ -65,3 +65,16 @@
 .controls { display: flex; flex-direction: column; gap: var(--spacing-sm); margin-bottom: var(--spacing-lg); }
 /* 필터 칩(좌·넘치면 횡스크롤) + 정렬(우측 고정) 한 줄 */
 .ctrlrow { display: flex; align-items: center; gap: var(--spacing-sm); }
+
+/* 데스크탑 — 컨트롤이 한 줄로 눕는다(시안 B: 크롬도 본문과 함께 넓어진다).
+   세로로 쌓인 채 64rem을 쓰면 검색창 하나가 1024px을 가로지른다.
+   브레이크포인트는 global.css의 다열 격자와 같은 48rem — 셸이 한 지점에서 함께 바뀐다. */
+@media (min-width: 48rem) {
+  .controls { flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--spacing-md); }
+  /* SearchBar의 w-full 유틸리티는 그대로 두고(같은 속성 중복 금지) 상한만 여기서 건다 */
+  .controls > input[type='search'] { flex: 1 1 12rem; max-width: 20rem; }
+  /* basis 22rem은 "칩이 다 보이는 최소폭"이자 줄바꿈 임계다. 이보다 작게 잡으면 768에서
+     검색·세그먼트와 한 줄에 우겨 들어가며 필터 행이 짓눌려, 넘친 칩이 횡스크롤 마스크
+     뒤로 잘린다("가격 하…"). 짓눌리는 대신 줄을 바꾸게 한다 — 1024에선 그대로 한 줄. */
+  .ctrlrow { flex: 1 1 22rem; }
+}
