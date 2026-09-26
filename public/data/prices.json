@@ -1,1829 +1,9 @@
 {
   "schemaVersion": 3,
-  "fetchedAt": "2026-09-25T08:07:43.853Z",
-  "surveyedOn": "2026-09-23",
+  "fetchedAt": "2026-09-26T08:07:37.362Z",
+  "surveyedOn": "2026-09-26",
   "entries": [
     {
-      "itemName": "쌀",
-      "kindName": "20kg(20kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 20,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 61487,
-      "baseline": {
-        "weekAgo": 61328,
-        "twoWeeksAgo": 61210,
-        "monthAgo": 47477,
-        "yearAgo": 62344,
-        "normalYear": 53887
-      }
-    },
-    {
-      "itemName": "쌀",
-      "kindName": "10kg(10kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 33938,
-      "baseline": {
-        "weekAgo": 33383,
-        "twoWeeksAgo": 34702,
-        "monthAgo": 47477,
-        "yearAgo": 35174,
-        "normalYear": 30885
-      }
-    },
-    {
-      "itemName": "찹쌀",
-      "kindName": "일반계(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 5214,
-      "baseline": {
-        "weekAgo": 5208,
-        "twoWeeksAgo": 5193,
-        "monthAgo": 5264,
-        "yearAgo": 6418,
-        "normalYear": 4297
-      }
-    },
-    {
-      "itemName": "혼식곡",
-      "kindName": "국산(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 7406,
-      "baseline": {
-        "weekAgo": 7406,
-        "twoWeeksAgo": 7787,
-        "monthAgo": null,
-        "yearAgo": null,
-        "normalYear": null
-      }
-    },
-    {
-      "itemName": "현미",
-      "kindName": "찰현미(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 5684,
-      "baseline": {
-        "weekAgo": 5709,
-        "twoWeeksAgo": 5710,
-        "monthAgo": null,
-        "yearAgo": null,
-        "normalYear": null
-      }
-    },
-    {
-      "itemName": "보리쌀",
-      "kindName": "찰보리(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 5234,
-      "baseline": {
-        "weekAgo": 5155,
-        "twoWeeksAgo": 5163,
-        "monthAgo": null,
-        "yearAgo": null,
-        "normalYear": null
-      }
-    },
-    {
-      "itemName": "콩",
-      "kindName": "흰 콩(국산)(500g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 500,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 5005,
-      "baseline": {
-        "weekAgo": 5005,
-        "twoWeeksAgo": 5053,
-        "monthAgo": 5030,
-        "yearAgo": 5109,
-        "normalYear": 5200
-      }
-    },
-    {
-      "itemName": "팥",
-      "kindName": "붉은 팥(국산)(500g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 500,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 13595,
-      "baseline": {
-        "weekAgo": 13708,
-        "twoWeeksAgo": 13709,
-        "monthAgo": 13729,
-        "yearAgo": 13861,
-        "normalYear": 9149
-      }
-    },
-    {
-      "itemName": "녹두",
-      "kindName": "국산(500g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 500,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 10824,
-      "baseline": {
-        "weekAgo": 11484,
-        "twoWeeksAgo": 12216,
-        "monthAgo": 12181,
-        "yearAgo": 11325,
-        "normalYear": 11238
-      }
-    },
-    {
-      "itemName": "고구마",
-      "kindName": "밤(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 4553,
-      "baseline": {
-        "weekAgo": 4890,
-        "twoWeeksAgo": 4414,
-        "monthAgo": 5410,
-        "yearAgo": 5246,
-        "normalYear": 5516
-      }
-    },
-    {
-      "itemName": "고구마",
-      "kindName": "밤(1kg)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 4341,
-      "baseline": {
-        "weekAgo": 4336,
-        "twoWeeksAgo": 4230,
-        "monthAgo": 4277,
-        "yearAgo": 4325,
-        "normalYear": 4576
-      }
-    },
-    {
-      "itemName": "감자",
-      "kindName": "수미(노지)(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 273,
-      "baseline": {
-        "weekAgo": 283,
-        "twoWeeksAgo": 320,
-        "monthAgo": 331,
-        "yearAgo": 370,
-        "normalYear": 343
-      }
-    },
-    {
-      "itemName": "감자",
-      "kindName": "수미(노지)(100g)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 264,
-      "baseline": {
-        "weekAgo": null,
-        "twoWeeksAgo": 272,
-        "monthAgo": 284,
-        "yearAgo": 247,
-        "normalYear": 259
-      }
-    },
-    {
-      "itemName": "배추",
-      "kindName": "여름(고랭지)(1포기)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "포기"
-        }
-      },
-      "price": 5952,
-      "baseline": {
-        "weekAgo": 5923,
-        "twoWeeksAgo": 6141,
-        "monthAgo": 5468,
-        "yearAgo": 6091,
-        "normalYear": 7106
-      }
-    },
-    {
-      "itemName": "양배추",
-      "kindName": "양배추(1포기)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "포기"
-        }
-      },
-      "price": 2954,
-      "baseline": {
-        "weekAgo": 3093,
-        "twoWeeksAgo": 3081,
-        "monthAgo": 3112,
-        "yearAgo": 4212,
-        "normalYear": 4259
-      }
-    },
-    {
-      "itemName": "양배추",
-      "kindName": "양배추(1포기)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "포기"
-        }
-      },
-      "price": 2570,
-      "baseline": {
-        "weekAgo": 2746,
-        "twoWeeksAgo": 2673,
-        "monthAgo": 2803,
-        "yearAgo": 3645,
-        "normalYear": 3647
-      }
-    },
-    {
-      "itemName": "시금치",
-      "kindName": "시금치(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 1735,
-      "baseline": {
-        "weekAgo": 2120,
-        "twoWeeksAgo": 2404,
-        "monthAgo": 2158,
-        "yearAgo": 2258,
-        "normalYear": 1849
-      }
-    },
-    {
-      "itemName": "상추",
-      "kindName": "적(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 1698,
-      "baseline": {
-        "weekAgo": 1950,
-        "twoWeeksAgo": 1880,
-        "monthAgo": 1533,
-        "yearAgo": 1923,
-        "normalYear": 1836
-      }
-    },
-    {
-      "itemName": "상추",
-      "kindName": "청(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 1751,
-      "baseline": {
-        "weekAgo": 2012,
-        "twoWeeksAgo": 1919,
-        "monthAgo": 1596,
-        "yearAgo": 2109,
-        "normalYear": 1960
-      }
-    },
-    {
-      "itemName": "얼갈이배추",
-      "kindName": "얼갈이배추(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 3116,
-      "baseline": {
-        "weekAgo": 3711,
-        "twoWeeksAgo": 3783,
-        "monthAgo": 3254,
-        "yearAgo": 3907,
-        "normalYear": 3709
-      }
-    },
-    {
-      "itemName": "수박",
-      "kindName": "수박(1개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 22843,
-      "baseline": {
-        "weekAgo": 23450,
-        "twoWeeksAgo": 24028,
-        "monthAgo": 26333,
-        "yearAgo": 29385,
-        "normalYear": 25397
-      }
-    },
-    {
-      "itemName": "수박",
-      "kindName": "수박(1개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 18715,
-      "baseline": {
-        "weekAgo": 19071,
-        "twoWeeksAgo": 18553,
-        "monthAgo": 22203,
-        "yearAgo": 26245,
-        "normalYear": 21583
-      }
-    },
-    {
-      "itemName": "참외",
-      "kindName": "참외(10개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 17389,
-      "baseline": {
-        "weekAgo": 16438,
-        "twoWeeksAgo": 17086,
-        "monthAgo": 18215,
-        "yearAgo": 22718,
-        "normalYear": 26741
-      }
-    },
-    {
-      "itemName": "참외",
-      "kindName": "참외(10개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 12150,
-      "baseline": {
-        "weekAgo": 12354,
-        "twoWeeksAgo": 12156,
-        "monthAgo": 13542,
-        "yearAgo": 19070,
-        "normalYear": 19070
-      }
-    },
-    {
-      "itemName": "오이",
-      "kindName": "가시계통(10개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 11899,
-      "baseline": {
-        "weekAgo": 12094,
-        "twoWeeksAgo": 11180,
-        "monthAgo": 11112,
-        "yearAgo": 13722,
-        "normalYear": 12847
-      }
-    },
-    {
-      "itemName": "오이",
-      "kindName": "다다기계통(10개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 9120,
-      "baseline": {
-        "weekAgo": 12886,
-        "twoWeeksAgo": 11452,
-        "monthAgo": 9720,
-        "yearAgo": 12046,
-        "normalYear": 11342
-      }
-    },
-    {
-      "itemName": "오이",
-      "kindName": "다다기계통(10개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 7553,
-      "baseline": {
-        "weekAgo": 9858,
-        "twoWeeksAgo": 8729,
-        "monthAgo": 7144,
-        "yearAgo": 8434,
-        "normalYear": 7238
-      }
-    },
-    {
-      "itemName": "오이",
-      "kindName": "취청(10개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 14586,
-      "baseline": {
-        "weekAgo": 16186,
-        "twoWeeksAgo": 14354,
-        "monthAgo": 14786,
-        "yearAgo": 15696,
-        "normalYear": 14024
-      }
-    },
-    {
-      "itemName": "호박",
-      "kindName": "애호박(1개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 1787,
-      "baseline": {
-        "weekAgo": 2551,
-        "twoWeeksAgo": 2791,
-        "monthAgo": 1521,
-        "yearAgo": 1791,
-        "normalYear": 1812
-      }
-    },
-    {
-      "itemName": "호박",
-      "kindName": "쥬키니(1개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 2351,
-      "baseline": {
-        "weekAgo": 2235,
-        "twoWeeksAgo": 2165,
-        "monthAgo": 1738,
-        "yearAgo": 2092,
-        "normalYear": 2250
-      }
-    },
-    {
-      "itemName": "토마토",
-      "kindName": "토마토(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 7596,
-      "baseline": {
-        "weekAgo": 5621,
-        "twoWeeksAgo": 6016,
-        "monthAgo": 5757,
-        "yearAgo": 8689,
-        "normalYear": 7944
-      }
-    },
-    {
-      "itemName": "무",
-      "kindName": "고랭지(1개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 2144,
-      "baseline": {
-        "weekAgo": 2250,
-        "twoWeeksAgo": 2400,
-        "monthAgo": 2469,
-        "yearAgo": 1977,
-        "normalYear": 2722
-      }
-    },
-    {
-      "itemName": "무",
-      "kindName": "고랭지(1개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 2099,
-      "baseline": {
-        "weekAgo": 2021,
-        "twoWeeksAgo": 2019,
-        "monthAgo": 2003,
-        "yearAgo": 1742,
-        "normalYear": 2393
-      }
-    },
-    {
-      "itemName": "당근",
-      "kindName": "무세척(국산)(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 3867,
-      "baseline": {
-        "weekAgo": 3375,
-        "twoWeeksAgo": 3947,
-        "monthAgo": 3617,
-        "yearAgo": 3642,
-        "normalYear": 5018
-      }
-    },
-    {
-      "itemName": "당근",
-      "kindName": "무세척(국산)(1kg)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": null,
-      "baseline": {
-        "weekAgo": null,
-        "twoWeeksAgo": 3081,
-        "monthAgo": 3042,
-        "yearAgo": 2859,
-        "normalYear": 3538
-      }
-    },
-    {
-      "itemName": "열무",
-      "kindName": "열무(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 3047,
-      "baseline": {
-        "weekAgo": 3544,
-        "twoWeeksAgo": 3780,
-        "monthAgo": 3432,
-        "yearAgo": 3563,
-        "normalYear": 3570
-      }
-    },
-    {
-      "itemName": "건고추",
-      "kindName": "화건(600g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 600,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 17513,
-      "baseline": {
-        "weekAgo": 17597,
-        "twoWeeksAgo": 17847,
-        "monthAgo": 18536,
-        "yearAgo": 16807,
-        "normalYear": 17283
-      }
-    },
-    {
-      "itemName": "풋고추",
-      "kindName": "풋고추(녹광 등)(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 2046,
-      "baseline": {
-        "weekAgo": 1682,
-        "twoWeeksAgo": 1647,
-        "monthAgo": 1672,
-        "yearAgo": 1807,
-        "normalYear": 1706
-      }
-    },
-    {
-      "itemName": "풋고추",
-      "kindName": "꽈리고추(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 1659,
-      "baseline": {
-        "weekAgo": 1344,
-        "twoWeeksAgo": 1412,
-        "monthAgo": 1350,
-        "yearAgo": 1807,
-        "normalYear": 1778
-      }
-    },
-    {
-      "itemName": "풋고추",
-      "kindName": "청양고추(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 1400,
-      "baseline": {
-        "weekAgo": 1282,
-        "twoWeeksAgo": 1198,
-        "monthAgo": 1137,
-        "yearAgo": 1407,
-        "normalYear": 1427
-      }
-    },
-    {
-      "itemName": "풋고추",
-      "kindName": "오이맛고추(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 1335,
-      "baseline": {
-        "weekAgo": 1163,
-        "twoWeeksAgo": 1106,
-        "monthAgo": 1073,
-        "yearAgo": 1228,
-        "normalYear": 1284
-      }
-    },
-    {
-      "itemName": "붉은고추",
-      "kindName": "붉은고추(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 2467,
-      "baseline": {
-        "weekAgo": 2041,
-        "twoWeeksAgo": 1966,
-        "monthAgo": 1930,
-        "yearAgo": 2035,
-        "normalYear": 1973
-      }
-    },
-    {
-      "itemName": "양파",
-      "kindName": "양파(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 1929,
-      "baseline": {
-        "weekAgo": 1831,
-        "twoWeeksAgo": 1869,
-        "monthAgo": 1994,
-        "yearAgo": 1842,
-        "normalYear": 2103
-      }
-    },
-    {
-      "itemName": "파",
-      "kindName": "대파(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 2878,
-      "baseline": {
-        "weekAgo": 2619,
-        "twoWeeksAgo": 2649,
-        "monthAgo": 3027,
-        "yearAgo": 3145,
-        "normalYear": 3256
-      }
-    },
-    {
-      "itemName": "파",
-      "kindName": "쪽파(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 8978,
-      "baseline": {
-        "weekAgo": 10053,
-        "twoWeeksAgo": 9445,
-        "monthAgo": 10462,
-        "yearAgo": 8043,
-        "normalYear": 8977
-      }
-    },
-    {
-      "itemName": "생강",
-      "kindName": "국산(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 14979,
-      "baseline": {
-        "weekAgo": 15157,
-        "twoWeeksAgo": 15111,
-        "monthAgo": 15072,
-        "yearAgo": 15060,
-        "normalYear": 14191
-      }
-    },
-    {
-      "itemName": "고춧가루",
-      "kindName": "국산(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 33690,
-      "baseline": {
-        "weekAgo": 33716,
-        "twoWeeksAgo": 33504,
-        "monthAgo": 34391,
-        "yearAgo": 33289,
-        "normalYear": 34312
-      }
-    },
-    {
-      "itemName": "고춧가루",
-      "kindName": "중국(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 13544,
-      "baseline": {
-        "weekAgo": 13544,
-        "twoWeeksAgo": 13544,
-        "monthAgo": 13591,
-        "yearAgo": 13383,
-        "normalYear": 13108
-      }
-    },
-    {
-      "itemName": "가지",
-      "kindName": "가지(3개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 3,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 2569,
-      "baseline": {
-        "weekAgo": 2465,
-        "twoWeeksAgo": 2164,
-        "monthAgo": null,
-        "yearAgo": null,
-        "normalYear": null
-      }
-    },
-    {
-      "itemName": "미나리",
-      "kindName": "미나리(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 1982,
-      "baseline": {
-        "weekAgo": 1956,
-        "twoWeeksAgo": 1837,
-        "monthAgo": 1796,
-        "yearAgo": 1874,
-        "normalYear": 1645
-      }
-    },
-    {
-      "itemName": "깻잎",
-      "kindName": "깻잎(50g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 50,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 1916,
-      "baseline": {
-        "weekAgo": 1863,
-        "twoWeeksAgo": 1660,
-        "monthAgo": 1514,
-        "yearAgo": 1673,
-        "normalYear": 1563
-      }
-    },
-    {
-      "itemName": "부추",
-      "kindName": "부추(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 852,
-      "baseline": {
-        "weekAgo": 770,
-        "twoWeeksAgo": 861,
-        "monthAgo": null,
-        "yearAgo": null,
-        "normalYear": null
-      }
-    },
-    {
-      "itemName": "피망",
-      "kindName": "청(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 2544,
-      "baseline": {
-        "weekAgo": 1739,
-        "twoWeeksAgo": 1679,
-        "monthAgo": 1457,
-        "yearAgo": 1480,
-        "normalYear": 1465
-      }
-    },
-    {
-      "itemName": "파프리카",
-      "kindName": "파프리카(1개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 2410,
-      "baseline": {
-        "weekAgo": 2574,
-        "twoWeeksAgo": 2070,
-        "monthAgo": 1468,
-        "yearAgo": 2018,
-        "normalYear": 2245
-      }
-    },
-    {
-      "itemName": "파프리카",
-      "kindName": "파프리카(1개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 2221,
-      "baseline": {
-        "weekAgo": 2133,
-        "twoWeeksAgo": 1875,
-        "monthAgo": 1097,
-        "yearAgo": 1595,
-        "normalYear": 1622
-      }
-    },
-    {
-      "itemName": "멜론",
-      "kindName": "멜론(1개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 9074,
-      "baseline": {
-        "weekAgo": 8999,
-        "twoWeeksAgo": 9165,
-        "monthAgo": 8776,
-        "yearAgo": 10237,
-        "normalYear": 10410
-      }
-    },
-    {
-      "itemName": "멜론",
-      "kindName": "멜론(1개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 8676,
-      "baseline": {
-        "weekAgo": 7778,
-        "twoWeeksAgo": 6882,
-        "monthAgo": 8610,
-        "yearAgo": 9550,
-        "normalYear": 8470
-      }
-    },
-    {
-      "itemName": "깐마늘(국산)",
-      "kindName": "깐마늘(국산)(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 10598,
-      "baseline": {
-        "weekAgo": 10888,
-        "twoWeeksAgo": 11473,
-        "monthAgo": 11152,
-        "yearAgo": 9495,
-        "normalYear": 10672
-      }
-    },
-    {
-      "itemName": "깐마늘(국산)",
-      "kindName": "깐마늘(국산)(1kg)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 8310,
-      "baseline": {
-        "weekAgo": 8584,
-        "twoWeeksAgo": 9891,
-        "monthAgo": 9195,
-        "yearAgo": 8540,
-        "normalYear": 8413
-      }
-    },
-    {
-      "itemName": "알배기배추",
-      "kindName": "알배기배추(1포기)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "포기"
-        }
-      },
-      "price": 4574,
-      "baseline": {
-        "weekAgo": 4609,
-        "twoWeeksAgo": 4327,
-        "monthAgo": 3784,
-        "yearAgo": 5049,
-        "normalYear": 5165
-      }
-    },
-    {
-      "itemName": "알배기배추",
-      "kindName": "알배기배추(1포기)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "포기"
-        }
-      },
-      "price": 3121,
-      "baseline": {
-        "weekAgo": 2957,
-        "twoWeeksAgo": 2818,
-        "monthAgo": 2449,
-        "yearAgo": 3013,
-        "normalYear": 3454
-      }
-    },
-    {
-      "itemName": "브로콜리",
-      "kindName": "브로콜리(국산)(1개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 3794,
-      "baseline": {
-        "weekAgo": 3763,
-        "twoWeeksAgo": 3700,
-        "monthAgo": 3184,
-        "yearAgo": 4180,
-        "normalYear": 4104
-      }
-    },
-    {
-      "itemName": "방울토마토",
-      "kindName": "방울토마토(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 8141,
-      "baseline": {
-        "weekAgo": 7741,
-        "twoWeeksAgo": 6847,
-        "monthAgo": 7974,
-        "yearAgo": 12030,
-        "normalYear": 10940
-      }
-    },
-    {
-      "itemName": "방울토마토",
-      "kindName": "대추방울토마토(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 9766,
-      "baseline": {
-        "weekAgo": 8775,
-        "twoWeeksAgo": 8251,
-        "monthAgo": 5695,
-        "yearAgo": 12514,
-        "normalYear": 12042
-      }
-    },
-    {
-      "itemName": "사과",
-      "kindName": "홍로(10개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 22600,
-      "baseline": {
-        "weekAgo": 22322,
-        "twoWeeksAgo": 23009,
-        "monthAgo": 27348,
-        "yearAgo": 25992,
-        "normalYear": 26356
-      }
-    },
-    {
-      "itemName": "사과",
-      "kindName": "홍로(10개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 15994,
-      "baseline": {
-        "weekAgo": 16678,
-        "twoWeeksAgo": 16760,
-        "monthAgo": 21280,
-        "yearAgo": 18537,
-        "normalYear": 17999
-      }
-    },
-    {
-      "itemName": "배",
-      "kindName": "신고(10개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 31028,
-      "baseline": {
-        "weekAgo": 27111,
-        "twoWeeksAgo": null,
-        "monthAgo": 45826,
-        "yearAgo": 29994,
-        "normalYear": 35154
-      }
-    },
-    {
-      "itemName": "배",
-      "kindName": "신고(10개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 23507,
-      "baseline": {
-        "weekAgo": 16932,
-        "twoWeeksAgo": null,
-        "monthAgo": 34827,
-        "yearAgo": 22771,
-        "normalYear": 27230
-      }
-    },
-    {
-      "itemName": "배",
-      "kindName": "원황(10개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 29322,
-      "baseline": {
-        "weekAgo": 27576,
-        "twoWeeksAgo": 25402,
-        "monthAgo": 25967,
-        "yearAgo": 30335,
-        "normalYear": 30335
-      }
-    },
-    {
-      "itemName": "배",
-      "kindName": "원황(10개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": null,
-      "baseline": {
-        "weekAgo": null,
-        "twoWeeksAgo": 19347,
-        "monthAgo": 20962,
-        "yearAgo": null,
-        "normalYear": null
-      }
-    },
-    {
-      "itemName": "복숭아",
-      "kindName": "백도(10개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 19243,
-      "baseline": {
-        "weekAgo": 19525,
-        "twoWeeksAgo": 18767,
-        "monthAgo": 18450,
-        "yearAgo": 23786,
-        "normalYear": 23672
-      }
-    },
-    {
-      "itemName": "복숭아",
-      "kindName": "백도(10개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": null,
-      "baseline": {
-        "weekAgo": 16993,
-        "twoWeeksAgo": 15952,
-        "monthAgo": 15059,
-        "yearAgo": 21413,
-        "normalYear": 21413
-      }
-    },
-    {
-      "itemName": "포도",
-      "kindName": "캠벨얼리(1kg)",
-      "rank": "L과",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 6794,
-      "baseline": {
-        "weekAgo": 6990,
-        "twoWeeksAgo": 7282,
-        "monthAgo": 8401,
-        "yearAgo": 7909,
-        "normalYear": 8891
-      }
-    },
-    {
-      "itemName": "포도",
-      "kindName": "캠벨얼리(1kg)",
-      "rank": "M과",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 6478,
-      "baseline": {
-        "weekAgo": 6322,
-        "twoWeeksAgo": 6480,
-        "monthAgo": 7843,
-        "yearAgo": 6931,
-        "normalYear": 7699
-      }
-    },
-    {
-      "itemName": "포도",
-      "kindName": "거봉(2kg)",
-      "rank": "L과",
-      "unit": {
-        "quantity": 2,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 17778,
-      "baseline": {
-        "weekAgo": 17933,
-        "twoWeeksAgo": 18698,
-        "monthAgo": 16880,
-        "yearAgo": 21441,
-        "normalYear": 23588
-      }
-    },
-    {
-      "itemName": "포도",
-      "kindName": "샤인머스켓(2kg)",
-      "rank": "L과",
-      "unit": {
-        "quantity": 2,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 12767,
-      "baseline": {
-        "weekAgo": 13435,
-        "twoWeeksAgo": 14564,
-        "monthAgo": 17344,
-        "yearAgo": 15965,
-        "normalYear": 26338
-      }
-    },
-    {
-      "itemName": "감귤",
-      "kindName": "시설(10개)",
-      "rank": "M과",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 7314,
-      "baseline": {
-        "weekAgo": 7380,
-        "twoWeeksAgo": 7381,
-        "monthAgo": 8564,
-        "yearAgo": 9618,
-        "normalYear": 9087
-      }
-    },
-    {
-      "itemName": "감귤",
-      "kindName": "시설(10개)",
-      "rank": "S과",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 5374,
-      "baseline": {
-        "weekAgo": 5598,
-        "twoWeeksAgo": 5620,
-        "monthAgo": 6476,
-        "yearAgo": 7524,
-        "normalYear": 7145
-      }
-    },
-    {
-      "itemName": "바나나",
-      "kindName": "수입(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 334,
-      "baseline": {
-        "weekAgo": 324,
-        "twoWeeksAgo": 338,
-        "monthAgo": 315,
-        "yearAgo": 324,
-        "normalYear": 328
-      }
-    },
-    {
-      "itemName": "바나나",
-      "kindName": "수입(100g)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 291,
-      "baseline": {
-        "weekAgo": 290,
-        "twoWeeksAgo": 281,
-        "monthAgo": 283,
-        "yearAgo": 251,
-        "normalYear": 277
-      }
-    },
-    {
-      "itemName": "파인애플",
-      "kindName": "수입(1개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 7418,
-      "baseline": {
-        "weekAgo": 7450,
-        "twoWeeksAgo": 7433,
-        "monthAgo": 7417,
-        "yearAgo": 8045,
-        "normalYear": 7544
-      }
-    },
-    {
-      "itemName": "파인애플",
-      "kindName": "수입(1개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 5903,
-      "baseline": {
-        "weekAgo": 5916,
-        "twoWeeksAgo": 5618,
-        "monthAgo": 5521,
-        "yearAgo": 6751,
-        "normalYear": 6547
-      }
-    },
-    {
-      "itemName": "오렌지",
-      "kindName": "네이블 호주(10개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 11569,
-      "baseline": {
-        "weekAgo": 11315,
-        "twoWeeksAgo": 11131,
-        "monthAgo": 11038,
-        "yearAgo": 12650,
-        "normalYear": 12238
-      }
-    },
-    {
-      "itemName": "레몬",
-      "kindName": "수입(10개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 8289,
-      "baseline": {
-        "weekAgo": 8976,
-        "twoWeeksAgo": 8968,
-        "monthAgo": 8954,
-        "yearAgo": 9741,
-        "normalYear": 9900
-      }
-    },
-    {
-      "itemName": "레몬",
-      "kindName": "수입(10개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 6859,
-      "baseline": {
-        "weekAgo": 8036,
-        "twoWeeksAgo": 7963,
-        "monthAgo": 8037,
-        "yearAgo": 7250,
-        "normalYear": 7996
-      }
-    },
-    {
-      "itemName": "체리",
-      "kindName": "수입(100g)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 2059,
-      "baseline": {
-        "weekAgo": 2141,
-        "twoWeeksAgo": 2189,
-        "monthAgo": 2260,
-        "yearAgo": 2280,
-        "normalYear": 2888
-      }
-    },
-    {
-      "itemName": "망고",
-      "kindName": "수입(1개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 7844,
-      "baseline": {
-        "weekAgo": 8100,
-        "twoWeeksAgo": 6974,
-        "monthAgo": 6200,
-        "yearAgo": 6581,
-        "normalYear": 7116
-      }
-    },
-    {
-      "itemName": "블루베리",
-      "kindName": "수입(냉동)(1kg)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 11584,
-      "baseline": {
-        "weekAgo": 10220,
-        "twoWeeksAgo": 11491,
-        "monthAgo": null,
-        "yearAgo": null,
-        "normalYear": null
-      }
-    },
-    {
-      "itemName": "아보카도",
-      "kindName": "수입(1개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 1915,
-      "baseline": {
-        "weekAgo": 1909,
-        "twoWeeksAgo": 1797,
-        "monthAgo": 1618,
-        "yearAgo": 1959,
-        "normalYear": 1982
-      }
-    },
-    {
-      "itemName": "키위",
-      "kindName": "골드(10개)",
-      "rank": "상품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 12685,
-      "baseline": {
-        "weekAgo": 14160,
-        "twoWeeksAgo": 13976,
-        "monthAgo": null,
-        "yearAgo": null,
-        "normalYear": null
-      }
-    },
-    {
-      "itemName": "키위",
-      "kindName": "골드(10개)",
-      "rank": "중품",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "개"
-        }
-      },
-      "price": 9956,
-      "baseline": {
-        "weekAgo": 10692,
-        "twoWeeksAgo": 9993,
-        "monthAgo": null,
-        "yearAgo": null,
-        "normalYear": null
-      }
-    },
-    {
       "itemName": "소",
       "kindName": "안심",
       "rank": "1++등급",
@@ -1834,13 +14,13 @@
           "unit": "g"
         }
       },
-      "price": 19481,
+      "price": 19657,
       "baseline": {
-        "weekAgo": 19480,
-        "twoWeeksAgo": 18621,
-        "monthAgo": 17900,
-        "yearAgo": 15033,
-        "normalYear": 14466
+        "weekAgo": 19625,
+        "twoWeeksAgo": 19240,
+        "monthAgo": 17893,
+        "yearAgo": 16134,
+        "normalYear": 14487
       }
     },
     {
@@ -1854,13 +34,13 @@
           "unit": "g"
         }
       },
-      "price": 17278,
+      "price": 17336,
       "baseline": {
-        "weekAgo": 17134,
-        "twoWeeksAgo": 17000,
-        "monthAgo": 14798,
-        "yearAgo": 15034,
-        "normalYear": 14505
+        "weekAgo": 17292,
+        "twoWeeksAgo": 17049,
+        "monthAgo": 14811,
+        "yearAgo": 15001,
+        "normalYear": 14772
       }
     },
     {
@@ -1874,13 +54,13 @@
           "unit": "g"
         }
       },
-      "price": 15720,
+      "price": 15842,
       "baseline": {
-        "weekAgo": 15418,
-        "twoWeeksAgo": 15367,
-        "monthAgo": 14154,
-        "yearAgo": 14004,
-        "normalYear": 12735
+        "weekAgo": 15665,
+        "twoWeeksAgo": 15346,
+        "monthAgo": 14109,
+        "yearAgo": 13112,
+        "normalYear": 12871
       }
     },
     {
@@ -1894,13 +74,13 @@
           "unit": "g"
         }
       },
-      "price": 16634,
+      "price": 16624,
       "baseline": {
-        "weekAgo": 16402,
-        "twoWeeksAgo": 15324,
-        "monthAgo": 15682,
-        "yearAgo": 14448,
-        "normalYear": 13334
+        "weekAgo": 16538,
+        "twoWeeksAgo": 16215,
+        "monthAgo": 15680,
+        "yearAgo": 13349,
+        "normalYear": 13357
       }
     },
     {
@@ -1914,13 +94,13 @@
           "unit": "g"
         }
       },
-      "price": 13843,
+      "price": 13894,
       "baseline": {
-        "weekAgo": 13605,
-        "twoWeeksAgo": 13230,
-        "monthAgo": 13058,
-        "yearAgo": 12317,
-        "normalYear": 11627
+        "weekAgo": 13780,
+        "twoWeeksAgo": 13526,
+        "monthAgo": 13087,
+        "yearAgo": 11204,
+        "normalYear": 11434
       }
     },
     {
@@ -1934,13 +114,13 @@
           "unit": "g"
         }
       },
-      "price": 11593,
+      "price": 11546,
       "baseline": {
-        "weekAgo": 10646,
-        "twoWeeksAgo": 11200,
-        "monthAgo": 10030,
-        "yearAgo": 10954,
-        "normalYear": 9694
+        "weekAgo": 10900,
+        "twoWeeksAgo": 10240,
+        "monthAgo": 10148,
+        "yearAgo": 9874,
+        "normalYear": 9645
       }
     },
     {
@@ -1954,13 +134,13 @@
           "unit": "g"
         }
       },
-      "price": 5801,
+      "price": 6155,
       "baseline": {
-        "weekAgo": 6287,
-        "twoWeeksAgo": 5822,
-        "monthAgo": 6215,
-        "yearAgo": 5105,
-        "normalYear": 4585
+        "weekAgo": 5841,
+        "twoWeeksAgo": 6258,
+        "monthAgo": 6226,
+        "yearAgo": 5219,
+        "normalYear": 4713
       }
     },
     {
@@ -1974,13 +154,13 @@
           "unit": "g"
         }
       },
-      "price": 4471,
+      "price": 4472,
       "baseline": {
-        "weekAgo": 4502,
-        "twoWeeksAgo": 5438,
-        "monthAgo": 5402,
-        "yearAgo": 4379,
-        "normalYear": 4427
+        "weekAgo": 4500,
+        "twoWeeksAgo": 4425,
+        "monthAgo": 5403,
+        "yearAgo": 4069,
+        "normalYear": 4380
       }
     },
     {
@@ -1994,13 +174,13 @@
           "unit": "g"
         }
       },
-      "price": 4147,
+      "price": 4180,
       "baseline": {
-        "weekAgo": 4288,
-        "twoWeeksAgo": 5154,
-        "monthAgo": 4607,
-        "yearAgo": 4575,
-        "normalYear": 4152
+        "weekAgo": 4168,
+        "twoWeeksAgo": 4273,
+        "monthAgo": 4611,
+        "yearAgo": 3869,
+        "normalYear": 3993
       }
     },
     {
@@ -2014,13 +194,13 @@
           "unit": "g"
         }
       },
-      "price": 7861,
+      "price": 7950,
       "baseline": {
-        "weekAgo": 7865,
-        "twoWeeksAgo": 7220,
-        "monthAgo": 7711,
-        "yearAgo": 7558,
-        "normalYear": 6136
+        "weekAgo": 7889,
+        "twoWeeksAgo": 7886,
+        "monthAgo": 7700,
+        "yearAgo": 7058,
+        "normalYear": 6144
       }
     },
     {
@@ -2034,13 +214,13 @@
           "unit": "g"
         }
       },
-      "price": 5624,
+      "price": 5639,
       "baseline": {
-        "weekAgo": 5651,
-        "twoWeeksAgo": 6878,
-        "monthAgo": 6855,
-        "yearAgo": 6033,
-        "normalYear": 5956
+        "weekAgo": 5640,
+        "twoWeeksAgo": 5631,
+        "monthAgo": 6865,
+        "yearAgo": 5780,
+        "normalYear": 5966
       }
     },
     {
@@ -2054,13 +234,13 @@
           "unit": "g"
         }
       },
-      "price": 5469,
+      "price": 5454,
       "baseline": {
-        "weekAgo": 5466,
-        "twoWeeksAgo": 6613,
-        "monthAgo": 6095,
-        "yearAgo": 5862,
-        "normalYear": 5403
+        "weekAgo": 5527,
+        "twoWeeksAgo": 5425,
+        "monthAgo": 5837,
+        "yearAgo": 5422,
+        "normalYear": 5404
       }
     },
     {
@@ -2074,13 +254,13 @@
           "unit": "g"
         }
       },
-      "price": 8855,
+      "price": 9523,
       "baseline": {
-        "weekAgo": 8369,
-        "twoWeeksAgo": 9032,
-        "monthAgo": 8515,
-        "yearAgo": 7179,
-        "normalYear": 8188
+        "weekAgo": 8081,
+        "twoWeeksAgo": 8369,
+        "monthAgo": 8804,
+        "yearAgo": 7268,
+        "normalYear": 8277
       }
     },
     {
@@ -2094,13 +274,13 @@
           "unit": "g"
         }
       },
-      "price": 7244,
+      "price": 7321,
       "baseline": {
-        "weekAgo": 7209,
-        "twoWeeksAgo": 7086,
+        "weekAgo": 7282,
+        "twoWeeksAgo": 7180,
         "monthAgo": 7691,
-        "yearAgo": 6889,
-        "normalYear": 6948
+        "yearAgo": 6980,
+        "normalYear": 6964
       }
     },
     {
@@ -2114,13 +294,13 @@
           "unit": "g"
         }
       },
-      "price": 7405,
+      "price": 7233,
       "baseline": {
-        "weekAgo": 6693,
-        "twoWeeksAgo": 6625,
-        "monthAgo": 6741,
-        "yearAgo": 6495,
-        "normalYear": 6606
+        "weekAgo": 7178,
+        "twoWeeksAgo": 6806,
+        "monthAgo": 6729,
+        "yearAgo": 6497,
+        "normalYear": 6572
       }
     },
     {
@@ -2134,12 +314,12 @@
           "unit": "g"
         }
       },
-      "price": 1710,
+      "price": 1715,
       "baseline": {
-        "weekAgo": 1577,
-        "twoWeeksAgo": 1666,
-        "monthAgo": 1517,
-        "yearAgo": 1638,
+        "weekAgo": 1675,
+        "twoWeeksAgo": 1556,
+        "monthAgo": 1544,
+        "yearAgo": 1624,
         "normalYear": 1477
       }
     },
@@ -2154,13 +334,13 @@
           "unit": "g"
         }
       },
-      "price": 2980,
+      "price": 3111,
       "baseline": {
-        "weekAgo": 3052,
-        "twoWeeksAgo": 3004,
-        "monthAgo": 2872,
-        "yearAgo": 2760,
-        "normalYear": 2730
+        "weekAgo": 2931,
+        "twoWeeksAgo": 3012,
+        "monthAgo": 2866,
+        "yearAgo": 2794,
+        "normalYear": 2758
       }
     },
     {
@@ -2174,13 +354,13 @@
           "unit": "g"
         }
       },
-      "price": 1675,
+      "price": 1705,
       "baseline": {
-        "weekAgo": 1629,
-        "twoWeeksAgo": 1594,
-        "monthAgo": 1569,
-        "yearAgo": 1608,
-        "normalYear": 1524
+        "weekAgo": 1666,
+        "twoWeeksAgo": 1613,
+        "monthAgo": 1568,
+        "yearAgo": 1611,
+        "normalYear": 1519
       }
     },
     {
@@ -2194,13 +374,13 @@
           "unit": "g"
         }
       },
-      "price": 2792,
+      "price": 2913,
       "baseline": {
-        "weekAgo": 2845,
-        "twoWeeksAgo": 2811,
-        "monthAgo": 2647,
-        "yearAgo": 2558,
-        "normalYear": 2574
+        "weekAgo": 2741,
+        "twoWeeksAgo": 2809,
+        "monthAgo": 2676,
+        "yearAgo": 2628,
+        "normalYear": 2581
       }
     },
     {
@@ -2214,13 +394,13 @@
           "unit": "g"
         }
       },
-      "price": 4288,
+      "price": 4318,
       "baseline": {
-        "weekAgo": 4285,
-        "twoWeeksAgo": 4253,
+        "weekAgo": 4274,
+        "twoWeeksAgo": 4278,
         "monthAgo": 4386,
-        "yearAgo": 4286,
-        "normalYear": 4192
+        "yearAgo": 4296,
+        "normalYear": 4225
       }
     },
     {
@@ -2236,11 +416,11 @@
       },
       "price": 4026,
       "baseline": {
-        "weekAgo": 4118,
-        "twoWeeksAgo": 4338,
+        "weekAgo": 4046,
+        "twoWeeksAgo": 4187,
         "monthAgo": 4255,
-        "yearAgo": 4051,
-        "normalYear": 4179
+        "yearAgo": 4114,
+        "normalYear": 4167
       }
     },
     {
@@ -2254,13 +434,13 @@
           "unit": "g"
         }
       },
-      "price": 5387,
+      "price": 5572,
       "baseline": {
-        "weekAgo": 4802,
-        "twoWeeksAgo": 4698,
-        "monthAgo": 5077,
-        "yearAgo": 5109,
-        "normalYear": 4599
+        "weekAgo": 5290,
+        "twoWeeksAgo": 4844,
+        "monthAgo": 5130,
+        "yearAgo": 5131,
+        "normalYear": 4659
       }
     },
     {
@@ -2274,13 +454,13 @@
           "unit": "g"
         }
       },
-      "price": 6075,
+      "price": 5872,
       "baseline": {
-        "weekAgo": 4471,
-        "twoWeeksAgo": 5701,
+        "weekAgo": 6075,
+        "twoWeeksAgo": 4471,
         "monthAgo": 5826,
-        "yearAgo": 4990,
-        "normalYear": 4695
+        "yearAgo": 5494,
+        "normalYear": 4810
       }
     },
     {
@@ -2294,13 +474,13 @@
           "unit": "g"
         }
       },
-      "price": 1524,
+      "price": 1515,
       "baseline": {
-        "weekAgo": 1520,
-        "twoWeeksAgo": 1526,
-        "monthAgo": 1515,
-        "yearAgo": 1504,
-        "normalYear": 1446
+        "weekAgo": 1531,
+        "twoWeeksAgo": 1517,
+        "monthAgo": 1507,
+        "yearAgo": 1528,
+        "normalYear": 1484
       }
     },
     {
@@ -2319,8 +499,8 @@
         "weekAgo": null,
         "twoWeeksAgo": null,
         "monthAgo": null,
-        "yearAgo": 8423,
-        "normalYear": 9308
+        "yearAgo": 8596,
+        "normalYear": 9950
       }
     },
     {
@@ -2334,13 +514,13 @@
           "unit": "kg"
         }
       },
-      "price": 5683,
+      "price": 5389,
       "baseline": {
-        "weekAgo": 5783,
-        "twoWeeksAgo": 5689,
+        "weekAgo": 5723,
+        "twoWeeksAgo": 5726,
         "monthAgo": 5585,
-        "yearAgo": 5919,
-        "normalYear": 6041
+        "yearAgo": 5616,
+        "normalYear": 5804
       }
     },
     {
@@ -2354,13 +534,13 @@
           "unit": "구"
         }
       },
-      "price": 4192,
+      "price": 4205,
       "baseline": {
-        "weekAgo": 4203,
-        "twoWeeksAgo": 4188,
-        "monthAgo": 4184,
-        "yearAgo": 3880,
-        "normalYear": 3622
+        "weekAgo": 4194,
+        "twoWeeksAgo": 4221,
+        "monthAgo": 4154,
+        "yearAgo": 3823,
+        "normalYear": 3548
       }
     },
     {
@@ -2374,13 +554,13 @@
           "unit": "구"
         }
       },
-      "price": 7014,
+      "price": 6885,
       "baseline": {
-        "weekAgo": 7155,
-        "twoWeeksAgo": 7158,
-        "monthAgo": 7220,
-        "yearAgo": 6525,
-        "normalYear": 6655
+        "weekAgo": 7110,
+        "twoWeeksAgo": 7166,
+        "monthAgo": 7315,
+        "yearAgo": 6368,
+        "normalYear": 6514
       }
     },
     {
@@ -2394,933 +574,13 @@
           "unit": "L"
         }
       },
-      "price": 2970,
+      "price": 2982,
       "baseline": {
-        "weekAgo": 2984,
-        "twoWeeksAgo": 2970,
-        "monthAgo": 2981,
+        "weekAgo": 2973,
+        "twoWeeksAgo": 2984,
+        "monthAgo": 2983,
         "yearAgo": 2909,
-        "normalYear": 2908
-      }
-    },
-    {
-      "itemName": "고등어",
-      "kindName": "국산(염장)(1손)",
-      "rank": "-",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "손"
-        }
-      },
-      "price": 5301,
-      "baseline": {
-        "weekAgo": 5266,
-        "twoWeeksAgo": 5187,
-        "monthAgo": 6000,
-        "yearAgo": 7037,
-        "normalYear": 4591
-      }
-    },
-    {
-      "itemName": "고등어",
-      "kindName": "국산(신선 냉장)(1마리)",
-      "rank": "大",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 4285,
-      "baseline": {
-        "weekAgo": 4230,
-        "twoWeeksAgo": 4216,
-        "monthAgo": 4311,
-        "yearAgo": 4214,
-        "normalYear": 4022
-      }
-    },
-    {
-      "itemName": "고등어",
-      "kindName": "국산(신선 냉장)(1마리)",
-      "rank": "中",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 3403,
-      "baseline": {
-        "weekAgo": 3216,
-        "twoWeeksAgo": 3203,
-        "monthAgo": 3279,
-        "yearAgo": 3265,
-        "normalYear": 3024
-      }
-    },
-    {
-      "itemName": "고등어",
-      "kindName": "수입산(염장)(1손)",
-      "rank": "大",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "손"
-        }
-      },
-      "price": 11890,
-      "baseline": {
-        "weekAgo": 11935,
-        "twoWeeksAgo": 11610,
-        "monthAgo": 11592,
-        "yearAgo": 9880,
-        "normalYear": 7980
-      }
-    },
-    {
-      "itemName": "꽁치",
-      "kindName": "냉동(수입)(5마리)",
-      "rank": "-",
-      "unit": {
-        "quantity": 5,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 7153,
-      "baseline": {
-        "weekAgo": 7122,
-        "twoWeeksAgo": 7099,
-        "monthAgo": 7182,
-        "yearAgo": 6736,
-        "normalYear": 6597
-      }
-    },
-    {
-      "itemName": "갈치",
-      "kindName": "국산(냉장)(1마리)",
-      "rank": "大",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 14101,
-      "baseline": {
-        "weekAgo": 14644,
-        "twoWeeksAgo": 15217,
-        "monthAgo": 14071,
-        "yearAgo": 12220,
-        "normalYear": 14228
-      }
-    },
-    {
-      "itemName": "갈치",
-      "kindName": "국산(냉장)(1마리)",
-      "rank": "中",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 6937,
-      "baseline": {
-        "weekAgo": 7466,
-        "twoWeeksAgo": 7511,
-        "monthAgo": 7215,
-        "yearAgo": 6584,
-        "normalYear": 7324
-      }
-    },
-    {
-      "itemName": "갈치",
-      "kindName": "국산(냉장)(1마리)",
-      "rank": "小",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 4101,
-      "baseline": {
-        "weekAgo": 4212,
-        "twoWeeksAgo": 4193,
-        "monthAgo": 4230,
-        "yearAgo": 3886,
-        "normalYear": 4256
-      }
-    },
-    {
-      "itemName": "갈치",
-      "kindName": "국산(냉동)(1마리)",
-      "rank": "大",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 9996,
-      "baseline": {
-        "weekAgo": 9608,
-        "twoWeeksAgo": 10510,
-        "monthAgo": 11072,
-        "yearAgo": 9843,
-        "normalYear": 9651
-      }
-    },
-    {
-      "itemName": "갈치",
-      "kindName": "국산(냉동)(1마리)",
-      "rank": "中",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 4549,
-      "baseline": {
-        "weekAgo": 4598,
-        "twoWeeksAgo": 5034,
-        "monthAgo": 5383,
-        "yearAgo": 4448,
-        "normalYear": 4560
-      }
-    },
-    {
-      "itemName": "조기",
-      "kindName": "참조기(냉동)(1마리)",
-      "rank": "中",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 1702,
-      "baseline": {
-        "weekAgo": 1721,
-        "twoWeeksAgo": 1764,
-        "monthAgo": 1843,
-        "yearAgo": 2162,
-        "normalYear": 1691
-      }
-    },
-    {
-      "itemName": "조기",
-      "kindName": "참조기(냉동)(1마리)",
-      "rank": "小",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 1419,
-      "baseline": {
-        "weekAgo": 1374,
-        "twoWeeksAgo": 1503,
-        "monthAgo": 1486,
-        "yearAgo": 1194,
-        "normalYear": 1063
-      }
-    },
-    {
-      "itemName": "조기",
-      "kindName": "굴비(1마리)",
-      "rank": "中",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 2199,
-      "baseline": {
-        "weekAgo": 2146,
-        "twoWeeksAgo": 3303,
-        "monthAgo": 2821,
-        "yearAgo": 2393,
-        "normalYear": 2359
-      }
-    },
-    {
-      "itemName": "명태",
-      "kindName": "냉동(원양수입통합)(1마리)",
-      "rank": "大",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 3973,
-      "baseline": {
-        "weekAgo": 3991,
-        "twoWeeksAgo": 4176,
-        "monthAgo": 4181,
-        "yearAgo": 3565,
-        "normalYear": 3694
-      }
-    },
-    {
-      "itemName": "명태",
-      "kindName": "냉동(원양수입통합)(1마리)",
-      "rank": "中",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 2763,
-      "baseline": {
-        "weekAgo": 2763,
-        "twoWeeksAgo": 2779,
-        "monthAgo": 2752,
-        "yearAgo": null,
-        "normalYear": null
-      }
-    },
-    {
-      "itemName": "명태",
-      "kindName": "냉동가공(1kg)",
-      "rank": "中",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 6854,
-      "baseline": {
-        "weekAgo": 6771,
-        "twoWeeksAgo": 7481,
-        "monthAgo": 7440,
-        "yearAgo": 9285,
-        "normalYear": 9049
-      }
-    },
-    {
-      "itemName": "삼치",
-      "kindName": "냉장(1마리)",
-      "rank": "大",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 9503,
-      "baseline": {
-        "weekAgo": 9906,
-        "twoWeeksAgo": 9359,
-        "monthAgo": null,
-        "yearAgo": 8616,
-        "normalYear": 8616
-      }
-    },
-    {
-      "itemName": "물오징어",
-      "kindName": "연근해(신선 냉장)(1마리)",
-      "rank": "大",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 5990,
-      "baseline": {
-        "weekAgo": 5892,
-        "twoWeeksAgo": 5374,
-        "monthAgo": 5240,
-        "yearAgo": 5707,
-        "normalYear": 5577
-      }
-    },
-    {
-      "itemName": "물오징어",
-      "kindName": "연근해(신선 냉장)(1마리)",
-      "rank": "中",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 4401,
-      "baseline": {
-        "weekAgo": 4168,
-        "twoWeeksAgo": 4312,
-        "monthAgo": 4266,
-        "yearAgo": 4078,
-        "normalYear": 4554
-      }
-    },
-    {
-      "itemName": "물오징어",
-      "kindName": "연근해(냉동)(1마리)",
-      "rank": "大",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 5066,
-      "baseline": {
-        "weekAgo": 5635,
-        "twoWeeksAgo": null,
-        "monthAgo": null,
-        "yearAgo": 5252,
-        "normalYear": 4869
-      }
-    },
-    {
-      "itemName": "물오징어",
-      "kindName": "연근해(냉동)(1마리)",
-      "rank": "中",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 3437,
-      "baseline": {
-        "weekAgo": 3832,
-        "twoWeeksAgo": null,
-        "monthAgo": null,
-        "yearAgo": null,
-        "normalYear": null
-      }
-    },
-    {
-      "itemName": "물오징어",
-      "kindName": "원양(냉동)(1마리)",
-      "rank": "中",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 5262,
-      "baseline": {
-        "weekAgo": 4849,
-        "twoWeeksAgo": 4777,
-        "monthAgo": 5402,
-        "yearAgo": 4498,
-        "normalYear": 4148
-      }
-    },
-    {
-      "itemName": "물오징어",
-      "kindName": "원양(냉동)(1마리)",
-      "rank": "小",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 3385,
-      "baseline": {
-        "weekAgo": 3571,
-        "twoWeeksAgo": 3841,
-        "monthAgo": 3773,
-        "yearAgo": 2938,
-        "normalYear": 2972
-      }
-    },
-    {
-      "itemName": "마른멸치",
-      "kindName": "마른멸치(100g)",
-      "rank": "대멸",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 2443,
-      "baseline": {
-        "weekAgo": 2405,
-        "twoWeeksAgo": 2583,
-        "monthAgo": 2600,
-        "yearAgo": 2329,
-        "normalYear": 2318
-      }
-    },
-    {
-      "itemName": "마른멸치",
-      "kindName": "마른멸치(100g)",
-      "rank": "중멸",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 2745,
-      "baseline": {
-        "weekAgo": 2730,
-        "twoWeeksAgo": 2927,
-        "monthAgo": 2711,
-        "yearAgo": 2822,
-        "normalYear": 2887
-      }
-    },
-    {
-      "itemName": "마른멸치",
-      "kindName": "마른멸치(100g)",
-      "rank": "세멸",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 3250,
-      "baseline": {
-        "weekAgo": 3264,
-        "twoWeeksAgo": 3451,
-        "monthAgo": 3486,
-        "yearAgo": 3048,
-        "normalYear": 3191
-      }
-    },
-    {
-      "itemName": "마른오징어",
-      "kindName": "마른오징어(10마리)",
-      "rank": "-",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 74900,
-      "baseline": {
-        "weekAgo": 79306,
-        "twoWeeksAgo": 82859,
-        "monthAgo": 82808,
-        "yearAgo": 72904,
-        "normalYear": 68101
-      }
-    },
-    {
-      "itemName": "김",
-      "kindName": "마른김(10장)",
-      "rank": "-",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "장"
-        }
-      },
-      "price": 1439,
-      "baseline": {
-        "weekAgo": 1440,
-        "twoWeeksAgo": 1440,
-        "monthAgo": 1449,
-        "yearAgo": 1350,
-        "normalYear": 1092
-      }
-    },
-    {
-      "itemName": "김",
-      "kindName": "구운김(10장)",
-      "rank": "-",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "장"
-        }
-      },
-      "price": 2082,
-      "baseline": {
-        "weekAgo": 2082,
-        "twoWeeksAgo": 2085,
-        "monthAgo": 2074,
-        "yearAgo": 2072,
-        "normalYear": 1787
-      }
-    },
-    {
-      "itemName": "마른미역",
-      "kindName": "마른미역(100g)",
-      "rank": "-",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 3088,
-      "baseline": {
-        "weekAgo": 3089,
-        "twoWeeksAgo": 3041,
-        "monthAgo": 3098,
-        "yearAgo": 3015,
-        "normalYear": 3025
-      }
-    },
-    {
-      "itemName": "수입조기",
-      "kindName": "부세수입(냉동)(1마리)",
-      "rank": "-",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 5011,
-      "baseline": {
-        "weekAgo": 4857,
-        "twoWeeksAgo": 4767,
-        "monthAgo": 4620,
-        "yearAgo": 4730,
-        "normalYear": 3903
-      }
-    },
-    {
-      "itemName": "새우젓",
-      "kindName": "새우젓(1kg)",
-      "rank": "-",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 17908,
-      "baseline": {
-        "weekAgo": 17872,
-        "twoWeeksAgo": 17749,
-        "monthAgo": 17481,
-        "yearAgo": 15426,
-        "normalYear": 16966
-      }
-    },
-    {
-      "itemName": "멸치액젓",
-      "kindName": "멸치액젓(1kg)",
-      "rank": "-",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 6198,
-      "baseline": {
-        "weekAgo": 6201,
-        "twoWeeksAgo": 6248,
-        "monthAgo": 6267,
-        "yearAgo": 6028,
-        "normalYear": 5600
-      }
-    },
-    {
-      "itemName": "천일염",
-      "kindName": "천일염(5kg)",
-      "rank": "-",
-      "unit": {
-        "quantity": 5,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 12038,
-      "baseline": {
-        "weekAgo": 12023,
-        "twoWeeksAgo": 11987,
-        "monthAgo": 11951,
-        "yearAgo": 11709,
-        "normalYear": 11340
-      }
-    },
-    {
-      "itemName": "전복",
-      "kindName": "냉장(5마리)",
-      "rank": "-",
-      "unit": {
-        "quantity": 5,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 10316,
-      "baseline": {
-        "weekAgo": 10384,
-        "twoWeeksAgo": 10035,
-        "monthAgo": 10253,
-        "yearAgo": 11289,
-        "normalYear": 13144
-      }
-    },
-    {
-      "itemName": "새우",
-      "kindName": "흰다리(수입)(10마리)",
-      "rank": "-",
-      "unit": {
-        "quantity": 10,
-        "measure": {
-          "kind": "count",
-          "unit": "마리"
-        }
-      },
-      "price": 5646,
-      "baseline": {
-        "weekAgo": 5694,
-        "twoWeeksAgo": 5567,
-        "monthAgo": 5710,
-        "yearAgo": 5570,
-        "normalYear": 4804
-      }
-    },
-    {
-      "itemName": "꽃게",
-      "kindName": "냉동(1kg)",
-      "rank": "-",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 18069,
-      "baseline": {
-        "weekAgo": 16916,
-        "twoWeeksAgo": 16958,
-        "monthAgo": 15878,
-        "yearAgo": 24820,
-        "normalYear": 24820
-      }
-    },
-    {
-      "itemName": "꽃게",
-      "kindName": "수꽃게(냉장)(1kg)",
-      "rank": "-",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 22431,
-      "baseline": {
-        "weekAgo": 17370,
-        "twoWeeksAgo": 15446,
-        "monthAgo": 14430,
-        "yearAgo": 14359,
-        "normalYear": 14359
-      }
-    },
-    {
-      "itemName": "홍합",
-      "kindName": "깐홍합(냉장)(100g)",
-      "rank": "-",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 2739,
-      "baseline": {
-        "weekAgo": 2742,
-        "twoWeeksAgo": 2781,
-        "monthAgo": 2806,
-        "yearAgo": 3039,
-        "normalYear": 2878
-      }
-    },
-    {
-      "itemName": "홍합",
-      "kindName": "안깐홍합(냉장)(1kg)",
-      "rank": "-",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 3744,
-      "baseline": {
-        "weekAgo": 3780,
-        "twoWeeksAgo": 3738,
-        "monthAgo": 3694,
-        "yearAgo": 4475,
-        "normalYear": 4374
-      }
-    },
-    {
-      "itemName": "건다시마",
-      "kindName": "완도산(100g)",
-      "rank": "-",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 3241,
-      "baseline": {
-        "weekAgo": 3241,
-        "twoWeeksAgo": 3244,
-        "monthAgo": 3235,
-        "yearAgo": 3197,
-        "normalYear": 3473
-      }
-    },
-    {
-      "itemName": "바지락",
-      "kindName": "냉장(1kg)",
-      "rank": "-",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 9788,
-      "baseline": {
-        "weekAgo": 10217,
-        "twoWeeksAgo": 9768,
-        "monthAgo": 10821,
-        "yearAgo": 11059,
-        "normalYear": 11059
-      }
-    },
-    {
-      "itemName": "고등어필렛",
-      "kindName": "수입(1kg)",
-      "rank": "-",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 21390,
-      "baseline": {
-        "weekAgo": 22431,
-        "twoWeeksAgo": 22925,
-        "monthAgo": 20555,
-        "yearAgo": 19389,
-        "normalYear": 19389
-      }
-    },
-    {
-      "itemName": "고등어필렛",
-      "kindName": "국산(1kg)",
-      "rank": "-",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 17872,
-      "baseline": {
-        "weekAgo": 14936,
-        "twoWeeksAgo": 17924,
-        "monthAgo": 18353,
-        "yearAgo": 17684,
-        "normalYear": 17684
-      }
-    },
-    {
-      "itemName": "낙지",
-      "kindName": "수입(냉동)(100g)",
-      "rank": "-",
-      "unit": {
-        "quantity": 100,
-        "measure": {
-          "kind": "weight",
-          "unit": "g"
-        }
-      },
-      "price": 2359,
-      "baseline": {
-        "weekAgo": 2067,
-        "twoWeeksAgo": 2038,
-        "monthAgo": 2285,
-        "yearAgo": null,
-        "normalYear": null
-      }
-    },
-    {
-      "itemName": "꼬막",
-      "kindName": "국산(새꼬막)(1kg)",
-      "rank": "-",
-      "unit": {
-        "quantity": 1,
-        "measure": {
-          "kind": "weight",
-          "unit": "kg"
-        }
-      },
-      "price": 9606,
-      "baseline": {
-        "weekAgo": 9413,
-        "twoWeeksAgo": 9345,
-        "monthAgo": 9226,
-        "yearAgo": null,
-        "normalYear": null
+        "normalYear": 2918
       }
     }
   ]
