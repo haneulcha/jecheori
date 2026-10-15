@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
-  "fetchedAt": "2026-10-14T08:07:39.440Z",
-  "surveyedOn": "2026-10-14",
+  "fetchedAt": "2026-10-15T08:07:40.620Z",
+  "surveyedOn": "2026-10-15",
   "entries": [
     {
       "itemName": "쌀",
@@ -14,10 +14,10 @@
           "unit": "kg"
         }
       },
-      "price": 62642,
+      "price": 62697,
       "baseline": {
-        "weekAgo": 62855,
-        "twoWeeksAgo": 62696,
+        "weekAgo": 62902,
+        "twoWeeksAgo": 63117,
         "monthAgo": 47454,
         "yearAgo": 65345,
         "normalYear": 54477
@@ -34,10 +34,10 @@
           "unit": "kg"
         }
       },
-      "price": 65033,
+      "price": 64833,
       "baseline": {
-        "weekAgo": 65469,
-        "twoWeeksAgo": null,
+        "weekAgo": 64989,
+        "twoWeeksAgo": 65864,
         "monthAgo": 47454,
         "yearAgo": 66726,
         "normalYear": 57951
@@ -54,10 +54,10 @@
           "unit": "kg"
         }
       },
-      "price": 34960,
+      "price": 35393,
       "baseline": {
-        "weekAgo": 34870,
-        "twoWeeksAgo": 35830,
+        "weekAgo": 34766,
+        "twoWeeksAgo": 34944,
         "monthAgo": 47454,
         "yearAgo": 34820,
         "normalYear": 31020
@@ -74,10 +74,10 @@
           "unit": "kg"
         }
       },
-      "price": 36259,
+      "price": 36742,
       "baseline": {
-        "weekAgo": 36705,
-        "twoWeeksAgo": null,
+        "weekAgo": 36407,
+        "twoWeeksAgo": 37118,
         "monthAgo": 47454,
         "yearAgo": 36887,
         "normalYear": 32840
@@ -94,10 +94,10 @@
           "unit": "kg"
         }
       },
-      "price": 5214,
+      "price": 5224,
       "baseline": {
-        "weekAgo": 5181,
-        "twoWeeksAgo": 5189,
+        "weekAgo": 5195,
+        "twoWeeksAgo": 5195,
         "monthAgo": 5187,
         "yearAgo": 6413,
         "normalYear": 4272
@@ -114,10 +114,10 @@
           "unit": "kg"
         }
       },
-      "price": 7791,
+      "price": 7926,
       "baseline": {
         "weekAgo": 7808,
-        "twoWeeksAgo": 7852,
+        "twoWeeksAgo": 7840,
         "monthAgo": 7406,
         "yearAgo": null,
         "normalYear": null
@@ -154,10 +154,10 @@
           "unit": "kg"
         }
       },
-      "price": 5252,
+      "price": 5086,
       "baseline": {
         "weekAgo": 5256,
-        "twoWeeksAgo": 5237,
+        "twoWeeksAgo": 5244,
         "monthAgo": 5200,
         "yearAgo": null,
         "normalYear": null
@@ -174,10 +174,10 @@
           "unit": "g"
         }
       },
-      "price": 5045,
+      "price": 5062,
       "baseline": {
         "weekAgo": 5044,
-        "twoWeeksAgo": 5066,
+        "twoWeeksAgo": 5055,
         "monthAgo": 5019,
         "yearAgo": 5269,
         "normalYear": 5255
@@ -196,8 +196,8 @@
       },
       "price": 13628,
       "baseline": {
-        "weekAgo": 13513,
-        "twoWeeksAgo": 13595,
+        "weekAgo": 13577,
+        "twoWeeksAgo": 13357,
         "monthAgo": 13670,
         "yearAgo": 13872,
         "normalYear": 9148
@@ -217,7 +217,7 @@
       "price": 12242,
       "baseline": {
         "weekAgo": 12189,
-        "twoWeeksAgo": 11490,
+        "twoWeeksAgo": 12199,
         "monthAgo": 11296,
         "yearAgo": 11585,
         "normalYear": 11517
@@ -234,10 +234,10 @@
           "unit": "kg"
         }
       },
-      "price": 5213,
+      "price": 5009,
       "baseline": {
-        "weekAgo": 4588,
-        "twoWeeksAgo": 5250,
+        "weekAgo": 4976,
+        "twoWeeksAgo": 4610,
         "monthAgo": 4783,
         "yearAgo": 5279,
         "normalYear": 5284
@@ -256,8 +256,8 @@
       },
       "price": 4087,
       "baseline": {
-        "weekAgo": 4152,
-        "twoWeeksAgo": 4280,
+        "weekAgo": 4127,
+        "twoWeeksAgo": 4250,
         "monthAgo": 4318,
         "yearAgo": 4165,
         "normalYear": 4373
@@ -274,10 +274,10 @@
           "unit": "g"
         }
       },
-      "price": 331,
+      "price": 344,
       "baseline": {
-        "weekAgo": 344,
-        "twoWeeksAgo": 308,
+        "weekAgo": 336,
+        "twoWeeksAgo": 329,
         "monthAgo": 285,
         "yearAgo": 387,
         "normalYear": 360
@@ -296,8 +296,8 @@
       },
       "price": 309,
       "baseline": {
-        "weekAgo": 295,
-        "twoWeeksAgo": 283,
+        "weekAgo": 307,
+        "twoWeeksAgo": 298,
         "monthAgo": 270,
         "yearAgo": 274,
         "normalYear": 276
@@ -314,10 +314,10 @@
           "unit": "포기"
         }
       },
-      "price": 5686,
+      "price": 5598,
       "baseline": {
-        "weekAgo": 6213,
-        "twoWeeksAgo": 6193,
+        "weekAgo": 5833,
+        "twoWeeksAgo": 6168,
         "monthAgo": 5795,
         "yearAgo": 6197,
         "normalYear": 6270
@@ -334,10 +334,10 @@
           "unit": "포기"
         }
       },
-      "price": 4219,
+      "price": 4570,
       "baseline": {
-        "weekAgo": 3953,
-        "twoWeeksAgo": 3596,
+        "weekAgo": 4014,
+        "twoWeeksAgo": 3896,
         "monthAgo": 3124,
         "yearAgo": 3841,
         "normalYear": 4489
@@ -354,10 +354,10 @@
           "unit": "포기"
         }
       },
-      "price": 2954,
+      "price": 3273,
       "baseline": {
-        "weekAgo": 2978,
-        "twoWeeksAgo": 2800,
+        "weekAgo": 2764,
+        "twoWeeksAgo": 2858,
         "monthAgo": 2752,
         "yearAgo": 3318,
         "normalYear": 3667
@@ -374,10 +374,10 @@
           "unit": "g"
         }
       },
-      "price": 1002,
+      "price": 934,
       "baseline": {
-        "weekAgo": 1096,
-        "twoWeeksAgo": 1593,
+        "weekAgo": 1046,
+        "twoWeeksAgo": 1249,
         "monthAgo": 2048,
         "yearAgo": 1512,
         "normalYear": 1332
@@ -394,10 +394,10 @@
           "unit": "g"
         }
       },
-      "price": 1025,
+      "price": 987,
       "baseline": {
-        "weekAgo": 1038,
-        "twoWeeksAgo": 1386,
+        "weekAgo": 1036,
+        "twoWeeksAgo": 1123,
         "monthAgo": 1920,
         "yearAgo": 1685,
         "normalYear": 1473
@@ -414,10 +414,10 @@
           "unit": "g"
         }
       },
-      "price": 1024,
+      "price": 981,
       "baseline": {
-        "weekAgo": 971,
-        "twoWeeksAgo": 1313,
+        "weekAgo": 1035,
+        "twoWeeksAgo": 1087,
         "monthAgo": 1980,
         "yearAgo": 1751,
         "normalYear": 1578
@@ -434,10 +434,10 @@
           "unit": "kg"
         }
       },
-      "price": 2150,
+      "price": 2159,
       "baseline": {
-        "weekAgo": 2286,
-        "twoWeeksAgo": 2797,
+        "weekAgo": 2167,
+        "twoWeeksAgo": 2505,
         "monthAgo": 3613,
         "yearAgo": 3393,
         "normalYear": 3095
@@ -456,8 +456,8 @@
       },
       "price": 24625,
       "baseline": {
-        "weekAgo": 23400,
-        "twoWeeksAgo": 23083,
+        "weekAgo": 23900,
+        "twoWeeksAgo": 23820,
         "monthAgo": 23272,
         "yearAgo": 26087,
         "normalYear": 23385
@@ -474,10 +474,10 @@
           "unit": "개"
         }
       },
-      "price": 19263,
+      "price": 19432,
       "baseline": {
-        "weekAgo": 18555,
-        "twoWeeksAgo": 18614,
+        "weekAgo": 18709,
+        "twoWeeksAgo": 18772,
         "monthAgo": 18907,
         "yearAgo": 24346,
         "normalYear": 20637
@@ -494,10 +494,10 @@
           "unit": "개"
         }
       },
-      "price": 8483,
+      "price": 8222,
       "baseline": {
-        "weekAgo": 8090,
-        "twoWeeksAgo": 9627,
+        "weekAgo": 8660,
+        "twoWeeksAgo": 8508,
         "monthAgo": 12079,
         "yearAgo": 13068,
         "normalYear": 12824
@@ -514,10 +514,10 @@
           "unit": "개"
         }
       },
-      "price": 6696,
+      "price": 6582,
       "baseline": {
-        "weekAgo": 6370,
-        "twoWeeksAgo": 7614,
+        "weekAgo": 6564,
+        "twoWeeksAgo": 6669,
         "monthAgo": 12556,
         "yearAgo": 11265,
         "normalYear": 10994
@@ -534,10 +534,10 @@
           "unit": "개"
         }
       },
-      "price": 5323,
+      "price": 5300,
       "baseline": {
-        "weekAgo": 5670,
-        "twoWeeksAgo": 6024,
+        "weekAgo": 5524,
+        "twoWeeksAgo": 5716,
         "monthAgo": 9576,
         "yearAgo": 7865,
         "normalYear": 7093
@@ -554,10 +554,10 @@
           "unit": "개"
         }
       },
-      "price": 9366,
+      "price": 8347,
       "baseline": {
-        "weekAgo": 9230,
-        "twoWeeksAgo": 12533,
+        "weekAgo": 9212,
+        "twoWeeksAgo": 10260,
         "monthAgo": 15814,
         "yearAgo": 13647,
         "normalYear": 13171
@@ -574,10 +574,10 @@
           "unit": "개"
         }
       },
-      "price": 1112,
+      "price": 1101,
       "baseline": {
-        "weekAgo": 1267,
-        "twoWeeksAgo": 1554,
+        "weekAgo": 1164,
+        "twoWeeksAgo": 1339,
         "monthAgo": 2475,
         "yearAgo": 1795,
         "normalYear": 1628
@@ -594,10 +594,10 @@
           "unit": "개"
         }
       },
-      "price": 1504,
+      "price": 1508,
       "baseline": {
-        "weekAgo": 1563,
-        "twoWeeksAgo": 1766,
+        "weekAgo": 1546,
+        "twoWeeksAgo": 1674,
         "monthAgo": 2334,
         "yearAgo": 1915,
         "normalYear": 2172
@@ -614,10 +614,10 @@
           "unit": "kg"
         }
       },
-      "price": 7245,
+      "price": 6775,
       "baseline": {
-        "weekAgo": 7645,
-        "twoWeeksAgo": 9046,
+        "weekAgo": 7425,
+        "twoWeeksAgo": 7964,
         "monthAgo": 5940,
         "yearAgo": 7030,
         "normalYear": 8578
@@ -634,10 +634,10 @@
           "unit": "개"
         }
       },
-      "price": 2238,
+      "price": 2281,
       "baseline": {
-        "weekAgo": 2793,
-        "twoWeeksAgo": 2432,
+        "weekAgo": 2292,
+        "twoWeeksAgo": 2810,
         "monthAgo": 2206,
         "yearAgo": 2434,
         "normalYear": 2818
@@ -654,10 +654,10 @@
           "unit": "개"
         }
       },
-      "price": 2224,
+      "price": 2032,
       "baseline": {
-        "weekAgo": 2188,
-        "twoWeeksAgo": 2099,
+        "weekAgo": 2259,
+        "twoWeeksAgo": 2165,
         "monthAgo": 2007,
         "yearAgo": 1905,
         "normalYear": 2417
@@ -674,13 +674,33 @@
           "unit": "kg"
         }
       },
-      "price": 4386,
+      "price": 4395,
       "baseline": {
-        "weekAgo": 4359,
-        "twoWeeksAgo": 4146,
+        "weekAgo": 4420,
+        "twoWeeksAgo": 4289,
         "monthAgo": 3574,
         "yearAgo": 3776,
         "normalYear": 4888
+      }
+    },
+    {
+      "itemName": "당근",
+      "kindName": "무세척(국산)(1kg)",
+      "rank": "중품",
+      "unit": {
+        "quantity": 1,
+        "measure": {
+          "kind": "weight",
+          "unit": "kg"
+        }
+      },
+      "price": 3796,
+      "baseline": {
+        "weekAgo": null,
+        "twoWeeksAgo": null,
+        "monthAgo": null,
+        "yearAgo": 3456,
+        "normalYear": 3948
       }
     },
     {
@@ -694,10 +714,10 @@
           "unit": "kg"
         }
       },
-      "price": 2040,
+      "price": 1981,
       "baseline": {
-        "weekAgo": 2177,
-        "twoWeeksAgo": 2693,
+        "weekAgo": 2080,
+        "twoWeeksAgo": 2403,
         "monthAgo": 3455,
         "yearAgo": 3406,
         "normalYear": 3076
@@ -714,10 +734,10 @@
           "unit": "g"
         }
       },
-      "price": 17593,
+      "price": 17542,
       "baseline": {
-        "weekAgo": 17836,
-        "twoWeeksAgo": 17708,
+        "weekAgo": 17718,
+        "twoWeeksAgo": 17911,
         "monthAgo": 17635,
         "yearAgo": 16685,
         "normalYear": 17010
@@ -734,10 +754,10 @@
           "unit": "g"
         }
       },
-      "price": 1653,
+      "price": 1631,
       "baseline": {
-        "weekAgo": 1682,
-        "twoWeeksAgo": 1922,
+        "weekAgo": 1664,
+        "twoWeeksAgo": 1722,
         "monthAgo": 1791,
         "yearAgo": 1995,
         "normalYear": 1680
@@ -754,10 +774,10 @@
           "unit": "g"
         }
       },
-      "price": 1459,
+      "price": 1435,
       "baseline": {
-        "weekAgo": 1572,
-        "twoWeeksAgo": 1797,
+        "weekAgo": 1475,
+        "twoWeeksAgo": 1610,
         "monthAgo": 1383,
         "yearAgo": 1736,
         "normalYear": 1712
@@ -774,10 +794,10 @@
           "unit": "g"
         }
       },
-      "price": 1270,
+      "price": 1257,
       "baseline": {
-        "weekAgo": 1398,
-        "twoWeeksAgo": 1268,
+        "weekAgo": 1285,
+        "twoWeeksAgo": 1405,
         "monthAgo": 1307,
         "yearAgo": 1357,
         "normalYear": 1301
@@ -796,8 +816,8 @@
       },
       "price": 755,
       "baseline": {
-        "weekAgo": 868,
-        "twoWeeksAgo": null,
+        "weekAgo": 768,
+        "twoWeeksAgo": 870,
         "monthAgo": null,
         "yearAgo": 764,
         "normalYear": 775
@@ -814,10 +834,10 @@
           "unit": "g"
         }
       },
-      "price": 1075,
+      "price": 1049,
       "baseline": {
-        "weekAgo": 1252,
-        "twoWeeksAgo": 1369,
+        "weekAgo": 1131,
+        "twoWeeksAgo": 1266,
         "monthAgo": 1184,
         "yearAgo": 1210,
         "normalYear": 1209
@@ -834,10 +854,10 @@
           "unit": "g"
         }
       },
-      "price": 2589,
+      "price": 2604,
       "baseline": {
-        "weekAgo": 2783,
-        "twoWeeksAgo": 2856,
+        "weekAgo": 2639,
+        "twoWeeksAgo": 2904,
         "monthAgo": 2125,
         "yearAgo": 2063,
         "normalYear": 2128
@@ -854,10 +874,10 @@
           "unit": "kg"
         }
       },
-      "price": 2074,
+      "price": 2252,
       "baseline": {
-        "weekAgo": 2359,
-        "twoWeeksAgo": 2078,
+        "weekAgo": 2058,
+        "twoWeeksAgo": 2123,
         "monthAgo": 1832,
         "yearAgo": 2305,
         "normalYear": 2227
@@ -874,10 +894,10 @@
           "unit": "kg"
         }
       },
-      "price": 2921,
+      "price": 2809,
       "baseline": {
-        "weekAgo": 2984,
-        "twoWeeksAgo": 3047,
+        "weekAgo": 2977,
+        "twoWeeksAgo": 2999,
         "monthAgo": 2709,
         "yearAgo": 3360,
         "normalYear": 3339
@@ -894,10 +914,10 @@
           "unit": "kg"
         }
       },
-      "price": 6158,
+      "price": 5768,
       "baseline": {
-        "weekAgo": 6888,
-        "twoWeeksAgo": 8296,
+        "weekAgo": 6233,
+        "twoWeeksAgo": 7698,
         "monthAgo": 9968,
         "yearAgo": 9464,
         "normalYear": 9017
@@ -914,10 +934,10 @@
           "unit": "kg"
         }
       },
-      "price": 12733,
+      "price": 12441,
       "baseline": {
-        "weekAgo": 14510,
-        "twoWeeksAgo": 14856,
+        "weekAgo": 13317,
+        "twoWeeksAgo": 14857,
         "monthAgo": 15166,
         "yearAgo": 14988,
         "normalYear": 12910
@@ -934,10 +954,10 @@
           "unit": "kg"
         }
       },
-      "price": 33846,
+      "price": 31700,
       "baseline": {
-        "weekAgo": 33756,
-        "twoWeeksAgo": 34286,
+        "weekAgo": 33846,
+        "twoWeeksAgo": 34224,
         "monthAgo": 33780,
         "yearAgo": 32843,
         "normalYear": 33856
@@ -974,10 +994,10 @@
           "unit": "개"
         }
       },
-      "price": 2286,
+      "price": 2220,
       "baseline": {
-        "weekAgo": 2285,
-        "twoWeeksAgo": 2757,
+        "weekAgo": 2290,
+        "twoWeeksAgo": 2487,
         "monthAgo": 2450,
         "yearAgo": null,
         "normalYear": null
@@ -994,10 +1014,10 @@
           "unit": "g"
         }
       },
-      "price": 1899,
+      "price": 1879,
       "baseline": {
-        "weekAgo": 1881,
-        "twoWeeksAgo": 1936,
+        "weekAgo": 1887,
+        "twoWeeksAgo": 1908,
         "monthAgo": 1939,
         "yearAgo": 1861,
         "normalYear": 1794
@@ -1014,10 +1034,10 @@
           "unit": "g"
         }
       },
-      "price": 1380,
+      "price": 1405,
       "baseline": {
-        "weekAgo": 1493,
-        "twoWeeksAgo": 1800,
+        "weekAgo": 1424,
+        "twoWeeksAgo": 1601,
         "monthAgo": 1865,
         "yearAgo": 1614,
         "normalYear": 1452
@@ -1034,10 +1054,10 @@
           "unit": "g"
         }
       },
-      "price": 665,
+      "price": 714,
       "baseline": {
-        "weekAgo": 833,
-        "twoWeeksAgo": 896,
+        "weekAgo": 680,
+        "twoWeeksAgo": 871,
         "monthAgo": 789,
         "yearAgo": null,
         "normalYear": null
@@ -1054,10 +1074,10 @@
           "unit": "g"
         }
       },
-      "price": 1514,
+      "price": 1537,
       "baseline": {
-        "weekAgo": 1822,
-        "twoWeeksAgo": 2322,
+        "weekAgo": 1590,
+        "twoWeeksAgo": 1988,
         "monthAgo": 1946,
         "yearAgo": 1480,
         "normalYear": 1266
@@ -1074,10 +1094,10 @@
           "unit": "개"
         }
       },
-      "price": 1617,
+      "price": 1582,
       "baseline": {
-        "weekAgo": 1723,
-        "twoWeeksAgo": 2056,
+        "weekAgo": 1703,
+        "twoWeeksAgo": 1914,
         "monthAgo": 2534,
         "yearAgo": 2094,
         "normalYear": 2042
@@ -1094,10 +1114,10 @@
           "unit": "개"
         }
       },
-      "price": 1503,
+      "price": 1385,
       "baseline": {
-        "weekAgo": 1654,
-        "twoWeeksAgo": 1943,
+        "weekAgo": 1646,
+        "twoWeeksAgo": 1858,
         "monthAgo": 2155,
         "yearAgo": 1582,
         "normalYear": 1554
@@ -1114,10 +1134,10 @@
           "unit": "개"
         }
       },
-      "price": 9624,
+      "price": 9678,
       "baseline": {
-        "weekAgo": 9519,
-        "twoWeeksAgo": 9456,
+        "weekAgo": 9551,
+        "twoWeeksAgo": 9483,
         "monthAgo": 9005,
         "yearAgo": 10778,
         "normalYear": 10460
@@ -1136,8 +1156,8 @@
       },
       "price": null,
       "baseline": {
-        "weekAgo": 8879,
-        "twoWeeksAgo": 8175,
+        "weekAgo": null,
+        "twoWeeksAgo": 9049,
         "monthAgo": 7954,
         "yearAgo": 9578,
         "normalYear": 8751
@@ -1154,10 +1174,10 @@
           "unit": "kg"
         }
       },
-      "price": 10973,
+      "price": 10425,
       "baseline": {
-        "weekAgo": 10697,
-        "twoWeeksAgo": 11789,
+        "weekAgo": 10711,
+        "twoWeeksAgo": 10165,
         "monthAgo": 10711,
         "yearAgo": 11345,
         "normalYear": 11282
@@ -1174,10 +1194,10 @@
           "unit": "kg"
         }
       },
-      "price": 9845,
+      "price": 8670,
       "baseline": {
-        "weekAgo": 8696,
-        "twoWeeksAgo": 10122,
+        "weekAgo": 9864,
+        "twoWeeksAgo": 8673,
         "monthAgo": 8530,
         "yearAgo": 8426,
         "normalYear": 8406
@@ -1194,10 +1214,10 @@
           "unit": "포기"
         }
       },
-      "price": 3875,
+      "price": 3274,
       "baseline": {
-        "weekAgo": 4403,
-        "twoWeeksAgo": 4550,
+        "weekAgo": 4108,
+        "twoWeeksAgo": 4612,
         "monthAgo": 4578,
         "yearAgo": 4573,
         "normalYear": 4886
@@ -1214,10 +1234,10 @@
           "unit": "포기"
         }
       },
-      "price": 2216,
+      "price": 2153,
       "baseline": {
-        "weekAgo": 2524,
-        "twoWeeksAgo": 2875,
+        "weekAgo": 2511,
+        "twoWeeksAgo": 2773,
         "monthAgo": 2930,
         "yearAgo": 2662,
         "normalYear": 2773
@@ -1234,10 +1254,10 @@
           "unit": "개"
         }
       },
-      "price": 2805,
+      "price": 2993,
       "baseline": {
-        "weekAgo": 3174,
-        "twoWeeksAgo": 3465,
+        "weekAgo": 3011,
+        "twoWeeksAgo": 3391,
         "monthAgo": 3815,
         "yearAgo": 3570,
         "normalYear": 3880
@@ -1254,10 +1274,10 @@
           "unit": "kg"
         }
       },
-      "price": 9851,
+      "price": 9277,
       "baseline": {
-        "weekAgo": 9093,
-        "twoWeeksAgo": 8546,
+        "weekAgo": 9934,
+        "twoWeeksAgo": 9212,
         "monthAgo": 7992,
         "yearAgo": 10355,
         "normalYear": 11242
@@ -1274,10 +1294,10 @@
           "unit": "kg"
         }
       },
-      "price": 9443,
+      "price": 9342,
       "baseline": {
-        "weekAgo": 10957,
-        "twoWeeksAgo": 11359,
+        "weekAgo": 9551,
+        "twoWeeksAgo": 11170,
         "monthAgo": 8796,
         "yearAgo": 9950,
         "normalYear": 11019
@@ -1294,10 +1314,10 @@
           "unit": "개"
         }
       },
-      "price": 21396,
+      "price": 20421,
       "baseline": {
-        "weekAgo": 23107,
-        "twoWeeksAgo": 22595,
+        "weekAgo": 21280,
+        "twoWeeksAgo": 24012,
         "monthAgo": 22733,
         "yearAgo": 27694,
         "normalYear": 25834
@@ -1314,13 +1334,33 @@
           "unit": "개"
         }
       },
-      "price": 15900,
+      "price": 14985,
       "baseline": {
-        "weekAgo": 17213,
-        "twoWeeksAgo": 16090,
+        "weekAgo": 16083,
+        "twoWeeksAgo": 17902,
         "monthAgo": 16531,
         "yearAgo": 20033,
         "normalYear": 18143
+      }
+    },
+    {
+      "itemName": "사과",
+      "kindName": "시나노골드(10개)",
+      "rank": "상품",
+      "unit": {
+        "quantity": 10,
+        "measure": {
+          "kind": "count",
+          "unit": "개"
+        }
+      },
+      "price": 22500,
+      "baseline": {
+        "weekAgo": null,
+        "twoWeeksAgo": null,
+        "monthAgo": null,
+        "yearAgo": null,
+        "normalYear": null
       }
     },
     {
@@ -1334,7 +1374,7 @@
           "unit": "개"
         }
       },
-      "price": 18536,
+      "price": 18829,
       "baseline": {
         "weekAgo": null,
         "twoWeeksAgo": null,
@@ -1354,10 +1394,10 @@
           "unit": "개"
         }
       },
-      "price": 25660,
+      "price": 26066,
       "baseline": {
-        "weekAgo": 31238,
-        "twoWeeksAgo": 31218,
+        "weekAgo": 26672,
+        "twoWeeksAgo": 31567,
         "monthAgo": 28383,
         "yearAgo": 30761,
         "normalYear": 29943
@@ -1374,10 +1414,10 @@
           "unit": "개"
         }
       },
-      "price": 19823,
+      "price": 19484,
       "baseline": {
-        "weekAgo": 23281,
-        "twoWeeksAgo": 23132,
+        "weekAgo": 19931,
+        "twoWeeksAgo": 23826,
         "monthAgo": 19468,
         "yearAgo": 23550,
         "normalYear": 24344
@@ -1394,10 +1434,10 @@
           "unit": "kg"
         }
       },
-      "price": 7248,
+      "price": 7538,
       "baseline": {
-        "weekAgo": 8004,
-        "twoWeeksAgo": 7668,
+        "weekAgo": 7517,
+        "twoWeeksAgo": 7819,
         "monthAgo": 6987,
         "yearAgo": 7750,
         "normalYear": 8800
@@ -1414,10 +1454,10 @@
           "unit": "kg"
         }
       },
-      "price": 18737,
+      "price": 19038,
       "baseline": {
-        "weekAgo": 19762,
-        "twoWeeksAgo": 18727,
+        "weekAgo": 19042,
+        "twoWeeksAgo": 20045,
         "monthAgo": 17963,
         "yearAgo": 22344,
         "normalYear": 23974
@@ -1434,13 +1474,53 @@
           "unit": "kg"
         }
       },
-      "price": 11933,
+      "price": 10506,
       "baseline": {
-        "weekAgo": 11829,
-        "twoWeeksAgo": 13651,
+        "weekAgo": 11574,
+        "twoWeeksAgo": 11791,
         "monthAgo": 13438,
         "yearAgo": 13561,
         "normalYear": 20168
+      }
+    },
+    {
+      "itemName": "감귤",
+      "kindName": "노지(10개)",
+      "rank": "M과",
+      "unit": {
+        "quantity": 10,
+        "measure": {
+          "kind": "count",
+          "unit": "개"
+        }
+      },
+      "price": 3397,
+      "baseline": {
+        "weekAgo": null,
+        "twoWeeksAgo": null,
+        "monthAgo": 7428,
+        "yearAgo": null,
+        "normalYear": 3968
+      }
+    },
+    {
+      "itemName": "감귤",
+      "kindName": "노지(10개)",
+      "rank": "S과",
+      "unit": {
+        "quantity": 10,
+        "measure": {
+          "kind": "count",
+          "unit": "개"
+        }
+      },
+      "price": 2693,
+      "baseline": {
+        "weekAgo": null,
+        "twoWeeksAgo": null,
+        "monthAgo": 5640,
+        "yearAgo": null,
+        "normalYear": 3164
       }
     },
     {
@@ -1454,10 +1534,10 @@
           "unit": "개"
         }
       },
-      "price": 6141,
+      "price": 6220,
       "baseline": {
-        "weekAgo": 7222,
-        "twoWeeksAgo": 7113,
+        "weekAgo": 6473,
+        "twoWeeksAgo": 7046,
         "monthAgo": 7428,
         "yearAgo": 7986,
         "normalYear": 7520
@@ -1474,10 +1554,10 @@
           "unit": "개"
         }
       },
-      "price": 4670,
+      "price": 4644,
       "baseline": {
-        "weekAgo": 5442,
-        "twoWeeksAgo": 5327,
+        "weekAgo": 5010,
+        "twoWeeksAgo": 5221,
         "monthAgo": 5640,
         "yearAgo": 6445,
         "normalYear": 5877
@@ -1494,9 +1574,9 @@
           "unit": "개"
         }
       },
-      "price": 8105,
+      "price": 7349,
       "baseline": {
-        "weekAgo": 8395,
+        "weekAgo": 7961,
         "twoWeeksAgo": null,
         "monthAgo": null,
         "yearAgo": 9337,
@@ -1514,9 +1594,9 @@
           "unit": "개"
         }
       },
-      "price": 6270,
+      "price": 6071,
       "baseline": {
-        "weekAgo": 7159,
+        "weekAgo": 6372,
         "twoWeeksAgo": null,
         "monthAgo": null,
         "yearAgo": 7346,
@@ -1534,9 +1614,9 @@
           "unit": "g"
         }
       },
-      "price": 330,
+      "price": 327,
       "baseline": {
-        "weekAgo": 327,
+        "weekAgo": 332,
         "twoWeeksAgo": 328,
         "monthAgo": 327,
         "yearAgo": 342,
@@ -1554,10 +1634,10 @@
           "unit": "g"
         }
       },
-      "price": 299,
+      "price": 291,
       "baseline": {
-        "weekAgo": 291,
-        "twoWeeksAgo": 285,
+        "weekAgo": 293,
+        "twoWeeksAgo": 289,
         "monthAgo": 291,
         "yearAgo": 255,
         "normalYear": 274
@@ -1574,10 +1654,10 @@
           "unit": "개"
         }
       },
-      "price": 7648,
+      "price": 7608,
       "baseline": {
-        "weekAgo": 7586,
-        "twoWeeksAgo": 7399,
+        "weekAgo": 7579,
+        "twoWeeksAgo": 7456,
         "monthAgo": 7399,
         "yearAgo": 8144,
         "normalYear": 7586
@@ -1594,10 +1674,10 @@
           "unit": "개"
         }
       },
-      "price": 6111,
+      "price": 6181,
       "baseline": {
-        "weekAgo": 6229,
-        "twoWeeksAgo": 5870,
+        "weekAgo": 6105,
+        "twoWeeksAgo": 5817,
         "monthAgo": 5898,
         "yearAgo": 6602,
         "normalYear": 6429
@@ -1614,9 +1694,9 @@
           "unit": "개"
         }
       },
-      "price": 17100,
+      "price": null,
       "baseline": {
-        "weekAgo": null,
+        "weekAgo": 17000,
         "twoWeeksAgo": null,
         "monthAgo": null,
         "yearAgo": null,
@@ -1634,10 +1714,10 @@
           "unit": "개"
         }
       },
-      "price": 12950,
+      "price": 12755,
       "baseline": {
-        "weekAgo": 12610,
-        "twoWeeksAgo": 11554,
+        "weekAgo": 12868,
+        "twoWeeksAgo": 12508,
         "monthAgo": 11272,
         "yearAgo": 13148,
         "normalYear": 13281
@@ -1654,10 +1734,10 @@
           "unit": "개"
         }
       },
-      "price": 8105,
+      "price": 8426,
       "baseline": {
-        "weekAgo": 7870,
-        "twoWeeksAgo": 8160,
+        "weekAgo": 8138,
+        "twoWeeksAgo": 7820,
         "monthAgo": 8532,
         "yearAgo": 9824,
         "normalYear": 9779
@@ -1674,10 +1754,10 @@
           "unit": "개"
         }
       },
-      "price": 7060,
+      "price": 7521,
       "baseline": {
-        "weekAgo": 6267,
-        "twoWeeksAgo": 6578,
+        "weekAgo": 6933,
+        "twoWeeksAgo": 6209,
         "monthAgo": 7390,
         "yearAgo": 7515,
         "normalYear": 7989
@@ -1694,10 +1774,10 @@
           "unit": "개"
         }
       },
-      "price": 6325,
+      "price": 6205,
       "baseline": {
-        "weekAgo": 7201,
-        "twoWeeksAgo": 7535,
+        "weekAgo": 6638,
+        "twoWeeksAgo": 7528,
         "monthAgo": 7746,
         "yearAgo": 5985,
         "normalYear": 6332
@@ -1714,9 +1794,9 @@
           "unit": "kg"
         }
       },
-      "price": 11639,
+      "price": 11606,
       "baseline": {
-        "weekAgo": 11477,
+        "weekAgo": 11617,
         "twoWeeksAgo": 11584,
         "monthAgo": 10708,
         "yearAgo": null,
@@ -1734,10 +1814,10 @@
           "unit": "개"
         }
       },
-      "price": 2037,
+      "price": 2051,
       "baseline": {
-        "weekAgo": 1948,
-        "twoWeeksAgo": 1837,
+        "weekAgo": 2040,
+        "twoWeeksAgo": 1893,
         "monthAgo": 1895,
         "yearAgo": 2011,
         "normalYear": 2076
@@ -1754,10 +1834,10 @@
           "unit": "개"
         }
       },
-      "price": 15642,
+      "price": 16116,
       "baseline": {
-        "weekAgo": 14216,
-        "twoWeeksAgo": 13890,
+        "weekAgo": 15454,
+        "twoWeeksAgo": 14168,
         "monthAgo": 13741,
         "yearAgo": null,
         "normalYear": null
@@ -1774,10 +1854,10 @@
           "unit": "개"
         }
       },
-      "price": 12363,
+      "price": 12421,
       "baseline": {
-        "weekAgo": 10483,
-        "twoWeeksAgo": 10034,
+        "weekAgo": 12432,
+        "twoWeeksAgo": 10483,
         "monthAgo": 10680,
         "yearAgo": null,
         "normalYear": null
@@ -1794,13 +1874,13 @@
           "unit": "g"
         }
       },
-      "price": 19689,
+      "price": 19759,
       "baseline": {
-        "weekAgo": 18659,
-        "twoWeeksAgo": 19535,
-        "monthAgo": 19546,
-        "yearAgo": 16402,
-        "normalYear": 15442
+        "weekAgo": 18641,
+        "twoWeeksAgo": 19478,
+        "monthAgo": 19480,
+        "yearAgo": 16442,
+        "normalYear": 15461
       }
     },
     {
@@ -1814,13 +1894,13 @@
           "unit": "g"
         }
       },
-      "price": 17715,
+      "price": 17748,
       "baseline": {
-        "weekAgo": 17717,
-        "twoWeeksAgo": 17377,
-        "monthAgo": 17169,
-        "yearAgo": 14152,
-        "normalYear": 14653
+        "weekAgo": 17694,
+        "twoWeeksAgo": 17335,
+        "monthAgo": 17134,
+        "yearAgo": 14112,
+        "normalYear": 14480
       }
     },
     {
@@ -1834,13 +1914,13 @@
           "unit": "g"
         }
       },
-      "price": 16139,
+      "price": 15809,
       "baseline": {
-        "weekAgo": 15085,
-        "twoWeeksAgo": 15924,
-        "monthAgo": 15408,
-        "yearAgo": 13623,
-        "normalYear": 13159
+        "weekAgo": 15029,
+        "twoWeeksAgo": 15912,
+        "monthAgo": 15418,
+        "yearAgo": 13650,
+        "normalYear": 13197
       }
     },
     {
@@ -1854,13 +1934,13 @@
           "unit": "g"
         }
       },
-      "price": 15922,
+      "price": 15787,
       "baseline": {
-        "weekAgo": 15692,
-        "twoWeeksAgo": 16494,
-        "monthAgo": 16404,
-        "yearAgo": 13172,
-        "normalYear": 13336
+        "weekAgo": 15705,
+        "twoWeeksAgo": 16525,
+        "monthAgo": 16402,
+        "yearAgo": 13231,
+        "normalYear": 13445
       }
     },
     {
@@ -1874,13 +1954,13 @@
           "unit": "g"
         }
       },
-      "price": 14223,
+      "price": 14190,
       "baseline": {
-        "weekAgo": 14171,
-        "twoWeeksAgo": 13909,
-        "monthAgo": 13625,
-        "yearAgo": 10866,
-        "normalYear": 11695
+        "weekAgo": 14190,
+        "twoWeeksAgo": 13891,
+        "monthAgo": 13605,
+        "yearAgo": 10864,
+        "normalYear": 11654
       }
     },
     {
@@ -1894,13 +1974,13 @@
           "unit": "g"
         }
       },
-      "price": 12254,
+      "price": 12242,
       "baseline": {
-        "weekAgo": 11427,
-        "twoWeeksAgo": 11472,
-        "monthAgo": 10582,
-        "yearAgo": 10211,
-        "normalYear": 10273
+        "weekAgo": 11328,
+        "twoWeeksAgo": 11474,
+        "monthAgo": 10646,
+        "yearAgo": 10246,
+        "normalYear": 10434
       }
     },
     {
@@ -1914,13 +1994,13 @@
           "unit": "g"
         }
       },
-      "price": 5897,
+      "price": 5867,
       "baseline": {
-        "weekAgo": 5784,
-        "twoWeeksAgo": 6163,
-        "monthAgo": 6308,
-        "yearAgo": 5374,
-        "normalYear": 4710
+        "weekAgo": 5800,
+        "twoWeeksAgo": 6171,
+        "monthAgo": 6287,
+        "yearAgo": 5377,
+        "normalYear": 4733
       }
     },
     {
@@ -1934,13 +2014,13 @@
           "unit": "g"
         }
       },
-      "price": 5638,
+      "price": 5634,
       "baseline": {
-        "weekAgo": 5577,
-        "twoWeeksAgo": 4530,
-        "monthAgo": 4488,
-        "yearAgo": 4792,
-        "normalYear": 4549
+        "weekAgo": 5549,
+        "twoWeeksAgo": 4513,
+        "monthAgo": 4502,
+        "yearAgo": 4809,
+        "normalYear": 4543
       }
     },
     {
@@ -1954,13 +2034,13 @@
           "unit": "g"
         }
       },
-      "price": 4916,
+      "price": 4885,
       "baseline": {
         "weekAgo": 4981,
-        "twoWeeksAgo": 4430,
-        "monthAgo": 4297,
-        "yearAgo": 4556,
-        "normalYear": 4215
+        "twoWeeksAgo": 4437,
+        "monthAgo": 4288,
+        "yearAgo": 4566,
+        "normalYear": 4240
       }
     },
     {
@@ -1974,13 +2054,13 @@
           "unit": "g"
         }
       },
-      "price": 7988,
+      "price": 8027,
       "baseline": {
         "weekAgo": 7434,
-        "twoWeeksAgo": 7921,
-        "monthAgo": 7882,
-        "yearAgo": 7227,
-        "normalYear": 6346
+        "twoWeeksAgo": 7917,
+        "monthAgo": 7865,
+        "yearAgo": 7261,
+        "normalYear": 6414
       }
     },
     {
@@ -1994,13 +2074,13 @@
           "unit": "g"
         }
       },
-      "price": 7220,
+      "price": 7213,
       "baseline": {
-        "weekAgo": 7090,
-        "twoWeeksAgo": 5623,
-        "monthAgo": 5667,
-        "yearAgo": 6831,
-        "normalYear": 6376
+        "weekAgo": 7083,
+        "twoWeeksAgo": 5617,
+        "monthAgo": 5651,
+        "yearAgo": 6800,
+        "normalYear": 6311
       }
     },
     {
@@ -2014,13 +2094,13 @@
           "unit": "g"
         }
       },
-      "price": 6734,
+      "price": 6742,
       "baseline": {
-        "weekAgo": 6495,
-        "twoWeeksAgo": 5880,
-        "monthAgo": 5458,
-        "yearAgo": 6360,
-        "normalYear": 5738
+        "weekAgo": 6497,
+        "twoWeeksAgo": 5905,
+        "monthAgo": 5466,
+        "yearAgo": 6347,
+        "normalYear": 5749
       }
     },
     {
@@ -2036,11 +2116,11 @@
       },
       "price": 9522,
       "baseline": {
-        "weekAgo": 8598,
+        "weekAgo": 9069,
         "twoWeeksAgo": 9523,
         "monthAgo": 8369,
-        "yearAgo": 7174,
-        "normalYear": 8954
+        "yearAgo": 7259,
+        "normalYear": 9068
       }
     },
     {
@@ -2059,8 +2139,8 @@
         "weekAgo": 7320,
         "twoWeeksAgo": 7321,
         "monthAgo": 7209,
-        "yearAgo": 7114,
-        "normalYear": 7132
+        "yearAgo": 7274,
+        "normalYear": 7071
       }
     },
     {
@@ -2079,8 +2159,8 @@
         "weekAgo": 7068,
         "twoWeeksAgo": 7157,
         "monthAgo": 6693,
-        "yearAgo": 6676,
-        "normalYear": 6625
+        "yearAgo": 6694,
+        "normalYear": 6594
       }
     },
     {
@@ -2094,13 +2174,13 @@
           "unit": "g"
         }
       },
-      "price": 1714,
+      "price": 1694,
       "baseline": {
-        "weekAgo": 1710,
-        "twoWeeksAgo": 1697,
-        "monthAgo": 1573,
-        "yearAgo": 1668,
-        "normalYear": 1483
+        "weekAgo": 1688,
+        "twoWeeksAgo": 1696,
+        "monthAgo": 1577,
+        "yearAgo": 1676,
+        "normalYear": 1478
       }
     },
     {
@@ -2114,13 +2194,13 @@
           "unit": "g"
         }
       },
-      "price": 3031,
+      "price": 3015,
       "baseline": {
-        "weekAgo": 3027,
-        "twoWeeksAgo": 3046,
-        "monthAgo": 2899,
-        "yearAgo": 2862,
-        "normalYear": 2722
+        "weekAgo": 2990,
+        "twoWeeksAgo": 3066,
+        "monthAgo": 3052,
+        "yearAgo": 2902,
+        "normalYear": 2730
       }
     },
     {
@@ -2134,13 +2214,13 @@
           "unit": "g"
         }
       },
-      "price": 1667,
+      "price": 1632,
       "baseline": {
-        "weekAgo": 1694,
+        "weekAgo": 1688,
         "twoWeeksAgo": 1680,
-        "monthAgo": 1626,
-        "yearAgo": 1631,
-        "normalYear": 1511
+        "monthAgo": 1629,
+        "yearAgo": 1622,
+        "normalYear": 1503
       }
     },
     {
@@ -2154,13 +2234,13 @@
           "unit": "g"
         }
       },
-      "price": 2865,
+      "price": 2845,
       "baseline": {
-        "weekAgo": 2859,
-        "twoWeeksAgo": 2857,
-        "monthAgo": 2699,
-        "yearAgo": 2691,
-        "normalYear": 2577
+        "weekAgo": 2822,
+        "twoWeeksAgo": 2871,
+        "monthAgo": 2845,
+        "yearAgo": 2721,
+        "normalYear": 2590
       }
     },
     {
@@ -2174,13 +2254,13 @@
           "unit": "g"
         }
       },
-      "price": 4425,
+      "price": 4429,
       "baseline": {
-        "weekAgo": 4553,
+        "weekAgo": 4554,
         "twoWeeksAgo": 4314,
         "monthAgo": 4285,
-        "yearAgo": 4498,
-        "normalYear": 4294
+        "yearAgo": 4500,
+        "normalYear": 4278
       }
     },
     {
@@ -2194,13 +2274,13 @@
           "unit": "g"
         }
       },
-      "price": 4249,
+      "price": 4300,
       "baseline": {
         "weekAgo": 4367,
         "twoWeeksAgo": 3990,
         "monthAgo": 4118,
         "yearAgo": 4376,
-        "normalYear": 4275
+        "normalYear": 4298
       }
     },
     {
@@ -2214,13 +2294,13 @@
           "unit": "g"
         }
       },
-      "price": 5371,
+      "price": 5637,
       "baseline": {
         "weekAgo": 5252,
         "twoWeeksAgo": 5587,
         "monthAgo": 4802,
         "yearAgo": 5052,
-        "normalYear": 4532
+        "normalYear": 4571
       }
     },
     {
@@ -2234,7 +2314,7 @@
           "unit": "g"
         }
       },
-      "price": 6226,
+      "price": 6343,
       "baseline": {
         "weekAgo": 6385,
         "twoWeeksAgo": 5714,
@@ -2254,13 +2334,13 @@
           "unit": "g"
         }
       },
-      "price": 1499,
+      "price": 1494,
       "baseline": {
-        "weekAgo": 1528,
-        "twoWeeksAgo": 1519,
-        "monthAgo": 1521,
-        "yearAgo": 1525,
-        "normalYear": 1499
+        "weekAgo": 1527,
+        "twoWeeksAgo": 1521,
+        "monthAgo": 1520,
+        "yearAgo": 1529,
+        "normalYear": 1501
       }
     },
     {
@@ -2279,8 +2359,8 @@
         "weekAgo": null,
         "twoWeeksAgo": null,
         "monthAgo": null,
-        "yearAgo": 8199,
-        "normalYear": 8176
+        "yearAgo": 8239,
+        "normalYear": 8367
       }
     },
     {
@@ -2294,13 +2374,13 @@
           "unit": "kg"
         }
       },
-      "price": 6032,
+      "price": 5913,
       "baseline": {
-        "weekAgo": 5780,
-        "twoWeeksAgo": 5456,
+        "weekAgo": 5841,
+        "twoWeeksAgo": 5678,
         "monthAgo": 5783,
-        "yearAgo": 5617,
-        "normalYear": 5687
+        "yearAgo": 5901,
+        "normalYear": 5626
       }
     },
     {
@@ -2314,13 +2394,13 @@
           "unit": "구"
         }
       },
-      "price": 4192,
+      "price": 4200,
       "baseline": {
-        "weekAgo": 4181,
-        "twoWeeksAgo": 4208,
+        "weekAgo": 4183,
+        "twoWeeksAgo": 4209,
         "monthAgo": 4203,
-        "yearAgo": 3977,
-        "normalYear": 3555
+        "yearAgo": 3945,
+        "normalYear": 3542
       }
     },
     {
@@ -2338,9 +2418,9 @@
       "baseline": {
         "weekAgo": 7168,
         "twoWeeksAgo": 6882,
-        "monthAgo": 7166,
-        "yearAgo": 7128,
-        "normalYear": 6704
+        "monthAgo": 7155,
+        "yearAgo": 7295,
+        "normalYear": 6723
       }
     },
     {
@@ -2354,13 +2434,13 @@
           "unit": "L"
         }
       },
-      "price": 2968,
+      "price": 2982,
       "baseline": {
         "weekAgo": 2973,
         "twoWeeksAgo": 2981,
-        "monthAgo": 2985,
+        "monthAgo": 2984,
         "yearAgo": 2904,
-        "normalYear": 2920
+        "normalYear": 2927
       }
     },
     {
@@ -2374,10 +2454,10 @@
           "unit": "손"
         }
       },
-      "price": 5933,
+      "price": 6000,
       "baseline": {
-        "weekAgo": 5577,
-        "twoWeeksAgo": 5288,
+        "weekAgo": 6133,
+        "twoWeeksAgo": 5273,
         "monthAgo": 5231,
         "yearAgo": 6619,
         "normalYear": 4648
@@ -2394,10 +2474,10 @@
           "unit": "마리"
         }
       },
-      "price": 4110,
+      "price": 4566,
       "baseline": {
-        "weekAgo": 4145,
-        "twoWeeksAgo": 4294,
+        "weekAgo": 4081,
+        "twoWeeksAgo": 4202,
         "monthAgo": 4251,
         "yearAgo": 4563,
         "normalYear": 4172
@@ -2414,7 +2494,7 @@
           "unit": "마리"
         }
       },
-      "price": 3300,
+      "price": null,
       "baseline": {
         "weekAgo": 3254,
         "twoWeeksAgo": 3216,
@@ -2434,10 +2514,10 @@
           "unit": "손"
         }
       },
-      "price": 11674,
+      "price": 11556,
       "baseline": {
-        "weekAgo": 12855,
-        "twoWeeksAgo": 12158,
+        "weekAgo": 11609,
+        "twoWeeksAgo": 12773,
         "monthAgo": 11911,
         "yearAgo": 10481,
         "normalYear": 8024
@@ -2454,10 +2534,10 @@
           "unit": "마리"
         }
       },
-      "price": 7261,
+      "price": 7246,
       "baseline": {
-        "weekAgo": 7203,
-        "twoWeeksAgo": 7093,
+        "weekAgo": 7281,
+        "twoWeeksAgo": 7232,
         "monthAgo": 7106,
         "yearAgo": 6670,
         "normalYear": 6518
@@ -2474,10 +2554,10 @@
           "unit": "마리"
         }
       },
-      "price": 13549,
+      "price": 13611,
       "baseline": {
-        "weekAgo": 13805,
-        "twoWeeksAgo": 13459,
+        "weekAgo": 13790,
+        "twoWeeksAgo": 13833,
         "monthAgo": 14136,
         "yearAgo": 13342,
         "normalYear": 13958
@@ -2494,10 +2574,10 @@
           "unit": "마리"
         }
       },
-      "price": 7515,
+      "price": 7164,
       "baseline": {
-        "weekAgo": 7982,
-        "twoWeeksAgo": 7520,
+        "weekAgo": 7532,
+        "twoWeeksAgo": 7740,
         "monthAgo": 7266,
         "yearAgo": 7463,
         "normalYear": 7317
@@ -2514,10 +2594,10 @@
           "unit": "마리"
         }
       },
-      "price": 4341,
+      "price": 4303,
       "baseline": {
-        "weekAgo": 4576,
-        "twoWeeksAgo": 4745,
+        "weekAgo": 4353,
+        "twoWeeksAgo": 4766,
         "monthAgo": 4214,
         "yearAgo": 4255,
         "normalYear": 4197
@@ -2536,8 +2616,8 @@
       },
       "price": null,
       "baseline": {
-        "weekAgo": 11554,
-        "twoWeeksAgo": 10367,
+        "weekAgo": null,
+        "twoWeeksAgo": 11783,
         "monthAgo": 9953,
         "yearAgo": null,
         "normalYear": 9620
@@ -2554,10 +2634,10 @@
           "unit": "마리"
         }
       },
-      "price": 5442,
+      "price": 6195,
       "baseline": {
-        "weekAgo": 5306,
-        "twoWeeksAgo": 4810,
+        "weekAgo": 5431,
+        "twoWeeksAgo": 5524,
         "monthAgo": 4585,
         "yearAgo": 4750,
         "normalYear": 5193
@@ -2574,7 +2654,7 @@
           "unit": "마리"
         }
       },
-      "price": 1891,
+      "price": 1661,
       "baseline": {
         "weekAgo": null,
         "twoWeeksAgo": null,
@@ -2594,10 +2674,10 @@
           "unit": "마리"
         }
       },
-      "price": 1698,
+      "price": 1634,
       "baseline": {
-        "weekAgo": 1668,
-        "twoWeeksAgo": 1665,
+        "weekAgo": 1683,
+        "twoWeeksAgo": 1656,
         "monthAgo": 1703,
         "yearAgo": 2153,
         "normalYear": 1724
@@ -2614,10 +2694,10 @@
           "unit": "마리"
         }
       },
-      "price": 1500,
+      "price": null,
       "baseline": {
-        "weekAgo": 1490,
-        "twoWeeksAgo": 1340,
+        "weekAgo": 1486,
+        "twoWeeksAgo": 1454,
         "monthAgo": 1364,
         "yearAgo": 1350,
         "normalYear": 1124
@@ -2634,10 +2714,10 @@
           "unit": "마리"
         }
       },
-      "price": 3506,
+      "price": 3143,
       "baseline": {
-        "weekAgo": 3167,
-        "twoWeeksAgo": 2271,
+        "weekAgo": 3498,
+        "twoWeeksAgo": 3110,
         "monthAgo": 2175,
         "yearAgo": 2621,
         "normalYear": 2374
@@ -2656,8 +2736,8 @@
       },
       "price": 4341,
       "baseline": {
-        "weekAgo": 4241,
-        "twoWeeksAgo": 3649,
+        "weekAgo": 4326,
+        "twoWeeksAgo": 4212,
         "monthAgo": 3975,
         "yearAgo": 3450,
         "normalYear": 3701
@@ -2694,10 +2774,10 @@
           "unit": "kg"
         }
       },
-      "price": 7673,
+      "price": 7712,
       "baseline": {
         "weekAgo": 7587,
-        "twoWeeksAgo": 6922,
+        "twoWeeksAgo": 7587,
         "monthAgo": 6821,
         "yearAgo": 9642,
         "normalYear": 9544
@@ -2714,10 +2794,10 @@
           "unit": "마리"
         }
       },
-      "price": 8908,
+      "price": 8657,
       "baseline": {
-        "weekAgo": 8649,
-        "twoWeeksAgo": 8550,
+        "weekAgo": 8704,
+        "twoWeeksAgo": 8725,
         "monthAgo": 9747,
         "yearAgo": 9875,
         "normalYear": 9875
@@ -2734,10 +2814,10 @@
           "unit": "마리"
         }
       },
-      "price": 6833,
+      "price": 6037,
       "baseline": {
-        "weekAgo": 6605,
-        "twoWeeksAgo": 5870,
+        "weekAgo": 6646,
+        "twoWeeksAgo": 6457,
         "monthAgo": 5780,
         "yearAgo": 7128,
         "normalYear": 6244
@@ -2754,10 +2834,10 @@
           "unit": "마리"
         }
       },
-      "price": 6751,
+      "price": null,
       "baseline": {
         "weekAgo": null,
-        "twoWeeksAgo": 4597,
+        "twoWeeksAgo": null,
         "monthAgo": 4158,
         "yearAgo": null,
         "normalYear": 5374
@@ -2774,9 +2854,9 @@
           "unit": "마리"
         }
       },
-      "price": 5881,
+      "price": 6180,
       "baseline": {
-        "weekAgo": 6648,
+        "weekAgo": null,
         "twoWeeksAgo": null,
         "monthAgo": 5411,
         "yearAgo": 5997,
@@ -2797,7 +2877,7 @@
       "price": null,
       "baseline": {
         "weekAgo": null,
-        "twoWeeksAgo": 3825,
+        "twoWeeksAgo": 4816,
         "monthAgo": 3980,
         "yearAgo": null,
         "normalYear": 3368
@@ -2814,10 +2894,10 @@
           "unit": "마리"
         }
       },
-      "price": 5347,
+      "price": 5433,
       "baseline": {
-        "weekAgo": 5452,
-        "twoWeeksAgo": 5196,
+        "weekAgo": 5282,
+        "twoWeeksAgo": 5348,
         "monthAgo": 4837,
         "yearAgo": 4815,
         "normalYear": 4341
@@ -2834,10 +2914,10 @@
           "unit": "마리"
         }
       },
-      "price": 3516,
+      "price": 3746,
       "baseline": {
-        "weekAgo": 3531,
-        "twoWeeksAgo": 3519,
+        "weekAgo": 3513,
+        "twoWeeksAgo": 3513,
         "monthAgo": 3579,
         "yearAgo": 3283,
         "normalYear": 2951
@@ -2854,10 +2934,10 @@
           "unit": "g"
         }
       },
-      "price": 2586,
+      "price": 2597,
       "baseline": {
-        "weekAgo": 2596,
-        "twoWeeksAgo": 2494,
+        "weekAgo": 2606,
+        "twoWeeksAgo": 2614,
         "monthAgo": 2418,
         "yearAgo": 2451,
         "normalYear": 2353
@@ -2874,10 +2954,10 @@
           "unit": "g"
         }
       },
-      "price": 2978,
+      "price": 2932,
       "baseline": {
-        "weekAgo": 3010,
-        "twoWeeksAgo": 2826,
+        "weekAgo": 2988,
+        "twoWeeksAgo": 3011,
         "monthAgo": 2733,
         "yearAgo": 3037,
         "normalYear": 2882
@@ -2894,10 +2974,10 @@
           "unit": "g"
         }
       },
-      "price": 3520,
+      "price": 3522,
       "baseline": {
-        "weekAgo": 3524,
-        "twoWeeksAgo": 3331,
+        "weekAgo": 3523,
+        "twoWeeksAgo": 3526,
         "monthAgo": 3265,
         "yearAgo": 3247,
         "normalYear": 3212
@@ -2914,10 +2994,10 @@
           "unit": "마리"
         }
       },
-      "price": 77533,
+      "price": 83624,
       "baseline": {
-        "weekAgo": 77429,
-        "twoWeeksAgo": 74894,
+        "weekAgo": 77533,
+        "twoWeeksAgo": 77429,
         "monthAgo": 77752,
         "yearAgo": 76998,
         "normalYear": 70042
@@ -2936,8 +3016,8 @@
       },
       "price": 1432,
       "baseline": {
-        "weekAgo": 1432,
-        "twoWeeksAgo": 1439,
+        "weekAgo": 1434,
+        "twoWeeksAgo": 1432,
         "monthAgo": 1440,
         "yearAgo": 1350,
         "normalYear": 1095
@@ -2954,10 +3034,10 @@
           "unit": "장"
         }
       },
-      "price": 2118,
+      "price": 2111,
       "baseline": {
-        "weekAgo": 2036,
-        "twoWeeksAgo": 2099,
+        "weekAgo": 2075,
+        "twoWeeksAgo": 2074,
         "monthAgo": 2082,
         "yearAgo": 1993,
         "normalYear": 1776
@@ -2974,10 +3054,10 @@
           "unit": "g"
         }
       },
-      "price": 3096,
+      "price": 3097,
       "baseline": {
         "weekAgo": 3096,
-        "twoWeeksAgo": 3088,
+        "twoWeeksAgo": 3096,
         "monthAgo": 3089,
         "yearAgo": 3034,
         "normalYear": 3046
@@ -2994,10 +3074,10 @@
           "unit": "마리"
         }
       },
-      "price": 4802,
+      "price": 4736,
       "baseline": {
         "weekAgo": 4825,
-        "twoWeeksAgo": 4965,
+        "twoWeeksAgo": 4914,
         "monthAgo": 4861,
         "yearAgo": 4755,
         "normalYear": 3892
@@ -3014,10 +3094,10 @@
           "unit": "kg"
         }
       },
-      "price": 19237,
+      "price": 19795,
       "baseline": {
-        "weekAgo": 18973,
-        "twoWeeksAgo": 18044,
+        "weekAgo": 18984,
+        "twoWeeksAgo": 18459,
         "monthAgo": 17878,
         "yearAgo": 15298,
         "normalYear": 16621
@@ -3034,10 +3114,10 @@
           "unit": "kg"
         }
       },
-      "price": 6233,
+      "price": 6266,
       "baseline": {
         "weekAgo": 6239,
-        "twoWeeksAgo": 6191,
+        "twoWeeksAgo": 6227,
         "monthAgo": 6200,
         "yearAgo": 6085,
         "normalYear": 5561
@@ -3054,10 +3134,10 @@
           "unit": "kg"
         }
       },
-      "price": 12017,
+      "price": 11877,
       "baseline": {
         "weekAgo": 12029,
-        "twoWeeksAgo": 12042,
+        "twoWeeksAgo": 12040,
         "monthAgo": 12020,
         "yearAgo": 11615,
         "normalYear": 11399
@@ -3074,10 +3154,10 @@
           "unit": "마리"
         }
       },
-      "price": 11397,
+      "price": 11608,
       "baseline": {
-        "weekAgo": 11330,
-        "twoWeeksAgo": 10645,
+        "weekAgo": 11056,
+        "twoWeeksAgo": 10996,
         "monthAgo": 10406,
         "yearAgo": 11534,
         "normalYear": 13377
@@ -3094,10 +3174,10 @@
           "unit": "마리"
         }
       },
-      "price": 5454,
+      "price": 5411,
       "baseline": {
-        "weekAgo": 5482,
-        "twoWeeksAgo": 5639,
+        "weekAgo": 5464,
+        "twoWeeksAgo": 5531,
         "monthAgo": 5652,
         "yearAgo": 5596,
         "normalYear": 4833
@@ -3114,10 +3194,10 @@
           "unit": "kg"
         }
       },
-      "price": 15929,
+      "price": 15946,
       "baseline": {
-        "weekAgo": 16571,
-        "twoWeeksAgo": 17596,
+        "weekAgo": 16438,
+        "twoWeeksAgo": 17092,
         "monthAgo": 17430,
         "yearAgo": 23401,
         "normalYear": 23401
@@ -3136,7 +3216,7 @@
       },
       "price": null,
       "baseline": {
-        "weekAgo": 15588,
+        "weekAgo": 17800,
         "twoWeeksAgo": null,
         "monthAgo": null,
         "yearAgo": null,
@@ -3154,10 +3234,10 @@
           "unit": "kg"
         }
       },
-      "price": 22393,
+      "price": 20438,
       "baseline": {
-        "weekAgo": 22893,
-        "twoWeeksAgo": 22900,
+        "weekAgo": 20767,
+        "twoWeeksAgo": 23264,
         "monthAgo": 18943,
         "yearAgo": 17095,
         "normalYear": 17095
@@ -3174,10 +3254,10 @@
           "unit": "g"
         }
       },
-      "price": 2709,
+      "price": 2721,
       "baseline": {
-        "weekAgo": 2735,
-        "twoWeeksAgo": 2684,
+        "weekAgo": 2603,
+        "twoWeeksAgo": 2784,
         "monthAgo": 2764,
         "yearAgo": 3031,
         "normalYear": 2911
@@ -3194,10 +3274,10 @@
           "unit": "kg"
         }
       },
-      "price": 3892,
+      "price": 3889,
       "baseline": {
-        "weekAgo": 3929,
-        "twoWeeksAgo": 3663,
+        "weekAgo": 3928,
+        "twoWeeksAgo": 3848,
         "monthAgo": 3747,
         "yearAgo": 4347,
         "normalYear": 4300
@@ -3217,7 +3297,7 @@
       "price": 3237,
       "baseline": {
         "weekAgo": 3237,
-        "twoWeeksAgo": 3241,
+        "twoWeeksAgo": 3239,
         "monthAgo": 3242,
         "yearAgo": 3201,
         "normalYear": 3466
@@ -3234,10 +3314,10 @@
           "unit": "kg"
         }
       },
-      "price": 10836,
+      "price": 10890,
       "baseline": {
-        "weekAgo": 9673,
-        "twoWeeksAgo": 9814,
+        "weekAgo": 10679,
+        "twoWeeksAgo": 9871,
         "monthAgo": 10263,
         "yearAgo": 10275,
         "normalYear": 10275
@@ -3254,10 +3334,10 @@
           "unit": "kg"
         }
       },
-      "price": 20548,
+      "price": 20415,
       "baseline": {
-        "weekAgo": 21082,
-        "twoWeeksAgo": 21535,
+        "weekAgo": 21468,
+        "twoWeeksAgo": 21377,
         "monthAgo": 21881,
         "yearAgo": 17863,
         "normalYear": 17863
@@ -3274,10 +3354,10 @@
           "unit": "kg"
         }
       },
-      "price": 16838,
+      "price": 19066,
       "baseline": {
-        "weekAgo": 19257,
-        "twoWeeksAgo": 18321,
+        "weekAgo": 17070,
+        "twoWeeksAgo": 19145,
         "monthAgo": 15895,
         "yearAgo": 20717,
         "normalYear": 20717
@@ -3294,10 +3374,10 @@
           "unit": "g"
         }
       },
-      "price": 2054,
+      "price": 2319,
       "baseline": {
-        "weekAgo": 2076,
-        "twoWeeksAgo": 2336,
+        "weekAgo": 2050,
+        "twoWeeksAgo": 2070,
         "monthAgo": 2164,
         "yearAgo": null,
         "normalYear": null
@@ -3314,10 +3394,10 @@
           "unit": "kg"
         }
       },
-      "price": 9553,
+      "price": 9578,
       "baseline": {
-        "weekAgo": 9814,
-        "twoWeeksAgo": 9521,
+        "weekAgo": 9638,
+        "twoWeeksAgo": 9647,
         "monthAgo": 9358,
         "yearAgo": null,
         "normalYear": null
