@@ -23,8 +23,11 @@ describe('Livestock', () => {
 
   test('카드 이름을 렌더한다', async () => {
     await renderWithRouter(<Livestock view={view([card('삼겹살'), card('계란')])} />)
-    expect(screen.getByText('삼겹살')).toBeTruthy()
-    expect(screen.getByText('계란')).toBeTruthy()
+    // 품목명은 표지 제목 + 속쪽 머리 셋에 나온다(머리는 시각적 길잡이). 표지 제목만 센다.
+    expect(screen.getAllByTestId('card-name').map((el) => el.textContent)).toEqual([
+      '삼겹살',
+      '계란',
+    ])
   })
 
   test('빈 목록이면 담백한 안내', async () => {
